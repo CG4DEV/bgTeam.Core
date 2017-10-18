@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "bgTeam.DataReceivingService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "BGTEAM_CONFIGURATION": "Debug"
+      }
+    }
+  }
+}

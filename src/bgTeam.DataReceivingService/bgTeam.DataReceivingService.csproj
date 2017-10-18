@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <DefaultRunWorkingDirectory>false</DefaultRunWorkingDirectory>
+    <RunWorkingDirectory>bin/Debug/netcoreapp2.0/</RunWorkingDirectory>
+    <Configurations>Debug;Release;Live</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bgTeam.Core" Version="1.0.0.107" />
+    <PackageReference Include="bgTeam.DataAccess" Version="1.0.0.107" />
+    <PackageReference Include="bgTeam.Infrastructure" Version="1.0.0.107" />
+    <PackageReference Include="Castle.Core" Version="4.1.1" />
+    <PackageReference Include="Castle.Windsor" Version="4.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\bgTeam.DataProducerCore\bgTeam.DataProducerCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.Debug.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.Live.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Update="appsettings.NUnit.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Update="appsettings.Release.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Update="appsettings.Uat.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Update="RunApp.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="RunApp.Debug.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>RunApp.cmd</DependentUpon>
+    </None>
+    <None Update="RunApp.Live.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>RunApp.cmd</DependentUpon>
+    </None>
+    <None Update="RunApp.Release.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>RunApp.cmd</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="IF EXIST $(TargetDir)AppConfig\ del /Q &quot;$(TargetDir)AppConfig\*.json&quot;&#xD;&#xA;&#xD;&#xA;if NOT $(ConfigurationName) == Debug goto :exit&#xD;&#xA;&#xD;&#xA;:debug&#xD;&#xA;xcopy &quot;$(SolutionDir)shared\configs\*.json&quot; &quot;$(TargetDir)AppConfig\&quot; /Y&#xD;&#xA;xcopy &quot;$(SolutionDir)shared\risConfigs\Irs\ConnString\*.json&quot; &quot;$(TargetDir)AppConfig\&quot; /Y&#xD;&#xA;goto :exit&#xD;&#xA;&#xD;&#xA;:exit" />
+  </Target>
+
+</Project>

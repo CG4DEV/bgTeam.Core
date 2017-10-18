@@ -1,0 +1,47 @@
+﻿namespace DapperExtensions.Mapper
+{
+    using Dapper;
+    using Microsoft.SqlServer.Server;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.SqlClient;
+
+    public class IntDbType : SqlMapper.ICustomQueryParameter
+    {
+        private readonly IEnumerable<int> _ids;
+
+        public IntDbType(IEnumerable<int> ids)
+        {
+            _ids = ids;
+        }
+
+        public void AddParameter(IDbCommand command, string name)
+        {
+            var sqlCommand = (SqlCommand)command;
+            sqlCommand.Parameters.Add(GetParameter(name));
+        }
+
+        public SqlParameter GetParameter(string name)
+        {
+            var numberList = new List<SqlDataRecord>();
+
+            var tvpDefinition = new[] { new SqlMetaData("id", SqlDbType.Int) };
+
+            foreach (var id in _ids)
+            {
+                var rec = new SqlDataRecord(tvpDefinition);
+                rec.SetInt32(0, id);
+                numberList.Add(rec);
+            }
+
+            return new SqlParameter
+            {
+                ParameterName = name,
+                SqlDbType = SqlDbType.Structured,
+                Direction = ParameterDirection.Input,
+                TypeName = "IntegerIdList",
+                Value = numberList
+            };
+        }
+    }
+}

@@ -1,0 +1,1610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TKApplicationService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Service" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Clients" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Contracts.Objects" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.KP.Objects" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.TEO.Objects" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd9" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Order.Objects" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd11" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.KDTS.TEOOperation.Objects" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd12" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.CashRegister.Objects" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd13" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.TransCondition.Objects" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd14" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Ssp" />
+      <xsd:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd15" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.InfoOnCP.Objects" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITKApplicationService_GetAPIScriptKeyData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAPIScriptKeyData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetAPIScriptKeyData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAPIScriptKeyDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetAPIScriptIdData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAPIScriptIdData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetAPIScriptIdData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAPIScriptIdDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetAPIPSScriptIdData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAPIPSScriptIdData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetAPIPSScriptIdData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAPIPSScriptIdDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetClientSearchData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientSearchData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetClientSearchData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientSearchDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContractSearchData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetContractSearchData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContractSearchData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetContractSearchDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetKPSearchData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetKPSearchData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetKPSearchData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetKPSearchDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ClientIRSToLocal_InputMessage">
+    <wsdl:part name="parameters" element="tns:ClientIRSToLocal" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ClientIRSToLocal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ClientIRSToLocalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetClientData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetClientData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContractData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetContractData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContractData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetContractDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ClientSaveToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:ClientSaveToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ClientSaveToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ClientSaveToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractIRSToLocal_InputMessage">
+    <wsdl:part name="parameters" element="tns:ContractIRSToLocal" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractIRSToLocal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ContractIRSToLocalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractSaveToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:ContractSaveToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractSaveToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ContractSaveToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpIRSToLocal_InputMessage">
+    <wsdl:part name="parameters" element="tns:KpIRSToLocal" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpIRSToLocal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KpIRSToLocalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpIrsToLocalAtTargetServer_InputMessage">
+    <wsdl:part name="parameters" element="tns:KpIrsToLocalAtTargetServer" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpIrsToLocalAtTargetServer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KpIrsToLocalAtTargetServerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpSaveToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:KpSaveToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpSaveToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KpSaveToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:KpDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_KpDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KpDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoIRSToLocal_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoIRSToLocal" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoIRSToLocal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoIRSToLocalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoIrsToLocalAtTargetServer_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoIrsToLocalAtTargetServer" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoIrsToLocalAtTargetServer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoIrsToLocalAtTargetServerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoSaveToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoSaveToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoSaveToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoSaveToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetTEOContainers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTEOContainers" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetTEOContainers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTEOContainersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetTEOBooking_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTEOBooking" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetTEOBooking_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTEOBookingResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TEOSearchByContainer_InputMessage">
+    <wsdl:part name="parameters" element="tns:TEOSearchByContainer" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TEOSearchByContainer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TEOSearchByContainerResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SetTeoBill_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetTeoBill" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SetTeoBill_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetTeoBillResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoBillDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoBillDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoBillDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoBillDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_DocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:DocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_DocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_InstructionDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:InstructionDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_InstructionDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InstructionDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_BookingDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:BookingDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_BookingDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BookingDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetTeoSearchData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTeoSearchData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetTeoSearchData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTeoSearchDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_BaseDocumentPdfDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:BaseDocumentPdfDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_BaseDocumentPdfDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BaseDocumentPdfDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_BaseDocumentDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:BaseDocumentDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_BaseDocumentDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BaseDocumentDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:ContractContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ContractContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractPdfContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:ContractPdfContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ContractPdfContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ContractPdfContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoPdfDocumentContent_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoPdfDocumentContent" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoPdfDocumentContent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoPdfDocumentContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CreateContractBill_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateContractBill" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CreateContractBill_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateContractBillResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CreateTransshipmentServiceOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTransshipmentServiceOrder" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CreateTransshipmentServiceOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTransshipmentServiceOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetKDTSContractSearchData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetKDTSContractSearchData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetKDTSContractSearchData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetKDTSContractSearchDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoOperationSaveToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoOperationSaveToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoOperationSaveToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoOperationSaveToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CheckContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckContract" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CheckContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckContractResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoOperationLoadFromIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoOperationLoadFromIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoOperationLoadFromIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoOperationLoadFromIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionSaveToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionSaveToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionSaveToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionSaveToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionLoadFromIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionLoadFromIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionLoadFromIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionLoadFromIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetServiceTeoExped_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetServiceTeoExped" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetServiceTeoExped_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetServiceTeoExpedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionSaveServicesToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionSaveServicesToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionSaveServicesToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionSaveServicesToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SetDopSvcTeo_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetDopSvcTeo" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SetDopSvcTeo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetDopSvcTeoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionCalcPriceToIRS_InputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionCalcPriceToIRS" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_TeoExpeditionCalcPriceToIRS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TeoExpeditionCalcPriceToIRSResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_AddNewOrderBill_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddNewOrderBill" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_AddNewOrderBill_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddNewOrderBillResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CreateContractAccountBill_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateContractAccountBill" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CreateContractAccountBill_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateContractAccountBillResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ResetParamCache_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResetParamCache" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ResetParamCache_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResetParamCacheResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_UpdateUserContracts_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserContracts" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_UpdateUserContracts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserContractsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_PenaltySave_InputMessage">
+    <wsdl:part name="parameters" element="tns:PenaltySave" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_PenaltySave_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PenaltySaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetPenaltyData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPenaltyData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetPenaltyData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPenaltyDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_MarkPenalty_InputMessage">
+    <wsdl:part name="parameters" element="tns:MarkPenalty" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_MarkPenalty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MarkPenaltyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetImageForDes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetImageForDes" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetImageForDes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetImageForDesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveDesImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDesImage" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveDesImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveDesImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ReconcActSave_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReconcActSave" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ReconcActSave_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReconcActSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LoadGraphSave_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoadGraphSave" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LoadGraphSave_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoadGraphSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRTransact_InputMessage">
+    <wsdl:part name="parameters" element="tns:CRTransact" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRTransact_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CRTransactResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetConditionData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetConditionData" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetConditionData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetConditionDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ConditionSave_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConditionSave" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_ConditionSave_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConditionSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SetState_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetState" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SetState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LoadGraphFact_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoadGraphFact" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LoadGraphFact_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoadGraphFactResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveGraphFact_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGraphFact" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveGraphFact_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveGraphFactResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SendSms_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendSms" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SendSms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendSmsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRHoldEncashment_InputMessage">
+    <wsdl:part name="parameters" element="tns:CRHoldEncashment" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRHoldEncashment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CRHoldEncashmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SynchroKpList_InputMessage">
+    <wsdl:part name="parameters" element="tns:SynchroKpList" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SynchroKpList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SynchroKpListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SynchroTeoList_InputMessage">
+    <wsdl:part name="parameters" element="tns:SynchroTeoList" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SynchroTeoList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SynchroTeoListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SendMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMail" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SendMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRHoldCashWithdrawals_InputMessage">
+    <wsdl:part name="parameters" element="tns:CRHoldCashWithdrawals" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRHoldCashWithdrawals_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CRHoldCashWithdrawalsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRCancelCheck_InputMessage">
+    <wsdl:part name="parameters" element="tns:CRCancelCheck" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_CRCancelCheck_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CRCancelCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetDislocationDataByOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDislocationDataByOrder" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetDislocationDataByOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDislocationDataByOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveFact_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveFact" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveFact_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveFactResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveSsp_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSsp" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SaveSsp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveSspResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SspSend_InputMessage">
+    <wsdl:part name="parameters" element="tns:SspSend" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_SspSend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SspSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_UpdateContractTemplateParamsInt_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateContractTemplateParamsInt" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_UpdateContractTemplateParamsInt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateContractTemplateParamsIntResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetDebitParameters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDebitParameters" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetDebitParameters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDebitParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContainerPlatformsInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetContainerPlatformsInfo" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContainerPlatformsInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetContainerPlatformsInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_PSGVSActLoad_InputMessage">
+    <wsdl:part name="parameters" element="tns:PSGVSActLoad" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_PSGVSActLoad_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PSGVSActLoadResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContainerInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetContainerInfo" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_GetContainerInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetContainerInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_PSGVSActSave_InputMessage">
+    <wsdl:part name="parameters" element="tns:PSGVSActSave" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_PSGVSActSave_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PSGVSActSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LimitSave_InputMessage">
+    <wsdl:part name="parameters" element="tns:LimitSave" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LimitSave_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LimitSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LimitsLoad_InputMessage">
+    <wsdl:part name="parameters" element="tns:LimitsLoad" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LimitsLoad_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LimitsLoadResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LimitEdit_InputMessage">
+    <wsdl:part name="parameters" element="tns:LimitEdit" />
+  </wsdl:message>
+  <wsdl:message name="ITKApplicationService_LimitEdit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LimitEditResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITKApplicationService">
+    <wsdl:operation name="GetAPIScriptKeyData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetAPIScriptKeyData" message="tns:ITKApplicationService_GetAPIScriptKeyData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetAPIScriptKeyDataResponse" message="tns:ITKApplicationService_GetAPIScriptKeyData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAPIScriptIdData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetAPIScriptIdData" message="tns:ITKApplicationService_GetAPIScriptIdData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetAPIScriptIdDataResponse" message="tns:ITKApplicationService_GetAPIScriptIdData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAPIPSScriptIdData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetAPIPSScriptIdData" message="tns:ITKApplicationService_GetAPIPSScriptIdData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetAPIPSScriptIdDataResponse" message="tns:ITKApplicationService_GetAPIPSScriptIdData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClientSearchData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetClientSearchData" message="tns:ITKApplicationService_GetClientSearchData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetClientSearchDataResponse" message="tns:ITKApplicationService_GetClientSearchData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContractSearchData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetContractSearchData" message="tns:ITKApplicationService_GetContractSearchData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetContractSearchDataResponse" message="tns:ITKApplicationService_GetContractSearchData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKPSearchData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetKPSearchData" message="tns:ITKApplicationService_GetKPSearchData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetKPSearchDataResponse" message="tns:ITKApplicationService_GetKPSearchData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ClientIRSToLocal">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ClientIRSToLocal" message="tns:ITKApplicationService_ClientIRSToLocal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ClientIRSToLocalResponse" message="tns:ITKApplicationService_ClientIRSToLocal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetClientData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetClientData" message="tns:ITKApplicationService_GetClientData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetClientDataResponse" message="tns:ITKApplicationService_GetClientData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContractData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetContractData" message="tns:ITKApplicationService_GetContractData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetContractDataResponse" message="tns:ITKApplicationService_GetContractData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ClientSaveToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ClientSaveToIRS" message="tns:ITKApplicationService_ClientSaveToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ClientSaveToIRSResponse" message="tns:ITKApplicationService_ClientSaveToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ContractIRSToLocal">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ContractIRSToLocal" message="tns:ITKApplicationService_ContractIRSToLocal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ContractIRSToLocalResponse" message="tns:ITKApplicationService_ContractIRSToLocal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ContractSaveToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ContractSaveToIRS" message="tns:ITKApplicationService_ContractSaveToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ContractSaveToIRSResponse" message="tns:ITKApplicationService_ContractSaveToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KpIRSToLocal">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/KpIRSToLocal" message="tns:ITKApplicationService_KpIRSToLocal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/KpIRSToLocalResponse" message="tns:ITKApplicationService_KpIRSToLocal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KpIrsToLocalAtTargetServer">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/KpIrsToLocalAtTargetServer" message="tns:ITKApplicationService_KpIrsToLocalAtTargetServer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/KpIrsToLocalAtTargetServerResponse" message="tns:ITKApplicationService_KpIrsToLocalAtTargetServer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KpSaveToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/KpSaveToIRS" message="tns:ITKApplicationService_KpSaveToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/KpSaveToIRSResponse" message="tns:ITKApplicationService_KpSaveToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KpDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/KpDocumentContent" message="tns:ITKApplicationService_KpDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/KpDocumentContentResponse" message="tns:ITKApplicationService_KpDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoIRSToLocal">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoIRSToLocal" message="tns:ITKApplicationService_TeoIRSToLocal_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoIRSToLocalResponse" message="tns:ITKApplicationService_TeoIRSToLocal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoIrsToLocalAtTargetServer">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoIrsToLocalAtTargetServer" message="tns:ITKApplicationService_TeoIrsToLocalAtTargetServer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoIrsToLocalAtTargetServerResponse" message="tns:ITKApplicationService_TeoIrsToLocalAtTargetServer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoSaveToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoSaveToIRS" message="tns:ITKApplicationService_TeoSaveToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoSaveToIRSResponse" message="tns:ITKApplicationService_TeoSaveToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTEOContainers">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetTEOContainers" message="tns:ITKApplicationService_GetTEOContainers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetTEOContainersResponse" message="tns:ITKApplicationService_GetTEOContainers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTEOBooking">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetTEOBooking" message="tns:ITKApplicationService_GetTEOBooking_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetTEOBookingResponse" message="tns:ITKApplicationService_GetTEOBooking_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TEOSearchByContainer">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TEOSearchByContainer" message="tns:ITKApplicationService_TEOSearchByContainer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TEOSearchByContainerResponse" message="tns:ITKApplicationService_TEOSearchByContainer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetTeoBill">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SetTeoBill" message="tns:ITKApplicationService_SetTeoBill_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SetTeoBillResponse" message="tns:ITKApplicationService_SetTeoBill_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoBillDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoBillDocumentContent" message="tns:ITKApplicationService_TeoBillDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoBillDocumentContentResponse" message="tns:ITKApplicationService_TeoBillDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/DocumentContent" message="tns:ITKApplicationService_DocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/DocumentContentResponse" message="tns:ITKApplicationService_DocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InstructionDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/InstructionDocumentContent" message="tns:ITKApplicationService_InstructionDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/InstructionDocumentContentResponse" message="tns:ITKApplicationService_InstructionDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BookingDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/BookingDocumentContent" message="tns:ITKApplicationService_BookingDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/BookingDocumentContentResponse" message="tns:ITKApplicationService_BookingDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTeoSearchData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetTeoSearchData" message="tns:ITKApplicationService_GetTeoSearchData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetTeoSearchDataResponse" message="tns:ITKApplicationService_GetTeoSearchData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BaseDocumentPdfDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/BaseDocumentPdfDocumentContent" message="tns:ITKApplicationService_BaseDocumentPdfDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/BaseDocumentPdfDocumentContentResponse" message="tns:ITKApplicationService_BaseDocumentPdfDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BaseDocumentDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/BaseDocumentDocumentContent" message="tns:ITKApplicationService_BaseDocumentDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/BaseDocumentDocumentContentResponse" message="tns:ITKApplicationService_BaseDocumentDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ContractContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ContractContent" message="tns:ITKApplicationService_ContractContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ContractContentResponse" message="tns:ITKApplicationService_ContractContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ContractPdfContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ContractPdfContent" message="tns:ITKApplicationService_ContractPdfContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ContractPdfContentResponse" message="tns:ITKApplicationService_ContractPdfContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoDocumentContent" message="tns:ITKApplicationService_TeoDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoDocumentContentResponse" message="tns:ITKApplicationService_TeoDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoPdfDocumentContent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoPdfDocumentContent" message="tns:ITKApplicationService_TeoPdfDocumentContent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoPdfDocumentContentResponse" message="tns:ITKApplicationService_TeoPdfDocumentContent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateContractBill">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CreateContractBill" message="tns:ITKApplicationService_CreateContractBill_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CreateContractBillResponse" message="tns:ITKApplicationService_CreateContractBill_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateTransshipmentServiceOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CreateTransshipmentServiceOrder" message="tns:ITKApplicationService_CreateTransshipmentServiceOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CreateTransshipmentServiceOrderResponse" message="tns:ITKApplicationService_CreateTransshipmentServiceOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKDTSContractSearchData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetKDTSContractSearchData" message="tns:ITKApplicationService_GetKDTSContractSearchData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetKDTSContractSearchDataResponse" message="tns:ITKApplicationService_GetKDTSContractSearchData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoOperationSaveToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoOperationSaveToIRS" message="tns:ITKApplicationService_TeoOperationSaveToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoOperationSaveToIRSResponse" message="tns:ITKApplicationService_TeoOperationSaveToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CheckContract" message="tns:ITKApplicationService_CheckContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CheckContractResponse" message="tns:ITKApplicationService_CheckContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoOperationLoadFromIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoOperationLoadFromIRS" message="tns:ITKApplicationService_TeoOperationLoadFromIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoOperationLoadFromIRSResponse" message="tns:ITKApplicationService_TeoOperationLoadFromIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionSaveToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionSaveToIRS" message="tns:ITKApplicationService_TeoExpeditionSaveToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionSaveToIRSResponse" message="tns:ITKApplicationService_TeoExpeditionSaveToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionLoadFromIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionLoadFromIRS" message="tns:ITKApplicationService_TeoExpeditionLoadFromIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionLoadFromIRSResponse" message="tns:ITKApplicationService_TeoExpeditionLoadFromIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceTeoExped">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetServiceTeoExped" message="tns:ITKApplicationService_GetServiceTeoExped_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetServiceTeoExpedResponse" message="tns:ITKApplicationService_GetServiceTeoExped_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionSaveServicesToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionSaveServicesToIRS" message="tns:ITKApplicationService_TeoExpeditionSaveServicesToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionSaveServicesToIRSResponse" message="tns:ITKApplicationService_TeoExpeditionSaveServicesToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetDopSvcTeo">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SetDopSvcTeo" message="tns:ITKApplicationService_SetDopSvcTeo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SetDopSvcTeoResponse" message="tns:ITKApplicationService_SetDopSvcTeo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionCalcPriceToIRS">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionCalcPriceToIRS" message="tns:ITKApplicationService_TeoExpeditionCalcPriceToIRS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/TeoExpeditionCalcPriceToIRSResponse" message="tns:ITKApplicationService_TeoExpeditionCalcPriceToIRS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNewOrderBill">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/AddNewOrderBill" message="tns:ITKApplicationService_AddNewOrderBill_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/AddNewOrderBillResponse" message="tns:ITKApplicationService_AddNewOrderBill_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateContractAccountBill">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CreateContractAccountBill" message="tns:ITKApplicationService_CreateContractAccountBill_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CreateContractAccountBillResponse" message="tns:ITKApplicationService_CreateContractAccountBill_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetParamCache">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ResetParamCache" message="tns:ITKApplicationService_ResetParamCache_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ResetParamCacheResponse" message="tns:ITKApplicationService_ResetParamCache_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserContracts">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/UpdateUserContracts" message="tns:ITKApplicationService_UpdateUserContracts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/UpdateUserContractsResponse" message="tns:ITKApplicationService_UpdateUserContracts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PenaltySave">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/PenaltySave" message="tns:ITKApplicationService_PenaltySave_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/PenaltySaveResponse" message="tns:ITKApplicationService_PenaltySave_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPenaltyData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetPenaltyData" message="tns:ITKApplicationService_GetPenaltyData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetPenaltyDataResponse" message="tns:ITKApplicationService_GetPenaltyData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkPenalty">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/MarkPenalty" message="tns:ITKApplicationService_MarkPenalty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/MarkPenaltyResponse" message="tns:ITKApplicationService_MarkPenalty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetImageForDes">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetImageForDes" message="tns:ITKApplicationService_GetImageForDes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetImageForDesResponse" message="tns:ITKApplicationService_GetImageForDes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveDesImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SaveDesImage" message="tns:ITKApplicationService_SaveDesImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SaveDesImageResponse" message="tns:ITKApplicationService_SaveDesImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReconcActSave">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ReconcActSave" message="tns:ITKApplicationService_ReconcActSave_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ReconcActSaveResponse" message="tns:ITKApplicationService_ReconcActSave_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadGraphSave">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/LoadGraphSave" message="tns:ITKApplicationService_LoadGraphSave_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/LoadGraphSaveResponse" message="tns:ITKApplicationService_LoadGraphSave_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CRTransact">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CRTransact" message="tns:ITKApplicationService_CRTransact_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CRTransactResponse" message="tns:ITKApplicationService_CRTransact_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConditionData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetConditionData" message="tns:ITKApplicationService_GetConditionData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetConditionDataResponse" message="tns:ITKApplicationService_GetConditionData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConditionSave">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/ConditionSave" message="tns:ITKApplicationService_ConditionSave_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/ConditionSaveResponse" message="tns:ITKApplicationService_ConditionSave_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetState">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SetState" message="tns:ITKApplicationService_SetState_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SetStateResponse" message="tns:ITKApplicationService_SetState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadGraphFact">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/LoadGraphFact" message="tns:ITKApplicationService_LoadGraphFact_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/LoadGraphFactResponse" message="tns:ITKApplicationService_LoadGraphFact_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveGraphFact">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SaveGraphFact" message="tns:ITKApplicationService_SaveGraphFact_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SaveGraphFactResponse" message="tns:ITKApplicationService_SaveGraphFact_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSms">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SendSms" message="tns:ITKApplicationService_SendSms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SendSmsResponse" message="tns:ITKApplicationService_SendSms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CRHoldEncashment">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CRHoldEncashment" message="tns:ITKApplicationService_CRHoldEncashment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CRHoldEncashmentResponse" message="tns:ITKApplicationService_CRHoldEncashment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SynchroKpList">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SynchroKpList" message="tns:ITKApplicationService_SynchroKpList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SynchroKpListResponse" message="tns:ITKApplicationService_SynchroKpList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SynchroTeoList">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SynchroTeoList" message="tns:ITKApplicationService_SynchroTeoList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SynchroTeoListResponse" message="tns:ITKApplicationService_SynchroTeoList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SendMail" message="tns:ITKApplicationService_SendMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SendMailResponse" message="tns:ITKApplicationService_SendMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CRHoldCashWithdrawals">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CRHoldCashWithdrawals" message="tns:ITKApplicationService_CRHoldCashWithdrawals_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CRHoldCashWithdrawalsResponse" message="tns:ITKApplicationService_CRHoldCashWithdrawals_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CRCancelCheck">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/CRCancelCheck" message="tns:ITKApplicationService_CRCancelCheck_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/CRCancelCheckResponse" message="tns:ITKApplicationService_CRCancelCheck_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDislocationDataByOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetDislocationDataByOrder" message="tns:ITKApplicationService_GetDislocationDataByOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetDislocationDataByOrderResponse" message="tns:ITKApplicationService_GetDislocationDataByOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveFact">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SaveFact" message="tns:ITKApplicationService_SaveFact_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SaveFactResponse" message="tns:ITKApplicationService_SaveFact_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveSsp">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SaveSsp" message="tns:ITKApplicationService_SaveSsp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SaveSspResponse" message="tns:ITKApplicationService_SaveSsp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SspSend">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/SspSend" message="tns:ITKApplicationService_SspSend_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/SspSendResponse" message="tns:ITKApplicationService_SspSend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateContractTemplateParamsInt">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/UpdateContractTemplateParamsInt" message="tns:ITKApplicationService_UpdateContractTemplateParamsInt_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/UpdateContractTemplateParamsIntResponse" message="tns:ITKApplicationService_UpdateContractTemplateParamsInt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDebitParameters">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetDebitParameters" message="tns:ITKApplicationService_GetDebitParameters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetDebitParametersResponse" message="tns:ITKApplicationService_GetDebitParameters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContainerPlatformsInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetContainerPlatformsInfo" message="tns:ITKApplicationService_GetContainerPlatformsInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetContainerPlatformsInfoResponse" message="tns:ITKApplicationService_GetContainerPlatformsInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PSGVSActLoad">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/PSGVSActLoad" message="tns:ITKApplicationService_PSGVSActLoad_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/PSGVSActLoadResponse" message="tns:ITKApplicationService_PSGVSActLoad_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetContainerInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/GetContainerInfo" message="tns:ITKApplicationService_GetContainerInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/GetContainerInfoResponse" message="tns:ITKApplicationService_GetContainerInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PSGVSActSave">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/PSGVSActSave" message="tns:ITKApplicationService_PSGVSActSave_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/PSGVSActSaveResponse" message="tns:ITKApplicationService_PSGVSActSave_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LimitSave">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/LimitSave" message="tns:ITKApplicationService_LimitSave_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/LimitSaveResponse" message="tns:ITKApplicationService_LimitSave_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LimitsLoad">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/LimitsLoad" message="tns:ITKApplicationService_LimitsLoad_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/LimitsLoadResponse" message="tns:ITKApplicationService_LimitsLoad_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LimitEdit">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITKApplicationService/LimitEdit" message="tns:ITKApplicationService_LimitEdit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITKApplicationService/LimitEditResponse" message="tns:ITKApplicationService_LimitEdit_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ITKApplicationService" type="tns:ITKApplicationService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAPIScriptKeyData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetAPIScriptKeyData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAPIScriptIdData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetAPIScriptIdData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAPIPSScriptIdData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetAPIPSScriptIdData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClientSearchData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetClientSearchData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractSearchData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetContractSearchData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKPSearchData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetKPSearchData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClientIRSToLocal">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ClientIRSToLocal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetClientData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetClientData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContractData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetContractData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClientSaveToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ClientSaveToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ContractIRSToLocal">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ContractIRSToLocal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ContractSaveToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ContractSaveToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KpIRSToLocal">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/KpIRSToLocal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KpIrsToLocalAtTargetServer">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/KpIrsToLocalAtTargetServer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KpSaveToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/KpSaveToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KpDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/KpDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoIRSToLocal">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoIRSToLocal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoIrsToLocalAtTargetServer">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoIrsToLocalAtTargetServer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoSaveToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoSaveToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTEOContainers">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetTEOContainers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTEOBooking">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetTEOBooking" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TEOSearchByContainer">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TEOSearchByContainer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetTeoBill">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SetTeoBill" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoBillDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoBillDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/DocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InstructionDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/InstructionDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BookingDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/BookingDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTeoSearchData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetTeoSearchData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BaseDocumentPdfDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/BaseDocumentPdfDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BaseDocumentDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/BaseDocumentDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ContractContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ContractContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ContractPdfContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ContractPdfContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoPdfDocumentContent">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoPdfDocumentContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateContractBill">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CreateContractBill" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateTransshipmentServiceOrder">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CreateTransshipmentServiceOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKDTSContractSearchData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetKDTSContractSearchData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoOperationSaveToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoOperationSaveToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckContract">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CheckContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoOperationLoadFromIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoOperationLoadFromIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionSaveToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoExpeditionSaveToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionLoadFromIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoExpeditionLoadFromIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceTeoExped">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetServiceTeoExped" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionSaveServicesToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoExpeditionSaveServicesToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetDopSvcTeo">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SetDopSvcTeo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TeoExpeditionCalcPriceToIRS">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/TeoExpeditionCalcPriceToIRS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewOrderBill">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/AddNewOrderBill" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateContractAccountBill">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CreateContractAccountBill" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetParamCache">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ResetParamCache" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserContracts">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/UpdateUserContracts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PenaltySave">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/PenaltySave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPenaltyData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetPenaltyData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkPenalty">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/MarkPenalty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetImageForDes">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetImageForDes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveDesImage">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SaveDesImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReconcActSave">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ReconcActSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadGraphSave">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/LoadGraphSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CRTransact">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CRTransact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConditionData">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetConditionData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConditionSave">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/ConditionSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetState">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SetState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadGraphFact">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/LoadGraphFact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveGraphFact">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SaveGraphFact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSms">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SendSms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CRHoldEncashment">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CRHoldEncashment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SynchroKpList">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SynchroKpList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SynchroTeoList">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SynchroTeoList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CRHoldCashWithdrawals">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CRHoldCashWithdrawals" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CRCancelCheck">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/CRCancelCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDislocationDataByOrder">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetDislocationDataByOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveFact">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SaveFact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveSsp">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SaveSsp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SspSend">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/SspSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateContractTemplateParamsInt">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/UpdateContractTemplateParamsInt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDebitParameters">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetDebitParameters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContainerPlatformsInfo">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetContainerPlatformsInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PSGVSActLoad">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/PSGVSActLoad" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetContainerInfo">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/GetContainerInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PSGVSActSave">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/PSGVSActSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LimitSave">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/LimitSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LimitsLoad">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/LimitsLoad" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LimitEdit">
+      <soap:operation soapAction="http://tempuri.org/ITKApplicationService/LimitEdit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TKApplicationService">
+    <wsdl:port name="BasicHttpBinding_ITKApplicationService" binding="tns:BasicHttpBinding_ITKApplicationService">
+      <soap:address location="http://hq-web-10:8087/Service/TKApplicationService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

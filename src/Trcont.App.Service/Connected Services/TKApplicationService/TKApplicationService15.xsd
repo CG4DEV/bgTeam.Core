@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.CashRegister.Objects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.CashRegister.Objects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd9" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" />
+  <xs:complexType name="CRCO1Object">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q1:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CrCO1GUID" type="ser:guid" />
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Documents" nillable="true" type="q2:ArrayOfArrayOfKeyValueOfstringstring" />
+          <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Parameters" nillable="true" type="q3:ArrayOfKeyValueOfstringstring" />
+          <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="PrevPayments" nillable="true" type="q4:ArrayOfKeyValueOfstringstring" />
+          <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="TaxeTable" nillable="true" type="q5:ArrayOfKeyValueOfstringstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CRCO1Object" nillable="true" type="tns:CRCO1Object" />
+  <xs:complexType name="CRTransmittalSheetObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q6:BaseResponse">
+        <xs:sequence>
+          <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="BankAccountNumber" nillable="true" type="q7:ArrayOfArrayOfKeyValueOfstringstring" />
+          <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="BankAgencyAccountNumber" nillable="true" type="q8:ArrayOfArrayOfKeyValueOfstringstring" />
+          <xs:element minOccurs="0" name="CRTransmittalSheetGUID" type="ser:guid" />
+          <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Parameters" nillable="true" type="q9:ArrayOfKeyValueOfstringstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CRTransmittalSheetObject" nillable="true" type="tns:CRTransmittalSheetObject" />
+  <xs:complexType name="CRCashWithdrawalObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q10:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CrCashWithdrawalGUID" type="ser:guid" />
+          <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Parameters" nillable="true" type="q11:ArrayOfKeyValueOfstringstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CRCashWithdrawalObject" nillable="true" type="tns:CRCashWithdrawalObject" />
+  <xs:complexType name="CRCancelCheckObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q12="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q12:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CRCancelCheckGUID" type="ser:guid" />
+          <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="CheckContent" nillable="true" type="q13:ArrayOfArrayOfKeyValueOfstringstring" />
+          <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="DebetCash" nillable="true" type="q14:ArrayOfArrayOfKeyValueOfstringstring" />
+          <xs:element xmlns:q15="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GeneralParams" nillable="true" type="q15:ArrayOfKeyValueOfstringstring" />
+          <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Parameters" nillable="true" type="q16:ArrayOfKeyValueOfstringstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CRCancelCheckObject" nillable="true" type="tns:CRCancelCheckObject" />
+</xs:schema>

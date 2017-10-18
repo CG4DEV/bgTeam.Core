@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\shared\analyzers\linter.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Analyzer Include="..\..\shared\analyzers\SonarQube\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\shared\analyzers\SonarQube\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\shared\analyzers\SonarQube\SonarAnalyzer.dll" />
+    <Analyzer Include="..\..\shared\analyzers\StyleCop\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\..\shared\analyzers\StyleCop\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\shared\analyzers\StyleCop\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bgTeam.Web" Version="1.0.0.107" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trcont.App.Service\Trcont.App.Service.csproj" />
+    <ProjectReference Include="..\Trcont.CitTrans.Service\Trcont.CitTrans.Service.csproj" />
+    <ProjectReference Include="..\Trcont.Common\Trcont.Common.csproj" />
+    <ProjectReference Include="..\Trcont.Domain\Trcont.Domain.csproj" />
+    <ProjectReference Include="..\Trcont.RIS.Common\Trcont.RIS.Common.csproj" />
+    <ProjectReference Include="..\Trcont.Ris.DataAccess\Trcont.Ris.DataAccess.csproj" />
+    <ProjectReference Include="..\Trcont.Ris.Domain\Trcont.Ris.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.abstractions\2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "bgTeam.DataProducerQueryService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "BGTEAM_CONFIGURATION": "Debug"
+      }
+    }
+  }
+}

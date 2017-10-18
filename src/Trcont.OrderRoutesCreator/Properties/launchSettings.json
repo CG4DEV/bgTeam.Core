@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Trcont.OrderRoutesCreator": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "BGTEAM_CONFIGURATION": "Debug"
+      }
+    }
+  }
+}

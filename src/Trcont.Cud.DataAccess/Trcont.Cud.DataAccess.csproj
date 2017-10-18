@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Configurations>Debug;Release;Live</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trcont.CitTrans.Service\Trcont.CitTrans.Service.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Common\Trcont.Cud.Common.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Domain\Trcont.Cud.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

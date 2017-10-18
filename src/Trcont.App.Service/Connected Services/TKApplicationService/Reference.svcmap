@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="e3cff950-9f27-4650-b049-80d575e84b97" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://hq-web-10:8087/Service/TKApplicationService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TKApplicationService.xsd" MetadataType="Schema" ID="8f71f635-7604-4827-bed7-004f38128514" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd9" />
+    <MetadataFile FileName="TKApplicationService1.xsd" MetadataType="Schema" ID="b008a002-059c-4b6e-97d4-cc58bbea3ce1" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd5" />
+    <MetadataFile FileName="TKApplicationService2.xsd" MetadataType="Schema" ID="8a49e356-f91e-42b0-9b95-34c5e27da11d" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd7" />
+    <MetadataFile FileName="TKApplicationService3.xsd" MetadataType="Schema" ID="be86c1c8-072d-40b9-a629-2c78eed1a5fe" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd0" />
+    <MetadataFile FileName="TKApplicationService4.xsd" MetadataType="Schema" ID="79d42ed8-33e1-4b90-a790-537668ae86a9" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd2" />
+    <MetadataFile FileName="TKApplicationService5.xsd" MetadataType="Schema" ID="a0c34839-b3b5-454b-b7af-7ef1a6805d32" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd8" />
+    <MetadataFile FileName="TKApplicationService6.xsd" MetadataType="Schema" ID="e4a75aab-799a-4f9c-a4cf-aaee8c9b0823" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd13" />
+    <MetadataFile FileName="TKApplicationService7.xsd" MetadataType="Schema" ID="6f81e916-5ad8-4ec3-be3c-efbfe0c8babc" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd15" />
+    <MetadataFile FileName="TKApplicationService8.xsd" MetadataType="Schema" ID="21877fc7-cc31-4502-95a9-243c3ef725c0" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd1" />
+    <MetadataFile FileName="TKApplicationService9.xsd" MetadataType="Schema" ID="48ffba8f-7682-4645-b057-87d291e2d007" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd6" />
+    <MetadataFile FileName="TKApplicationService10.xsd" MetadataType="Schema" ID="19b307fa-b2f5-4c94-975c-3b8de37ecef6" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd10" />
+    <MetadataFile FileName="TKApplicationService11.xsd" MetadataType="Schema" ID="e766887f-0c89-480d-8b36-3028cb6bfa05" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd11" />
+    <MetadataFile FileName="TKApplicationService.disco" MetadataType="Disco" ID="781d7aa7-808c-4b04-9a7c-b880b80ffd4e" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?disco" />
+    <MetadataFile FileName="TKApplicationService12.xsd" MetadataType="Schema" ID="7979dc38-edae-4059-a2df-db7a13a86419" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd4" />
+    <MetadataFile FileName="TKApplicationService13.xsd" MetadataType="Schema" ID="7279e7bc-bec4-4844-8a9d-137e62141359" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd14" />
+    <MetadataFile FileName="TKApplicationService14.xsd" MetadataType="Schema" ID="8e8e82d1-feaf-42d7-940a-d669ba13bbf6" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd3" />
+    <MetadataFile FileName="TKApplicationService.wsdl" MetadataType="Wsdl" ID="1e535497-81ff-42ec-a152-b1c334902de4" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?wsdl" />
+    <MetadataFile FileName="TKApplicationService15.xsd" MetadataType="Schema" ID="bdc31a35-2cd2-4058-a223-43ce70b762cf" SourceId="1" SourceUrl="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd12" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

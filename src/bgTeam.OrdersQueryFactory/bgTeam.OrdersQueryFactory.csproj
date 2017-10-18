@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Configurations>Debug;Release;Live</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bgTeam.Core" Version="1.0.0.107" />
+    <PackageReference Include="bgTeam.DapperExtensions" Version="1.0.0.107" />
+    <PackageReference Include="bgTeam.DataAccess" Version="1.0.0.107" />
+  </ItemGroup>
+
+</Project>

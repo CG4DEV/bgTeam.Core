@@ -1,0 +1,34 @@
+﻿[
+  {
+    "Name": "Full Order Routes Creator",
+    "Description": "Контракты",
+    "DateFormatStart": "0 0 2 ? * SUN",
+    "Pool": 100000,
+    "Sql": [
+      "SELECT                                                           ",
+      "  o.TeoId,                                                       ",
+      "  COUNT(ors.Id)                                                  ",
+      "FROM Orders o WITH(NOLOCK)                                       ",
+      "  LEFT JOIN OrdersRoutes ors WITH(NOLOCK) ON o.TeoId = ors.TeoId ",
+      "WHERE o.TeoId IS NOT NULL                                        ",
+      "GROUP BY o.TeoId                                                 ",
+      "HAVING COUNT(ors.Id) = 0                                         "
+    ]
+  },
+  {
+    "Name": "Actual Order Routes Creator",
+    "Description": "Контракты",
+    "DateFormatStart": "0 0 * * * ?",
+    "DateChangeOffset": 2,
+    "Sql": [
+       "SELECT                                                          ",
+       "  o.TeoId,                                                      ",
+       "  COUNT(ors.Id)                                                 ",
+       "FROM Orders o WITH(NOLOCK)                                      ",
+       "  LEFT JOIN OrdersRoutes ors WITH(NOLOCK) ON o.TeoId = ors.TeoId",
+       "WHERE o.TeoId IS NOT NULL AND o.OrderDate >= @DateChange        ",
+       "GROUP BY o.TeoId                                                ",
+       "HAVING COUNT(ors.Id) = 0                                        "
+    ]
+  }
+]

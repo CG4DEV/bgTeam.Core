@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Configurations>Debug;Release;Live</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bgTeam.DataAccess" Version="1.0.0.107" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trcont.Cud.Domain\Trcont.Cud.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

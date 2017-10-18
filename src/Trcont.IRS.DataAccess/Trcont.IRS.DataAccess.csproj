@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Configurations>Debug;Release;Live</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bgTeam.DataAccess" Version="1.0.0.103" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trcont.Domain\Trcont.Domain.csproj" />
+    <ProjectReference Include="..\Trcont.IRS.Domain\Trcont.IRS.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

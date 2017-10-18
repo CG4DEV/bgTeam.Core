@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Configurations>Debug;Release;Live</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Scrutor" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trcont.App.Service\Trcont.App.Service.csproj" />
+    <ProjectReference Include="..\Trcont.CitTrans.Service\Trcont.CitTrans.Service.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Common\Trcont.Cud.Common.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.DataAccess\Trcont.Cud.DataAccess.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Domain\Trcont.Cud.Domain.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Infrastructure\Trcont.Cud.Infrastructure.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Story\Trcont.Cud.Story.csproj" />
+    <ProjectReference Include="..\Trcont.Domain\Trcont.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

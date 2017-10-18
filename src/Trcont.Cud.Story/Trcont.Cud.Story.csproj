@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Configurations>Debug;Release;Live</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bgTeam.Core" Version="1.0.0.107" />
+    <PackageReference Include="bgTeam.Infrastructure" Version="1.0.0.107" />
+    <PackageReference Include="bgTeam.Web" Version="1.0.0.107" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trcont.App.Service\Trcont.App.Service.csproj" />
+    <ProjectReference Include="..\Trcont.CitTrans.Service\Trcont.CitTrans.Service.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Common\Trcont.Cud.Common.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.DataAccess\Trcont.Cud.DataAccess.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Domain\Trcont.Cud.Domain.csproj" />
+    <ProjectReference Include="..\Trcont.Cud.Infrastructure\Trcont.Cud.Infrastructure.csproj" />
+    <ProjectReference Include="..\Trcont.Domain\Trcont.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Analyzer Include="..\..\lint\SonarQube\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Plugins\" />
+    <Folder Include="ProcessMessages\" />
+    <Folder Include="ProduceMessages\" />
+    <Folder Include="Queues\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+</Project>

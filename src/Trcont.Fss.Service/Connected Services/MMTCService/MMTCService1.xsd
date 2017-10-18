@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/TranspMan.AppServer.Wcf" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TranspMan.AppServer.Wcf" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.11.141:1451/MMTCService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="MMTCCalculateTariffParams">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContOwner" type="xs:int" />
+      <xs:element minOccurs="0" name="ContPark" type="xs:int" />
+      <xs:element minOccurs="0" name="ContTypeCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DeclaredCost" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ETSNGcode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FromPointCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GNGCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsСontTrain" type="xs:boolean" />
+      <xs:element minOccurs="0" name="NettoWeight" type="xs:double" />
+      <xs:element minOccurs="0" name="Rank" type="xs:int" />
+      <xs:element minOccurs="0" name="Speed" type="xs:int" />
+      <xs:element minOccurs="0" name="ToPointCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TotalWeight" type="xs:double" />
+      <xs:element minOccurs="0" name="WagonOwner" type="xs:int" />
+      <xs:element minOccurs="0" name="WagonPark" type="xs:int" />
+      <xs:element minOccurs="0" name="WagonTypeCode" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MMTCCalculateTariffParams" nillable="true" type="tns:MMTCCalculateTariffParams" />
+  <xs:complexType name="MMTCCalculateTariffResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="HasErrors" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ResponseXml" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MMTCCalculateTariffResponse" nillable="true" type="tns:MMTCCalculateTariffResponse" />
+  <xs:complexType name="MMTCGetRefbookParams">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RefbookKind" type="tns:MMTCRefbook" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MMTCGetRefbookParams" nillable="true" type="tns:MMTCGetRefbookParams" />
+  <xs:simpleType name="MMTCRefbook">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PlaceType" />
+      <xs:enumeration value="Place" />
+      <xs:enumeration value="ContainerType" />
+      <xs:enumeration value="GeographicalObject" />
+      <xs:enumeration value="RailCarFirmOwner">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">101</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailCarOwner">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">102</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailCarType">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">103</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailContainerFirmOwner">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">104</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailContainerOwner">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">105</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailContainerType">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">106</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailEscortType">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">107</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailGoodsEtsngCode">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">108</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailGoodsGngCode">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">109</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RailShippingType">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">110</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MMTCRefbook" nillable="true" type="tns:MMTCRefbook" />
+  <xs:complexType name="MMTCGetRefbookResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="HasErrors" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ResponseXml" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MMTCGetRefbookResponse" nillable="true" type="tns:MMTCGetRefbookResponse" />
+</xs:schema>

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Contracts.Objects" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Contracts.Objects" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" />
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd9" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="ArrayOfContractObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContractObject" nillable="true" type="tns:ContractObject" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContractObject" nillable="true" type="tns:ArrayOfContractObject" />
+  <xs:complexType name="ContractObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q1:BaseObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AccId" type="xs:int" />
+          <xs:element minOccurs="0" name="AccType" type="xs:int" />
+          <xs:element minOccurs="0" name="AccessDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="BAddress" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="BIK" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="BankTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="BeginDate" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ClientGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="ClientTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ClientType" type="xs:int" />
+          <xs:element minOccurs="0" name="ContractGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="ContractNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ContractTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CreateDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="CurrencyGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="CurrencyTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DealerFlag" type="xs:int" />
+          <xs:element minOccurs="0" name="DischargeDate" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="EndDate" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ExternalUserGuid" nillable="true" type="ser:guid" />
+          <xs:element minOccurs="0" name="OurSideGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="Parameters" nillable="true" type="tns:ArrayOfContractParameterObject" />
+          <xs:element minOccurs="0" name="RBCorrAccount" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RBCorrBankTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RBCorrSettlementAccount" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RBSettlementAccount" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Status" type="xs:int" />
+          <xs:element minOccurs="0" name="TemplateGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="TemplateId" type="xs:int" />
+          <xs:element minOccurs="0" name="VBBankTitleCorr" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="VBCorrAccBankBenif" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="VBSWIFT" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="VBSWIFTBenif" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="VBSettAccBankBenif" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ContractObject" nillable="true" type="tns:ContractObject" />
+  <xs:complexType name="ArrayOfContractParameterObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContractParameterObject" nillable="true" type="tns:ContractParameterObject" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContractParameterObject" nillable="true" type="tns:ArrayOfContractParameterObject" />
+  <xs:complexType name="ContractParameterObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DefaultDateValue" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DefaultFloatValue" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="DefaultIntegerValue" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DefaultStringValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ParameterDataType" type="xs:int" />
+      <xs:element minOccurs="0" name="ParameterName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ParameterTitle" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContractParameterObject" nillable="true" type="tns:ContractParameterObject" />
+  <xs:complexType name="PenaltyObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q2:BaseObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AgencyTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ClientGuid" nillable="true" type="ser:guid" />
+          <xs:element minOccurs="0" name="ClientTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ContractGuid" nillable="true" type="ser:guid" />
+          <xs:element minOccurs="0" name="ContractTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CurrencyTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DocumentForClient" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Number" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PenaltyDate" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PenaltyGuid" type="ser:guid" />
+          <xs:element minOccurs="0" name="PenaltySum" type="xs:decimal" />
+          <xs:element minOccurs="0" name="ReportPeriodId" type="xs:int" />
+          <xs:element minOccurs="0" name="ReportPeriodTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="SenderTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ServiceId" type="xs:int" />
+          <xs:element minOccurs="0" name="ServiceTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PenaltyObject" nillable="true" type="tns:PenaltyObject" />
+  <xs:complexType name="ReconcActObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q3:BaseObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ContractGuid" nillable="true" type="ser:guid" />
+          <xs:element minOccurs="0" name="PeriodBeginDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="PeriodEndDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ReconcActGuid" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ReconcActObject" nillable="true" type="tns:ReconcActObject" />
+  <xs:complexType name="ArrayOfTemplateParameterObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateParameterObject" nillable="true" type="tns:TemplateParameterObject" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateParameterObject" nillable="true" type="tns:ArrayOfTemplateParameterObject" />
+  <xs:complexType name="TemplateParameterObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q4:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ParamName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ParamValue" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="TemplateParameterObject" nillable="true" type="tns:TemplateParameterObject" />
+  <xs:complexType name="DebitTemplateParameterObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q5:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="DebtPeriod" type="xs:int" />
+          <xs:element minOccurs="0" name="TypeDebt" type="xs:int" />
+          <xs:element minOccurs="0" name="TypeDebtList" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DebitTemplateParameterObject" nillable="true" type="tns:DebitTemplateParameterObject" />
+  <xs:complexType name="PSGVSActResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q6:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Act" nillable="true" type="tns:PSGVSActObject" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PSGVSActResponse" nillable="true" type="tns:PSGVSActResponse" />
+  <xs:complexType name="PSGVSActObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q7:BaseObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ActId" type="xs:int" />
+          <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Containers" nillable="true" type="tns:ArrayOfPSGVSContainer" />
+          <xs:element minOccurs="0" name="FromGuid" nillable="true" type="ser:guid" />
+          <xs:element minOccurs="0" name="FromTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PlaceGuid" nillable="true" type="ser:guid" />
+          <xs:element minOccurs="0" name="PlaceTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RegNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RespDate" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="ToGuid" nillable="true" type="ser:guid" />
+          <xs:element minOccurs="0" name="ToTitle" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="TypeId" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PSGVSActObject" nillable="true" type="tns:PSGVSActObject" />
+  <xs:complexType name="ArrayOfPSGVSContainer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PSGVSContainer" nillable="true" type="tns:PSGVSContainer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPSGVSContainer" nillable="true" type="tns:ArrayOfPSGVSContainer" />
+  <xs:complexType name="PSGVSContainer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AvtoNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Konosament" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LoadStatus" type="xs:int" />
+      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Route" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TTN" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TechStatus" type="xs:int" />
+      <xs:element minOccurs="0" name="ZPU" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ZPUState" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PSGVSContainer" nillable="true" type="tns:PSGVSContainer" />
+  <xs:complexType name="PSGVSActSaveResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q8:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ConfirmType" type="xs:int" />
+          <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Containers" nillable="true" type="q9:ArrayOfstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PSGVSActSaveResponse" nillable="true" type="tns:PSGVSActSaveResponse" />
+  <xs:complexType name="LimitObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q10:BaseObject">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Base" nillable="true" type="tns:LimitBaseObject" />
+          <xs:element minOccurs="0" name="Koef" nillable="true" type="tns:LimitKoefObject" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LimitObject" nillable="true" type="tns:LimitObject" />
+  <xs:complexType name="LimitBaseObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Balance" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BeginDelayDate" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BeginDelayDateTitle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CACash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CALongPays" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CAShortPays" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CLCredits" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CLPays" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Calculated" type="xs:int" />
+      <xs:element minOccurs="0" name="ClientGuid" nillable="true" type="ser:guid" />
+      <xs:element minOccurs="0" name="ClientServiceDuration" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ClientTitle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContractGuid" nillable="true" type="ser:guid" />
+      <xs:element minOccurs="0" name="ContractTitle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CostPrice" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CreateDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CurrencyId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CurrencyTitle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CurrentAssets" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CurrentLiabilities" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DelayPeriod" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="FCapital" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FLCredits" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FixedAssets" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FixedLiabilities" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FullNote" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LimitGuid" nillable="true" type="ser:guid" />
+      <xs:element minOccurs="0" name="LimitPeriod" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="LimitSumm" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NetProfit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OtherSumm" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PaymentPeriod" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PercentExpense" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="QrQnt" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RegNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Resolution" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Revenue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SaleProfit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StateCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StateTitle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VolumeDFE" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LimitBaseObject" nillable="true" type="tns:LimitBaseObject" />
+  <xs:complexType name="LimitKoefObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Conclusion" type="xs:int" />
+      <xs:element minOccurs="0" name="CorrectionCoefficient" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CorrectionCoefficientValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ikld" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IkldValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KKdp" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KKdpValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Kal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KalValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Kdp" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KdpValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Kfu" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KfuValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Koss" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KossValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Kpp" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KppValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ksk" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KskValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Ktl" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KtlValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPer0" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPer0Value" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPer1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPer1Value" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPer2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPer2Value" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LPerValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LimitDebitors" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LimitDebitorsValue" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LimitKoefObject" nillable="true" type="tns:LimitKoefObject" />
+  <xs:complexType name="LimitsResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q11="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q11:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="LimitGuid" type="ser:guid" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LimitsResponse" nillable="true" type="tns:LimitsResponse" />
+  <xs:complexType name="LimitsLoadResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q12="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" base="q12:BaseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Base" nillable="true" type="tns:LimitBaseObject" />
+          <xs:element minOccurs="0" name="Koef" nillable="true" type="tns:LimitKoefObject" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LimitsLoadResponse" nillable="true" type="tns:LimitsLoadResponse" />
+</xs:schema>

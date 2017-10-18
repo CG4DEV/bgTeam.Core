@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="8c317f6e-82b2-428f-8670-e0ee683664fc" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>true</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://172.16.11.141:1451/MMTCService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MMTCService.xsd" MetadataType="Schema" ID="e6cf467c-5b53-4547-ac6f-93db7c39a4a3" SourceId="1" SourceUrl="http://172.16.11.141:1451/MMTCService?xsd=xsd0" />
+    <MetadataFile FileName="MMTCService.disco" MetadataType="Disco" ID="2b9cb16a-7aec-4248-8a73-4630bdc4228a" SourceId="1" SourceUrl="http://172.16.11.141:1451/MMTCService?disco" />
+    <MetadataFile FileName="MMTCService.wsdl" MetadataType="Wsdl" ID="c13c5cfe-5b38-4dbb-911c-757b6e313d5c" SourceId="1" SourceUrl="http://172.16.11.141:1451/MMTCService?wsdl" />
+    <MetadataFile FileName="MMTCService1.xsd" MetadataType="Schema" ID="c5f60a90-dd20-4a9e-9113-277e1dd52cd5" SourceId="1" SourceUrl="http://172.16.11.141:1451/MMTCService?xsd=xsd2" />
+    <MetadataFile FileName="MMTCService2.xsd" MetadataType="Schema" ID="5b9aec7f-d564-4014-9e31-c51530038937" SourceId="1" SourceUrl="http://172.16.11.141:1451/MMTCService?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

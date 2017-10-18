@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Classes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="BaseResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ErrorCode" type="xs:long" />
+      <xs:element minOccurs="0" name="ErrorMessage" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseResponse" nillable="true" type="tns:BaseResponse" />
+  <xs:complexType name="BaseObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrentLanguage" type="ser:guid" />
+      <xs:element minOccurs="0" name="IsDefaultLanguage" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseObject" nillable="true" type="tns:BaseObject" />
+  <xs:simpleType name="PrintDocumentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="wordDocument" />
+      <xs:enumeration value="pdfDocument" />
+      <xs:enumeration value="excelDocument" />
+      <xs:enumeration value="xmlDocument" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="PrintDocumentType" nillable="true" type="tns:PrintDocumentType" />
+</xs:schema>

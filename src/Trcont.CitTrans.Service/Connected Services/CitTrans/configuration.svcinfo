@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configurationSnapshot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:schemas-microsoft-com:xml-wcfconfigurationsnapshot">
+  <behaviors />
+  <bindings>
+    <binding digest="System.ServiceModel.Configuration.BasicHttpBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;WebService_CitTrans_BizTalkSoap&quot; /&gt;" bindingType="basicHttpBinding" name="WebService_CitTrans_BizTalkSoap" />
+  </bindings>
+  <endpoints>
+    <endpoint normalizedDigest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://biztalk.trcont.ru/CitTrans_BizTalk/CitTrans_BizTalk.asmx&quot; binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;WebService_CitTrans_BizTalkSoap&quot; contract=&quot;CitTrans.WebService_CitTrans_BizTalkSoap&quot; name=&quot;WebService_CitTrans_BizTalkSoap&quot; /&gt;" digest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://biztalk.trcont.ru/CitTrans_BizTalk/CitTrans_BizTalk.asmx&quot; binding=&quot;basicHttpBinding&quot; bindingConfiguration=&quot;WebService_CitTrans_BizTalkSoap&quot; contract=&quot;CitTrans.WebService_CitTrans_BizTalkSoap&quot; name=&quot;WebService_CitTrans_BizTalkSoap&quot; /&gt;" contractName="CitTrans.WebService_CitTrans_BizTalkSoap" name="WebService_CitTrans_BizTalkSoap" />
+  </endpoints>
+</configurationSnapshot>

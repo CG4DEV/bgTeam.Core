@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Configurations>Debug;Release;Live</Configurations>
+    <CodeAnalysisRuleSet>..\..\shared\analyzers\linter.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Analyzer Include="..\..\shared\analyzers\SonarQube\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\shared\analyzers\SonarQube\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\shared\analyzers\SonarQube\SonarAnalyzer.dll" />
+    <Analyzer Include="..\..\shared\analyzers\StyleCop\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\..\shared\analyzers\StyleCop\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\shared\analyzers\StyleCop\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="bgTeam.Core" Version="1.0.0.107" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.0" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.0" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trcont.Domain\Trcont.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+</Project>

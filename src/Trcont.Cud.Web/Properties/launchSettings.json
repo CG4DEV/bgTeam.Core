@@ -1,0 +1,39 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:61187/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "Home/Index",
+      "environmentVariables": {
+        "BGTEAM_CONFIGURATION": "Debug",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Trcont.Cud.Web": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api/values",
+      "environmentVariables": {
+        "BGTEAM_CONFIGURATION": "Debug",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:61188/"
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "launchUrl": "Home/Index",
+      "environmentVariables": {
+        "BGTEAM_CONFIGURATION": "Debug",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

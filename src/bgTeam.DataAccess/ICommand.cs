@@ -1,0 +1,30 @@
+﻿namespace bgTeam.DataAccess
+{
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// Интерфейс для команды.
+    /// </summary>
+    /// <typeparam name="TCommandContext">Контекст команды</typeparam>
+    public interface ICommand<in TCommandContext>
+    {
+        /// <summary>
+        /// Выполняет действия команды.
+        /// </summary>
+        /// <param name="commandContext">Контекст команды</param>
+        void Execute(TCommandContext context);
+
+        Task ExecuteAsync(TCommandContext context);
+    }
+
+    public interface ICommand<in TCommandContext, TCommandResult>
+    {
+        /// <summary>
+        /// Выполняет действия команды и вернуть результат
+        /// </summary>
+        /// <param name="commandContext">Контекст команды</param>
+        TCommandResult Execute(TCommandContext context);
+
+        Task<TCommandResult> ExecuteAsync(TCommandContext context);
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Ssp" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TrafficApplicationServer.Ssp" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://hq-web-10:8087/Service/TKApplicationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="SspObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Orders" nillable="true" type="tns:ArrayOfSspOrderObject" />
+      <xs:element minOccurs="0" name="PlanDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TerminalGuid" type="ser:guid" />
+      <xs:element minOccurs="0" name="WorkPlanId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SspObject" nillable="true" type="tns:SspObject" />
+  <xs:complexType name="ArrayOfSspOrderObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SspOrderObject" nillable="true" type="tns:SspOrderObject" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSspOrderObject" nillable="true" type="tns:ArrayOfSspOrderObject" />
+  <xs:complexType name="SspOrderObject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DetailTransId" type="xs:int" />
+      <xs:element minOccurs="0" name="IsSendings" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OrderGraphId" type="xs:int" />
+      <xs:element minOccurs="0" name="PlanValue" type="xs:int" />
+      <xs:element minOccurs="0" name="StationFromGuid" type="ser:guid" />
+      <xs:element minOccurs="0" name="StationIssueGuid" nillable="true" type="ser:guid" />
+      <xs:element minOccurs="0" name="WagonType" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SspOrderObject" nillable="true" type="tns:SspOrderObject" />
+</xs:schema>
