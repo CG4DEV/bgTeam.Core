@@ -13,6 +13,7 @@ nuget:
 build_script:
 - ps: >-
     cd build
+
     .\build.ps1
 artifacts:
 - path: build\artifacts\*.nupkg
