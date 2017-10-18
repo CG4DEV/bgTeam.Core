@@ -1,5 +1,5 @@
 ## bgTeam.Core  
-[![Build status](https://ci.appveyor.com/api/projects/status/8vkjd74n45hk9v2l?svg=true)](https://ci.appveyor.com/project/razonrus/byndyusoft-dotnet-core-infrastructure)
+[![Build status](https://ci.appveyor.com/api/github/webhook?id=m8t4rdl1l1fmlgil?svg=true)](https://ci.appveyor.com/project/razonrus/byndyusoft-dotnet-core-infrastructure)
 
 ### Description
 
