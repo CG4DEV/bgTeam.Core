@@ -1,9 +1,11 @@
-version: 1.0.{build}-beta
+version: $(ShortVersion).{build}
 branches:
   only:
   - master
 image: Visual Studio 2017
 configuration: Release
+environment:
+  ShortVersion: 1.0
 nuget:
   project_feed: true
   disable_publish_on_pr: true
