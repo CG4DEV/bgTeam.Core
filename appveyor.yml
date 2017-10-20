@@ -1,12 +1,9 @@
-version: $(ShortVersion).{build}
+version: 1.0.{build}-beta
 branches:
   only:
   - master
 image: Visual Studio 2017
 configuration: Release
-environment:
-  VersionSuffix: beta-1
-  ShortVersion: 1.0.0
 nuget:
   project_feed: true
   disable_publish_on_pr: true
@@ -17,7 +14,7 @@ build_script:
     .\build.ps1
 artifacts:
 - path: build\artifacts\*.nupkg
-deploy:
+deploy: off
 - provider: NuGet
   api_key:
     secure: rdu6MgrQdnyFBDoafmhfUs/rwf4f72gf2CKHcu/kJ3i0EvMv9hUkCVqJv7tU+wUh
