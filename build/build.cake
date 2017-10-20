@@ -65,7 +65,7 @@ Task("Pack")
     .IsDependentOn("Test")
     .Does(() =>
     {
-        var projects = GetFiles("../src/Infrastructure/**/*.csproj");
+        var projects = GetFiles("../src/**/*.csproj");
         foreach (var project in projects)
         {
             DotNetCorePack(
