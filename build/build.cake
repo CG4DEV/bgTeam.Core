@@ -10,11 +10,12 @@ var buildNumber =
     AppVeyor.IsRunningOnAppVeyor ? AppVeyor.Environment.Build.Number :
     TravisCI.IsRunningOnTravisCI ? TravisCI.Environment.Build.BuildNumber :
     EnvironmentVariable("BuildNumber") != null ? int.Parse(EnvironmentVariable("BuildNumber")) : 0;
+
 var version = HasArgument("ShortVersion") ? Argument<string>("ShortVersion") : EnvironmentVariable("ShortVersion");
 version = !string.IsNullOrWhiteSpace(version) ? version : "1.0.0";
 var assemblyVersion = $"{version}.{buildNumber}";
 var versionSuffix = HasArgument("VersionSuffix") ? Argument<string>("VersionSuffix") : EnvironmentVariable("VersionSuffix");
-var packageVersion = version + (!string.IsNullOrWhiteSpace(versionSuffix) ? $"-{versionSuffix}-{buildNumber}" : "");
+var packageVersion = $"{version}.{buildNumber}" + (!string.IsNullOrWhiteSpace(versionSuffix) ? $"-{versionSuffix}" : "");
  
 var artifactsDirectory = MakeAbsolute(Directory("./artifacts"));
  
