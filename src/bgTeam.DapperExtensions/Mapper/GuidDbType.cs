@@ -27,7 +27,7 @@
             var guidList = new List<SqlDataRecord>();
 
             var tvpDefinition = new[] { new SqlMetaData("id", SqlDbType.UniqueIdentifier) };
-            
+
             foreach (var id in _ids)
             {
                 var rec = new SqlDataRecord(tvpDefinition);

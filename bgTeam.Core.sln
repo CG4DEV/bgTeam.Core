@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Core", "src\bgTeam.Core\bgTeam.Core.csproj", "{376939B6-B2F0-4CA7-9A3E-48E193AA906F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Main", "_Main", "{69DFCB1E-89C8-4DCE-82DE-8E5A13DE9820}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{69DFCB1E-89C8-4DCE-82DE-8E5A13DE9820}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.DapperExtensions", "src\bgTeam.DapperExtensions\bgTeam.DapperExtensions.csproj", "{596FABD2-A681-4BA6-A7EA-2F0BA853B250}"
 EndProject
@@ -19,7 +19,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.bgTeam.Web", "tests\Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Infrastructure", "src\bgTeam.Infrastructure\bgTeam.Infrastructure.csproj", "{CAFB02B1-4CB4-4B30-AC2F-43F8795ADF04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.bgTeam.Core", "tests\Test.bgTeam.Core\Test.bgTeam.Core.csproj", "{A0DFC179-4239-4489-B4EF-AA1DF9D192A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.bgTeam.Core", "tests\Test.bgTeam.Core\Test.bgTeam.Core.csproj", "{A0DFC179-4239-4489-B4EF-AA1DF9D192A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{A1E57A12-E301-41F4-8E16-FB43377454FE}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{A7A63DD1-4260-4402-84D7-B70F22FA66B7}"
+	ProjectSection(SolutionItems) = preProject
+		build\build.cake = build\build.cake
+		build\build.ps1 = build\build.ps1
+		build\build.sh = build\build.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +80,7 @@ Global
 		{C187CD3B-0680-4C2F-82F2-AD1FACE67355} = {98CD1A87-4AF2-4E26-A796-9B6014F41129}
 		{CAFB02B1-4CB4-4B30-AC2F-43F8795ADF04} = {69DFCB1E-89C8-4DCE-82DE-8E5A13DE9820}
 		{A0DFC179-4239-4489-B4EF-AA1DF9D192A4} = {98CD1A87-4AF2-4E26-A796-9B6014F41129}
+		{A7A63DD1-4260-4402-84D7-B70F22FA66B7} = {A1E57A12-E301-41F4-8E16-FB43377454FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CB9FA6A-5909-4F90-B874-6E2317139337}

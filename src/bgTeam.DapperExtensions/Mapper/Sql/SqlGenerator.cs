@@ -100,7 +100,8 @@
                 throw new ArgumentNullException("Parameters");
             }
 
-            StringBuilder innerSql = new StringBuilder(string.Format("SELECT {0} FROM {1}",
+            StringBuilder innerSql = new StringBuilder(string.Format(
+                "SELECT {0} FROM {1}",
                 BuildSelectColumns(classMap),
                 GetTableName(classMap)));
             if (predicate != null)
@@ -124,10 +125,11 @@
                 throw new ArgumentNullException("Parameters");
             }
 
-            StringBuilder sql = new StringBuilder(string.Format("SELECT COUNT(*) AS {0}Total{1} FROM {2}",
-                                Configuration.Dialect.OpenQuote,
-                                Configuration.Dialect.CloseQuote,
-                                GetTableName(classMap)));
+            StringBuilder sql = new StringBuilder(string.Format(
+                "SELECT COUNT(*) AS {0}Total{1} FROM {2}",
+                Configuration.Dialect.OpenQuote,
+                Configuration.Dialect.CloseQuote,
+                GetTableName(classMap)));
             if (predicate != null)
             {
                 sql.Append(" WHERE ")
@@ -148,17 +150,20 @@
             var columnNames = columns.Select(p => GetColumnName(classMap, p, false));
             var parameters = columns.Select(p => Configuration.Dialect.ParameterPrefix + p.Name);
 
-            string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})",
-                                       GetTableName(classMap),
-                                       columnNames.AppendStrings(),
-                                       parameters.AppendStrings());
+            string sql = string.Format(
+                "INSERT INTO {0} ({1}) VALUES ({2})",
+                GetTableName(classMap),
+                columnNames.AppendStrings(),
+                parameters.AppendStrings());
 
             var triggerIdentityColumn = classMap.Properties.Where(p => p.KeyType == KeyType.TriggerIdentity).ToList();
 
             if (triggerIdentityColumn.Count > 0)
             {
                 if (triggerIdentityColumn.Count > 1)
+                {
                     throw new ArgumentException("TriggerIdentity generator cannot be used with multi-column keys");
+                }
 
                 sql += string.Format(" RETURNING {0} INTO {1}IdOutParam", triggerIdentityColumn.Select(p => GetColumnName(classMap, p, false)).First(), Configuration.Dialect.ParameterPrefix);
             }
@@ -169,30 +174,39 @@
         public virtual string Update(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters)
         {
             if (predicate == null)
+            {
                 throw new ArgumentNullException("Predicate");
+            }
 
             if (parameters == null)
+            {
                 throw new ArgumentNullException("Parameters");
+            }
 
             var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity || p.KeyType == KeyType.Assigned));
 
             var pg = predicate as IPredicateGroup;
             if (pg != null)
+            {
                 columns = columns.Where(x => !pg.Predicates.Any(p => (p as IBasePredicate).PropertyName == x.ColumnName)).ToList();
+            }
 
             if (!columns.Any())
+            {
                 throw new ArgumentException("No columns were mapped.");
+            }
 
             var setSql =
                 columns.Select(p =>
                     string.Format("{0} = {1}{2}", GetColumnName(classMap, p, false), Configuration.Dialect.ParameterPrefix, p.Name));
 
-            return string.Format("UPDATE {0} SET {1} WHERE {2}",
+            return string.Format(
+                "UPDATE {0} SET {1} WHERE {2}",
                 GetTableName(classMap),
                 setSql.AppendStrings(),
                 predicate.GetSql(this, parameters));
         }
-        
+
         public virtual string Delete(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters)
         {
             if (predicate == null)
@@ -209,7 +223,7 @@
             sql.Append(" WHERE ").Append(predicate.GetSql(this, parameters));
             return sql.ToString();
         }
-        
+
         public virtual string IdentitySql(IClassMapper classMap)
         {
             return Configuration.Dialect.GetIdentitySql(GetTableName(classMap));
