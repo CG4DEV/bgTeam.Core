@@ -65,7 +65,7 @@
 
             var builder = new UriBuilder(baseUrl);
             builder.Port = -1;
-            var query = HttpUtility.ParseQueryString(builder.Query);
+            var query = ParseQueryString(builder.Query);
 
             foreach (var param in queryParams)
             {
@@ -75,6 +75,13 @@
             builder.Query = query.ToString();
             string url = builder.ToString();
             return url;
+        }
+
+        //TODO : пришлось удалить HttpUtility.ParseQueryString(builder.Query);
+        //не собирался проект
+        private IDictionary<string, object> ParseQueryString(string query)
+        {
+            throw new NotImplementedException("ParseQueryString");
         }
 
         private async Task<T> ProcessResult<T>(HttpResponseMessage response)

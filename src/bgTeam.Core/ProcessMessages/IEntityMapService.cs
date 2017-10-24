@@ -13,25 +13,25 @@
         EntityMap CreateEntityMap(IQueueMessage message);
     }
 
-    public class DefaultMapService : IEntityMapService
-    {
-        public EntityMap CreateEntityMap(IQueueMessage message)
-        {
-            var settings = new JsonSerializerSettings()
-            {
-                DateParseHandling = DateParseHandling.None,
-                DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
-            };
+    //public class DefaultMapService : IEntityMapService
+    //{
+    //    public EntityMap CreateEntityMap(IQueueMessage message)
+    //    {
+    //        var settings = new JsonSerializerSettings()
+    //        {
+    //            DateParseHandling = DateParseHandling.None,
+    //            DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
+    //        };
 
-            var obj = JsonConvert.DeserializeObject<dynamic>(message.Body, settings);
-            var map = ((IDictionary<string, JToken>)obj)
-                .ToDictionary(
-                    x => x.Key,
-                    x => string.IsNullOrWhiteSpace(x.Value.ToString()) ? null : x.Value.ToObject<object>()
-                );
-            return new EntityMap(map);
-        }
-    }
+    //        var obj = JsonConvert.DeserializeObject<dynamic>(message.Body, settings);
+    //        var map = ((IDictionary<string, JToken>)obj)
+    //            .ToDictionary(
+    //                x => x.Key,
+    //                x => string.IsNullOrWhiteSpace(x.Value.ToString()) ? null : x.Value.ToObject<object>()
+    //            );
+    //        return new EntityMap(map);
+    //    }
+    //}
 
     public class EntityMap
     {
