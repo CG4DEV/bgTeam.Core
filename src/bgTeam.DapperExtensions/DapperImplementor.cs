@@ -16,18 +16,36 @@
     {
         ISqlGenerator SqlGenerator { get; }
 
-        Task<T> GetAsync<T>(IDbConnection connection, dynamic id, IDbTransaction transaction, int? commandTimeout) where T : class;
-        Task<IEnumerable<T>> GetAllAsync<T>(IDbConnection connection, object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
-        IEnumerable<T> GetPage<T>(IDbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
-        IEnumerable<T> GetSet<T>(IDbConnection connection, object predicate, IList<ISort> sort, int firstResult, int maxResults, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class;
+        Task<T> GetAsync<T>(IDbConnection connection, object id, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
 
-        void Insert<T>(IDbConnection connection, IEnumerable<T> entities, IDbTransaction transaction, int? commandTimeout) where T : class;
-        Task<dynamic> InsertAsync<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout) where T : class;
-        Task<bool> UpdateAsync<T>(IDbConnection connection, T entity, IPredicate predicate, IDbTransaction transaction, int? commandTimeout) where T : class;
-        bool Delete<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout) where T : class;
-        bool Delete<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class;
-        
-        int Count<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class;
+        Task<IEnumerable<T>> GetAllAsync<T>(IDbConnection connection, object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout, bool buffered)
+            where T : class;
+
+        IEnumerable<T> GetPage<T>(IDbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction, int? commandTimeout, bool buffered)
+            where T : class;
+
+        IEnumerable<T> GetSet<T>(IDbConnection connection, object predicate, IList<ISort> sort, int firstResult, int maxResults, IDbTransaction transaction, int? commandTimeout, bool buffered)
+            where T : class;
+
+        void Insert<T>(IDbConnection connection, IEnumerable<T> entities, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
+        Task<dynamic> InsertAsync<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
+        Task<bool> UpdateAsync<T>(IDbConnection connection, T entity, IPredicate predicate, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
+        bool Delete<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
+        bool Delete<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
+        int Count<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
         IMultipleResultReader GetMultiple(IDbConnection connection, GetMultiplePredicate predicate, IDbTransaction transaction, int? commandTimeout);
     }
 
@@ -40,7 +58,8 @@
 
         public ISqlGenerator SqlGenerator { get; private set; }
 
-        public async Task<T> GetAsync<T>(IDbConnection connection, dynamic id, IDbTransaction transaction, int? commandTimeout) where T : class
+        public async Task<T> GetAsync<T>(IDbConnection connection, object id, IDbTransaction transaction, int? commandTimeout)
+            where T : class
         {
             IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
             IPredicate predicate = GetIdPredicate(classMap, id);
@@ -247,7 +266,8 @@
             return GetSet<T>(connection, classMap, wherePredicate, sort, firstResult, maxResults, transaction, commandTimeout, buffered);
         }
 
-        public int Count<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout) where T : class
+        public int Count<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
+            where T : class
         {
             IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
             IPredicate wherePredicate = GetPredicate(classMap, predicate);
@@ -259,7 +279,7 @@
                 dynamicParameters.Add(parameter.Key, parameter.Value);
             }
 
-            return (int)connection.Query(sql, dynamicParameters, transaction, false, commandTimeout, CommandType.Text).Single().Total;
+            return connection.Query<int>(sql, dynamicParameters, transaction, false, commandTimeout, CommandType.Text).Single();
         }
 
         public IMultipleResultReader GetMultiple(IDbConnection connection, GetMultiplePredicate predicate, IDbTransaction transaction, int? commandTimeout)
@@ -271,8 +291,6 @@
 
             return GetMultipleBySequence(connection, predicate, transaction, commandTimeout);
         }
-
-        
 
         protected IEnumerable<T> GetPage<T>(IDbConnection connection, IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
         {
@@ -362,11 +380,14 @@
                              };
         }
 
-        protected IPredicate GetKeyPredicate<T>(IClassMapper classMap, T entity) where T : class
+        protected IPredicate GetKeyPredicate<T>(IClassMapper classMap, T entity)
+            where T : class
         {
             var whereFields = classMap.Properties.Where(p => p.KeyType != KeyType.NotAKey);
             if (!whereFields.Any())
+            {
                 throw new ArgumentException("At least one Key column must be defined.");
+            }
 
             Type predicateType = typeof(FieldPredicate<>).MakeGenericType(classMap.EntityType);
 

@@ -150,12 +150,14 @@
         /// <summary>
         /// Executes a query for the specified id, returning the data typed as per T
         /// </summary>
-        public static T Get<T>(this IDbConnection connection, dynamic id, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static T Get<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return Instance.GetAsync<T>(connection, id, transaction, commandTimeout).Result;
         }
 
-        public static async Task<T> GetAsync<T>(this IDbConnection connection, dynamic id, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static async Task<T> GetAsync<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return await Instance.GetAsync<T>(connection, id, transaction, commandTimeout);
         }
