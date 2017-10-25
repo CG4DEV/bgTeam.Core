@@ -12,13 +12,20 @@
     public interface IDapperExtensionsConfiguration
     {
         Type DefaultMapper { get; }
+
         IList<Assembly> MappingAssemblies { get; }
+
         ISqlDialect Dialect { get; }
+
         string IdentityColumn { get; set; }
 
         IClassMapper GetMap(Type entityType);
-        IClassMapper GetMap<T>() where T : class;
+
+        IClassMapper GetMap<T>()
+            where T : class;
+
         void ClearCache();
+
         Guid GetNextGuid();
     }
 
@@ -41,7 +48,9 @@
         }
 
         public Type DefaultMapper { get; private set; }
+
         public IList<Assembly> MappingAssemblies { get; private set; }
+
         public ISqlDialect Dialect { get; private set; }
 
         public string IdentityColumn { get; set; }
@@ -64,9 +73,10 @@
             return map;
         }
 
-        public IClassMapper GetMap<T>() where T : class
+        public IClassMapper GetMap<T>()
+            where T : class
         {
-            return GetMap(typeof (T));
+            return GetMap(typeof(T));
         }
 
         public void ClearCache()

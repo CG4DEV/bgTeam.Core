@@ -14,7 +14,8 @@
             {
                 throw new ArgumentNullException(message);
             }
-            else if (arg == null)
+
+            if (arg == null)
             {
                 throw new ArgumentNullException(message);
             }

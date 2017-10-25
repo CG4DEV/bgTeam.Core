@@ -9,20 +9,29 @@
     public interface ISqlGenerator
     {
         IDapperExtensionsConfiguration Configuration { get; }
-        
+
         string Select(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, IDictionary<string, object> parameters);
+
         string SelectPaged(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int page, int resultsPerPage, IDictionary<string, object> parameters);
+
         string SelectSet(IClassMapper classMap, IPredicate predicate, IList<ISort> sort, int firstResult, int maxResults, IDictionary<string, object> parameters);
+
         string Count(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
 
         string Insert(IClassMapper classMap);
+
         string Update(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
+
         string Delete(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters);
 
         string IdentitySql(IClassMapper classMap);
+
         string GetTableName(IClassMapper map);
+
         string GetColumnName(IClassMapper map, IPropertyMap property, bool includeAlias);
+
         string GetColumnName(IClassMapper map, string propertyName, bool includeAlias);
+
         bool SupportsMultipleStatements();
     }
 
@@ -42,7 +51,8 @@
                 throw new ArgumentNullException("Parameters");
             }
 
-            StringBuilder sql = new StringBuilder(string.Format("SELECT {0} FROM {1}",
+            StringBuilder sql = new StringBuilder(string.Format(
+                "SELECT {0} FROM {1}",
                 BuildSelectColumns(classMap),
                 GetTableName(classMap)));
             if (predicate != null)
@@ -72,7 +82,8 @@
                 throw new ArgumentNullException("Parameters");
             }
 
-            StringBuilder innerSql = new StringBuilder(string.Format("SELECT {0} FROM {1}",
+            StringBuilder innerSql = new StringBuilder(string.Format(
+                "SELECT {0} FROM {1}",
                 BuildSelectColumns(classMap),
                 GetTableName(classMap)));
             if (predicate != null)
@@ -138,7 +149,7 @@
 
             return sql.ToString();
         }
-        
+
         public virtual string Insert(IClassMapper classMap)
         {
             var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity || p.KeyType == KeyType.TriggerIdentity));

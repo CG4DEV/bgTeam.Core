@@ -7,7 +7,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    internal sealed class PredicateConverter<T> where T : class
+    internal sealed class PredicateConverter<T>
+        where T : class
     {
         public static IPredicateGroup FromExpression(Expression<Func<T, bool>> predicate)
         {
@@ -314,9 +315,14 @@
                 var memberExpression = SimplifyExpression(expression.Arguments[1]) as MemberExpression;
 
                 if (patternExpression == null)
+                {
                     throw new NotImplementedException();
+                }
+
                 if (memberExpression == null || memberExpression.Expression.NodeType != ExpressionType.Parameter)
+                {
                     throw new NotImplementedException();
+                }
 
                 return new FieldPredicate<T> { Not = false, Operator = Operator.Like, PropertyName = memberExpression.Member.Name, Value = patternExpression.Value };
             }
@@ -334,10 +340,14 @@
                 InvokeExpression(patternExpression);
 
             if (patternExpression == null)
+            {
                 throw new NotImplementedException();
+            }
 
             if (memberExpression == null || memberExpression.Expression.NodeType != ExpressionType.Parameter)
+            {
                 throw new NotImplementedException();
+            }
 
             return new FieldPredicate<T>
             {
@@ -356,10 +366,14 @@
                 var memberExpression = SimplifyExpression(expression.Arguments[1]) as MemberExpression;
 
                 if (valueExpression == null)
+                {
                     throw new NotImplementedException();
+                }
 
                 if (memberExpression == null)
+                {
                     throw new NotImplementedException();
+                }
 
                 string propertyName = Nullable.GetUnderlyingType(memberExpression.Expression.Type) == null ?
                     memberExpression.Member.Name :
@@ -379,10 +393,14 @@
                 var memberExpression = SimplifyExpression(expression.Object) as MemberExpression;
 
                 if (valueExpression == null)
+                {
                     throw new NotImplementedException();
+                }
 
                 if (memberExpression == null)
+                {
                     throw new NotImplementedException();
+                }
 
                 string propertyName = Nullable.GetUnderlyingType(valueExpression.Expression.Type) == null ?
                     valueExpression.Member.Name :
@@ -435,11 +453,15 @@
         private static IPredicate VisitPredicateTree(IPredicate predicate, Func<IPredicate, bool> callback)
         {
             if (!callback(predicate))
+            {
                 return predicate;
+            }
 
             var group = (IPredicateGroup)predicate;
             foreach (var p in group.Predicates)
+            {
                 VisitPredicateTree(p, callback);
+            }
 
             return predicate;
         }

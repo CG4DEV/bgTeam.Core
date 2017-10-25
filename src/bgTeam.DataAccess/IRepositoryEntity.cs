@@ -16,8 +16,8 @@
         Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null)
             where T : class;
 
-        //Task InsertAcync<T>(T entity)
-        //    where T : class;
+        ////Task InsertAcync<T>(T entity)
+        ////    where T : class;
 
         Task InsertAcync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class;

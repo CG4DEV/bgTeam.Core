@@ -9,10 +9,11 @@
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class ColumnNameAttribute : Attribute
     {
-        public string Name { get; private set; }
         public ColumnNameAttribute(string name)
         {
             Name = name;
         }
+
+        public string Name { get; private set; }
     }
 }

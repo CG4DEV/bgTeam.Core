@@ -6,18 +6,18 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
-    using System.Text;
     using System.Threading.Tasks;
-    using System.Web;
 
     public class WebClient : IWebClient
     {
-        public readonly string _url;
+        private readonly string _url;
 
         public WebClient(string url)
         {
             _url = url.CheckNull(nameof(url));
         }
+
+        public string Url => _url;
 
         public async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class
@@ -34,13 +34,30 @@
             }
         }
 
-        private static void FillHeaders(IDictionary<string, object> headers, HttpRequestMessage msg)
+        public async Task<T> PostAsync<T>(string action, object postParams)
+            where T : class
         {
-            if (headers != null)
+            using (var client = new HttpClient())
             {
-                foreach (var header in headers)
+                client.BaseAddress = new Uri(_url);
+                var dic = GetFormContentDictionary(postParams);
+                var content = new FormUrlEncodedContent(dic);
+
+                var resultPost = await client.PostAsync(action, content);
+                var result = await resultPost.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrWhiteSpace(result) || result == "[]")
                 {
-                    msg.Headers.Add(header.Key, header.Value.ToString());
+                    return default(T);
+                }
+
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(result);
+                }
+                catch (JsonSerializationException)
+                {
+                    return null;
                 }
             }
         }
@@ -81,7 +98,7 @@
         //не собирался проект
         private IDictionary<string, object> ParseQueryString(string query)
         {
-            throw new NotImplementedException("ParseQueryString");
+            throw new NotImplementedException($"ParseQueryString - {query}");
         }
 
         private async Task<T> ProcessResult<T>(HttpResponseMessage response)
@@ -109,40 +126,22 @@
             }
         }
 
-
-        public async Task<T> PostAsync<T>(string action, object postParams)
-            where T : class
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(_url);
-                var dic = GetFormContentDictionary(postParams);
-                var content = new FormUrlEncodedContent(dic);
-
-                var resultPost = await client.PostAsync(action, content);
-                var result = await resultPost.Content.ReadAsStringAsync();
-
-                if (string.IsNullOrWhiteSpace(result) || result == "[]")
-                {
-                    return default(T);
-                }
-
-                try
-                {
-                    return JsonConvert.DeserializeObject<T>(result);
-                }
-                catch (JsonSerializationException)
-                {
-                    return null;
-                }
-            }
-        }
-
         public static Dictionary<string, string> GetFormContentDictionary(object body)
         {
             var result = new Dictionary<string, string>();
             AddObjToDict(result, body);
             return result;
+        }
+
+        private static void FillHeaders(IDictionary<string, object> headers, HttpRequestMessage msg)
+        {
+            if (headers != null)
+            {
+                foreach (var header in headers)
+                {
+                    msg.Headers.Add(header.Key, header.Value.ToString());
+                }
+            }
         }
 
         private static void AddListToDict(Dictionary<string, string> dict, Proxy arrayItem, string key = null)

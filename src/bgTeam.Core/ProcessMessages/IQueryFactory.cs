@@ -10,6 +10,6 @@
 
         IQuery CreateQuery(IQueueMessage msg);
 
-        Task<IQuery> CreateQueryAsync (IQueueMessage msg);
+        Task<IQuery> CreateQueryAsync(IQueueMessage msg);
     }
 }

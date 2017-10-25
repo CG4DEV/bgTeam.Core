@@ -11,19 +11,24 @@
     public interface IClassMapper
     {
         string SchemaName { get; }
+
         string TableName { get; }
+
         IList<IPropertyMap> Properties { get; }
+
         Type EntityType { get; }
     }
 
-    public interface IClassMapper<T> : IClassMapper where T : class
+    public interface IClassMapper<T> : IClassMapper
+        where T : class
     {
     }
 
     /// <summary>
     /// Maps an entity to a table through a collection of property maps.
     /// </summary>
-    public class ClassMapper<T> : IClassMapper<T> where T : class
+    public class ClassMapper<T> : IClassMapper<T>
+        where T : class
     {
         /// <summary>
         /// Gets or sets the schema to use when referring to the corresponding table name in the database.
@@ -169,8 +174,8 @@
         {
             PropertyMap result = new PropertyMap(propertyInfo);
 
-            //if (_log.IsDebugEnabled)
-            //    _log.DebugFormat("Mapped property: {0} > {1}, type: {2}", result.Name, result.ColumnName, result.Type);
+            ////if (_log.IsDebugEnabled)
+            ////    _log.DebugFormat("Mapped property: {0} > {1}, type: {2}", result.Name, result.ColumnName, result.Type);
 
             IPropertyMap property = Properties.SingleOrDefault(p => p.Name.Equals(result.Name));
             if (overwrite && property != null)
@@ -178,7 +183,9 @@
                 Properties.Remove(property);
             }
             else if (property != null)
+            {
                 throw new ArgumentException(string.Format("Duplicate mapping for property {0} detected.", result.Name));
+            }
 
             Properties.Add(result);
             return result;

@@ -132,6 +132,7 @@
     public abstract class BasePredicate : IBasePredicate
     {
         public abstract string GetSql(ISqlGenerator sqlGenerator, IDictionary<string, object> parameters);
+
         public string PropertyName { get; set; }
 
         protected virtual string GetColumnName(Type entityType, ISqlGenerator sqlGenerator, string propertyName)
@@ -155,12 +156,14 @@
     public interface IComparePredicate : IBasePredicate
     {
         Operator Operator { get; set; }
+
         bool Not { get; set; }
     }
 
     public abstract class ComparePredicate : BasePredicate
     {
         public Operator Operator { get; set; }
+
         public bool Not { get; set; }
 
         public virtual string GetOperatorString()
@@ -246,13 +249,16 @@
     public struct BetweenValues
     {
         public object Value1 { get; set; }
+
         public object Value2 { get; set; }
     }
 
     public interface IBetweenPredicate : IPredicate
     {
         string PropertyName { get; set; }
+
         BetweenValues Value { get; set; }
+
         bool Not { get; set; }
 
     }
@@ -312,6 +318,7 @@
     public interface IPredicateGroup : IPredicate
     {
         GroupOperator Operator { get; set; }
+
         IList<IPredicate> Predicates { get; set; }
     }
 
@@ -321,7 +328,9 @@
     public class PredicateGroup : IPredicateGroup
     {
         public GroupOperator Operator { get; set; }
+
         public IList<IPredicate> Predicates { get; set; }
+
         public string GetSql(ISqlGenerator sqlGenerator, IDictionary<string, object> parameters)
         {
             string seperator = Operator == GroupOperator.And ? " AND " : " OR ";
@@ -340,6 +349,7 @@
     public interface IExistsPredicate : IPredicate
     {
         IPredicate Predicate { get; set; }
+
         bool Not { get; set; }
     }
 
@@ -347,12 +357,14 @@
         where TSub : class
     {
         public IPredicate Predicate { get; set; }
+
         public bool Not { get; set; }
 
         public string GetSql(ISqlGenerator sqlGenerator, IDictionary<string, object> parameters)
         {
             IClassMapper mapSub = GetClassMapper(typeof(TSub), sqlGenerator.Configuration);
-            string sql = string.Format("({0}EXISTS (SELECT 1 FROM {1} WHERE {2}))",
+            string sql = string.Format(
+                "({0}EXISTS (SELECT 1 FROM {1} WHERE {2}))",
                 Not ? "NOT " : string.Empty,
                 sqlGenerator.GetTableName(mapSub),
                 Predicate.GetSql(sqlGenerator, parameters));
@@ -374,12 +386,14 @@
     public interface ISort
     {
         string PropertyName { get; set; }
+
         bool Ascending { get; set; }
     }
 
     public class Sort : ISort
     {
         public string PropertyName { get; set; }
+
         public bool Ascending { get; set; }
     }
 

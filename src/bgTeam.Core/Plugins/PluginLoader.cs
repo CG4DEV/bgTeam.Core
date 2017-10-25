@@ -22,7 +22,7 @@
 
             if (!plugins.Any())
             {
-                return Enumerable.Empty<Type>(); ;
+                return Enumerable.Empty<Type>();
             }
 
             var types = new List<Type>();

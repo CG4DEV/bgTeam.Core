@@ -79,14 +79,6 @@
             }
         }
 
-        private static object CreateListInstance(Type propertyType)
-        {
-            var listType = typeof(List<>);
-            var constructedListType = listType.MakeGenericType(propertyType);
-
-            return Activator.CreateInstance(constructedListType);
-        }
-
         public static Type GetPropertyType(this object entity, string propertyName)
         {
             PropertyInfo propertyInfo = entity.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
@@ -96,6 +88,14 @@
             }
 
             return propertyInfo.PropertyType;
+        }
+
+        private static object CreateListInstance(Type propertyType)
+        {
+            var listType = typeof(List<>);
+            var constructedListType = listType.MakeGenericType(propertyType);
+
+            return Activator.CreateInstance(constructedListType);
         }
     }
 }

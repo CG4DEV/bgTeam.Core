@@ -8,7 +8,7 @@
 
     public class AppConfigurationDefault : IAppConfiguration
     {
-        private IConfigurationRoot _configurationRoot;
+        private readonly IConfigurationRoot _configurationRoot;
 
         public AppConfigurationDefault()
         {

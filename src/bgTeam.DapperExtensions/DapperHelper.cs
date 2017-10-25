@@ -14,12 +14,17 @@
 
     public static class DapperHelper
     {
-        private readonly static object _lock = new object();
+        private static object _lock = new object();
 
         private static Func<IDapperExtensionsConfiguration, IDapperImplementor> _instanceFactory;
         private static IDapperImplementor _instance;
         private static IDapperExtensionsConfiguration _configuration;
-        
+
+        static DapperHelper()
+        {
+            Configure(typeof(AutoClassMapper<>), new List<Assembly>(), new SqlServerDialect(), null);
+        }
+
         /// <summary>
         /// Gets or sets the default class mapper to use when generating class maps. If not specified, AutoClassMapper<T> is used.
         /// DapperExtensions.Configure(Type, IList<Assembly>, ISqlDialect) can be used instead to set all values at once
@@ -81,6 +86,7 @@
 
                 return _instanceFactory;
             }
+
             set
             {
                 _instanceFactory = value;
@@ -108,11 +114,6 @@
 
                 return _instance;
             }
-        }
-
-        static DapperHelper()
-        {
-            Configure(typeof(AutoClassMapper<>), new List<Assembly>(), new SqlServerDialect(), null);
         }
 
         /// <summary>
@@ -165,17 +166,20 @@
         /// <summary>
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// </summary>
-        public static IEnumerable<T> GetAll<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
+        public static IEnumerable<T> GetAll<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+            where T : class
         {
             return Instance.GetAllAsync<T>(connection, predicate, sort, transaction, commandTimeout, buffered).Result;
         }
 
-        public static async Task<IEnumerable<T>> GetAllAsync<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
+        public static async Task<IEnumerable<T>> GetAllAsync<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+            where T : class
         {
             return await Instance.GetAllAsync<T>(connection, predicate, sort, transaction, commandTimeout, buffered);
         }
 
-        public static async Task<IEnumerable<T>> GetAllAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
+        public static async Task<IEnumerable<T>> GetAllAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+            where T : class
         {
             var prGroup = PredicateConverter<T>.FromExpression(predicate);
 
@@ -185,23 +189,26 @@
         /// <summary>
         /// Executes an insert query for the specified entity.
         /// </summary>
-        public static void Insert<T>(this IDbConnection connection, IEnumerable<T> entities, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static void Insert<T>(this IDbConnection connection, IEnumerable<T> entities, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             Instance.Insert<T>(connection, entities, transaction, commandTimeout);
         }
 
         /// <summary>
-        /// Executes an insert query for the specified entity, returning the primary key.  
-        /// If the entity has a single key, just the value is returned.  
+        /// Executes an insert query for the specified entity, returning the primary key.
+        /// If the entity has a single key, just the value is returned.
         /// If the entity has a composite key, an IDictionary&lt;string, object&gt; is returned with the key values.
         /// The key value for the entity will also be updated if the KeyType is a Guid or Identity.
         /// </summary>
-        public static dynamic Insert<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static dynamic Insert<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return Instance.InsertAsync<T>(connection, entity, transaction, commandTimeout).Result;
         }
 
-        public static async Task<dynamic> InsertAcync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static async Task<dynamic> InsertAcync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return await Instance.InsertAsync<T>(connection, entity, transaction, commandTimeout);
         }
@@ -209,17 +216,20 @@
         /// <summary>
         /// Executes an update query for the specified entity.
         /// </summary>
-        public static bool Update<T>(this IDbConnection connection, T entity, IPredicate predicate = null, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static bool Update<T>(this IDbConnection connection, T entity, IPredicate predicate = null, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return Instance.UpdateAsync<T>(connection, entity, predicate, transaction, commandTimeout).Result;
         }
 
-        public static async Task<bool> UpdateAcync<T>(this IDbConnection connection, T entity, IPredicate predicate = null, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static async Task<bool> UpdateAcync<T>(this IDbConnection connection, T entity, IPredicate predicate = null, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return await Instance.UpdateAsync<T>(connection, entity, predicate, transaction, commandTimeout);
         }
 
-        public static async Task<bool> UpdateAcync<T>(this IDbConnection connection, T entity, Expression<Func<T, bool>> predicate, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static async Task<bool> UpdateAcync<T>(this IDbConnection connection, T entity, Expression<Func<T, bool>> predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             var prGroup = PredicateConverter<T>.FromExpression(predicate);
 
@@ -229,7 +239,8 @@
         /// <summary>
         /// Executes a delete query for the specified entity.
         /// </summary>
-        public static bool Delete<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static bool Delete<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return Instance.Delete<T>(connection, entity, transaction, commandTimeout);
         }
@@ -237,7 +248,8 @@
         /// <summary>
         /// Executes a delete query using the specified predicate.
         /// </summary>
-        public static bool Delete<T>(this IDbConnection connection, object predicate, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static bool Delete<T>(this IDbConnection connection, object predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return Instance.Delete<T>(connection, predicate, transaction, commandTimeout);
         }
@@ -246,7 +258,8 @@
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified page and resultsPerPage.
         /// </summary>
-        public static IEnumerable<T> GetPage<T>(this IDbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
+        public static IEnumerable<T> GetPage<T>(this IDbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+            where T : class
         {
             return Instance.GetPage<T>(connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
         }
@@ -255,7 +268,8 @@
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified firstResult and maxResults.
         /// </summary>
-        public static IEnumerable<T> GetSet<T>(this IDbConnection connection, object predicate, IList<ISort> sort, int firstResult, int maxResults, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false) where T : class
+        public static IEnumerable<T> GetSet<T>(this IDbConnection connection, object predicate, IList<ISort> sort, int firstResult, int maxResults, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+            where T : class
         {
             return Instance.GetSet<T>(connection, predicate, sort, firstResult, maxResults, transaction, commandTimeout, buffered);
         }
@@ -263,7 +277,8 @@
         /// <summary>
         /// Executes a query using the specified predicate, returning an integer that represents the number of rows that match the query.
         /// </summary>
-        public static int Count<T>(this IDbConnection connection, object predicate, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        public static int Count<T>(this IDbConnection connection, object predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
         {
             return Instance.Count<T>(connection, predicate, transaction, commandTimeout);
         }
@@ -277,10 +292,11 @@
         }
 
         /// <summary>
-        /// Gets the appropriate mapper for the specified type T. 
+        /// Gets the appropriate mapper for the specified type T.
         /// If the mapper for the type is not yet created, a new mapper is generated from the mapper type specifed by DefaultMapper.
         /// </summary>
-        public static IClassMapper GetMap<T>() where T : class
+        public static IClassMapper GetMap<T>()
+            where T : class
         {
             return Instance.SqlGenerator.Configuration.GetMap<T>();
         }
