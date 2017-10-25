@@ -9,16 +9,16 @@
     {
         private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
-        public AppLoggerSerilog(IAppLoggerConfig loggerConfig)
+        public AppLoggerSerilog()
         {
-            var serilogConf = loggerConfig.GetLoggerConfig();
-            var logger = new LoggerConfiguration()
-                .ReadFrom.ConfigurationSection(serilogConf)
-                .CreateLogger();
+            var config = new AppLoggerSerilogConfig();
 
-            _logger = new LoggerFactory()
-                .AddSerilog(logger)
-                .CreateLogger(loggerConfig.LoggerName);
+            _logger = CreateLogger(config);
+        }
+
+        public AppLoggerSerilog(IAppLoggerConfig config)
+        {
+            _logger = CreateLogger(config);
         }
 
         public void Debug(string message)
@@ -50,6 +50,18 @@
         public void Info(string message)
         {
             _logger.LogInformation(message);
+        }
+
+        private Microsoft.Extensions.Logging.ILogger CreateLogger(IAppLoggerConfig loggerConfig)
+        {
+            var serilogConf = loggerConfig.GetLoggerConfig();
+            var logger = new LoggerConfiguration()
+                .ReadFrom.ConfigurationSection(serilogConf)
+                .CreateLogger();
+
+            return new LoggerFactory()
+                .AddSerilog(logger)
+                .CreateLogger(loggerConfig.LoggerName);
         }
     }
 }
