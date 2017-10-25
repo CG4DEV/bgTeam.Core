@@ -5,11 +5,24 @@
 
     public class OracleDialect : SqlDialectBase
     {
-        public OracleDialect() { }
-
         public override bool SupportsMultipleStatements
         {
             get { return false; }
+        }
+
+        public override char ParameterPrefix
+        {
+            get { return ':'; }
+        }
+
+        public override char OpenQuote
+        {
+            get { return '"'; }
+        }
+
+        public override char CloseQuote
+        {
+            get { return '"'; }
         }
 
         public override string GetIdentitySql(string tableName)
@@ -60,22 +73,7 @@
                 return string.Format("{0}{1}{2}", OpenQuote, value.Substring(1, value.Length - 2), CloseQuote);
             }
 
-            return value.ToUpper();
-        }
-
-        public override char ParameterPrefix
-        {
-            get { return ':'; }
-        }
-
-        public override char OpenQuote
-        {
-            get { return '"'; }
-        }
-
-        public override char CloseQuote
-        {
-            get { return '"'; }
+            return value?.ToUpper();
         }
     }
 }
