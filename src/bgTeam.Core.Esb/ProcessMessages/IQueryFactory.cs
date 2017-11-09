@@ -8,8 +8,8 @@
     {
         string ForMessageType { get; }
 
-        IQuery CreateQuery(IQueueMessage msg);
+        IEnumerable<IQuery> CreateQuery(IQueueMessage msg);
 
-        Task<IQuery> CreateQueryAsync(IQueueMessage msg);
+        Task<IEnumerable<IQuery>> CreateQueryAsync(IQueueMessage msg);
     }
 }

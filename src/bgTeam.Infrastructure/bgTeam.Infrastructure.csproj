@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\bgTeam.Core.Esb\bgTeam.Esb.csproj" />
     <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
     <ProjectReference Include="..\bgTeam.DapperExtensions\bgTeam.DapperExtensions.csproj" />
     <ProjectReference Include="..\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
