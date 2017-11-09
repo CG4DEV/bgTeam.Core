@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.Queues
 {
+    using bgTeam.Exceptions;
     using bgTeam.Exceptions.Args;
     using System;
     using System.Threading;
@@ -32,6 +33,7 @@
         }
 
         public event QueueMessageHandler OnSubscribe;
+        public event EventHandler<ExtThreadExceptionEventArgs> OnError;
 
         protected IAppLogger Logger => _logger;
 
@@ -58,6 +60,11 @@
                     //    Logger.Error(exception.InnerException);
                     //    DeleteMessageFromQueueWitoutException(queueName, exception.MessageId, exception.MessageReservationId);
                     //}
+                    catch (ProcessMessageException exp)
+                    {
+                        _logger.Error(exp);
+                        OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, exp));
+                    }
                     catch (Exception exp)
                     {
                         _logger.Error(exp);
@@ -89,7 +96,5 @@
                 await Task.Delay(_threadSleep);
             }
         }
-
-        // public event EventHandler<ExtThreadExceptionEventArgs> OnError;
     }
 }

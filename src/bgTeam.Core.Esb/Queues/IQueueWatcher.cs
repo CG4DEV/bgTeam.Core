@@ -1,5 +1,7 @@
 ﻿namespace bgTeam.Queues
 {
+    using bgTeam.Exceptions.Args;
+    using System;
     using System.Threading.Tasks;
 
     public delegate Task QueueMessageReceive<TEntity>(object queue, TEntity message)
@@ -9,8 +11,8 @@
     {
         event QueueMessageHandler OnSubscribe;
 
-        void StartWatch(string queueName);
+        event EventHandler<ExtThreadExceptionEventArgs> OnError;
 
-        //event EventHandler<ExtThreadExceptionEventArgs> OnError;
+        void StartWatch(string queueName);
     }
 }
