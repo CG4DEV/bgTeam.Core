@@ -8,11 +8,17 @@
     public class QueueProviderRabbitMQ : IQueueProvider
     {
         private readonly string[] _queues;
+        private readonly IAppLogger _logger;
         private readonly IConnectionFactory _factory;
         private readonly IMessageProvider _msgProvider;
 
-        public QueueProviderRabbitMQ(IMessageProvider msgProvider, IQueueProviderSettings settings, params string[] queues)
+        public QueueProviderRabbitMQ(
+            IAppLogger logger,
+            IMessageProvider msgProvider,
+            IQueueProviderSettings settings,
+            params string[] queues)
         {
+            _logger = logger;
             _msgProvider = msgProvider;
             _factory = new ConnectionFactory()
             {
@@ -38,9 +44,13 @@
         /// </summary>
         private void Init()
         {
+            _logger.Debug($"QueueProviderRabbitMQ: create connect to {_factory.Uri}");
+
             using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
+                _logger.Debug($"QueueProviderRabbitMQ: connect open");
+
                 foreach (var item in _queues)
                 {
                     channel.QueueDeclare(queue: item, durable: true, exclusive: false, autoDelete: false, arguments: null);

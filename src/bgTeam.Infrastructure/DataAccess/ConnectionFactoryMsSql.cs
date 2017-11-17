@@ -44,7 +44,8 @@
 
         public IDbConnection Create(string connectionString)
         {
-            _logger.Debug($"ConnectionFactoryMsSql: create connect to {connectionString}");
+            _logger.Debug($"ConnectionFactoryMsSql: create connect to");
+            _logger.Debug($"ConnectionFactoryMsSql: {connectionString}");
 
             SqlConnection dbConnection = new SqlConnection(connectionString);
             dbConnection.Open();
@@ -61,12 +62,13 @@
 
         public async Task<IDbConnection> CreateAsync(string connectionString)
         {
-            _logger.Debug($"ConnectionFactoryMsSql: create async connect to {connectionString}");
+            _logger.Debug($"ConnectionFactoryMsSql: create connect to");
+            _logger.Debug($"ConnectionFactoryMsSql: {connectionString}");
 
             SqlConnection dbConnection = new SqlConnection(connectionString);
             await dbConnection.OpenAsync().ConfigureAwait(false);
 
-            _logger.Debug($"ConnectionFactoryMsSql: connect async open");
+            _logger.Debug($"ConnectionFactoryMsSql: connect open");
 
             return dbConnection;
         }
