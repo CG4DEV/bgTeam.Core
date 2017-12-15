@@ -8,16 +8,12 @@
 
     public class QueueWatcherDefault : IQueueWatcher<IQueueMessage>
     {
+        private readonly int _threadSleep = 30000;
+
         private readonly IAppLogger _logger;
         private readonly IQueueProvider _queueProvider;
         private readonly IMessageProvider _messageProvider;
         private readonly SemaphoreSlim _semaphore;
-
-#if DEBUG
-        private readonly int _threadSleep = 5000;
-#else
-        private readonly int _threadSleep = 30000;
-#endif
 
         public QueueWatcherDefault(
             IAppLogger logger,
@@ -33,6 +29,7 @@
         }
 
         public event QueueMessageHandler OnSubscribe;
+
         public event EventHandler<ExtThreadExceptionEventArgs> OnError;
 
         protected IAppLogger Logger => _logger;
@@ -55,11 +52,6 @@
                     {
                         await DispatchRoutine(queueName);
                     }
-                    //catch (DeserializeException exception)
-                    //{
-                    //    Logger.Error(exception.InnerException);
-                    //    DeleteMessageFromQueueWitoutException(queueName, exception.MessageId, exception.MessageReservationId);
-                    //}
                     catch (ProcessMessageException exp)
                     {
                         _logger.Error(exp);

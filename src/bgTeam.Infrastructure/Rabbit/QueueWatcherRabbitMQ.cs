@@ -13,11 +13,7 @@
 
     public class QueueWatcherRabbitMQ : IQueueWatcher<IQueueMessage>
     {
-        public event QueueMessageHandler OnSubscribe;
-
-        public event EventHandler<ExtThreadExceptionEventArgs> OnError;
-
-        protected readonly IAppLogger _logger;
+        private readonly IAppLogger _logger;
         private readonly IConnectionFactory _factory;
         private readonly IMessageProvider _msgProvider;
 
@@ -43,12 +39,12 @@
 
             _semaphore = new SemaphoreSlim(threadsCount, threadsCount);
 
-#if DEBUG
-            _threadSleep = 5000;
-#else
-            _threadSleep = 5000;
-#endif
+            _threadSleep = 30000;
         }
+
+        public event QueueMessageHandler OnSubscribe;
+
+        public event EventHandler<ExtThreadExceptionEventArgs> OnError;
 
         public void StartWatch(string queueName)
         {
@@ -63,9 +59,9 @@
                 Task.Factory.StartNew(async () =>
                 {
                     var noMsg = false;
-                    var taskId = Task.CurrentId;
 
-                    //_logger.Debug($"  Start read queue - {queueName}:{taskId}");
+                    ////var taskId = Task.CurrentId;
+                    ////_logger.Debug($"  Start read queue - {queueName}:{taskId}");
 
                     try
                     {
@@ -81,7 +77,7 @@
                     {
                         _logger.Error(exp);
 
-                        OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, exp));
+                        OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, exp.GetBaseException()));
 
                         // TODO : Не ждём если возникла ошибка при обработке
                         // await Task.Delay(_threadSleep);
@@ -90,11 +86,12 @@
                     {
                         _logger.Error(exp);
 
-                        await Task.Delay(_threadSleep);
+                        // Ждём 5 сек
+                        await Task.Delay(5000);
                     }
                     finally
                     {
-                        //_logger.Debug($"  End read queue - {queueName}:{taskId}");
+                        ////_logger.Debug($"  End read queue - {queueName}:{taskId}");
 
                         _semaphore.Release();
                     }

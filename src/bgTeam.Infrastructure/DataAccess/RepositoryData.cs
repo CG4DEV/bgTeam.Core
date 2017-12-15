@@ -1,5 +1,5 @@
 ﻿namespace bgTeam.Infrastructure.DataAccess
-{ 
+{
     using bgTeam.DataAccess;
     using Dapper;
     using System.Collections.Generic;

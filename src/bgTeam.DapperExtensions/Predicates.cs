@@ -13,7 +13,7 @@
     public static class Predicates
     {
         /// <summary>
-        /// Factory method that creates a new IFieldPredicate predicate: [FieldName] [Operator] [Value]. 
+        /// Factory method that creates a new IFieldPredicate predicate: [FieldName] [Operator] [Value].
         /// Example: WHERE FirstName = 'Foo'
         /// </summary>
         /// <typeparam name="T">The type of the entity.</typeparam>
@@ -22,7 +22,8 @@
         /// <param name="value">The value for the predicate.</param>
         /// <param name="not">Effectively inverts the comparison operator. Example: WHERE FirstName &lt;&gt; 'Foo'.</param>
         /// <returns>An instance of IFieldPredicate.</returns>
-        public static IFieldPredicate Field<T>(Expression<Func<T, object>> expression, Operator op, object value, bool not = false) where T : class
+        public static IFieldPredicate Field<T>(Expression<Func<T, object>> expression, Operator op, object value, bool not = false)
+            where T : class
         {
             PropertyInfo propertyInfo = ReflectionHelper.GetProperty(expression) as PropertyInfo;
             return new FieldPredicate<T>
@@ -70,10 +71,10 @@
         public static IPredicateGroup Group(GroupOperator op, params IPredicate[] predicate)
         {
             return new PredicateGroup
-                       {
-                           Operator = op,
-                           Predicates = predicate
-                       };
+             {
+                 Operator = op,
+                 Predicates = predicate
+             };
         }
 
         /// <summary>
@@ -90,7 +91,7 @@
         }
 
         /// <summary>
-        /// Factory method that creates a new IBetweenPredicate predicate. 
+        /// Factory method that creates a new IBetweenPredicate predicate.
         /// </summary>
         public static IBetweenPredicate Between<T>(Expression<Func<T, object>> expression, BetweenValues values, bool not = false)
             where T : class
@@ -334,15 +335,18 @@
         public string GetSql(ISqlGenerator sqlGenerator, IDictionary<string, object> parameters)
         {
             string seperator = Operator == GroupOperator.And ? " AND " : " OR ";
-            return "(" + Predicates.Aggregate(new StringBuilder(),
-                                        (sb, p) => (sb.Length == 0 ? sb : sb.Append(seperator)).Append(p.GetSql(sqlGenerator, parameters)),
+            return "(" + Predicates.Aggregate(
+                new StringBuilder(),
+                (sb, p) => (sb.Length == 0 ? sb : sb.Append(seperator)).Append(p.GetSql(sqlGenerator, parameters)),
                 sb =>
                 {
                     var s = sb.ToString();
-                    if (s.Length == 0) return sqlGenerator.Configuration.Dialect.EmptyExpression; 
+                    if (s.Length == 0)
+                    {
+                        return sqlGenerator.Configuration.Dialect.EmptyExpression;
+                    }
                     return s;
-                }
-                                        ) + ")";
+                }) + ")";
         }
     }
 
