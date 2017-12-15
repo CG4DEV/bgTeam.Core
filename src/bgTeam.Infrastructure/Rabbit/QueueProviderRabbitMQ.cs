@@ -3,10 +3,13 @@
     using bgTeam.Queues;
     using RabbitMQ.Client;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class QueueProviderRabbitMQ : IQueueProvider
     {
+        private const string EXCHANGE_DEFAULT = "bgTeam.direct";
+
         private readonly string[] _queues;
         private readonly IAppLogger _logger;
         private readonly IConnectionFactory _factory;
@@ -36,7 +39,7 @@
 
             _queues = queues;
 
-            Init();
+            Init(queues);
         }
 
         public void PushMessage(IQueueMessage message)
@@ -48,11 +51,14 @@
 
                 foreach (var item in _queues)
                 {
-                    IBasicProperties bProp = channel.CreateBasicProperties();
+                    var bProp = channel.CreateBasicProperties();
+                    var bHeaders = new Dictionary<string, object>();
 
-                    bProp.Headers.Add("x-delay", message.Delay);
+                    bHeaders.Add("x-delay", message.Delay);
+                    bProp.Headers = bHeaders;
 
-                    channel.BasicPublish(routingKey: item, body: body, exchange: string.Empty, basicProperties: bProp);
+                    ////channel.BasicPublish(routingKey: item, body: body, exchange: string.Empty, basicProperties: bProp);
+                    channel.BasicPublish(EXCHANGE_DEFAULT, item, bProp, body);
                 }
             }
         }
@@ -105,9 +111,9 @@
         /// <summary>
         /// Проверяем что очередь создана
         /// </summary>
-        private void Init()
+        private void Init(string[] queues)
         {
-            _logger.Debug($"QueueProviderRabbitMQ: create connect to {_factory.Uri}");
+            _logger.Debug($"QueueProviderRabbitMQ: create connect to { string.Join(", ", queues)}");
 
             using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -116,7 +122,14 @@
 
                 foreach (var item in _queues)
                 {
-                    channel.QueueDeclare(queue: item, durable: true, exclusive: false, autoDelete: false, arguments: null);
+                    ////channel.QueueDeclare(queue: item, durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+                    ////var args = new Dictionary<string, object> { { "x-delayed-type", "direct" } };
+                    ////channel.ExchangeDeclare(item, "x-delayed-message", true, false, args);
+
+                    channel.ExchangeDeclare(EXCHANGE_DEFAULT, "direct", true, false, null);
+                    var queue = channel.QueueDeclare(item, true, false, false, null);
+                    channel.QueueBind(queue, EXCHANGE_DEFAULT, item);
                 }
             }
         }

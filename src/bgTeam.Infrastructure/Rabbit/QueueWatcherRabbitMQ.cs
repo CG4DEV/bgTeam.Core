@@ -101,7 +101,7 @@
 
         protected async Task<bool> AskMessage(string queueName)
         {
-            _logger.Debug($"QueueWatcherRabbitMQ: create connect to {_factory.Uri}");
+            _logger.Debug($"QueueWatcherRabbitMQ: create connect to {queueName}");
 
             using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
