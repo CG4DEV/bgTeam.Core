@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using bgTeam.Queues;
+    using System.Linq;
 
     public class QueueMessageRabbitMQ : IQueueMessage
     {
@@ -10,6 +11,7 @@
         public QueueMessageRabbitMQ(string body)
         {
             Body = body;
+            Errors = new List<string>();
         }
 
         public IList<string> Errors { get; set; }
@@ -20,7 +22,7 @@
         {
             get
             {
-                if (Errors.Count == 0)
+                if (Errors == null || !Errors.Any())
                 {
                     return 0;
                 }

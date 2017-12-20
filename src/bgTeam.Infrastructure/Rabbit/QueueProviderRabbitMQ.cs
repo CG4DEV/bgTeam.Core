@@ -8,8 +8,9 @@
 
     public class QueueProviderRabbitMQ : IQueueProvider
     {
-        private const string EXCHANGE_DEFAULT = "bgTeam.direct";
+        private readonly string EXCHANGE_DEFAULT = "bgTeam.direct";
 
+        private readonly bool _useDelay;
         private readonly string[] _queues;
         private readonly IAppLogger _logger;
         private readonly IConnectionFactory _factory;
@@ -19,6 +20,7 @@
             IAppLogger logger,
             IMessageProvider msgProvider,
             IQueueProviderSettings settings,
+            bool useDelay = false,
             params string[] queues)
         {
             _logger = logger;
@@ -37,7 +39,13 @@
                 throw new ArgumentNullException("queues");
             }
 
+            _useDelay = useDelay;
             _queues = queues;
+
+            if (_useDelay)
+            {
+                EXCHANGE_DEFAULT = $"{EXCHANGE_DEFAULT}.delay";
+            }
 
             Init(queues);
         }
@@ -58,6 +66,8 @@
                     bProp.Headers = bHeaders;
 
                     ////channel.BasicPublish(routingKey: item, body: body, exchange: string.Empty, basicProperties: bProp);
+                    ////channel.BasicPublish(string.Empty, item, bProp, body);
+
                     channel.BasicPublish(EXCHANGE_DEFAULT, item, bProp, body);
                 }
             }
@@ -122,12 +132,21 @@
 
                 foreach (var item in _queues)
                 {
+                    ////channel.QueueDeclare(item, true, false, false, null);
                     ////channel.QueueDeclare(queue: item, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-                    ////var args = new Dictionary<string, object> { { "x-delayed-type", "direct" } };
-                    ////channel.ExchangeDeclare(item, "x-delayed-message", true, false, args);
+                    if (_useDelay)
+                    {
+                        // при подключении плагина на задержку времени
+                        var args = new Dictionary<string, object> { { "x-delayed-type", "direct" } };
+                        channel.ExchangeDeclare(EXCHANGE_DEFAULT, "x-delayed-message", true, false, args);
+                    }
+                    else
+                    {
+                        // без плагина
+                        channel.ExchangeDeclare(EXCHANGE_DEFAULT, "direct", true, false, null);
+                    }
 
-                    channel.ExchangeDeclare(EXCHANGE_DEFAULT, "direct", true, false, null);
                     var queue = channel.QueueDeclare(item, true, false, false, null);
                     channel.QueueBind(queue, EXCHANGE_DEFAULT, item);
                 }
