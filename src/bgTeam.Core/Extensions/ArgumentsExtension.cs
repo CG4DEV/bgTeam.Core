@@ -10,7 +10,7 @@
     {
         public static T CheckNull<T>(this T arg, string message = null)
         {
-            if (typeof(T) == typeof(string) && string.IsNullOrWhiteSpace(arg.ToString()))
+            if (typeof(T) == typeof(string) && string.IsNullOrWhiteSpace(arg as string))
             {
                 throw new ArgumentNullException(message);
             }

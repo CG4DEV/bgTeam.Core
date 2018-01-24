@@ -1,13 +1,16 @@
-﻿namespace bgTeam.Infrastructure
+﻿namespace bgTeam.Infrastructure.Logger
 {
     using bgTeam.Core;
+    using bgTeam.Extensions;
     using Microsoft.Extensions.Logging;
     using Serilog;
     using System;
+    using System.Collections.Generic;
 
     public class AppLoggerSerilog : IAppLogger
     {
         private readonly Microsoft.Extensions.Logging.ILogger _logger;
+        private readonly IEnumerable<IAppLoggerExtension> _loggerExtensions;
 
         public AppLoggerSerilog()
         {
@@ -18,6 +21,12 @@
 
         public AppLoggerSerilog(IAppLoggerConfig config)
         {
+            _logger = CreateLogger(config);
+        }
+
+        public AppLoggerSerilog(IAppLoggerConfig config, IEnumerable<IAppLoggerExtension> loggerExtensions)
+        {
+            _loggerExtensions = loggerExtensions;
             _logger = CreateLogger(config);
         }
 
@@ -55,9 +64,18 @@
         private Microsoft.Extensions.Logging.ILogger CreateLogger(IAppLoggerConfig loggerConfig)
         {
             var serilogConf = loggerConfig.GetLoggerConfig();
-            var logger = new LoggerConfiguration()
-                .ReadFrom.ConfigurationSection(serilogConf)
-                .CreateLogger();
+            var loggerConf = new LoggerConfiguration()
+                .ReadFrom.ConfigurationSection(serilogConf);
+
+            if (!_loggerExtensions.NullOrEmpty())
+            {
+                foreach (var extension in _loggerExtensions)
+                {
+                    loggerConf = extension.AddExtension(loggerConf);
+                }
+            }
+
+            var logger = loggerConf.CreateLogger();
 
             return new LoggerFactory()
                 .AddSerilog(logger)

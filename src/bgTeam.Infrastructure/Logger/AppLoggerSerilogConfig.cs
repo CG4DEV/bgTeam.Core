@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Infrastructure
+﻿namespace bgTeam.Infrastructure.Logger
 {
     using bgTeam.Core;
     using Microsoft.Extensions.Configuration;
