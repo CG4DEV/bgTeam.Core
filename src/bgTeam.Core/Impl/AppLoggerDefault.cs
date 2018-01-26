@@ -6,7 +6,16 @@
     {
         public void Debug(string message)
         {
-            // Method intentionally left empty.
+            Console.WriteLine(message);
+        }
+
+        public void Info(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Warning(string message)
+        {
             Console.WriteLine(message);
         }
 
@@ -17,20 +26,22 @@
 
         public void Error(Exception exp)
         {
-            // Method intentionally left empty.
             Console.WriteLine(exp.Message);
         }
 
         public void Error(string message)
         {
-            // Method intentionally left empty.
             Console.WriteLine(message);
         }
 
-        public void Info(string message)
+        public void Fatal(Exception exp)
+        {
+            Console.WriteLine(exp.Message);
+        }
+
+        public void Fatal(AggregateException exp)
         {
             // Method intentionally left empty.
-            Console.WriteLine(message);
         }
     }
 }

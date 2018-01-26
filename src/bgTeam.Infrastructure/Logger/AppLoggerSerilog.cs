@@ -35,6 +35,16 @@
             _logger.LogDebug(message);
         }
 
+        public void Info(string message)
+        {
+            _logger.LogInformation(message);
+        }
+
+        public void Warning(string message)
+        {
+            _logger.LogWarning(message);
+        }
+
         public void Error(string message)
         {
             _logger.LogError(message);
@@ -47,7 +57,7 @@
 
         public void Error(AggregateException exp)
         {
-            _logger.LogError(string.Format("Aggregate Exception ---> {0}", exp.Message));
+            _logger.LogError($"Aggregate Exception ---> {exp.Message}");
 
             foreach (var item in exp.InnerExceptions)
             {
@@ -56,9 +66,20 @@
             }
         }
 
-        public void Info(string message)
+        public void Fatal(Exception exp)
         {
-            _logger.LogInformation(message);
+            _logger.LogCritical(exp, exp.Message);
+        }
+
+        public void Fatal(AggregateException exp)
+        {
+            _logger.LogCritical($"Aggregate Exception ---> {exp.Message}");
+
+            foreach (var item in exp.InnerExceptions)
+            {
+                var ex = item.GetBaseException();
+                _logger.LogCritical(ex, ex.Message);
+            }
         }
 
         private Microsoft.Extensions.Logging.ILogger CreateLogger(IAppLoggerConfig loggerConfig)
