@@ -57,7 +57,14 @@
                 }
                 else
                 {
-                    entry.TextPayload = e.RenderMessage();
+                    if (e.Exception == null)
+                    {
+                        entry.TextPayload = e.RenderMessage();
+                    }
+                    else
+                    {
+                        entry.TextPayload = e.Exception.ToString();
+                    }
                 }
 
                 foreach (var property in e.Properties)

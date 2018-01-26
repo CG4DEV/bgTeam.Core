@@ -84,7 +84,7 @@
                     }
                     catch (Exception exp)
                     {
-                        _logger.Error(exp);
+                        _logger.Fatal(exp);
 
                         // Ждём 5 сек
                         await Task.Delay(5000);
@@ -128,7 +128,7 @@
 
                     if (exp != null)
                     {
-                        throw new ProcessMessageException(message, "Exception during procesing queue message", exp);
+                        throw new ProcessMessageException(message, "bgTeam: Exception during procesing queue message", exp);
                     }
 
                     return true;
