@@ -1,4 +1,5 @@
 using bgTeam.Extensions;
+using bgTeam.Infrastructure.Logger;
 using System;
 using Xunit;
 
@@ -27,6 +28,20 @@ namespace Test.bgTeam.Core
             var resultString = testString.CheckNull(nameof(testString));
 
             Assert.Equal(testString, resultString);
+        }
+
+        [Fact]
+        public void Test_Infrastructure_Serilog_Log()
+        {
+            var logger = new AppLoggerSerilog();
+
+            logger.Info("Info message");
+            logger.Debug("Debug message");
+            logger.Error("Error message");
+            logger.Fatal(new Exception("Fatal message"));
+            logger.Warning("Warning message");
+
+            Assert.NotNull(logger);
         }
     }
 }
