@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\bgTeam.Core\bgTeam.Core.csproj" />
-    <ProjectReference Include="..\..\src\bgTeam.Infrastructure.Serilog\bgTeam.Infrastructure.Serilog.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Serilog\bgTeam.Impl.Serilog.csproj" />
   </ItemGroup>
 
 </Project>

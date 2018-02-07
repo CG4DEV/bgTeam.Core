@@ -6,8 +6,6 @@
     using bgTeam;
     using bgTeam.DataAccess;
     using bgTeam.DataAccess.Impl;
-    using DapperExtensions;
-    using DapperExtensions.Mapper.Sql;
 
     public class ConnectionFactoryMsSql : IConnectionFactory
     {
@@ -23,7 +21,7 @@
 
             // TODO : Возможно стоит разместить в другом месте
             //DapperHelper.IdentityColumn = "Id";
-            DapperHelper.SqlDialect = new SqlServerDialect();
+            //DapperHelper.SqlDialect = new SqlServerDialect();
         }
 
         public ConnectionFactoryMsSql(

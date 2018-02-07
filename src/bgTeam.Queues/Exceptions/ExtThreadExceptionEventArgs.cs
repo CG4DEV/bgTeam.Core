@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Exceptions.Args
+﻿namespace bgTeam.Queues.Exceptions
 {
     using bgTeam.Queues;
     using System;

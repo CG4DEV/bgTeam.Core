@@ -1,6 +1,5 @@
-﻿namespace bgTeam.Exceptions
+﻿namespace bgTeam.Queues.Exceptions
 {
-    using bgTeam.Queues;
     using System;
 
     public class ProcessMessageException : Exception
