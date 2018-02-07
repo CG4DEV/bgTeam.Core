@@ -14,20 +14,23 @@
 
         public ConnectionFactoryMsSql(
             IAppLogger logger,
-            IConnectionSetting setting)
+            IConnectionSetting setting,
+            ISqlDialect dialect)
         {
             _logger = logger;
             _setting = setting;
 
-            // TODO : Возможно стоит разместить в другом месте
-            //DapperHelper.IdentityColumn = "Id";
-            //DapperHelper.SqlDialect = new SqlServerDialect();
+            if (dialect != null)
+            {
+                dialect.Init(SqlDialectEnum.MsSql);
+            }
         }
 
         public ConnectionFactoryMsSql(
             IAppLogger logger,
-            string connectionString)
-            : this(logger, new ConnectionSettingDefault(connectionString))
+            string connectionString,
+            ISqlDialect dialect)
+            : this(logger, new ConnectionSettingDefault(connectionString), dialect)
         {
         }
 
