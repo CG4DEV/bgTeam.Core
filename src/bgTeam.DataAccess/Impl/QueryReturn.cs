@@ -2,12 +2,12 @@
 {
     using System.Threading.Tasks;
 
-    internal class CommandReturn<TCommandContext> : ICommandReturn<TCommandContext>
+    internal class QueryReturn<TCommandContext> : IQueryReturn<TCommandContext>
     {
         private readonly TCommandContext _commandContext;
-        private readonly ICommandFactory _commandFactory;
+        private readonly IQueryFactory _commandFactory;
 
-        public CommandReturn(ICommandFactory commandFactory, TCommandContext context)
+        public QueryReturn(IQueryFactory commandFactory, TCommandContext context)
         {
             _commandContext = context;
             _commandFactory = commandFactory;

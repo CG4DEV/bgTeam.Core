@@ -5,11 +5,11 @@
     /// <summary>
     /// Стандартная реализация интерефейса ICommandBuilder
     /// </summary>
-    public class CommandBuilder : ICommandBuilder
+    public class QueryBuilder : IQueryBuilder
     {
-        private readonly ICommandFactory _commandFactory;
+        private readonly IQueryFactory _commandFactory;
 
-        public CommandBuilder(ICommandFactory commandFactory)
+        public QueryBuilder(IQueryFactory commandFactory)
         {
             _commandFactory = commandFactory;
         }
@@ -24,9 +24,9 @@
             await _commandFactory.Create<TCommandContext>().ExecuteAsync(commandContext);
         }
 
-        public ICommandReturn<TCommandContext> Build<TCommandContext>(TCommandContext commandContext)
+        public IQueryReturn<TCommandContext> Build<TCommandContext>(TCommandContext commandContext)
         {
-            return new CommandReturn<TCommandContext>(_commandFactory, commandContext);
+            return new QueryReturn<TCommandContext>(_commandFactory, commandContext);
         }
 
         public async Task<TResult> ExecuteAsync<TCommandContext, TResult>(TCommandContext commandContext)

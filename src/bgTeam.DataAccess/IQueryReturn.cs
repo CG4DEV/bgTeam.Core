@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    public interface ICommandReturn<TCommandContext>
+    public interface IQueryReturn<TCommandContext>
     {
         /// <summary>
         /// Выполнить команду

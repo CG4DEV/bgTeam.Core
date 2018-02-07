@@ -6,7 +6,7 @@
     /// Интерфейс для команды.
     /// </summary>
     /// <typeparam name="TCommandContext">Контекст команды</typeparam>
-    public interface ICommand<in TCommandContext>
+    public interface IQuery<in TCommandContext>
     {
         /// <summary>
         /// Выполняет действия команды.
@@ -17,7 +17,7 @@
         Task ExecuteAsync(TCommandContext context);
     }
 
-    public interface ICommand<in TCommandContext, TCommandResult>
+    public interface IQuery<in TCommandContext, TCommandResult>
     {
         /// <summary>
         /// Выполняет действия команды и вернуть результат

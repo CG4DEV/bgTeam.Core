@@ -3,16 +3,16 @@
     /// <summary>
     /// Интерфейс фабрики, создающей команду для определенного контекста.
     /// </summary>
-    public interface ICommandFactory
+    public interface IQueryFactory
     {
         /// <summary>
         /// Создает команду по контексту команды.
         /// </summary>
-        ICommand<TCommandContext> Create<TCommandContext>();
+        IQuery<TCommandContext> Create<TCommandContext>();
 
         /// <summary>
         /// Создает команду по контексту команды.
         /// </summary>
-        ICommand<TCommandContext, TResult> Create<TCommandContext, TResult>();
+        IQuery<TCommandContext, TResult> Create<TCommandContext, TResult>();
     }
 }
