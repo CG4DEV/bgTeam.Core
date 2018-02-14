@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IRepositoryData
+    public interface IRepositoryDataTable
     {
         IEnumerable<dynamic> GetAll(string sql, object param = null);
 

@@ -1,10 +1,13 @@
 ﻿namespace bgTeam.Infrastructure.DataAccess
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
     using bgTeam.DataAccess;
     using Dapper;
+    using DapperExtensions;
 
     public class RepositoryDapper : IRepository
     {
@@ -76,20 +79,56 @@
             }
         }
 
-        public async Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(string sql, object param = null)
+        public T Get<T>(Expression<Func<T, bool>> predicate)
+            where T : class
         {
-            using (var connection = await _factory.CreateAsync())
+            using (var connection = _factory.Create())
             {
-                return await connection.QueryMultipleAsync(sql, param, commandTimeout: _commandTimeout);
+                return connection.Get<T>(predicate);
             }
         }
 
-        public async Task<int> ExecuteAsync(string sql, object param = null)
+        public async Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate)
+            where T : class
         {
             using (var connection = await _factory.CreateAsync())
             {
-                return await connection.ExecuteAsync(sql, param, commandTimeout: _commandTimeout);
+                return await connection.GetAsync<T>(predicate);
             }
         }
+
+        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null)
+            where T : class
+        {
+            using (var connection = _factory.Create())
+            {
+                return connection.GetAll<T>(predicate);
+            }
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null)
+            where T : class
+        {
+            using (var connection = await _factory.CreateAsync())
+            {
+                return await connection.GetAllAsync<T>(predicate);
+            }
+        }
+
+        //public async Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(string sql, object param = null)
+        //{
+        //    using (var connection = await _factory.CreateAsync())
+        //    {
+        //        return await connection.QueryMultipleAsync(sql, param, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        //public async Task<int> ExecuteAsync(string sql, object param = null)
+        //{
+        //    using (var connection = await _factory.CreateAsync())
+        //    {
+        //        return await connection.ExecuteAsync(sql, param, commandTimeout: _commandTimeout);
+        //    }
+        //}
     }
 }

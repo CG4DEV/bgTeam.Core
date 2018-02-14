@@ -6,12 +6,12 @@
     using System.Data;
     using System.Threading.Tasks;
 
-    public class RepositoryData : IRepositoryData
+    public class RepositoryDataTable : IRepositoryDataTable
     {
         private readonly int _commandTimeout = 900;
         private readonly IConnectionFactory _factory;
 
-        public RepositoryData(IConnectionFactory factory)
+        public RepositoryDataTable(IConnectionFactory factory)
         {
             _factory = factory;
         }

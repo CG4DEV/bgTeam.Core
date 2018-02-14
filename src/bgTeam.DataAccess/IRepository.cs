@@ -13,26 +13,33 @@
 
         Task<T> GetAsync<T>(ISqlObject obj);
 
+
         T Get<T>(string sql, object param = null);
 
         Task<T> GetAsync<T>(string sql, object param = null);
 
-        ////Task<T> GetEntityAsync<T>(Expression<Func<T, bool>> predicate)
-        ////    where T : class;
+
+        T Get<T>(Expression<Func<T, bool>> predicate)
+            where T : class;
+
+        Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate)
+            where T : class;
+
 
         IEnumerable<T> GetAll<T>(ISqlObject obj);
 
         Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj);
 
+
         IEnumerable<T> GetAll<T>(string sql, object param = null);
 
         Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null);
 
-        ////Task<IEnumerable<T>> GetAllEntityAsync<T>(Expression<Func<T, bool>> predicate = null)
-        ////    where T : class;
 
-        ////System.Data.DataTable SelectDataTable(string sql);
+        IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null)
+            where T : class;
 
-        Task<int> ExecuteAsync(string sql, object param = null);
+        Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null)
+            where T : class;
     }
 }
