@@ -1,11 +1,8 @@
 ﻿namespace bgTeam.DataAccess.Impl.Sqlite
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Data;
-    using System.Threading.Tasks;
     using System.Data.SQLite;
+    using System.Threading.Tasks;
 
     public class ConnectionFactorySqlite : IConnectionFactory
     {
