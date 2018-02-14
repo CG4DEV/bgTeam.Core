@@ -1,0 +1,71 @@
+﻿namespace bgTeam.DataAccess.Impl.Sqlite
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Data;
+    using System.Threading.Tasks;
+    using System.Data.SQLite;
+
+    public class ConnectionFactorySqlite : IConnectionFactory
+    {
+        private readonly IAppLogger _logger;
+        private readonly IConnectionSetting _setting;
+
+        public ConnectionFactorySqlite(
+            IAppLogger logger,
+            IConnectionSetting setting,
+            ISqlDialect dialect)
+        {
+            _logger = logger;
+            _setting = setting;
+
+            if (dialect != null)
+            {
+                dialect.Init(SqlDialectEnum.MsSql);
+            }
+        }
+
+        public ConnectionFactorySqlite(
+            IAppLogger logger,
+            string connectionString,
+            ISqlDialect dialect)
+            : this(logger, new ConnectionSettingDefault(connectionString), dialect)
+        {
+        }
+
+        public IDbConnection Create()
+        {
+            return CreateAsync().Result;
+        }
+
+        public IDbConnection Create(string connectionString)
+        {
+            _logger.Debug($"ConnectionFactoryMsSql: {connectionString}");
+
+            SQLiteConnection dbConnection = new SQLiteConnection(connectionString);
+            dbConnection.Open();
+
+            _logger.Debug($"ConnectionFactoryMsSql: connect open");
+
+            return dbConnection;
+        }
+
+        public async Task<IDbConnection> CreateAsync()
+        {
+            return await CreateAsync(_setting.ConnectionString);
+        }
+
+        public async Task<IDbConnection> CreateAsync(string connectionString)
+        {
+            _logger.Debug($"ConnectionFactoryMsSql: {connectionString}");
+
+            SQLiteConnection dbConnection = new SQLiteConnection(connectionString);
+            await dbConnection.OpenAsync().ConfigureAwait(false);
+
+            _logger.Debug($"ConnectionFactoryMsSql: connect open");
+
+            return dbConnection;
+        }
+    }
+}
