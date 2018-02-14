@@ -1,6 +1,5 @@
-﻿namespace bgTeam.Impl.Dapper
+﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
-    using bgTeam.DataAccess;
     using DapperExtensions;
     using DapperExtensions.Mapper.Sql;
 

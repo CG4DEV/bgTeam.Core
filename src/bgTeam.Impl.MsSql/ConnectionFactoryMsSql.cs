@@ -1,11 +1,8 @@
-﻿namespace bgTeam.Infrastructure.DataAccess
+﻿namespace bgTeam.DataAccess.Impl.MsSql
 {
     using System.Data;
     using System.Data.SqlClient;
     using System.Threading.Tasks;
-    using bgTeam;
-    using bgTeam.DataAccess;
-    using bgTeam.DataAccess.Impl;
 
     public class ConnectionFactoryMsSql : IConnectionFactory
     {

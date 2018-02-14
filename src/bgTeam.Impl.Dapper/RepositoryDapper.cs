@@ -1,13 +1,12 @@
-﻿namespace bgTeam.Infrastructure.DataAccess
+﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using bgTeam.DataAccess;
-    using Dapper;
     using DapperExtensions;
+    using global::Dapper;
 
     public class RepositoryDapper : IRepository
     {

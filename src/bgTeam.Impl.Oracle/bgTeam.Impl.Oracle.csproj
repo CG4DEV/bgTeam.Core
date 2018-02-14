@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
+    <RootNamespace>bgTeam.DataAccess.Impl.Oracle</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

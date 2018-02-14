@@ -1,9 +1,7 @@
-﻿namespace bgTeam.Impl.Oracle
+﻿namespace bgTeam.DataAccess.Impl.Oracle
 {
     using System.Data;
     using System.Threading.Tasks;
-    using bgTeam.DataAccess;
-    using bgTeam.DataAccess.Impl;
     using global::Oracle.ManagedDataAccess.Client;
 
     public class ConnectionFactoryOracle : IConnectionFactory

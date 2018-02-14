@@ -1,10 +1,9 @@
-﻿namespace bgTeam.Infrastructure.DataAccess
+﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
     using System.Data;
     using System.Threading.Tasks;
-    using bgTeam.DataAccess;
-    using Dapper;
     using DapperExtensions;
+    using global::Dapper;
 
     public class CrudServiceDapper : ICrudService
     {

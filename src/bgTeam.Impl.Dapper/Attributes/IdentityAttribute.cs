@@ -1,4 +1,4 @@
-﻿namespace DapperExtensions.Attributes
+﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
     using System;
 

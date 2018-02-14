@@ -1,11 +1,11 @@
 namespace DapperExtensions.Mapper
 {
+    using bgTeam.DataAccess.Impl.Dapper;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text;
-    using DapperExtensions.Attributes;
 
     /// <summary>
     /// Automatically maps an entity to a table using a combination of reflection and naming conventions for keys.
@@ -82,7 +82,10 @@ namespace DapperExtensions.Mapper
                     propertyMap = Map(propertyInfo, false);
                 }
 
-                if (Properties.Any(e => e.KeyType != KeyType.NotAKey)) continue;
+                if (Properties.Any(e => e.KeyType != KeyType.NotAKey))
+                {
+                    continue;
+                }
 
                 if (Attribute.IsDefined(propertyInfo, typeof(PrymaryKeyAttribute)))
                 {
