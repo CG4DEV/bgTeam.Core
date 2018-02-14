@@ -19,7 +19,7 @@
 
             if (dialect != null)
             {
-                dialect.Init(SqlDialectEnum.MsSql);
+                dialect.Init(SqlDialectEnum.Oracle);
             }
         }
 
