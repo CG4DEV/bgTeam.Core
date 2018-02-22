@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Analyzer Include="..\..\lint\SonarQube\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
+  </ItemGroup>
+
+</Project>

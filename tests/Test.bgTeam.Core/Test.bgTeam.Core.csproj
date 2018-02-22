@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\bgTeam.Core\bgTeam.Core.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Log4Net\bgTeam.Impl.Log4Net.csproj" />
     <ProjectReference Include="..\..\src\bgTeam.Impl.Serilog\bgTeam.Impl.Serilog.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 using bgTeam.Extensions;
+using bgTeam.Impl.Log4Net;
 using bgTeam.Infrastructure.Logger;
 using System;
 using Xunit;
@@ -34,6 +35,20 @@ namespace Test.bgTeam.Core
         public void Test_Infrastructure_Serilog_Log()
         {
             var logger = new AppLoggerSerilog();
+
+            logger.Info("Info message");
+            logger.Debug("Debug message");
+            logger.Error("Error message");
+            logger.Fatal(new Exception("Fatal message"));
+            logger.Warning("Warning message");
+
+            Assert.NotNull(logger);
+        }
+
+        [Fact]
+        public void Test_Infrastructure_Log4Net_Log()
+        {
+            var logger = new AppLoggerLog4Net();
 
             logger.Info("Info message");
             logger.Debug("Debug message");
