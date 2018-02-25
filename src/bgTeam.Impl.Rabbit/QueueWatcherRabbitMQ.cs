@@ -124,7 +124,7 @@
 
                     if (exp != null)
                     {
-                        throw new ProcessMessageException(message, "bgTeam: Exception during procesing queue message", exp);
+                        throw new ProcessMessageException(message, $"bgTeam: {exp.Message}", exp);
                     }
 
                     return true;
