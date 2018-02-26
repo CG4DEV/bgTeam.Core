@@ -1,11 +1,8 @@
 ﻿namespace bgTeam
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
+    /// <summary>
+    /// Интерфейс для построений историй
+    /// </summary>
     public interface IStoryBuilder
     {
         /// <summary>

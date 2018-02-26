@@ -10,7 +10,7 @@
         TResult Return<TResult>();
 
         /// <summary>
-        /// Выполнить историю, и вернуть результат
+        /// Выполнить историю асинхронно, и вернуть результат
         /// </summary>
         Task<TResult> ReturnAsync<TResult>();
     }

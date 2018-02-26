@@ -6,6 +6,9 @@
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Реализация по-умолчанию реализации класса для получения значений из конфигурационного файла
+    /// </summary>
     public class AppConfigurationDefault : IAppConfiguration
     {
         private readonly IConfigurationRoot _configurationRoot;
@@ -25,13 +28,28 @@
             _configurationRoot = Initialize(name, envVariable);
         }
 
+        /// <summary>
+        /// Получение значения настройки по её названию key
+        /// </summary>
+        /// <param name="key">Название настройки</param>
+        /// <returns>Строка. Значение настройки</returns>
         public string this[string key] => _configurationRoot[key];
 
+        /// <summary>
+        /// Возвращает строку подключения по её названию в конфигаруционном файле
+        /// </summary>
+        /// <param name="name">Название строки подключения</param>
+        /// <returns>Строку подключения</returns>
         public string GetConnectionString(string name)
         {
             return _configurationRoot.GetConnectionString(name);
         }
 
+        /// <summary>
+        /// Возвращает секцию настроек по её имени
+        /// </summary>
+        /// <param name="name">Название секции настроек</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string name)
         {
             return _configurationRoot.GetSection(name);

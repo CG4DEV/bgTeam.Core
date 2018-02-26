@@ -17,11 +17,17 @@
             _context = context;
         }
 
+        /// <summary>
+        /// Выполнить историю, и вернуть результат
+        /// </summary>
         public TResult Return<TResult>()
         {
             return _factory.Create<TStoryContext, TResult>().Execute(_context);
         }
 
+        /// <summary>
+        /// Выполнить историю асинхронно, и вернуть результат
+        /// </summary>
         public async Task<TResult> ReturnAsync<TResult>()
         {
             return await _factory.Create<TStoryContext, TResult>().ExecuteAsync(_context);
