@@ -157,10 +157,26 @@
             return Instance.GetAsync<T>(connection, id, transaction, commandTimeout).Result;
         }
 
+        public static T Get<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            var prGroup = PredicateConverter<T>.FromExpression(predicate);
+
+            return Instance.GetAsync<T>(connection, prGroup, transaction, commandTimeout).Result;
+        }
+
         public static async Task<T> GetAsync<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
         {
             return await Instance.GetAsync<T>(connection, id, transaction, commandTimeout);
+        }
+
+        public static async Task<T> GetAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            var prGroup = PredicateConverter<T>.FromExpression(predicate);
+
+            return await Instance.GetAsync<T>(connection, prGroup, transaction, commandTimeout);
         }
 
         /// <summary>
@@ -170,6 +186,14 @@
             where T : class
         {
             return Instance.GetAllAsync<T>(connection, predicate, sort, transaction, commandTimeout, buffered).Result;
+        }
+
+        public static IEnumerable<T> GetAll<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+            where T : class
+        {
+            var prGroup = PredicateConverter<T>.FromExpression(predicate);
+
+            return Instance.GetAllAsync<T>(connection, prGroup, sort, transaction, commandTimeout, buffered).Result;
         }
 
         public static async Task<IEnumerable<T>> GetAllAsync<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)

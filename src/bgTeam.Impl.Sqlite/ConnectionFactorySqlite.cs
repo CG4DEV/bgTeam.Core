@@ -12,7 +12,7 @@
         public ConnectionFactorySqlite(
             IAppLogger logger,
             IConnectionSetting setting,
-            ISqlDialect dialect)
+            ISqlDialect dialect = null)
         {
             _logger = logger;
             _setting = setting;
@@ -26,7 +26,7 @@
         public ConnectionFactorySqlite(
             IAppLogger logger,
             string connectionString,
-            ISqlDialect dialect)
+            ISqlDialect dialect = null)
             : this(logger, new ConnectionSettingDefault(connectionString), dialect)
         {
         }
