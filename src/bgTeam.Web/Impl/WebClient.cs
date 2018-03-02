@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
     public class WebClient : IWebClient
@@ -82,14 +83,14 @@
 
             var builder = new UriBuilder(baseUrl);
             builder.Port = -1;
-            var query = ParseQueryString(builder.Query);
+            //var query = ParseQueryString(builder.Query);
 
-            foreach (var param in queryParams)
-            {
-                query[param.Key] = param.Value.ToString();
-            }
+            //foreach (var param in query)
+            //{
+            //    query[param.Key] = param.Value.ToString();
+            //}
 
-            builder.Query = query.ToString();
+            //builder.Query = queryParams.ToString();
             string url = builder.ToString();
             return url;
         }
@@ -98,6 +99,11 @@
         //не собирался проект
         private IDictionary<string, object> ParseQueryString(string query)
         {
+            if (query.NullOrEmpty())
+            {
+                return new Dictionary<string, object>();
+            }
+
             throw new NotImplementedException($"ParseQueryString - {query}");
         }
 
@@ -139,6 +145,15 @@
             {
                 foreach (var header in headers)
                 {
+                    //if (header.Key.ToLower().Equals("content-type"))
+                    //{
+                    //    msg.Content.Headers.ContentType = new MediaTypeHeaderValue(header.Value.ToString());
+                    //}
+                    //else
+                    //{
+                    //    
+                    //}
+
                     msg.Headers.Add(header.Key, header.Value.ToString());
                 }
             }

@@ -10,15 +10,15 @@ namespace Test.bgTeam.Web
         [Fact]
         public void Test_RequestGet()
         {
-            var client = new WebClient("http://getmovie.cc");
+            var client = new WebClient("https://www.rbc.ru/");
 
 
-            var param = new Dictionary<string, object>();
+            var header = new Dictionary<string, object>();
 
-            param.Add("id", 902939);
-            param.Add("token", "037313259a17be837be3bd04a51bf678");
+            header.Add("Content-Type", "text/html");
+            //param.Add("token", "037313259a17be837be3bd04a51bf678");
 
-            var res = client.GetAsync<FilmInfo>("api/kinopoisk.json", param).Result;
+            var res = client.GetAsync<FilmInfo>("02/03/2018/5a990f909a79471c15c3d542?from=main", headers: header).Result;
 
             Assert.NotNull(res);
         }
