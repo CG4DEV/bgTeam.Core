@@ -1,13 +1,13 @@
 using bgTeam.Web.Impl;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Test.bgTeam.Web
 {
-    [TestClass]
+
     public class WebClientTest
     {
-        [TestMethod]
+        [Fact]
         public void Test_RequestGet()
         {
             var client = new WebClient("http://getmovie.cc");
@@ -20,17 +20,17 @@ namespace Test.bgTeam.Web
 
             var res = client.GetAsync<FilmInfo>("api/kinopoisk.json", param).Result;
 
-            Assert.IsNotNull(res);
+            Assert.NotNull(res);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_RequestGet2()
         {
             var client = new WebClient("https://rating.kinopoisk.ru/");
 
             var res = client.GetAsync<string>("961957.xml").Result;
 
-            Assert.IsNotNull(res);
+            Assert.NotNull(res);
         }
 
         public class FilmInfo
