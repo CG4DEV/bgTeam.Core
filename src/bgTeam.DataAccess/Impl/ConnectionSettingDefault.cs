@@ -1,5 +1,8 @@
 ﻿namespace bgTeam.DataAccess.Impl
 {
+    /// <summary>
+    /// Реализация получения настроек подключения к БД по-умолчанию
+    /// </summary>
     public class ConnectionSettingDefault : IConnectionSetting
     {
         public ConnectionSettingDefault(string connectionString)

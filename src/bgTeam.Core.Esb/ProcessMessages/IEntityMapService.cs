@@ -2,37 +2,23 @@
 {
     using bgTeam.Extensions;
     using bgTeam.Queues;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public interface IEntityMapService
     {
+        /// <summary>
+        /// Конвертирует сообзение из очереди в объект EntityMap
+        /// </summary>
+        /// <param name="message">Сообщение из очереди</param>
+        /// <returns></returns>
         EntityMap CreateEntityMap(IQueueMessage message);
     }
 
-    ////public class DefaultMapService : IEntityMapService
-    ////{
-    ////    public EntityMap CreateEntityMap(IQueueMessage message)
-    ////    {
-    ////        var settings = new JsonSerializerSettings()
-    ////        {
-    ////            DateParseHandling = DateParseHandling.None,
-    ////            DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
-    ////        };
-
-    ////        var obj = JsonConvert.DeserializeObject<dynamic>(message.Body, settings);
-    ////        var map = ((IDictionary<string, JToken>)obj)
-    ////            .ToDictionary(
-    ////                x => x.Key,
-    ////                x => string.IsNullOrWhiteSpace(x.Value.ToString()) ? null : x.Value.ToObject<object>()
-    ////            );
-    ////        return new EntityMap(map);
-    ////    }
-    ////}
-
+    /// <summary>
+    /// Содержит основную информацию об объекте из очереди
+    /// </summary>
     public class EntityMap
     {
         private const string ENTITY_TYPE_NAME = "EntityType";
@@ -53,14 +39,29 @@
             KeyName = map.ContainsKey(ENTITY_KEY_NAME) ? map[ENTITY_KEY_NAME].ToString() : ENTITY_KEY_NAME_DEFAULT;
         }
 
+        /// <summary>
+        /// Тип объекта из очереди
+        /// </summary>
         public string TypeName { get; private set; }
 
+        /// <summary>
+        /// Ключевое поле
+        /// </summary>
         public string KeyName { get; private set; }
 
+        /// <summary>
+        /// Значение ключевого поля
+        /// </summary>
         public object KeyValue => Properties[KeyName];
 
+        /// <summary>
+        /// Словарь имя-значение всех полей объекта из очереди
+        /// </summary>
         public Dictionary<string, object> Properties { get; private set; }
 
+        /// <summary>
+        /// Имена всех свойств объекта из очереди
+        /// </summary>
         public IEnumerable<string> PropertyNames => Properties.Keys.Except(new[] { ENTITY_TYPE_NAME, ENTITY_KEY_NAME }).ToArray();
     }
 }

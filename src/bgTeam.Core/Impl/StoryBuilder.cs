@@ -1,11 +1,8 @@
 ﻿namespace bgTeam
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
+    /// <summary>
+    /// Реализация класса для построений историй
+    /// </summary>
     public class StoryBuilder : IStoryBuilder
     {
         private readonly IStoryFactory _factory;
@@ -15,6 +12,12 @@
             _factory = factory;
         }
 
+        /// <summary>
+        /// Формирует историю для исполнения
+        /// </summary>
+        /// <typeparam name="TCommandContext"></typeparam>
+        /// <param name="commandContext"></param>
+        /// <returns></returns>
         public IStoryReturn<TStoryContext> Build<TStoryContext>(TStoryContext context)
         {
             return new StoryReturn<TStoryContext>(_factory, context);

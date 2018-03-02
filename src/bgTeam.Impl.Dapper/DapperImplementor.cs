@@ -30,6 +30,14 @@
             return result.SingleOrDefault();
         }
 
+        public async Task<T> GetAsync<T>(IDbConnection connection, IPredicate predicate, IDbTransaction transaction, int? commandTimeout)
+            where T : class
+        {
+            IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
+            var result = await GetListAsync<T>(connection, classMap, predicate, null, transaction, commandTimeout);
+            return result.SingleOrDefault();
+        }
+
         public Task<IEnumerable<T>> GetAllAsync<T>(IDbConnection connection, object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
         {
             IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();

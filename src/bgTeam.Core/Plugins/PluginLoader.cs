@@ -8,6 +8,12 @@
 
     public static class PluginLoader
     {
+        /// <summary>
+        /// Загружает информацию о типах из внешних библиотек dll. Производит позднее связывание
+        /// </summary>
+        /// <typeparam name="T">Искомый тип</typeparam>
+        /// <param name="path">Путь к директории с библиотеками</param>
+        /// <returns>Возвращает коллекцию найденных типов</returns>
         public static IEnumerable<Type> Load<T>(string path)
         {
             var dirInfo = new DirectoryInfo(path);

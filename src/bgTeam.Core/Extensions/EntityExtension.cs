@@ -9,6 +9,9 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Содержит расширения для объектов, позволяющих манипулировать значением свойств объекта по его имени
+    /// </summary>
     public static class EntityExtension
     {
         private static readonly Type[] _systemTypes = new Type[]
@@ -34,6 +37,12 @@
             typeof(Guid?)
         };
 
+        /// <summary>
+        /// Устанавливает значение propertyValue для свойства с именем propertyName объекта entity
+        /// </summary>
+        /// <param name="entity">Объект со свойством под название propertyName</param>
+        /// <param name="propertyName">Название свойства объекта entity, которому будет установлено значение propertyValue</param>
+        /// <param name="propertyValue">Устанавливаемое значение свойства</param>
         public static void SetProperty(this object entity, string propertyName, object propertyValue)
         {
             PropertyInfo propertyInfo = entity.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
@@ -79,6 +88,12 @@
             }
         }
 
+        /// <summary>
+        /// Возвращает тип свойства с именем propertyName, которое присутствует в объекте entity
+        /// </summary>
+        /// <param name="entity">Объект со свойством propertyName</param>
+        /// <param name="propertyName">Имя свойства</param>
+        /// <returns>Тип свойства</returns>
         public static Type GetPropertyType(this object entity, string propertyName)
         {
             PropertyInfo propertyInfo = entity.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);

@@ -38,6 +38,21 @@
             _threadSleep = 30000;
         }
 
+        public QueueWatcherRabbitMQ(
+            IAppLogger logger,
+            IMessageProvider msgProvider,
+            IConnectionFactory factory,
+            int threadsCount = 1)
+        {
+            _logger = logger;
+            _msgProvider = msgProvider;
+            _factory = factory;
+
+            _semaphore = new SemaphoreSlim(threadsCount, threadsCount);
+
+            _threadSleep = 30000;
+        }
+
         public event QueueMessageHandler OnSubscribe;
 
         public event EventHandler<ExtThreadExceptionEventArgs> OnError;

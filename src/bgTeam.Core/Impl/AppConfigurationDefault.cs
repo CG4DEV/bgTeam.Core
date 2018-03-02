@@ -6,6 +6,9 @@
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Реализация по-умолчанию реализации класса для получения значений из конфигурационного файла
+    /// </summary>
     public class AppConfigurationDefault : IAppConfiguration
     {
         private readonly IConfigurationRoot _configurationRoot;
@@ -25,13 +28,28 @@
             _configurationRoot = Initialize(name, envVariable);
         }
 
+        /// <summary>
+        /// Получение значения настройки по её названию key
+        /// </summary>
+        /// <param name="key">Название настройки</param>
+        /// <returns>Строка. Значение настройки</returns>
         public string this[string key] => _configurationRoot[key];
 
+        /// <summary>
+        /// Возвращает строку подключения по её названию в конфигаруционном файле
+        /// </summary>
+        /// <param name="name">Название строки подключения</param>
+        /// <returns>Строку подключения</returns>
         public string GetConnectionString(string name)
         {
             return _configurationRoot.GetConnectionString(name);
         }
 
+        /// <summary>
+        /// Возвращает секцию настроек по её имени
+        /// </summary>
+        /// <param name="name">Название секции настроек</param>
+        /// <returns></returns>
         public IConfigurationSection GetSection(string name)
         {
             return _configurationRoot.GetSection(name);
@@ -40,23 +58,37 @@
         private IConfigurationRoot Initialize(string appsettings, string envVariable = null)
         {
             var curDir = Environment.CurrentDirectory;
-            var appsettingsFile = File.ReadAllText(Path.Combine(curDir, $"{appsettings}.json"));
-            var mainConf = JsonConvert.DeserializeObject<SettingsProxy>(appsettingsFile);
-            var buildConfigure = envVariable ?? Environment.GetEnvironmentVariable(mainConf.BuildConfigureVariable);
-            var appsettingsFileAdd = Path.Combine(curDir, $"{appsettings}.{buildConfigure}.json");
+            string appsettingsFile;
 
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(curDir)
-                .AddJsonFile($"{appsettings}.json");
-
-            if (buildConfigure == null)
+            try
             {
-                throw new Exception($"You must set Environment variable: {mainConf.BuildConfigureVariable}");
+                appsettingsFile = File.ReadAllText(Path.Combine(curDir, $"{appsettings}.json"));
+            }
+            catch (FileNotFoundException)
+            {
+                throw new ArgumentException($"Not find config file - {appsettings}.json, path - {curDir}\\");
             }
 
-            if (File.Exists(appsettingsFileAdd))
+            var mainConf = JsonConvert.DeserializeObject<SettingsProxy>(appsettingsFile);
+            var buildConfigure = envVariable ?? Environment.GetEnvironmentVariable(mainConf.BuildConfigureVariable) ?? string.Empty;
+
+            var builder = new ConfigurationBuilder()
+                    .SetBasePath(curDir)
+                    .AddJsonFile($"{appsettings}.json");
+
+            //if (buildConfigure == null)
+            //{
+            //    throw new Exception($"You must set Environment variable: {mainConf.BuildConfigureVariable}");
+            //}
+
+            // если нашли доп. конфигурации
+            if (!string.IsNullOrEmpty(buildConfigure))
             {
-                builder.AddJsonFile(appsettingsFileAdd);
+                var appsettingsFileAdd = Path.Combine(curDir, $"{appsettings}.{buildConfigure}.json");
+                if (File.Exists(appsettingsFileAdd))
+                {
+                    builder.AddJsonFile(appsettingsFileAdd);
+                }
             }
 
             var secondConf = builder.Build();
@@ -77,8 +109,6 @@
         private class SettingsProxy
         {
             public string BuildConfigureVariable { get; set; } = string.Empty;
-
-            public string ConfigsPath { get; set; } = string.Empty;
 
             public string AdditionalConfigs { get; set; } = string.Empty;
         }

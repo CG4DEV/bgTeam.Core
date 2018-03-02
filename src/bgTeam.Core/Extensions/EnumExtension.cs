@@ -1,15 +1,20 @@
 ﻿namespace bgTeam.Extensions
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    /// <summary>
+    /// Расширения для перечислений
+    /// </summary>
     public static class EnumExtension
     {
+        /// <summary>
+        /// Возвращает значение атрибута Т у елемента перечисления
+        /// </summary>
+        /// <typeparam name="T">Тип атрибута</typeparam>
+        /// <param name="enumValue">Элемент перечисления</param>
+        /// <returns>Объект атрибута T</returns>
         public static T GetAttribute<T>(this Enum enumValue)
             where T : Attribute
         {
@@ -20,17 +25,11 @@
                 .GetCustomAttribute<T>();
         }
 
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
-        {
-            var elements = source.ToArray();
-            for (var i = elements.Length - 1; i >= 0; i--)
-            {
-                var swapIndex = rng.Next(i + 1);
-                yield return elements[swapIndex];
-                elements[swapIndex] = elements[i];
-            }
-        }
-
+        /// <summary>
+        /// Возвращает значение атрибута Description
+        /// </summary>
+        /// <param name="enumValue">Элемент перечисления</param>
+        /// <returns>Строку описания</returns>
         public static string GetDescription(this Enum enumValue)
         {
             var description = enumValue.GetAttribute<DescriptionAttribute>();

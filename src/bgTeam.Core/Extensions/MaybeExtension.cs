@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    /// <summary>
+    /// Содержит расширения для манипуляции коллекциями и объектами
+    /// </summary>
     public static class MaybeExtension
     {
         public static TInput IfLess<TInput>(this TInput o, Func<TInput, bool> evaluator)
@@ -98,6 +98,13 @@
             func(@this);
         }
 
+        /// <summary>
+        /// Цикл Foreach, который можно встроить в Linq-выражение
+        /// </summary>
+        /// <typeparam name="T">Тип элементов коллекции</typeparam>
+        /// <param name="this">Коллекция</param>
+        /// <param name="func">Действие, котрое будет производится над элементами коллекции</param>
+        /// <returns>Возвращает переданную коллекцию</returns>
         public static IEnumerable<T> DoForEach<T>(this IEnumerable<T> @this, Action<T> func)
         {
             if (@this != null)
@@ -111,6 +118,13 @@
             return @this;
         }
 
+        /// <summary>
+        /// Добавляет новый элемент в коллекцию, если он не null
+        /// </summary>
+        /// <typeparam name="T">Тип элементов коллекции</typeparam>
+        /// <param name="this">Коллекция</param>
+        /// <param name="item">Добавляемый объект</param>
+        /// <returns>Переданная коллекция</returns>
         public static IList<T> AddNotNull<T>(this IList<T> @this, T item)
             where T : class
         {
@@ -122,6 +136,13 @@
             return @this;
         }
 
+        /// <summary>
+        /// Добавляет новый элемент в коллекцию, если он не null
+        /// </summary>
+        /// <typeparam name="T">Тип элементов коллекции</typeparam>
+        /// <param name="this">Коллекция</param>
+        /// <param name="item">Добавляемый объект</param>
+        /// <returns>Переданная коллекция</returns>
         public static IList<T> AddNotNull<T>(this IList<T> @this, T? item)
             where T : struct
         {
