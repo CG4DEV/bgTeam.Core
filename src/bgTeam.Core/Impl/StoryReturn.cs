@@ -1,18 +1,19 @@
 ﻿namespace bgTeam
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     public class StoryReturn<TStoryContext> : IStoryReturn<TStoryContext>
     {
         private readonly IStoryFactory _factory;
         private readonly TStoryContext _context;
+        private readonly IStoryAccess _access;
 
-        public StoryReturn(IStoryFactory factory, TStoryContext context)
+        public StoryReturn(
+            IStoryAccess access,
+            IStoryFactory factory,
+            TStoryContext context)
         {
+            _access = access;
             _factory = factory;
             _context = context;
         }
@@ -22,7 +23,14 @@
         /// </summary>
         public TResult Return<TResult>()
         {
-            return _factory.Create<TStoryContext, TResult>().Execute(_context);
+            var story = _factory.Create<TStoryContext, TResult>();
+
+            if (_access != null)
+            {
+                _access.CheckAccess(story);
+            }
+
+            return story.Execute(_context);
         }
 
         /// <summary>
@@ -30,7 +38,14 @@
         /// </summary>
         public async Task<TResult> ReturnAsync<TResult>()
         {
-            return await _factory.Create<TStoryContext, TResult>().ExecuteAsync(_context);
+            var story = _factory.Create<TStoryContext, TResult>();
+
+            if (_access != null)
+            {
+                await _access.CheckAccessAsync(story);
+            }
+
+            return await story.ExecuteAsync(_context);
         }
     }
 }

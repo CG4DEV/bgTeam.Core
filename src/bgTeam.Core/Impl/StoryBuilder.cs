@@ -5,10 +5,14 @@
     /// </summary>
     public class StoryBuilder : IStoryBuilder
     {
+        private readonly IStoryAccess _access;
         private readonly IStoryFactory _factory;
 
-        public StoryBuilder(IStoryFactory factory)
+        public StoryBuilder(
+            IStoryFactory factory,
+            IStoryAccess access = null)
         {
+            _access = access;
             _factory = factory;
         }
 
@@ -20,7 +24,7 @@
         /// <returns></returns>
         public IStoryReturn<TStoryContext> Build<TStoryContext>(TStoryContext context)
         {
-            return new StoryReturn<TStoryContext>(_factory, context);
+            return new StoryReturn<TStoryContext>(_access, _factory, context);
         }
     }
 }
