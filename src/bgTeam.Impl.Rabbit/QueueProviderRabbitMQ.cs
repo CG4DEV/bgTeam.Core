@@ -64,6 +64,7 @@
 
                     bHeaders.Add("x-delay", message.Delay);
                     bProp.Headers = bHeaders;
+                    bProp.DeliveryMode = 2;
 
                     ////channel.BasicPublish(routingKey: item, body: body, exchange: string.Empty, basicProperties: bProp);
                     ////channel.BasicPublish(string.Empty, item, bProp, body);
