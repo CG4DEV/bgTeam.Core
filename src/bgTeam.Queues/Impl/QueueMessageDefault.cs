@@ -4,6 +4,10 @@
 
     public class QueueMessageDefault : IQueueMessage
     {
+        public QueueMessageDefault()
+        {
+        }
+
         public QueueMessageDefault(string body)
         {
             Body = body;

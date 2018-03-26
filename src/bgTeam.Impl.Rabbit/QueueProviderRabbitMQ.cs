@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataProducerService.Infrastructure
 {
+    using bgTeam.Extensions;
     using bgTeam.Queues;
     using RabbitMQ.Client;
     using System;
@@ -11,10 +12,12 @@
         private readonly string EXCHANGE_DEFAULT = "bgTeam.direct";
 
         private readonly bool _useDelay;
-        private readonly string[] _queues;
+        private readonly List<string> _queues;
         private readonly IAppLogger _logger;
         private readonly IConnectionFactory _factory;
         private readonly IMessageProvider _msgProvider;
+
+        private static readonly object _locker = new object();
 
         public QueueProviderRabbitMQ(
             IAppLogger logger,
@@ -34,13 +37,13 @@
                 Password = settings.Password,
             };
 
-            if (queues == null || queues.Length == 0)
+            if (queues.NullOrEmpty())
             {
                 throw new ArgumentNullException("queues");
             }
 
             _useDelay = useDelay;
-            _queues = queues;
+            _queues = queues.ToList();
 
             if (_useDelay)
             {
@@ -52,12 +55,45 @@
 
         public void PushMessage(IQueueMessage message)
         {
+            PushMessageInternal(message, _queues);
+        }
+
+        public void PushMessage(IQueueMessage message, params string[] queues)
+        {
+            queues = queues.CheckNullOrEmpty(nameof(queues)).Distinct().ToArray();
+
+            var queuesToSend = queues
+                        .Where(x => _queues.Any(q => q.Equals(x, StringComparison.InvariantCultureIgnoreCase)))
+                        .ToArray();
+
+            if (queuesToSend.Count() != queues.Count())
+            {
+                lock (_locker)
+                {
+                    var queuesToSend2 = queues
+                            .Where(x => _queues.Any(q => q.Equals(x, StringComparison.InvariantCultureIgnoreCase)))
+                            .ToArray();
+
+                    if (queuesToSend2.Count() != queues.Count())
+                    {
+                        var toInitQueues = queues.Except(queuesToSend2).ToArray();
+                        Init(toInitQueues);
+                        _queues.AddRange(toInitQueues);
+                    }
+                }
+            }
+
+            PushMessageInternal(message, queues);
+        }
+
+        private void PushMessageInternal(IQueueMessage message, IEnumerable<string> queues)
+        {
             using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
                 var body = _msgProvider.PrepareMessageByte(message);
 
-                foreach (var item in _queues)
+                foreach (var item in queues)
                 {
                     var bProp = channel.CreateBasicProperties();
                     var bHeaders = new Dictionary<string, object>();
@@ -76,45 +112,25 @@
 
         public QueueMessageWork AskMessage(string queueName)
         {
-            ////using (var connection = _factory.CreateConnection())
-            ////using (var channel = connection.CreateModel())
-            ////{
-            ////    var res = channel.BasicGet(queueName, false);
-
-            ////    var body = _msgProvider.ExtractObject(res.Body);
-
-            ////    return new QueueMessageWork()
-            ////    {
-            ////        Id = res.DeliveryTag,
-            ////        Body = body.Body,
-            ////    };
-            ////}
-
             throw new NotImplementedException();
         }
 
         public void DeleteMessage(QueueMessageWork message)
         {
-            ////using (var connection = _factory.CreateConnection())
-            ////using (var channel = connection.CreateModel())
-            ////{
-            ////    channel.BasicAck(message.Id, false);
-            ////}
-
             throw new NotImplementedException();
         }
 
         public uint GetQueueMessageCount(string queueName)
         {
+            var queue = _queues.SingleOrDefault(x => x.Equals(queueName, StringComparison.InvariantCultureIgnoreCase));
+            if (queue == null)
+            {
+                throw new Exception($"Не найдена очередь с именем {queueName}");
+            }
+
             using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                var queue = _queues.SingleOrDefault(x => x.Equals(queueName, StringComparison.InvariantCultureIgnoreCase));
-                if (queue == null)
-                {
-                    throw new Exception($"Не найдена очередь с именем {queueName}");
-                }
-
                 return channel.MessageCount(queue);
             }
         }
@@ -122,7 +138,7 @@
         /// <summary>
         /// Проверяем что очередь создана
         /// </summary>
-        private void Init(string[] queues)
+        private void Init(IEnumerable<string> queues)
         {
             _logger.Debug($"QueueProviderRabbitMQ: create connect to { string.Join(", ", queues)}");
 
@@ -131,11 +147,8 @@
             {
                 _logger.Debug($"QueueProviderRabbitMQ: connect open");
 
-                foreach (var item in _queues)
+                foreach (var item in queues)
                 {
-                    ////channel.QueueDeclare(item, true, false, false, null);
-                    ////channel.QueueDeclare(queue: item, durable: true, exclusive: false, autoDelete: false, arguments: null);
-
                     if (_useDelay)
                     {
                         // при подключении плагина на задержку времени

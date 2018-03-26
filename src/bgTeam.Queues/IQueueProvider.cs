@@ -8,6 +8,8 @@
     {
         void PushMessage(IQueueMessage message);
 
+        void PushMessage(IQueueMessage message, params string[] queues);
+
         QueueMessageWork AskMessage(string queueName);
 
         void DeleteMessage(QueueMessageWork message);

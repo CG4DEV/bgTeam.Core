@@ -1,5 +1,7 @@
 ﻿namespace bgTeam
 {
+    using System;
+
     /// <summary>
     /// Интерфейс маппера
     /// </summary>
@@ -14,5 +16,7 @@
         /// <param name="destination">Объект приёмника</param>
         /// <returns>Объект приёмника</returns>
         TDestination Map<TSource, TDestination>(TSource source, TDestination destination);
+
+        TDestination Map<TDestination>(object source, TDestination destination, Type sourceType);
     }
 }
