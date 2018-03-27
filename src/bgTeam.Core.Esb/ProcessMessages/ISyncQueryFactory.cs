@@ -4,12 +4,12 @@
     using System.Threading.Tasks;
     using Queues;
 
-    public interface IQueryFactory
+    public interface ISyncQueryFactory
     {
         string ForMessageType { get; }
 
-        IEnumerable<IQuery> CreateQuery(IQueueMessage msg);
+        IEnumerable<ISyncQuery> CreateQuery(IQueueMessage msg);
 
-        Task<IEnumerable<IQuery>> CreateQueryAsync(IQueueMessage msg);
+        Task<IEnumerable<ISyncQuery>> CreateQueryAsync(IQueueMessage msg);
     }
 }

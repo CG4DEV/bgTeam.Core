@@ -6,8 +6,8 @@
 
     public interface IMessageProcessor
     {
-        IEnumerable<IQuery> Process(IQueueMessage message);
+        IEnumerable<ISyncQuery> Process(IQueueMessage message);
 
-        Task<IEnumerable<IQuery>> ProcessAsync(IQueueMessage message);
+        Task<IEnumerable<ISyncQuery>> ProcessAsync(IQueueMessage message);
     }
 }
