@@ -24,6 +24,9 @@
                 case SqlDialectEnum.MySql:
                     DapperHelper.SqlDialect = new MySqlDialect();
                     break;
+                case SqlDialectEnum.Sqlite:
+                    DapperHelper.SqlDialect = new SqliteDialect();
+                    break;
             }
         }
     }

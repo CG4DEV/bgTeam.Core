@@ -10,6 +10,7 @@
         MsSql,
         Oracle,
         PostgreSql,
-        MySql
+        MySql,
+        Sqlite
     }
 }
