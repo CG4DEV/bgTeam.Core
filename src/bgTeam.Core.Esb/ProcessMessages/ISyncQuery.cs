@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    public interface IQuery
+    public interface ISyncQuery
     {
         void Execute();
 

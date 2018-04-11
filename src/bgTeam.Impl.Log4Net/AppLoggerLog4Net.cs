@@ -6,6 +6,10 @@
     using log4net.Repository;
     using System;
 
+    /// <summary>
+    /// Реализация IAppLogger через log4net
+    /// по умолчанию logger name="App.Main.Logger"
+    /// </summary>
     public class AppLoggerLog4Net : IAppLogger
     {
         private readonly ILog _logger;
