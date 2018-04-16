@@ -1,6 +1,7 @@
 ﻿namespace bgTeam.Queues.Impl
 {
     using System;
+    using System.Threading;
 
     public class SenderEntityDefault : ISenderEntity
     {
@@ -15,16 +16,21 @@
             _queueProvider = queueProvider;
         }
 
-        public void Send<T>(object entity, string entityKey)
-            where T : IQueueMessage
-        {
-            throw new NotImplementedException();
-        }
+        //public void Send<T>(object entity, string entityType)
+        //    where T : IQueueMessage
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void Send<T>(object entity, string entityKey, int? delay)
-            where T : IQueueMessage
+        //public void Send<T>(object entity, string entityType, int? delay)
+        //    where T : IQueueMessage
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public void Send<T>(IQueueMessage msg, params string[] queues)
         {
-            throw new NotImplementedException();
+            SendQueue(msg, queues);
         }
 
         public void Send<T>(object entity, string entityType, params string[] queues)
@@ -46,13 +52,20 @@
 
             try
             {
-                SendQueue<T>(str, entityType, queues, delay);
+                var mess = default(T);
+
+                mess.Body = str;
+                mess.Delay = delay;
+
+                SendQueue(mess, queues, entityType);
             }
             catch (Exception exp)
             {
                 if (tryAttempt < 5)
                 {
                     _logger.Warning($"Failed send entity {entity} after {tryAttempt} attempt. We will try again");
+
+                    Thread.Sleep(1000);
 
                     // повторить попытку отправления
                     SendInternal<T>(entity, entityType, queues, ++tryAttempt);
@@ -64,14 +77,8 @@
             }
         }
 
-        private void SendQueue<T>(string str, string entityType, string[] queues, int? delay)
-            where T : IQueueMessage
+        private void SendQueue(IQueueMessage mess, string[] queues, string entityType = "entity empty")
         {
-            var mess = default(T);
-
-            mess.Body = str;
-            mess.Delay = delay;
-
             _queueProvider.PushMessage(mess, queues);
 
             _logger.Info($"Success send entity - {entityType}");

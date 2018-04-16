@@ -1,16 +1,14 @@
 ﻿namespace bgTeam.Queues
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     public interface ISenderEntity
     {
-        void Send<T>(object entity, string entityKey)
-            where T : IQueueMessage;
+        void Send<T>(IQueueMessage msg, params string[] queues);
 
-        void Send<T>(object entity, string entityKey, int? delay)
-            where T : IQueueMessage;
+        //void Send<T>(object entity, string entityType)
+        //    where T : IQueueMessage;
+
+        //void Send<T>(object entity, string entityType, int? delay)
+        //    where T : IQueueMessage;
 
         void Send<T>(object entity, string entityType, params string[] queues)
             where T : IQueueMessage;
