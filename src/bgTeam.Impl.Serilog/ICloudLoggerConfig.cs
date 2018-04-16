@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Infrastructure.Logger
+﻿namespace bgTeam.Impl.Serilog
 {
     public interface ICloudLoggerConfig
     {

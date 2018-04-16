@@ -1,9 +1,8 @@
-﻿namespace bgTeam.Infrastructure.Logger.Extensions
+﻿namespace bgTeam.Impl.Serilog.Extensions
 {
     using System;
     using bgTeam.Extensions;
-    using bgTeam.Infrastructure.Logger.GoogleCloudLogging;
-    using Serilog;
+    using global::Serilog;
 
     public class SerilogGoogleCloudExtension : IAppLoggerExtension
     {

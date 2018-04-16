@@ -1,7 +1,6 @@
 using bgTeam.Core.Impl;
 using bgTeam.Extensions;
 using bgTeam.Impl.Log4Net;
-using bgTeam.Infrastructure.Logger;
 using System;
 using System.IO;
 using Xunit;

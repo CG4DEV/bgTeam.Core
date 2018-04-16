@@ -1,15 +1,15 @@
-﻿namespace bgTeam.Infrastructure.Logger.GoogleCloudLogging
+﻿namespace bgTeam.Impl.Serilog.Extensions
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
+    using global::Serilog.Events;
+    using global::Serilog.Formatting.Display;
+    using global::Serilog.Sinks.PeriodicBatching;
     using Google.Api;
     using Google.Cloud.Logging.Type;
     using Google.Cloud.Logging.V2;
-    using Serilog.Events;
-    using Serilog.Formatting.Display;
-    using Serilog.Sinks.PeriodicBatching;
 
     internal class GoogleCloudLoggingSink : PeriodicBatchingSink
     {

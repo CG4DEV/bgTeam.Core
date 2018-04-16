@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Infrastructure
+﻿namespace bgTeam.Impl
 {
     using bgTeam;
     using Microsoft.Extensions.DependencyInjection;

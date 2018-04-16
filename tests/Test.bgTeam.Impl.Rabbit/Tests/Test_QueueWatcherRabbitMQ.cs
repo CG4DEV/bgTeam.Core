@@ -1,5 +1,5 @@
 ﻿using bgTeam.Impl;
-using bgTeam.Infrastructure;
+using bgTeam.Impl.Rabbit;
 using bgTeam.Queues;
 using Moq;
 using RabbitMQ.Client;

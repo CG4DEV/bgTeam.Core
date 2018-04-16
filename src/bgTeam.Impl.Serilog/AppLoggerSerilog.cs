@@ -1,11 +1,11 @@
-﻿namespace bgTeam.Infrastructure.Logger
+﻿namespace bgTeam.Impl.Serilog
 {
-    using bgTeam.Core;
-    using bgTeam.Extensions;
-    using Microsoft.Extensions.Logging;
-    using Serilog;
     using System;
     using System.Collections.Generic;
+    using bgTeam.Core;
+    using bgTeam.Extensions;
+    using global::Serilog;
+    using Microsoft.Extensions.Logging;
 
     public class AppLoggerSerilog : IAppLogger
     {

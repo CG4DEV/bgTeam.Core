@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Infrastructure
+﻿namespace bgTeam.Impl.Rabbit
 {
     using System;
     using System.Threading;
