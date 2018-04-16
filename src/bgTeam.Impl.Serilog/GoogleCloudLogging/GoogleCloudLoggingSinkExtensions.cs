@@ -1,9 +1,9 @@
-﻿namespace bgTeam.Infrastructure.Logger.GoogleCloudLogging
+﻿namespace bgTeam.Impl.Serilog.Extensions
 {
     using System;
-    using Serilog;
-    using Serilog.Configuration;
-    using Serilog.Formatting.Display;
+    using global::Serilog;
+    using global::Serilog.Configuration;
+    using global::Serilog.Formatting.Display;
 
     internal static class GoogleCloudLoggingSinkExtensions
     {

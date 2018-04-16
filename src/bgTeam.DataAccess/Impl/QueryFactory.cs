@@ -1,6 +1,5 @@
-﻿namespace bgTeam.Infrastructure
+﻿namespace bgTeam.DataAccess.Impl
 {
-    using bgTeam.DataAccess;
     using Microsoft.Extensions.DependencyInjection;
 
     public class QueryFactory : IQueryFactory

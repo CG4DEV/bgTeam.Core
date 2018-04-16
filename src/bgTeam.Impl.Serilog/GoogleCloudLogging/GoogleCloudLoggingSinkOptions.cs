@@ -1,10 +1,11 @@
-﻿namespace bgTeam.Infrastructure.Logger.GoogleCloudLogging
+﻿namespace bgTeam.Impl.Serilog.Extensions
 {
     using System.Collections.Generic;
 
     internal class GoogleCloudLoggingSinkOptions
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="GoogleCloudLoggingSinkOptions"/> class.
         /// Options for Google Cloud Logging
         /// </summary>
         /// <param name="projectId">ID of project where logs will be sent.</param>

@@ -1,6 +1,6 @@
-﻿namespace bgTeam.Infrastructure.Logger
+﻿namespace bgTeam.Impl.Serilog
 {
-    using Serilog;
+    using global::Serilog;
 
     public interface IAppLoggerExtension
     {

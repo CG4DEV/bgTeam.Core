@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Infrastructure.Rabbit
+﻿namespace bgTeam.Impl.Rabbit
 {
     using System.Collections.Generic;
     using bgTeam.Queues;

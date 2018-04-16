@@ -16,7 +16,6 @@ NuGet packages is already here!
 Package  | Description | NuGet 
 --------| -------- | -------- 
 bgTeam.Core  | - | [![NuGet version](https://badge.fury.io/nu/bgTeam.Core.svg)](https://badge.fury.io/nu/bgTeam.Core)
-bgTeam.DapperExtensions  | - | [![NuGet version](https://badge.fury.io/nu/bgTeam.DapperExtensions.svg)](https://badge.fury.io/nu/DapperExtensions.Core)
 bgTeam.DataAccess  | - | [![NuGet version](https://badge.fury.io/nu/bgTeam.DataAccess.svg)](https://badge.fury.io/nu/bgTeam.DataAccess)
-bgTeam.Infrastructure  | - | [![NuGet version](https://badge.fury.io/nu/bgTeam.Infrastructure.svg)](https://badge.fury.io/nu/bgTeam.Infrastructure)
+bgTeam.Queues  | - | [![NuGet version](https://badge.fury.io/nu/bgTeam.Queues.svg)](https://badge.fury.io/nu/bgTeam.Queues)
 bgTeam.Web  | - | [![NuGet version](https://badge.fury.io/nu/bgTeam.Web.svg)](https://badge.fury.io/nu/bgTeam.Web)
