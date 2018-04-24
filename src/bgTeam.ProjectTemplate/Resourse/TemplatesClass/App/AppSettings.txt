@@ -1,0 +1,18 @@
+﻿namespace $namespace$
+{
+    using bgTeam.Core;
+    using bgTeam.DataAccess;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    class AppSettings : IConnectionSetting
+    {
+        public string ConnectionString { get; set; }
+
+        public AppSettings(IAppConfiguration config)
+        {
+            ConnectionString = config.GetConnectionString("MAINDB");
+        }
+    }
+}

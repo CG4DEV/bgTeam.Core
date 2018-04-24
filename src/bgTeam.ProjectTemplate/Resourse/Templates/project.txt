@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
-    <RootNamespace>bgTeam.DataAccess.Impl.Sqlite</RootNamespace>
+    <Configurations>Debug;Release;Uat;Live</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,13 +15,6 @@
     <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.dll" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.108" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
-    <ProjectReference Include="..\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
-  </ItemGroup>
-
+$nugets$
+$projects$
 </Project>

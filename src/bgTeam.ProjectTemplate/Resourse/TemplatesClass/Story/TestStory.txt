@@ -1,0 +1,40 @@
+﻿namespace $namespace$
+{
+    using bgTeam.DataAccess;
+    using bgTeam.$prj$.Domain.Entities;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    public class TestStory : IStory<TestStoryContext, bool>
+    {
+        private readonly IAppLogger _logger;
+        private readonly ICrudService _crudService;
+
+        public TestStory(
+            IAppLogger logger,
+            IRepository repository,
+            ICrudService crudService)
+        {
+            _logger = logger;
+            _crudService = crudService;
+        }
+
+        public bool Execute(TestStoryContext context)
+        {
+            return ExecuteAsync(context).Result;
+        }
+
+        public async Task<bool> ExecuteAsync(TestStoryContext context)
+        {
+            await _crudService.ExecuteAsync("CREATE TABLE Product (Id INT NOT NULL IDENTITY(1,1), Name varchar(255) NOT NULL)");
+
+            await _crudService.ExecuteAsync(@"INSERT INTO Product(Name) values ('Producte 1');");
+
+            await _crudService.InsertAcync(new Test() { Name = "Producte 2" });
+
+            return true;
+        }
+    }
+}
