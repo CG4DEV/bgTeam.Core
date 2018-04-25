@@ -6,7 +6,7 @@
     using System.Data.SqlClient;
     using Microsoft.SqlServer.Server;
 
-    public class GuidDbType
+    public abstract class GuidDbType
     {
         private readonly IEnumerable<Guid> _ids;
 

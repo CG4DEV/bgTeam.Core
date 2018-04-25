@@ -5,7 +5,7 @@
     using System.Data.SqlClient;
     using Microsoft.SqlServer.Server;
 
-    public class IntDbType
+    public abstract class IntDbType
     {
         private readonly IEnumerable<int> _ids;
 
