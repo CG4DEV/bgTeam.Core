@@ -1,0 +1,32 @@
+namespace $namespace$
+{
+    using bgTeam;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+    using $prj$.Story;
+
+    class Runner
+    {
+        private readonly IAppLogger _appLogger;
+        private readonly IStoryBuilder _storyBuilder;
+
+        public Runner(
+            IAppLogger appLogger,
+            IStoryBuilder storyBuilder)
+        {
+            _appLogger = appLogger;
+            _storyBuilder = storyBuilder;
+        }
+
+        public async Task Run()
+        {
+            var context = new TestStoryContext();
+
+            var res = await _storyBuilder
+                .Build(context)
+                .ReturnAsync<bool>();
+        }
+    }
+}

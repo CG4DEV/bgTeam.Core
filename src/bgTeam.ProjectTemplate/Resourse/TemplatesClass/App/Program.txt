@@ -1,0 +1,23 @@
+namespace $namespace$
+{
+    using System.Diagnostics;
+    using bgTeam.Core.Helpers;
+    using Microsoft.Extensions.DependencyInjection;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var cmdParams = CommandLineHelper.ParseArgs(args);
+            var process = Process.GetCurrentProcess();
+
+            var container = AppIocConfigure.Configure(cmdParams);
+            var runner = container.GetService<Runner>();
+
+            //runner.Run();
+            runner.Run().GetAwaiter().GetResult();
+
+            process.WaitForExit();
+        }
+    }
+}

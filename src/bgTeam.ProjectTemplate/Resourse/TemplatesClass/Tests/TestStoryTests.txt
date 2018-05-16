@@ -1,0 +1,24 @@
+namespace $namespace$
+{
+	using System;
+	using $prj$.Story;
+	using $prj$.Tests.Common;
+	using Xunit;
+
+    public class TestStoryTests
+    {
+        private readonly FactoryTestService _factory;
+
+        public TestStoryTests()
+        {
+            _factory = new FactoryTestService();
+        }
+
+        [Fact]
+        public async void Test1()
+        {
+            var res = await new TestStory(_factory.Logger, _factory.Repository, _factory.CrudService)
+                .ExecuteAsync(new TestStoryContext());
+        }
+    }
+}

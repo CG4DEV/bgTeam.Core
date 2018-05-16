@@ -1,0 +1,17 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    public class TestDto
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public int StatusId { get; set; }
+
+        public string StatusName { get; set; }
+    }
+}

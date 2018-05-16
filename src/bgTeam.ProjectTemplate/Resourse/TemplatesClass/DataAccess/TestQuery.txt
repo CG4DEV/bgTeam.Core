@@ -1,0 +1,37 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.Threading.Tasks;
+	using bgTeam;
+    using bgTeam.DataAccess;
+    using bgTeam.Extensions;
+    using $prj$.Domain.Dto;
+
+    public class TestQuery : IQuery<TestQueryContext, TestDto>
+    {
+        private readonly IAppLogger _logger;
+        private readonly IRepository _repository;
+
+        public TestQuery(
+            IAppLogger logger, 
+            IRepository repository)
+        {
+            _logger = logger;
+            _repository = repository;
+        }
+
+        public TestDto Execute(TestQueryContext context)
+        {
+            return ExecuteAsync(context).Result;
+        }
+
+        public async Task<TestDto> ExecuteAsync(TestQueryContext context)
+        {
+            context.Id.CheckNull(nameof(context.Id));
+
+            var sql = "";
+
+            return await _repository.GetAsync<TestDto>(sql, new { Id = context.Id });
+        }
+    }
+}
