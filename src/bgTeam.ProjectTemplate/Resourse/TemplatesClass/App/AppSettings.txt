@@ -1,4 +1,4 @@
-﻿namespace $namespace$
+namespace $namespace$
 {
     using bgTeam.Core;
     using bgTeam.DataAccess;

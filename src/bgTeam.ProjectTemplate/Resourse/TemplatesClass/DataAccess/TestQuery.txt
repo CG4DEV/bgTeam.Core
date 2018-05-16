@@ -2,9 +2,10 @@
 {
     using System;
     using System.Threading.Tasks;
+	using bgTeam;
     using bgTeam.DataAccess;
     using bgTeam.Extensions;
-    using bgTeam.$prj$.Domain.Dto;
+    using $prj$.Domain.Dto;
 
     public class TestQuery : IQuery<TestQueryContext, TestDto>
     {

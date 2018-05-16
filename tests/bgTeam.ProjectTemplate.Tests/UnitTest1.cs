@@ -43,7 +43,7 @@ namespace bgTeam.ProjectTemplate.Tests
         {
             var s1 = new SolutionGenerator();
 
-            s1.Generate("Exp");
+            s1.Generate("Sso");
         }
     }
 }

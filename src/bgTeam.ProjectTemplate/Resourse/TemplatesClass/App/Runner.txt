@@ -1,10 +1,11 @@
-﻿namespace $namespace$
+namespace $namespace$
 {
+    using bgTeam;
     using System;
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
-    using bgTeam.$prj$.Story;
+    using $prj$.Story;
 
     class Runner
     {

@@ -1,0 +1,35 @@
+﻿namespace $namespace$
+{
+	using bgTeam;
+	using bgTeam.Core;
+	using bgTeam.Core.Impl;
+	using bgTeam.DataAccess;
+	using bgTeam.DataAccess.Impl.Dapper;
+	using bgTeam.DataAccess.Impl.MsSql;
+	using bgTeam.Impl;
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
+    internal class FactoryTestService
+    {
+        public IAppLogger Logger { get; private set; }
+
+        public IRepository Repository { get; private set; }
+
+        public ICrudService CrudService { get; private set; }
+
+        public FactoryTestService()
+        {
+            Logger = new AppLoggerDefault();
+
+            var appConfiguration = new AppConfigurationDefault("appsettings", "Debug");
+
+            var connectionFactory = new ConnectionFactoryMsSql(Logger, appConfiguration.GetConnectionString("MAINDB"));
+
+            Repository = new RepositoryDapper(connectionFactory);
+
+            CrudService = new CrudServiceDapper(connectionFactory);
+        }
+    }
+}

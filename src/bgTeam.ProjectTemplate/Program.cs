@@ -6,7 +6,9 @@ namespace bgTeam.ProjectTemplate
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var s1 = new SolutionGenerator();
+
+            s1.Generate("Trcont", "FilesStorage", new SolutionSettings() { IsWeb = true, IsApp = true });
         }
     }
 }

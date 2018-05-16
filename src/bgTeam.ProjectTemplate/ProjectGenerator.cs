@@ -33,7 +33,7 @@ namespace bgTeam.ProjectTemplate
             }
         }
 
-        public void ProjectFile(NugetItem[] nugets, string[] projects = null)
+        public void ProjectFile(NugetItem[] nugets, string[] projects = null, bool configs = false)
         {
             string temp = File.ReadAllText("./Resourse/Templates/project.txt");
 
@@ -53,7 +53,7 @@ namespace bgTeam.ProjectTemplate
                 strPrj.AppendLine("  <ItemGroup>");
                 foreach (var item in projects)
                 {
-                    strPrj.AppendLine($"    <ProjectReference Include=\"..\\{item}\\{item}.csproj\" />");
+                    strPrj.AppendLine($"    <ProjectReference Include=\"..\\..\\src\\{item}\\{item}.csproj\" />");
                 }
                 strPrj.AppendLine("  </ItemGroup>");
 
@@ -62,6 +62,17 @@ namespace bgTeam.ProjectTemplate
             else
             {
                 temp = temp.Replace("$projects$", string.Empty);
+            }
+
+            if (configs)
+            {
+                string tempCnf = File.ReadAllText("./Resourse/Templates/configs.txt");
+
+                temp = temp.Replace("$configs$", tempCnf);
+            }
+            else
+            {
+                temp = temp.Replace("$configs$", string.Empty);
             }
 
             Path = $"{Name}\\{Name}.csproj";

@@ -1,0 +1,10 @@
+.vs
+packages
+bin
+obj
+Logs
+StyleCop.Cache
+temp
+*.user
+*.pubxml
+

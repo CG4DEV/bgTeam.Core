@@ -1,11 +1,9 @@
 ﻿namespace $namespace$
 {
-    using bgTeam.DataAccess;
-    using bgTeam.$prj$.Domain.Entities;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
+    using bgTeam;
+    using bgTeam.DataAccess;
+    using $prj$.Domain.Entities;
 
     public class TestStory : IStory<TestStoryContext, bool>
     {
@@ -28,7 +26,7 @@
 
         public async Task<bool> ExecuteAsync(TestStoryContext context)
         {
-            await _crudService.ExecuteAsync("CREATE TABLE Product (Id INT NOT NULL IDENTITY(1,1), Name varchar(255) NOT NULL)");
+            await _crudService.ExecuteAsync("if not exists (select * from sysobjects where name='Product' and xtype='U') CREATE TABLE Product (Id INT NOT NULL IDENTITY(1,1), Name varchar(255) NOT NULL)");
 
             await _crudService.ExecuteAsync(@"INSERT INTO Product(Name) values ('Producte 1');");
 

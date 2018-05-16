@@ -17,4 +17,5 @@
 
 $nugets$
 $projects$
+$configs$
 </Project>

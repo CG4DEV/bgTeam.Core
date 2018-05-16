@@ -1,0 +1,14 @@
+﻿<ItemGroup>
+    <Content Include="..\..\shared\configs\connectionStrings.Debug.json" Link="Configs\connectionStrings.Debug.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\shared\configs\connectionStrings.Live.json" Link="Configs\connectionStrings.Live.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\shared\configs\connectionStrings.Release.json" Link="Configs\connectionStrings.Release.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\shared\configs\connectionStrings.Uat.json" Link="Configs\connectionStrings.Uat.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
