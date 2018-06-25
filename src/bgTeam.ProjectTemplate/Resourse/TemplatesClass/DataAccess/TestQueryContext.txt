@@ -1,0 +1,7 @@
+﻿namespace $namespace$
+{
+    public class TestQueryContext
+    {
+        public int? Id { get; set; }
+    }
+}

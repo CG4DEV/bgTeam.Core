@@ -1,4 +1,4 @@
-﻿namespace bgTeam.DataProducerService.Infrastructure
+﻿namespace bgTeam.Impl.Rabbit
 {
     using bgTeam.Extensions;
     using bgTeam.Queues;

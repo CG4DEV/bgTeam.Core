@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
-    <RootNamespace>bgTeam.DataAccess.Impl.Sqlite</RootNamespace>
+    <RootNamespace>bgTeam.DataAccess.Impl.PostgreSQL</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.108" />
+    <PackageReference Include="Npgsql" Version="4.0.0-rc1" />
   </ItemGroup>
 
   <ItemGroup>

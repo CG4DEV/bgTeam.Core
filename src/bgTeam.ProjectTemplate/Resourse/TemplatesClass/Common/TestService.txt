@@ -1,0 +1,12 @@
+﻿namespace $namespace$
+{
+    using System;
+
+    public class TestService : ITestService
+    {
+        public int Test()
+        {
+            return 1;
+        }
+    }
+}

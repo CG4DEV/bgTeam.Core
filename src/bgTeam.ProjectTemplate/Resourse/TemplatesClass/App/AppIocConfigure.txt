@@ -1,0 +1,57 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.Collections.Generic;
+    using bgTeam;
+    using bgTeam.Core;
+    using bgTeam.Core.Impl;
+    using bgTeam.DataAccess;
+    using bgTeam.DataAccess.Impl.Dapper;
+    using bgTeam.DataAccess.Impl.MsSql;
+    using bgTeam.Impl;
+    using Microsoft.Extensions.DependencyInjection;
+    using Trcont.FilesStorage.Story;
+
+    internal class AppIocConfigure
+    {
+        public static IServiceProvider Configure(Dictionary<string, string> cmdParams)
+        {
+            var services = new ServiceCollection();
+
+            IAppConfiguration config;
+            if (cmdParams.ContainsKey("env"))
+            {
+                // Задаём конфигурацию через пришедший параметр
+                config = new AppConfigurationDefault("appsettings", cmdParams["env"]);
+            }
+            else
+            {
+                // Задаём конфигурацию через переменную среды
+                config = new AppConfigurationDefault();
+            }
+
+            var appSettings = new AppSettings(config);
+
+            // сканируем story
+            services.Scan(scan => scan
+                    .FromAssemblyOf<IStoryLibrary>()
+                    .AddClasses(classes => classes.AssignableTo(typeof(IStory<,>)))
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime());
+
+            services
+                .AddSingleton<IServiceCollection>(services)
+                .AddSingleton<IAppConfiguration>(config)
+                .AddSingleton<IAppLogger, AppLoggerDefault>()
+                .AddSingleton<IStoryFactory, StoryFactory>()
+                .AddSingleton<IStoryBuilder, StoryBuilder>()
+                .AddSingleton<IConnectionSetting>(appSettings)
+                .AddSingleton<IConnectionFactory, ConnectionFactoryMsSql>()
+                .AddSingleton<IRepository, RepositoryDapper>()
+                .AddSingleton<ICrudService, CrudServiceDapper>()
+                .AddTransient<Runner>();
+
+            return services.BuildServiceProvider();
+        }
+    }
+}

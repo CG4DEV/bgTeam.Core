@@ -97,6 +97,11 @@
 
             if (!string.IsNullOrEmpty(mainConf.AdditionalConfigs))
             {
+                if (string.IsNullOrEmpty(confsPath))
+                {
+                    throw new ArgumentNullException("ConfigsPath");
+                }
+
                 foreach (var item in mainConf.AdditionalConfigs.Split(',').Select(x => x.Trim()))
                 {
                     builder.AddJsonFile(Path.Combine(confsPath, $"{item}.{buildConfigure}.json"));
