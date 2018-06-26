@@ -25,12 +25,12 @@
 
         public override string GetColumnName(string prefix, string columnName, string alias)
         {
-            return base.GetColumnName(null, columnName, alias).ToLower();
+            return base.GetColumnName(null, columnName, alias);
         }
 
         public override string GetTableName(string schemaName, string tableName, string alias)
         {
-            return base.GetTableName(schemaName, tableName, alias).ToLower();
+            return base.GetTableName(schemaName, tableName, alias);
         }
     }
 }
