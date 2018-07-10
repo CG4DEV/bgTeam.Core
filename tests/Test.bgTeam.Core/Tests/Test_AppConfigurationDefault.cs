@@ -30,8 +30,8 @@ namespace Test.bgTeam.Core
             Assert.Equal("Test4", config["Param3:Param4"]);
             Assert.Equal("Test5", config["Param3:Param5"]);
 
-            Assert.Equal(null, config["Param6"]);
-            Assert.Equal(null, config["Param7"]);
+            Assert.Null(config["Param6"]);
+            Assert.Null(config["Param7"]);
 
             Assert.Equal("Connect", config.GetConnectionString("MAINDB"));
         }
@@ -52,7 +52,11 @@ namespace Test.bgTeam.Core
             Assert.Equal("Connect", config.GetConnectionString("MAINDB"));
         }
 
-        
+        [Fact]
+        public void Test_AppConfigurationDefault_Test4()
+        {
+            Assert.Throws<FileNotFoundException>(delegate { new AppConfigurationDefault("appsettings.throw"); });
+        }
 
         //[Fact]
         //public void Test_ArgumentsExtension_StringEmpty()
