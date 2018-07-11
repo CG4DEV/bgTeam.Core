@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.test.Array.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.test.Debug.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

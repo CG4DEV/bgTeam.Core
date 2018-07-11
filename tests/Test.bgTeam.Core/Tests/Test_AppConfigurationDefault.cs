@@ -58,48 +58,37 @@ namespace Test.bgTeam.Core
             Assert.Throws<FileNotFoundException>(delegate { new AppConfigurationDefault("appsettings.throw"); });
         }
 
-        //[Fact]
-        //public void Test_ArgumentsExtension_StringEmpty()
-        //{
-        //    string testString = string.Empty;
-        //    Assert.Throws<ArgumentNullException>(() => testString.CheckNull(nameof(testString)));
-        //}
+        [Fact]
+        public void Test_AppConfigurationDefault_Test5()
+        {
+            var config = new AppConfigurationDefault("appsettings.test", "Array");
 
-        //[Fact]
-        //public void Test_ArgumentsExtension_StringNotNull()
-        //{
-        //    string testString = "some string";
-        //    var resultString = testString.CheckNull(nameof(testString));
+            Assert.Equal("Test01", config["Param6:0"]);
+            Assert.Equal("Test02", config["Param6:1"]);
+            Assert.Equal("Test03", config["Param6:2"]);
+            Assert.Null(config["Param6:3"]);
+        }
 
-        //    Assert.Equal(testString, resultString);
-        //}
+        [Fact]
+        public void Test_AppConfigurationDefault_Test6()
+        {
+            var config = new AppConfigurationDefault("appsettings.test");
 
-        //[Fact]
-        //public void Test_Infrastructure_Serilog_Log()
-        //{
-        //    var logger = new AppLoggerSerilog();
+            var section = config.GetSection("Param8");
 
-        //    logger.Info("Info message");
-        //    logger.Debug("Debug message");
-        //    logger.Error("Error message");
-        //    logger.Fatal(new Exception("Fatal message"));
-        //    logger.Warning("Warning message");
+            Assert.Null(section["Param4"]);
+            Assert.Null(section["Param5"]);
+        }
 
-        //    Assert.NotNull(logger);
-        //}
+        [Fact]
+        public void Test_AppConfigurationDefault_Test7()
+        {
+            var config = new AppConfigurationDefault("appsettings.test");
 
-        //[Fact]
-        //public void Test_Infrastructure_Log4Net_Log()
-        //{
-        //    var logger = new AppLoggerLog4Net();
+            var section = config.GetSection("Param3");
 
-        //    logger.Info("Info message");
-        //    logger.Debug("Debug message");
-        //    logger.Error("Error message");
-        //    logger.Fatal(new Exception("Fatal message"));
-        //    logger.Warning("Warning message");
-
-        //    Assert.NotNull(logger);
-        //}
+            Assert.Equal("Test4", section["Param4"]);
+            Assert.Equal("Test5", section["Param5"]);
+        }
     }
 }
