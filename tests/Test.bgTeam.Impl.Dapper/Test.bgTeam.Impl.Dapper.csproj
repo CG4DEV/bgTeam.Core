@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.8.2" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.108" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\bgTeam.Core\bgTeam.Core.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Dapper\bgTeam.Impl.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Sqlite\bgTeam.Impl.Sqlite.csproj" />
+  </ItemGroup>
+
+</Project>
