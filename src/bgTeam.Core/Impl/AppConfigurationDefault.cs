@@ -89,22 +89,22 @@
                 {
                     builder.AddJsonFile(appsettingsFileAdd);
                 }
-            }
 
-            var secondConf = builder.Build();
+                var secondConf = builder.Build();
 
-            var confsPath = secondConf["ConfigsPath"];
+                var confsPath = secondConf["ConfigsPath"];
 
-            if (!string.IsNullOrEmpty(mainConf.AdditionalConfigs))
-            {
-                if (string.IsNullOrEmpty(confsPath))
+                if (!string.IsNullOrEmpty(mainConf.AdditionalConfigs))
                 {
-                    throw new ArgumentNullException("ConfigsPath");
-                }
+                    if (string.IsNullOrEmpty(confsPath))
+                    {
+                        throw new ArgumentNullException("ConfigsPath");
+                    }
 
-                foreach (var item in mainConf.AdditionalConfigs.Split(',').Select(x => x.Trim()))
-                {
-                    builder.AddJsonFile(Path.Combine(confsPath, $"{item}.{buildConfigure}.json"));
+                    foreach (var item in mainConf.AdditionalConfigs.Split(',').Select(x => x.Trim()))
+                    {
+                        builder.AddJsonFile(Path.Combine(confsPath, $"{item}.{buildConfigure}.json"));
+                    }
                 }
             }
 

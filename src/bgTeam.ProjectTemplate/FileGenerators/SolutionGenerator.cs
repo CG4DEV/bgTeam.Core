@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Text;
-using bgTeam.Extensions;
-
-namespace bgTeam.ProjectTemplate
+﻿namespace bgTeam.ProjectTemplate
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Text;
+    using bgTeam.Extensions;
+
     public class SolutionGenerator
     {
         private string bgTeamVersion = "2.0.6-beta";
