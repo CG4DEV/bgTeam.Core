@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace bgTeam.ProjectTemplate
+﻿namespace bgTeam.ProjectTemplate
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+
     public class ProjectGenerator
     {
         private string _resPath;
@@ -95,7 +92,7 @@ namespace bgTeam.ProjectTemplate
             pathList.AddRange(folderPath);
 
             //temp = temp.Replace("$name$", name);
-            temp = temp.Replace("$namespace$", string.Join('.', pathList));
+            temp = temp.Replace("$namespace$", string.Join(".", pathList));
 
             if (replist != null && replist.Count > 0)
             {
@@ -105,7 +102,7 @@ namespace bgTeam.ProjectTemplate
                 }
             }
 
-            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join('\\', folderPath)}\\{name}.cs", temp);
+            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join("\\", folderPath)}\\{name}.cs", temp);
         }
 
         internal void JsonTemplateFile(string name, string pathTemp, params string[] folderPath)
@@ -119,7 +116,7 @@ namespace bgTeam.ProjectTemplate
 
             //temp = temp.Replace("$namespace$", string.Join('.', pathList));
 
-            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join('\\', folderPath)}\\{name}.json", temp);
+            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join("\\", folderPath)}\\{name}.json", temp);
         }
 
         public void Folder(string folder)

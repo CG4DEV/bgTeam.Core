@@ -1,14 +1,22 @@
-﻿using System;
-
-namespace bgTeam.ProjectTemplate
+﻿namespace bgTeam.ProjectTemplate
 {
+    using System;
+    using System.Diagnostics;
+    using System.Threading.Tasks;
+    using bgTeam.Core.Helpers;
+    using Microsoft.Extensions.DependencyInjection;
+
     class Program
     {
         static void Main(string[] args)
         {
-            var s1 = new SolutionGenerator();
+            var cmdParams = CommandLineHelper.ParseArgs(args);
+            var process = Process.GetCurrentProcess();
 
-            s1.Generate("Trcont", "FilesStorage", new SolutionSettings() { IsWeb = true, IsApp = true });
+            var container = AppIocConfigure.Configure(cmdParams);
+            var runner = container.GetService<Runner>();
+
+            runner.Run().Wait();
         }
     }
 }

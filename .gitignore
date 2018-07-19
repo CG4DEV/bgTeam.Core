@@ -5,6 +5,8 @@ obj
 Logs
 StyleCop.Cache
 temp
+reports
+coverage
 *.user
 *.pubxml
 

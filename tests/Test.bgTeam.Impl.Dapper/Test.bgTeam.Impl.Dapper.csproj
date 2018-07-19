@@ -4,13 +4,9 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Moq" Version="4.9.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.108" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
@@ -18,8 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\bgTeam.Core\bgTeam.Core.csproj" />
-    <ProjectReference Include="..\..\src\bgTeam.Queues\bgTeam.Queues.csproj" />
-    <ProjectReference Include="..\..\src\bgTeam.Impl.Rabbit\bgTeam.Impl.Rabbit.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Dapper\bgTeam.Impl.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Sqlite\bgTeam.Impl.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

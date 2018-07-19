@@ -1,12 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FileGenerators\" />
+    <Analyzer Include="..\..\lint\SonarQube\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Scrutor" Version="2.2.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resourse\.gitignore">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
