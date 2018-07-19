@@ -358,6 +358,11 @@ namespace Test.bgTeam.Impl.Rabbit.Common
         {
             throw new NotImplementedException();
         }
+
+        public IBasicPublishBatch CreateBasicPublishBatch()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

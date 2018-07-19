@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Linq;
+    using bgTeam.Core;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
 
@@ -91,7 +92,6 @@
                 }
 
                 var secondConf = builder.Build();
-
                 var confsPath = secondConf["ConfigsPath"];
 
                 if (!string.IsNullOrEmpty(mainConf.AdditionalConfigs))
@@ -107,6 +107,8 @@
                     }
                 }
             }
+
+            builder.AddEnvironmentVariables();
 
             return builder.Build();
         }
