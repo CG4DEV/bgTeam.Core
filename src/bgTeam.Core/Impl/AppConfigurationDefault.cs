@@ -56,52 +56,47 @@
             return _configurationRoot.GetSection(name);
         }
 
-        private IConfigurationRoot Initialize(string appsettings, string envVariable = null)
+        private IConfigurationRoot Initialize(string fileConfiguration, string envVariable = null)
         {
-            var curDir = Environment.CurrentDirectory;
             string appsettingsFile;
+            var curDir = Environment.CurrentDirectory;
 
             try
             {
-                appsettingsFile = File.ReadAllText(Path.Combine(curDir, $"{appsettings}.json"));
+                appsettingsFile = File.ReadAllText(Path.Combine(curDir, $"{fileConfiguration}.json"));
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException exp)
             {
-                throw new ArgumentException($"Not find config file - {appsettings}.json, path - {curDir}\\");
+                throw new ArgumentException($"Not find config file - {fileConfiguration}.json, path - {curDir}\\");
             }
-
-            var mainConf = JsonConvert.DeserializeObject<SettingsProxy>(appsettingsFile);
-            var buildConfigure = envVariable ?? Environment.GetEnvironmentVariable(mainConf.BuildConfigureVariable) ?? string.Empty;
 
             var builder = new ConfigurationBuilder()
                     .SetBasePath(curDir)
-                    .AddJsonFile($"{appsettings}.json");
+                    .AddJsonFile($"{fileConfiguration}.json");
 
-            //if (buildConfigure == null)
-            //{
-            //    throw new Exception($"You must set Environment variable: {mainConf.BuildConfigureVariable}");
-            //}
+            var mainConf = JsonConvert.DeserializeObject<SettingsProxy>(appsettingsFile);
+            var buildConfigure = envVariable ?? mainConf.AppEnvironment;
 
             // если нашли доп. конфигурации
             if (!string.IsNullOrEmpty(buildConfigure))
             {
-                var appsettingsFileAdd = Path.Combine(curDir, $"{appsettings}.{buildConfigure}.json");
+                var appsettingsFileAdd = Path.Combine(curDir, $"{fileConfiguration}.{buildConfigure}.json");
                 if (File.Exists(appsettingsFileAdd))
                 {
                     builder.AddJsonFile(appsettingsFileAdd);
                 }
 
-                var secondConf = builder.Build();
-                var confsPath = secondConf["ConfigsPath"];
+                //var secondConf = builder.Build();
+                var confsPath = mainConf.AppConfigsPath;
 
-                if (!string.IsNullOrEmpty(mainConf.AdditionalConfigs))
+                if (!string.IsNullOrEmpty(mainConf.AppConfigsAdditional))
                 {
                     if (string.IsNullOrEmpty(confsPath))
                     {
-                        throw new ArgumentNullException("ConfigsPath");
+                        throw new ArgumentNullException(nameof(mainConf.AppConfigsPath));
                     }
 
-                    foreach (var item in mainConf.AdditionalConfigs.Split(',').Select(x => x.Trim()))
+                    foreach (var item in mainConf.AppConfigsAdditional.Split(',').Select(x => x.Trim()))
                     {
                         builder.AddJsonFile(Path.Combine(confsPath, $"{item}.{buildConfigure}.json"));
                     }
@@ -115,9 +110,11 @@
 
         private class SettingsProxy
         {
-            public string BuildConfigureVariable { get; set; } = string.Empty;
+            public string AppEnvironment { get; set; } = string.Empty;
 
-            public string AdditionalConfigs { get; set; } = string.Empty;
+            public string AppConfigsPath { get; set; } = string.Empty;
+
+            public string AppConfigsAdditional { get; set; } = string.Empty;
         }
     }
 }
