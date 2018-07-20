@@ -33,6 +33,16 @@ namespace Test.bgTeam.Web
             Assert.NotNull(res);
         }
 
+        [Fact]
+        public void Test_RequestGet3()
+        {
+            var client = new WebClient();
+
+            var res = client.GetAsync<string>("https://rating.kinopoisk.ru/961957.xml").Result;
+
+            Assert.NotNull(res);
+        }
+
         public class FilmInfo
         {
             public string id { get; set; }
