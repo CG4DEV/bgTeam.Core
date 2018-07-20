@@ -13,6 +13,10 @@
     {
         private readonly string _url;
 
+        public WebClient()
+        {
+        }
+
         public WebClient(string url)
         {
             _url = url.CheckNull(nameof(url));
@@ -23,6 +27,11 @@
         public async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
+            if (string.IsNullOrWhiteSpace(_url))
+            {
+                method = method.CheckNull(nameof(method));
+            }
+
             string url = BuildGetUrl(method, queryParams);
             var msg = new HttpRequestMessage(HttpMethod.Get, url);
             FillHeaders(headers, msg);
@@ -40,7 +49,7 @@
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(_url);
+                client.BaseAddress = new Uri(!string.IsNullOrWhiteSpace(_url) ? _url : action);
                 var dic = GetFormContentDictionary(postParams);
                 var content = new FormUrlEncodedContent(dic);
 
@@ -65,15 +74,23 @@
 
         private string BuildGetUrl(string method, IDictionary<string, object> queryParams)
         {
-            var baseUrl = _url;
-            if (!string.IsNullOrWhiteSpace(method))
+            string baseUrl;
+            if (!string.IsNullOrWhiteSpace(_url))
             {
-                if (!baseUrl.EndsWith("/"))
+                baseUrl = _url;
+                if (!string.IsNullOrWhiteSpace(method))
                 {
-                    baseUrl = $"{baseUrl}/";
-                }
+                    if (!baseUrl.EndsWith("/"))
+                    {
+                        baseUrl = $"{baseUrl}/";
+                    }
 
-                baseUrl = $"{baseUrl}{method}";
+                    baseUrl = $"{baseUrl}{method}";
+                }
+            }
+            else
+            {
+                baseUrl = method;
             }
 
             if (queryParams == null || !queryParams.Any())
