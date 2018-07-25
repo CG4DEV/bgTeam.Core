@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
+    using System;
     using System.Data;
     using System.Threading.Tasks;
     using DapperExtensions;
@@ -32,6 +33,7 @@
             return true;
         }
 
+        [Obsolete("Используй InsertAsync вместо", false)]
         public async Task<bool> InsertAcync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
@@ -48,6 +50,22 @@
             }
 
             return true;
+        }
+
+        public async Task<dynamic> InsertAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
+    where T : class
+        {
+            if (connection == null)
+            {
+                using (connection = await _factory.CreateAsync())
+                {
+                    return await connection.InsertAsync(entity, transaction: transaction);
+                }
+            }
+            else
+            {
+                return await connection.InsertAsync(entity, transaction: transaction);
+            }
         }
 
         public bool Update<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)

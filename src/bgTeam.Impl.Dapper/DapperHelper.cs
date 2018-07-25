@@ -231,8 +231,15 @@
             return Instance.InsertAsync<T>(connection, entity, transaction, commandTimeout).Result;
         }
 
+        [Obsolete("Используй InsertAsync вместо", false)]
         public static async Task<dynamic> InsertAcync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
+        {
+            return await Instance.InsertAsync<T>(connection, entity, transaction, commandTimeout);
+        }
+
+        public static async Task<dynamic> InsertAsync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
+    where T : class
         {
             return await Instance.InsertAsync<T>(connection, entity, transaction, commandTimeout);
         }

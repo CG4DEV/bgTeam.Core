@@ -39,7 +39,7 @@ namespace Test.bgTeam.Impl.Rabbit.Tests
 
         private void Watch_OnError(object sender, global::bgTeam.Queues.Exceptions.ExtThreadExceptionEventArgs e)
         {
-            Assert.IsType(typeof(ArgumentNullException), e.Exception);
+            Assert.IsType<ArgumentNullException>(e.Exception);
             Assert.Equal("test", e.Exception.Message);
         }
     }

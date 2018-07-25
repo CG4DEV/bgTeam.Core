@@ -29,9 +29,9 @@ namespace Test.bgTeam.Impl.Dapper.Tests
                                     [Name] TEXT  NULL
                                 )");
 
-            bool res1 = await serv.InsertAcync(new TestEntity { Id = 1, Name = "First test entity" });
-            bool res2 = await serv.InsertAcync(new TestEntity { Id = 2, Name = "Second test entity" });
-            bool res3 = await serv.InsertAcync(new TestEntity { Id = 3, Name = "Third test entity" });
+            int res1 = await serv.InsertAsync(new TestEntity { Id = 1, Name = "First test entity" });
+            int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
+            int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });
 
             IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
             
@@ -40,9 +40,9 @@ namespace Test.bgTeam.Impl.Dapper.Tests
 
             await serv.ExecuteAsync(@"DROP TABLE 'TestEntity'");
 
-            Assert.True(res1);
-            Assert.True(res2);
-            Assert.True(res3);
+            Assert.Equal(1, res1);
+            Assert.Equal(2, res2);
+            Assert.Equal(3, res3);
             Assert.NotNull(insertedEntity);
             Assert.Equal(2, insertedEntity.Id);
             Assert.Equal("Second test entity", insertedEntity.Name);
@@ -60,9 +60,9 @@ namespace Test.bgTeam.Impl.Dapper.Tests
                                     [Name] TEXT  NULL
                                 )");
 
-            bool res1 = await serv.InsertAcync(new TestEntity { Id = 1, Name = "First test entity" });
-            bool res2 = await serv.InsertAcync(new TestEntity { Id = 2, Name = "Second test entity" });
-            bool res3 = await serv.InsertAcync(new TestEntity { Id = 3, Name = "Third test entity" });            
+            int res1 = await serv.InsertAsync(new TestEntity { Id = 1, Name = "First test entity" });
+            int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
+            int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });            
 
             IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
 
@@ -71,9 +71,9 @@ namespace Test.bgTeam.Impl.Dapper.Tests
 
             await serv.ExecuteAsync(@"DROP TABLE 'TestEntity'");
 
-            Assert.True(res1);
-            Assert.True(res2);
-            Assert.True(res3);
+            Assert.Equal(1, res1);
+            Assert.Equal(2, res2);
+            Assert.Equal(3, res3);
             Assert.NotNull(allEntities);
             Assert.NotEmpty(allEntities);
             Assert.Equal(3, allEntities.Count());
