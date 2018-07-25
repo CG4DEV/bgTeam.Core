@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataAccess
 {
+    using System;
     using System.Data;
     using System.Threading.Tasks;
 
@@ -27,7 +28,19 @@
         /// <param name="connection">Подключение к базе данных</param>
         /// <param name="transaction">Открытая транзакция</param>
         /// <returns>True - при удачной вставке</returns>
+        [Obsolete("Используй InsertAsync вместо", false)]
         Task<bool> InsertAcync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
+            where T : class;
+
+        /// <summary>
+        /// Асинхронно вставляет объект типа T в базу данных
+        /// </summary>
+        /// <typeparam name="T">Тип вставляемого объекта</typeparam>
+        /// <param name="entity">Объект для вставки</param>
+        /// <param name="connection">Подключение к базе данных</param>
+        /// <param name="transaction">Открытая транзакция</param>
+        /// <returns>Идентификатор вставленной записи</returns>
+        Task<dynamic> InsertAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class;
 
         /// <summary>
