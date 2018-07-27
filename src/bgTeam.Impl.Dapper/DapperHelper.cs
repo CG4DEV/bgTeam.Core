@@ -11,6 +11,7 @@
     using DapperExtensions.Builder;
     using DapperExtensions.Mapper;
     using Mapper.Sql;
+    using ISort = bgTeam.DataAccess.ISort;
 
     public static class DapperHelper
     {
@@ -293,6 +294,16 @@
             where T : class
         {
             return Instance.GetPage<T>(connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
+        }
+
+        /// <summary>
+        /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
+        /// Data returned is dependent upon the specified page and resultsPerPage.
+        /// </summary>
+        public static async Task<IEnumerable<T>> GetPageAsync<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            return await Instance.GetPageAsync<T>(connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout);
         }
 
         /// <summary>
