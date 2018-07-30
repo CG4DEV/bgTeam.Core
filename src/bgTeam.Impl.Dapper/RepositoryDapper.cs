@@ -114,6 +114,24 @@
             }
         }
 
+        public IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> predicate, IList<ISort> sort, int page, int resultsPerPage)
+            where T : class
+        {
+            using (var connection = _factory.Create())
+            {
+                return connection.GetPage<T>(predicate, sort, page, resultsPerPage);
+            }
+        }
+
+        public async Task<IEnumerable<T>> GetPageAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10)
+            where T : class
+        {
+            using (var connection = await _factory.CreateAsync())
+            {
+                return await connection.GetPageAsync<T>(predicate, sort, page, resultsPerPage);
+            }
+        }
+
         //public async Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(string sql, object param = null)
         //{
         //    using (var connection = await _factory.CreateAsync())

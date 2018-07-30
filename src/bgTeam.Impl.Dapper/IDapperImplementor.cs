@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Threading.Tasks;
+    using bgTeam.DataAccess;
     using Mapper.Sql;
 
     public interface IDapperImplementor
@@ -19,6 +20,9 @@
             where T : class;
 
         IEnumerable<T> GetPage<T>(IDbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction, int? commandTimeout, bool buffered)
+            where T : class;
+
+        Task<IEnumerable<T>> GetPageAsync<T>(IDbConnection connection, object predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class;
 
         IEnumerable<T> GetSet<T>(IDbConnection connection, object predicate, IList<ISort> sort, int firstResult, int maxResults, IDbTransaction transaction, int? commandTimeout, bool buffered)

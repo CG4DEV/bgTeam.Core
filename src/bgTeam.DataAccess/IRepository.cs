@@ -113,5 +113,11 @@
         /// <returns></returns>
         Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null)
             where T : class;
+
+        IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> predicate, IList<ISort> sort, int page, int resultsPerPage)
+            where T : class;
+
+        Task<IEnumerable<T>> GetPageAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10)
+            where T : class;
     }
 }

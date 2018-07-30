@@ -1,9 +1,11 @@
-﻿using bgTeam.DataAccess;
+﻿using System.Collections.Generic;
+using bgTeam.DataAccess;
 using bgTeam.DataAccess.Impl.Dapper;
 using bgTeam.DataAccess.Impl.Sqlite;
 using bgTeam.Impl;
 using System.Linq;
 using System.Threading.Tasks;
+using DapperExtensions;
 using Test.bgTeam.Impl.Dapper.Common;
 using Xunit;
 
@@ -79,6 +81,48 @@ namespace Test.bgTeam.Impl.Dapper.Tests
             Assert.Equal(3, allEntities.Count());
             Assert.NotNull(emptyCollection);
             Assert.Empty(emptyCollection);
+        }
+
+        [Fact]
+        public async Task Test_GetPageAsync()
+        {
+            ICrudService serv = new CrudServiceDapper(_factory.ConnectionFactory);
+
+            await serv.ExecuteAsync(@"CREATE TABLE 'TestEntity'
+                                (
+                                    [Id] INTEGER  NOT NULL PRIMARY KEY,
+                                    [Name] TEXT  NULL
+                                )");
+
+            int res1 = await serv.InsertAsync(new TestEntity { Id = 1, Name = "First test entity" });
+            int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
+            int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });
+            int res4 = await serv.InsertAsync(new TestEntity { Id = 4, Name = "Fourth test entity" });
+            int res5 = await serv.InsertAsync(new TestEntity { Id = 5, Name = "Fifth test entity" });
+            int res6 = await serv.InsertAsync(new TestEntity { Id = 6, Name = "Sixth test entity" });
+
+            IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
+
+            var sort = new List<ISort>()
+                {  Predicates.Sort<TestEntity>(x => x.Id) };
+
+            var firstPage = (await rep.GetPageAsync<TestEntity>(null, sort, 0, 2)).ToList();
+            var secondPage = (await rep.GetPageAsync<TestEntity>(null, sort, 1, 2)).ToList();
+            var thirdPage = (await rep.GetPageAsync<TestEntity>(null, sort, 2, 2)).ToList();
+
+            await serv.ExecuteAsync(@"DROP TABLE 'TestEntity'");
+
+            Assert.Equal(2, firstPage.Count());
+            Assert.Equal(1, firstPage.First().Id);
+            Assert.Equal(2, firstPage.Skip(1).First().Id);
+
+            Assert.Equal(2, secondPage.Count());
+            Assert.Equal(3, secondPage.First().Id);
+            Assert.Equal(4, secondPage.Skip(1).First().Id);
+
+            Assert.Equal(2, thirdPage.Count());
+            Assert.Equal(5, thirdPage.First().Id);
+            Assert.Equal(6, thirdPage.Skip(1).First().Id);
         }
     }
 }

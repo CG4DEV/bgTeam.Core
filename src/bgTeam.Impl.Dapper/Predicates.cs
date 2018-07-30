@@ -7,6 +7,7 @@
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Text;
+    using bgTeam.DataAccess;
     using DapperExtensions.Mapper;
     using Mapper.Sql;
 
@@ -385,13 +386,6 @@
 
             return map;
         }
-    }
-
-    public interface ISort
-    {
-        string PropertyName { get; set; }
-
-        bool Ascending { get; set; }
     }
 
     public class Sort : ISort
