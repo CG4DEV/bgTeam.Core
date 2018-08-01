@@ -19,7 +19,7 @@
         {
             string result = string.Format("{0} LIMIT @maxResults OFFSET @pageStartRowNbr", sql);
             parameters.Add("@maxResults", maxResults);
-            parameters.Add("@pageStartRowNbr", pageNumber * maxResults);
+            parameters.Add("@pageStartRowNbr", pageNumber /* * maxResults */); //HACK: fixing DapperExtensions bug
             return result;
         }
 
