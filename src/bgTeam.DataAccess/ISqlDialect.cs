@@ -3,6 +3,8 @@
     public interface ISqlDialect
     {
         void Init(SqlDialectEnum dialect);
+
+        string GeneratePagingSql(string query, int page, int pageSize);
     }
 
     public enum SqlDialectEnum
