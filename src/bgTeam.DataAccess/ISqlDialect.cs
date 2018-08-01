@@ -4,7 +4,7 @@
     {
         void Init(SqlDialectEnum dialect);
 
-        string GeneratePagingSql(string query, int page, int pageSize);
+        ISqlObject GeneratePagingSql(string query, int page, int pageSize, object parameters = null);
     }
 
     public enum SqlDialectEnum

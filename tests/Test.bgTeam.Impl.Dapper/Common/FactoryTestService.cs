@@ -19,14 +19,16 @@ namespace Test.bgTeam.Impl.Dapper.Common
 
         public string ConnectionString { get; } = "Data Source=testSqlite.db;";
 
+        public ISqlDialect Dialect { get; private set; }
+
         public FactoryTestService()
         {
             Logger = new AppLoggerDefault();
 
-            var dialect = new SqlDialectDapper();
-            dialect.Init(SqlDialectEnum.Sqlite);
+            Dialect = new SqlDialectDapper();
+            Dialect.Init(SqlDialectEnum.Sqlite);
 
-            ConnectionFactory = new ConnectionFactorySqlite(Logger, ConnectionString, dialect);
+            ConnectionFactory = new ConnectionFactorySqlite(Logger, ConnectionString, Dialect);
         }
     }
 }

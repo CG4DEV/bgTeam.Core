@@ -124,5 +124,39 @@ namespace Test.bgTeam.Impl.Dapper.Tests
             Assert.Equal(5, thirdPage.First().Id);
             Assert.Equal(6, thirdPage.Skip(1).First().Id);
         }
+
+
+        [Fact]
+        public async Task Test_GeneratePagingSql()
+        {
+            ICrudService serv = new CrudServiceDapper(_factory.ConnectionFactory);
+
+            await serv.ExecuteAsync(@"CREATE TABLE 'TestEntity'
+                                (
+                                    [Id] INTEGER  NOT NULL PRIMARY KEY,
+                                    [Name] TEXT  NULL
+                                )");
+
+            int res1 = await serv.InsertAsync(new TestEntity { Id = 1, Name = "First test entity" });
+            int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
+            int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });
+            int res4 = await serv.InsertAsync(new TestEntity { Id = 4, Name = "Fourth test entity" });
+            int res5 = await serv.InsertAsync(new TestEntity { Id = 5, Name = "Fifth test entity" });
+            int res6 = await serv.InsertAsync(new TestEntity { Id = 6, Name = "Sixth test entity" });
+
+            IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
+
+            var sql = "SELECT * FROM TestEntity WHERE Id > @Value";
+
+            var sqlObj = _factory.Dialect.GeneratePagingSql(sql, 1, 1, new { Value = 3 });
+
+            var res = (await rep.GetAllAsync<TestEntity>(sqlObj)).ToList();
+
+            await serv.ExecuteAsync(@"DROP TABLE 'TestEntity'");
+
+            Assert.Single(res);
+            Assert.Equal(5, res.Single().Id);
+        }
+
     }
 }
