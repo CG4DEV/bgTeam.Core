@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
+    using bgTeam.Impl.Dapper;
     using DapperExtensions;
     using DapperExtensions.Mapper.Sql;
     using System;
@@ -7,7 +8,7 @@
 
     public class SqlDialectDapper : DataAccess.ISqlDialect
     {
-        public string GeneratePagingSql(string query, int page, int pageSize)
+        public ISqlObject GeneratePagingSql(string query, int page, int pageSize, object parameters = null)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
@@ -19,7 +20,9 @@
                 throw new InvalidOperationException("Sql dialect is not set");
             }
 
-            return DapperHelper.SqlDialect.GetPagingSql(query, page, pageSize, new Dictionary<string, object>());
+            var parametersDictionary = parameters != null ? parameters.ToDictionary() : new Dictionary<string, object>();
+            var sql = DapperHelper.SqlDialect.GetPagingSql(query, page, pageSize, parametersDictionary);
+            return new SqlObjectDefault(sql, parametersDictionary);
         }
 
         public void Init(SqlDialectEnum dialect)
