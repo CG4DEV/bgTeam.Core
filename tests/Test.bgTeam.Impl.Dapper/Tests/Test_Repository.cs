@@ -125,6 +125,44 @@ namespace Test.bgTeam.Impl.Dapper.Tests
             Assert.Equal(6, thirdPage.Skip(1).First().Id);
         }
 
+        [Fact]
+        public async Task Test_GetPageAsyncPredicates()
+        {
+            ICrudService serv = new CrudServiceDapper(_factory.ConnectionFactory);
+
+            await serv.ExecuteAsync(@"CREATE TABLE 'TestEntity'
+                                (
+                                    [Id] INTEGER  NOT NULL PRIMARY KEY,
+                                    [Name] TEXT  NULL
+                                )");
+
+            int res1 = await serv.InsertAsync(new TestEntity { Id = 1, Name = "First test entity" });
+            int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
+            int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });
+            int res4 = await serv.InsertAsync(new TestEntity { Id = 4, Name = "Fourth test entity" });
+            int res5 = await serv.InsertAsync(new TestEntity { Id = 5, Name = "Third test entity" });
+            int res6 = await serv.InsertAsync(new TestEntity { Id = 6, Name = "Sixth test entity" });
+
+
+            IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
+
+            var sort = new List<ISort>()
+                {  Predicates.Sort<TestEntity>(x => x.Id, false) };
+
+            var second = (await rep.GetPageAsync<TestEntity>(x => x.Id == 2, sort, 0, 10)).Single();
+            var fifth = (await rep.GetPageAsync<TestEntity>(x => x.Id == 5 && x.Name == "Third test entity", sort, 0, 10)).Single();
+            var thirdAndFifth = (await rep.GetPageAsync<TestEntity>(x => x.Name == "Third test entity", sort, 0, 10)).ToList();
+
+            await serv.ExecuteAsync(@"DROP TABLE 'TestEntity'");
+
+
+            Assert.Equal(2, second.Id);
+            Assert.Equal(5, fifth.Id);
+            Assert.Equal(2, thirdAndFifth.Count);
+            Assert.Equal(5, thirdAndFifth.First().Id);
+            Assert.Equal(3, thirdAndFifth.Skip(1).First().Id);
+        }
+
 
         [Fact]
         public async Task Test_GeneratePagingSql()
