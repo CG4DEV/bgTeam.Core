@@ -290,20 +290,24 @@
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified page and resultsPerPage.
         /// </summary>
-        public static IEnumerable<T> GetPage<T>(this IDbConnection connection, object predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
+        public static IEnumerable<T> GetPage<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate, IList<ISort> sort, int page, int resultsPerPage, IDbTransaction transaction = null, int? commandTimeout = null, bool buffered = false)
             where T : class
         {
-            return Instance.GetPage<T>(connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
+            var prGroup = PredicateConverter<T>.FromExpression(predicate);
+
+            return Instance.GetPage<T>(connection, prGroup, sort, page, resultsPerPage, transaction, commandTimeout, buffered);
         }
 
         /// <summary>
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified page and resultsPerPage.
         /// </summary>
-        public static async Task<IEnumerable<T>> GetPageAsync<T>(this IDbConnection connection, object predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
+        public static async Task<IEnumerable<T>> GetPageAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
         {
-            return await Instance.GetPageAsync<T>(connection, predicate, sort, page, resultsPerPage, transaction, commandTimeout);
+            var prGroup = PredicateConverter<T>.FromExpression(predicate);
+
+            return await Instance.GetPageAsync<T>(connection, prGroup, sort, page, resultsPerPage, transaction, commandTimeout);
         }
 
         /// <summary>
