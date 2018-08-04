@@ -10,7 +10,7 @@
     using bgTeam.DataAccess.Impl.MsSql;
     using bgTeam.Impl;
     using Microsoft.Extensions.DependencyInjection;
-    using Trcont.FilesStorage.Story;
+    using $prj$.Story;
 
     internal class AppIocConfigure
     {

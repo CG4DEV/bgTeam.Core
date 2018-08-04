@@ -9,7 +9,7 @@
 
     public class SolutionGenerator
     {
-        private string bgTeamVersion = "2.0.6-beta";
+        //private string settings.BgTeamVersion = "2.0.6-beta";
         //private string _namesmall;
 
         public void Generate(string @namespace, string name, SolutionSettings settings)
@@ -33,7 +33,6 @@
 
             Directory.Move("./Resourse/shared", $"{folder}/shared");
             Directory.Move("./Resourse/lint", $"{folder}/lint");
-            
         }
 
         private IEnumerable<ProjectInfoItem> GenerateProjects(string name, string folder, string path, SolutionSettings settings)
@@ -55,7 +54,7 @@
 	EndProjectSection";
 
             var p1 = new ProjectGenerator($"{name}.Common", fullPath);
-            p1.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", bgTeamVersion) });
+            p1.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", settings.BgTeamVersion) });
             p1.Folder("Impl");
             p1.ClassTemplateFile("ITestService", "Common\\ITestService");
             p1.ClassTemplateFile("TestService", "Common\\TestService", new[] { "Impl" });
@@ -64,8 +63,8 @@
             var p2 = new ProjectGenerator($"{name}.DataAccess", fullPath);
             p2.ProjectFile(new NugetItem[] 
                 {
-                    new NugetItem("bgTeam.Core", bgTeamVersion),
-                    new NugetItem("bgTeam.DataAccess", bgTeamVersion)
+                    new NugetItem("bgTeam.Core", settings.BgTeamVersion),
+                    new NugetItem("bgTeam.DataAccess", settings.BgTeamVersion)
                 }, new string[] { $"{name}.Domain" });
             p2.Folder("Impl");
             p2.ClassTemplateFile("TestQuery", "DataAccess\\TestQuery", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
@@ -73,7 +72,7 @@
             var fp2 = new ProjectInfoItem(p2.Name, $"{path}\\{p2.Path}");
 
             var p3 = new ProjectGenerator($"{name}.Domain", fullPath);
-            p3.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Impl.Dapper", bgTeamVersion) });
+            p3.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Impl.Dapper", settings.BgTeamVersion) });
             p3.Folder("Dto");
             p3.Folder("Entities");
             p3.ClassTemplateFile("IEntity", "Domain\\IEntity");
@@ -84,8 +83,8 @@
             var p4 = new ProjectGenerator($"{name}.Story", fullPath);
             p4.ProjectFile(new NugetItem[]
                 {
-                    new NugetItem("bgTeam.Core", bgTeamVersion),
-                    new NugetItem("bgTeam.DataAccess", bgTeamVersion)
+                    new NugetItem("bgTeam.Core", settings.BgTeamVersion),
+                    new NugetItem("bgTeam.DataAccess", settings.BgTeamVersion)
                 }, new string[] { $"{name}.Domain" });
             p4.ClassTemplateFile("TestStory", "Story\\TestStory", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
             p4.ClassTemplateFile("TestStoryContext", "Story\\TestStoryContext");
@@ -96,7 +95,7 @@
             var p6 = new ProjectGenerator($"{name}.Tests", $"{folder}\\tests");
             p6.ProjectFile(new NugetItem[]
                 {
-                    new NugetItem("bgTeam.Impl.MsSql", bgTeamVersion),
+                    new NugetItem("bgTeam.Impl.MsSql", settings.BgTeamVersion),
                     new NugetItem("Microsoft.NET.Test.Sdk", "15.5.0"),
                     new NugetItem("xunit", "2.3.1"),
                     new NugetItem("xunit.runner.visualstudio", "2.3.1")
@@ -129,13 +128,13 @@
                 var p5 = new ProjectGenerator($"{name}.App", fullPath);
                 p5.ProjectFile(new NugetItem[]
                     {
-                    new NugetItem("bgTeam.Core", bgTeamVersion),
-                    new NugetItem("bgTeam.Impl.Dapper", bgTeamVersion),
-                    new NugetItem("bgTeam.Impl.MsSql", bgTeamVersion),
+                    new NugetItem("bgTeam.Core", settings.BgTeamVersion),
+                    new NugetItem("bgTeam.Impl.Dapper", settings.BgTeamVersion),
+                    new NugetItem("bgTeam.Impl.MsSql", settings.BgTeamVersion),
                     new NugetItem("Scrutor", "2.1.2")
                     }, new string[] { $"{name}.Story" }, true);
                 p5.ClassTemplateFile("AppSettings", "App\\AppSettings");
-                p5.ClassTemplateFile("AppIocConfigure", "App\\AppIocConfigure");
+                p5.ClassTemplateFile("AppIocConfigure", "App\\AppIocConfigure", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
                 p5.ClassTemplateFile("Program", "App\\Program", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
                 p5.ClassTemplateFile("Runner", "App\\Runner", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
                 p5.JsonTemplateFile("appsettings", "App\\appsettings");
@@ -287,6 +286,9 @@ MinimumVisualStudioVersion = 10.0.40219.1");
     public class SolutionSettings
     {
         public bool IsWeb { get; internal set; }
+
         public bool IsApp { get; internal set; }
+
+        public string BgTeamVersion { get; set; }
     }
 }
