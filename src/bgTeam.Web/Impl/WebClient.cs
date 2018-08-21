@@ -12,12 +12,15 @@
     public class WebClient : IWebClient
     {
         private readonly string _url;
+        private readonly IAppLogger _logger;
 
-        public WebClient()
+        public WebClient(IAppLogger logger)
         {
+            _logger = logger;
         }
 
-        public WebClient(string url)
+        public WebClient(IAppLogger logger, string url)
+            : this(logger)
         {
             _url = url.CheckNull(nameof(url));
         }
@@ -44,17 +47,27 @@
             }
         }
 
-        public async Task<T> PostAsync<T>(string action, object postParams)
+        public async Task<T> PostAsync<T>(string action, object postParams = null)
             where T : class
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(!string.IsNullOrWhiteSpace(_url) ? _url : action);
-                var dic = GetFormContentDictionary(postParams);
-                var content = new FormUrlEncodedContent(dic);
+                var result = string.Empty;
 
-                var resultPost = await client.PostAsync(action, content);
-                var result = await resultPost.Content.ReadAsStringAsync();
+                client.BaseAddress = new Uri(!string.IsNullOrWhiteSpace(_url) ? _url : action);
+
+                if (postParams != null)
+                {
+                    var dic = GetFormContentDictionary(postParams);
+                    var content = new FormUrlEncodedContent(dic);
+                    var resultPost = await client.PostAsync(action, content);
+                    result = await resultPost.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    var resultPost = await client.PostAsync(action, null);
+                    result = await resultPost.Content.ReadAsStringAsync();
+                }
 
                 if (string.IsNullOrWhiteSpace(result) || result == "[]")
                 {
@@ -65,9 +78,13 @@
                 {
                     return JsonConvert.DeserializeObject<T>(result);
                 }
-                catch (JsonSerializationException)
+                catch (JsonException exp)
                 {
-                    return null;
+                    //_logger.Error(resultPost.Headers.);
+                    _logger.Error(result);
+                    _logger.Error(exp);
+
+                    return default(T);
                 }
             }
         }
