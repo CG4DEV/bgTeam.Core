@@ -11,7 +11,7 @@
         Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class;
 
-        Task<T> PostAsync<T>(string method, object postParams)
+        Task<T> PostAsync<T>(string method, object postParams = null)
             where T : class;
     }
 }

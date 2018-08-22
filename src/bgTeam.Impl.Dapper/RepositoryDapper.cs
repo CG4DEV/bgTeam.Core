@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
@@ -46,33 +47,61 @@
             return list.SingleOrDefault();
         }
 
-        public IEnumerable<T> GetAll<T>(ISqlObject obj)
+        public IEnumerable<T> GetAll<T>(ISqlObject obj, IDbConnection connection = null)
         {
-            using (var connection = _factory.Create())
+            if (connection == null)
+            {
+                using (connection = _factory.Create())
+                {
+                    return connection.Query<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+                }
+            }
+            else
             {
                 return connection.Query<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj, IDbConnection connection = null)
         {
-            using (var connection = await _factory.CreateAsync())
+            if (connection == null)
+            {
+                using (connection = await _factory.CreateAsync())
+                {
+                    return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+                }
+            }
+            else
             {
                 return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
             }
         }
 
-        public IEnumerable<T> GetAll<T>(string sql, object param = null)
+        public IEnumerable<T> GetAll<T>(string sql, object param = null, IDbConnection connection = null)
         {
-            using (var connection = _factory.Create())
+            if (connection == null)
+            {
+                using (connection = _factory.Create())
+                {
+                    return connection.Query<T>(sql, param, commandTimeout: _commandTimeout);
+                }
+            }
+            else
             {
                 return connection.Query<T>(sql, param, commandTimeout: _commandTimeout);
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null, IDbConnection connection = null)
         {
-            using (var connection = await _factory.CreateAsync())
+            if (connection == null)
+            {
+                using (connection = await _factory.CreateAsync())
+                {
+                    return await connection.QueryAsync<T>(sql, param, commandTimeout: _commandTimeout);
+                }
+            }
+            else
             {
                 return await connection.QueryAsync<T>(sql, param, commandTimeout: _commandTimeout);
             }
@@ -96,19 +125,33 @@
             }
         }
 
-        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null)
+        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null)
             where T : class
         {
-            using (var connection = _factory.Create())
+            if (connection == null)
+            {
+                using (connection = _factory.Create())
+                {
+                    return connection.GetAll<T>(predicate);
+                }
+            }
+            else
             {
                 return connection.GetAll<T>(predicate);
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null)
             where T : class
         {
-            using (var connection = await _factory.CreateAsync())
+            if (connection == null)
+            {
+                using (connection = await _factory.CreateAsync())
+                {
+                    return await connection.GetAllAsync<T>(predicate);
+                }
+            }
+            else
             {
                 return await connection.GetAllAsync<T>(predicate);
             }

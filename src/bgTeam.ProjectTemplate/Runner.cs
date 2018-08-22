@@ -15,7 +15,13 @@
         {
             var s1 = new SolutionGenerator();
 
-            s1.Generate(_appSettings.NameCompany, _appSettings.NameProject, new SolutionSettings() { IsWeb = true, IsApp = true });
+            s1.Generate(_appSettings.NameCompany, _appSettings.NameProject,
+                new SolutionSettings
+                {
+                    IsWeb = true,
+                    IsApp = true,
+                    BgTeamVersion = _appSettings.BgTeamVersion
+                });
         }
     }
 }

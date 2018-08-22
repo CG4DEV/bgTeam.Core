@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
@@ -67,16 +68,18 @@
         /// </summary>
         /// <typeparam name="T">Тип получаемых объектов</typeparam>
         /// <param name="obj">Объект с запросом к базе данных</param>
+        /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        IEnumerable<T> GetAll<T>(ISqlObject obj);
+        IEnumerable<T> GetAll<T>(ISqlObject obj, IDbConnection connection = null);
 
         /// <summary>
         /// Асинхронно выполняет запрос к базе данных и возвращает коллекцию объектов из базы данных
         /// </summary>
         /// <typeparam name="T">Тип получаемых объектов</typeparam>
         /// <param name="obj">Объект с запросом к базе данных</param>
+        /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj);
+        Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj, IDbConnection connection = null);
 
         /// <summary>
         /// Выполняет запрос к базе данных и возвращает коллекцию объектов из базы данных
@@ -84,8 +87,9 @@
         /// <typeparam name="T">Тип получаемых объектов</typeparam>
         /// <param name="sql">Запрос к базе данных</param>
         /// <param name="param">Параметры запроса</param>
+        /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        IEnumerable<T> GetAll<T>(string sql, object param = null);
+        IEnumerable<T> GetAll<T>(string sql, object param = null, IDbConnection connection = null);
 
         /// <summary>
         /// Асинхронно выполняет запрос к базе данных и возвращает коллекцию объектов из базы данных
@@ -93,16 +97,18 @@
         /// <typeparam name="T">Тип получаемых объектов</typeparam>
         /// <param name="sql">Запрос к базе данных</param>
         /// <param name="param">Параметры запроса</param>
+        /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null);
+        Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null, IDbConnection connection = null);
 
         /// <summary>
         /// Выполняет запрос к базе данных на основе предиката и возвращает коллекцию объектов из базы данных
         /// </summary>
         /// <typeparam name="T">Тип получаемого объекта</typeparam>
         /// <param name="predicate">Предикат</param>
+        /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null)
+        IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null)
             where T : class;
 
         /// <summary>
@@ -110,8 +116,9 @@
         /// </summary>
         /// <typeparam name="T">Тип получаемого объекта</typeparam>
         /// <param name="predicate">Предикат</param>
+        /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null)
+        Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null)
             where T : class;
 
         IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> predicate, IList<ISort> sort, int page, int resultsPerPage)
