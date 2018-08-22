@@ -1,3 +1,4 @@
+using bgTeam;
 using bgTeam.Web.Impl;
 using System.Collections.Generic;
 using Xunit;
@@ -7,10 +8,12 @@ namespace Test.bgTeam.Web
 
     public class WebClientTest
     {
+        private readonly IAppLogger _logger;
+
         [Fact]
         public void Test_RequestGet()
         {
-            var client = new WebClient("https://www.rbc.ru/");
+            var client = new WebClient(_logger, "https://www.rbc.ru/");
 
 
             var header = new Dictionary<string, object>();
@@ -26,7 +29,7 @@ namespace Test.bgTeam.Web
         [Fact]
         public void Test_RequestGet2()
         {
-            var client = new WebClient("https://rating.kinopoisk.ru/");
+            var client = new WebClient(_logger, "https://rating.kinopoisk.ru/");
 
             var res = client.GetAsync<string>("961957.xml").Result;
 
@@ -36,7 +39,7 @@ namespace Test.bgTeam.Web
         [Fact]
         public void Test_RequestGet3()
         {
-            var client = new WebClient();
+            var client = new WebClient(_logger);
 
             var res = client.GetAsync<string>("https://rating.kinopoisk.ru/961957.xml").Result;
 
