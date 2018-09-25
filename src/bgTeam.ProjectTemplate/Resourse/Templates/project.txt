@@ -1,9 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="$sdk$">
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+	<OutputType>$type$</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
     <Configurations>Debug;Release;Uat;Live</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

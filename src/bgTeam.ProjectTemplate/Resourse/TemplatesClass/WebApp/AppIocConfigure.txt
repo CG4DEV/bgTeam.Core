@@ -1,0 +1,33 @@
+﻿namespace $namespace$
+{
+    using System;
+    using $prj$.Story;
+    using bgTeam;
+    using bgTeam.Core;
+    using bgTeam.Core.Impl;
+    using bgTeam.Impl;
+    using Microsoft.Extensions.DependencyInjection;
+
+    public class AppIocConfigure
+    {
+        public static IServiceProvider Configure(IServiceCollection services)
+        {
+            services.Scan(scan => scan
+                     .FromAssemblyOf<IStoryLibrary>()
+                     .AddClasses(classes => classes.AssignableTo(typeof(IStory<,>)))
+                     .AsImplementedInterfaces()
+                     .WithTransientLifetime());
+
+            var config = new AppConfigurationDefault();
+
+            services
+                .AddSingleton(services)
+                .AddSingleton<IAppConfiguration>(config)
+                .AddSingleton<IAppLogger, AppLoggerDefault>()
+                .AddSingleton<IStoryFactory, StoryFactory>()
+                .AddSingleton<IStoryBuilder, StoryBuilder>();
+
+            return services.BuildServiceProvider();
+        }
+    }
+}

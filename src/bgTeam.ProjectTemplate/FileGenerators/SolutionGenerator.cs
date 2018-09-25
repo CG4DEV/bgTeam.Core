@@ -7,15 +7,10 @@
     using System.Text;
     using bgTeam.Extensions;
 
-    public class SolutionGenerator
+    internal class SolutionGenerator
     {
-        //private string settings.BgTeamVersion = "2.0.6-beta";
-        //private string _namesmall;
-
         public void Generate(string @namespace, string name, SolutionSettings settings)
         {
-            //_namesmall = name;
-
             var folder = "result";
 
             if (Directory.Exists(folder))
@@ -29,10 +24,21 @@
 
             File.WriteAllText($"{folder}\\{@namespace}.{name}.sln", file);
 
-            File.Move("./Resourse/.gitignore", $"{folder}/.gitignore");
+            File.Copy("./Resourse/.gitignore", $"{folder}/.gitignore");
 
-            Directory.Move("./Resourse/shared", $"{folder}/shared");
-            Directory.Move("./Resourse/lint", $"{folder}/lint");
+            foreach (var item in Directory.EnumerateFiles("./Resourse/shared", "*", SearchOption.AllDirectories))
+            {
+                var dest = $"{folder}/{Path.GetRelativePath("./Resourse/", item)}";
+                Directory.CreateDirectory(Path.GetDirectoryName(dest));
+                File.Copy(item, dest);
+            }
+
+            foreach (var item in Directory.EnumerateFiles("./Resourse/lint", "*", SearchOption.AllDirectories))
+            {
+                var dest = $"{folder}/{Path.GetRelativePath("./Resourse/", item)}";
+                Directory.CreateDirectory(Path.GetDirectoryName(dest));
+                File.Copy(item, dest);
+            }
         }
 
         private IEnumerable<ProjectInfoItem> GenerateProjects(string name, string folder, string path, SolutionSettings settings)
@@ -44,73 +50,84 @@
             var ftest = new ProjectInfoItem("Tests", $"Tests", ProjectType.Folder);
             var fshared = new ProjectInfoItem("Shared", $"Shared", ProjectType.Folder);
 
-            var fconfigs = new ProjectInfoItem("configs", $"configs", ProjectType.Folder);
-            fconfigs.Description =
+            var fconfigs = new ProjectInfoItem("configs", $"configs", ProjectType.Folder)
+            {
+                Description =
     @"	ProjectSection(SolutionItems) = preProject
 		shared\configs\connectionStrings.Debug.json = shared\configs\connectionStrings.Debug.json
 		shared\configs\connectionStrings.Live.json = shared\configs\connectionStrings.Live.json
 		shared\configs\connectionStrings.Release.json = shared\configs\connectionStrings.Release.json
 		shared\configs\connectionStrings.Uat.json = shared\configs\connectionStrings.Uat.json
-	EndProjectSection";
+	EndProjectSection"
+            };
 
             var p1 = new ProjectGenerator($"{name}.Common", fullPath);
-            p1.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", settings.BgTeamVersion) });
+            p1.ProjectFile(new[] { ("bgTeam.Core", settings.BgTeamVersion) });
             p1.Folder("Impl");
             p1.ClassTemplateFile("ITestService", "Common\\ITestService");
             p1.ClassTemplateFile("TestService", "Common\\TestService", new[] { "Impl" });
-            var fp1 = new ProjectInfoItem(p1.Name, $"{path}\\{p1.Path}");
+
+            if (settings.IsWeb)
+            {
+                p1.Folder("Exceptions");
+                p1.ClassTemplateFile("BadRequestException", "Common\\BadRequestException", new[] { "Exceptions" });
+            }
+
+            var fp1 = new ProjectInfoItem(p1.Name, $"{path}\\{p1.Output}");
 
             var p2 = new ProjectGenerator($"{name}.DataAccess", fullPath);
-            p2.ProjectFile(new NugetItem[] 
+            p2.ProjectFile(
+                new[]
                 {
-                    new NugetItem("bgTeam.Core", settings.BgTeamVersion),
-                    new NugetItem("bgTeam.DataAccess", settings.BgTeamVersion)
-                }, new string[] { $"{name}.Domain" });
+                    ("bgTeam.Core", settings.BgTeamVersion),
+                    ("bgTeam.DataAccess", settings.BgTeamVersion)
+                }, projects: new[] { $"{name}.Domain" });
             p2.Folder("Impl");
-            p2.ClassTemplateFile("TestQuery", "DataAccess\\TestQuery", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
+            p2.ClassTemplateFile("TestQuery", "DataAccess\\TestQuery", replist: new List<(string, string)> { ("$prj$", name) });
             p2.ClassTemplateFile("TestQueryContext", "DataAccess\\TestQueryContext");
-            var fp2 = new ProjectInfoItem(p2.Name, $"{path}\\{p2.Path}");
+            var fp2 = new ProjectInfoItem(p2.Name, $"{path}\\{p2.Output}");
 
             var p3 = new ProjectGenerator($"{name}.Domain", fullPath);
-            p3.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Impl.Dapper", settings.BgTeamVersion) });
+            p3.ProjectFile(new[] { ("bgTeam.Impl.Dapper", settings.BgTeamVersion) });
             p3.Folder("Dto");
             p3.Folder("Entities");
             p3.ClassTemplateFile("IEntity", "Domain\\IEntity");
             p3.ClassTemplateFile("Test", "Domain\\Test", new[] { "Entities" });
             p3.ClassTemplateFile("TestDto", "Domain\\TestDto", new[] { "Dto" });
-            var fp3 = new ProjectInfoItem(p3.Name, $"{path}\\{p3.Path}");
+            var fp3 = new ProjectInfoItem(p3.Name, $"{path}\\{p3.Output}");
 
             var p4 = new ProjectGenerator($"{name}.Story", fullPath);
-            p4.ProjectFile(new NugetItem[]
+            p4.ProjectFile(
+                new[]
                 {
-                    new NugetItem("bgTeam.Core", settings.BgTeamVersion),
-                    new NugetItem("bgTeam.DataAccess", settings.BgTeamVersion)
-                }, new string[] { $"{name}.Domain" });
-            p4.ClassTemplateFile("TestStory", "Story\\TestStory", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
+                    ("bgTeam.Core", settings.BgTeamVersion),
+                    ("bgTeam.DataAccess", settings.BgTeamVersion)
+                }, projects: new[] { $"{name}.Domain" });
+            p4.ClassTemplateFile("TestStory", "Story\\TestStory", replist: new List<(string, string)> { ("$prj$", name) });
             p4.ClassTemplateFile("TestStoryContext", "Story\\TestStoryContext");
             p4.ClassTemplateFile("IStoryLibrary", "Story\\IStoryLibrary");
-            p4.ClassTemplateFile("AutoMapperStory", "Story\\AutoMapperStory");
-            var fp4 = new ProjectInfoItem(p4.Name, $"{path}\\{p4.Path}");
+            var fp4 = new ProjectInfoItem(p4.Name, $"{path}\\{p4.Output}");
 
-            var p6 = new ProjectGenerator($"{name}.Tests", $"{folder}\\tests");
-            p6.ProjectFile(new NugetItem[]
+            var p5 = new ProjectGenerator($"{name}.Tests", $"{folder}\\tests");
+            p5.ProjectFile(
+                new[]
                 {
-                    new NugetItem("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                    new NugetItem("Microsoft.NET.Test.Sdk", "15.5.0"),
-                    new NugetItem("xunit", "2.3.1"),
-                    new NugetItem("xunit.runner.visualstudio", "2.3.1")
-                }, new string[] { $"{name}.Story" }, true);
-            p6.Folder("Common");
-            p6.ClassTemplateFile("TestStoryTests", "Tests\\TestStoryTests", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
-            p6.ClassTemplateFile("FactoryTestService", "Tests\\FactoryTestService", new[] { "Common" });
-            p6.JsonTemplateFile("appsettings", "Tests\\appsettings");
-            var fp6 = new ProjectInfoItem(p6.Name, $"tests\\{p6.Path}", ProjectType.Compile);
+                    ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
+                    ("Microsoft.NET.Test.Sdk", "15.5.0"),
+                    ("xunit", "2.3.1"),
+                    ("xunit.runner.visualstudio", "2.3.1")
+                }, projects: new[] { $"{name}.Story" }, configs: true);
+            p5.Folder("Common");
+            p5.ClassTemplateFile("TestStoryTests", "Tests\\TestStoryTests", replist: new List<(string, string)> { ("$prj$", name) });
+            p5.ClassTemplateFile("FactoryTestService", "Tests\\FactoryTestService", new[] { "Common" });
+            p5.JsonTemplateFile("appsettings", "Tests\\appsettings");
+            var fp5 = new ProjectInfoItem(p5.Name, $"tests\\{p5.Output}", ProjectType.Compile);
 
             fmain.AddChild(fp1);
             fmain.AddChild(fp2);
             fmain.AddChild(fp3);
             fmain.AddChild(fp4);
-            ftest.AddChild(fp6);
+            ftest.AddChild(fp5);
             fshared.AddChild(fconfigs);
 
             result.Add(fmain);
@@ -121,32 +138,67 @@
             result.Add(fp2);
             result.Add(fp3);
             result.Add(fp4);
-            result.Add(fp6);
+            result.Add(fp5);
 
             if (settings.IsApp)
             {
-                var p5 = new ProjectGenerator($"{name}.App", fullPath);
-                p5.ProjectFile(new NugetItem[]
+                var p6 = new ProjectGenerator($"{name}.App", fullPath);
+                p6.ProjectFile(
+                    new[]
                     {
-                    new NugetItem("bgTeam.Core", settings.BgTeamVersion),
-                    new NugetItem("bgTeam.Impl.Dapper", settings.BgTeamVersion),
-                    new NugetItem("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                    new NugetItem("Scrutor", "2.1.2")
-                    }, new string[] { $"{name}.Story" }, true);
-                p5.ClassTemplateFile("AppSettings", "App\\AppSettings");
-                p5.ClassTemplateFile("AppIocConfigure", "App\\AppIocConfigure", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
-                p5.ClassTemplateFile("Program", "App\\Program", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
-                p5.ClassTemplateFile("Runner", "App\\Runner", null, new List<KeyValueStr>() { new KeyValueStr("$prj$", name) });
-                p5.JsonTemplateFile("appsettings", "App\\appsettings");
-                var fp5 = new ProjectInfoItem(p5.Name, $"{path}\\{p5.Path}");
-
-                fmain.AddChild(fp5);
-                result.Add(fp5);
+                        ("bgTeam.Core", settings.BgTeamVersion),
+                        ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
+                        ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
+                        ("Scrutor", "2.1.2")
+                    }, type: "Exe", projects: new[] { $"{name}.Story" }, configs: true);
+                p6.ClassTemplateFile("AppSettings", "App\\AppSettings");
+                p6.ClassTemplateFile("AppIocConfigure", "App\\AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
+                p6.ClassTemplateFile("Program", "App\\Program", replist: new List<(string, string)> { ("$prj$", name) });
+                p6.ClassTemplateFile("Runner", "App\\Runner", replist: new List<(string, string)> { ("$prj$", name) });
+                p6.JsonTemplateFile("appsettings", "App\\appsettings");
+                p6.Folder("Properties");
+                p6.JsonTemplateFile("launchSettings", "App\\launchSettings", new[] { "Properties" }, new List<(string, string)>{ ("$prj$", p6.Name) });
+                var fp6 = new ProjectInfoItem(p6.Name, $"{path}\\{p6.Output}");
+                fmain.AddChild(fp6);
+                result.Add(fp6);
             }
 
             if (settings.IsWeb)
             {
+                var p7 = new ProjectGenerator($"{name}.WebApp", fullPath);
+                p7.ProjectFile(
+                    new[]
+                    {
+                        ("bgTeam.Core", settings.BgTeamVersion),
+                        ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
+                        ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
+                        ("Microsoft.AspNetCore.All", "2.1.1"),
+                        ("Scrutor", "2.1.2")
+                    }, projects: new[] { $"{name}.Common", $"{name}.DataAccess", $"{name}.Story" });
+                p7.ClassTemplateFile("AppSettings", "App\\AppSettings");
+                p7.ClassTemplateFile("AppIocConfigure", "WebApp\\AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
+                p7.ClassTemplateFile("AppMiddlewareException", "WebApp\\AppMiddlewareException", replist: new List<(string, string)> { ("$prj$", name) });
+                p7.Folder("Controllers");
+                p7.ClassTemplateFile("HomeController", "WebApp\\Controllers\\HomeController", new[] { "Controllers" });
+                var fp7 = new ProjectInfoItem(p7.Name, $"{path}\\{p7.Output}");
+                fmain.AddChild(fp7);
+                result.Add(fp7);
 
+                var p8 = new ProjectGenerator($"{name}.Web", fullPath);
+                p8.ProjectFile(
+                    new[]
+                    {
+                        ("Swashbuckle.AspNetCore", "3.0.0")
+                    }, "Microsoft.NET.Sdk.Web", "Exe", new[] { $"{name}.WebApp" }, true);
+                p8.ClassTemplateFile("Program", "Web\\Program", replist: new List<(string, string)> { ("$prj$", name) });
+                p8.ClassTemplateFile("Startup", "Web\\Startup", replist: new List<(string, string)> { ("$api-name$", $"{name} API") });
+                p8.JsonTemplateFile("appsettings", "Web\\appsettings");
+                p8.Folder("Properties");
+                p8.JsonTemplateFile("launchSettings", "Web\\launchSettings", new[] { "Properties" }, new List<(string, string)> { ("$prj$", p8.Name) });
+
+                var fp8 = new ProjectInfoItem(p8.Name, $"{path}\\{p8.Output}");
+                fmain.AddChild(fp8);
+                result.Add(fp8);
             }
 
             return result;
@@ -173,8 +225,6 @@ MinimumVisualStudioVersion = 10.0.40219.1");
 
                 str.AppendLine("EndProject");
             }
-
-            //str.AppendLine()
 
             str.AppendLine("Global");
             str.AppendLine(
@@ -259,14 +309,14 @@ MinimumVisualStudioVersion = 10.0.40219.1");
                 Build = true;
             }
 
-            Code = Guid.NewGuid().ToString().ToUpper();
+            Code = Guid.NewGuid().ToString().ToUpperInvariant();
 
             ListChild = new List<string>();
         }
 
         public void AddChild(ProjectInfoItem project)
         {
-            ListChild.Add(project.Code.ToString());
+            ListChild.Add(project.Code);
         }
     }
 

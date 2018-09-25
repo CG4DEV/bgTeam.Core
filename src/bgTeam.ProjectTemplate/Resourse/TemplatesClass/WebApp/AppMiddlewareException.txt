@@ -1,0 +1,57 @@
+namespace $namespace$
+{
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using $prj$.Common.Exceptions;
+    using bgTeam;
+    using Microsoft.AspNetCore.Http;
+    using Newtonsoft.Json;
+
+    public class AppMiddlewareException
+    {
+        private readonly IAppLogger _logger;
+        private readonly RequestDelegate _next;
+
+        public AppMiddlewareException(RequestDelegate next, IAppLogger logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
+
+        public Task Invoke(HttpContext context)
+        {
+            try
+            {
+                return _next(context);
+            }
+            catch (BadRequestException ex)
+            {
+                return HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
+            }
+            catch (AggregateException exp)
+            {
+                return HandleExceptionAsync(context, exp.GetBaseException(), HttpStatusCode.InternalServerError);
+            }
+            catch (Exception exp)
+            {
+                return HandleExceptionAsync(context, exp, HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private static Task HandleExceptionAsync(HttpContext context, Exception exp, HttpStatusCode code)
+        {
+            var result = JsonConvert.SerializeObject(new
+            {
+                Code = code,
+                exp.Message,
+                exp.StackTrace,
+            });
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)code;
+
+            return context.Response.WriteAsync(result);
+        }
+    }
+}

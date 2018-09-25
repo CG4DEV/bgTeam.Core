@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "$prj$": {
+      "commandName": "Project",
+      "commandLineArgs": "-env Debug"
+    }
+  }
+}

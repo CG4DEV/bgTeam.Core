@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
     <OutputType>Exe</OutputType>
@@ -66,6 +67,12 @@
     <None Update="Resourse\shared\configs\connectionStrings.Uat.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resourse\TemplatesClass\App\launchSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Common\BadRequestException.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     
     <None Update="Resourse\TemplatesClass\Common\ITestService.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -88,9 +95,6 @@
     <None Update="Resourse\TemplatesClass\Domain\TestDto.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\TemplatesClass\Story\AutoMapperStory.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Resourse\TemplatesClass\Story\IStoryLibrary.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -107,6 +111,27 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\TemplatesClass\Tests\TestStoryTests.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\WebApp\AppIocConfigure.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\WebApp\AppMiddlewareException.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\WebApp\Controllers\HomeController.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Web\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Web\launchSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Web\Startup.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Web\Program.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\Templates\configs.txt">
@@ -131,6 +156,10 @@
     <None Update="Resourse\TemplatesClass\App\Runner.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resourse\TemplatesClass\WebApp\Controllers\" />
   </ItemGroup>
 
 </Project>

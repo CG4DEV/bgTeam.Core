@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using bgTeam.Core;
     using bgTeam.Core.Impl;
     using bgTeam.Impl;
@@ -15,7 +14,8 @@
             var services = new ServiceCollection();
 
             IAppConfiguration config;
-            //TODO внести исправления в базовую сборку класс AppConfigurationDefault
+
+            // TODO: внести исправления в базовую сборку класс AppConfigurationDefault
             if (cmdParams.ContainsKey("env"))
             {
                 // Задаём конфигурацию через пришедший параметр
@@ -34,17 +34,6 @@
                 .AddSingleton<IAppConfiguration>(config)
                 .AddSingleton<IAppSettings>(appSettings)
                 .AddSingleton<IAppLogger, AppLoggerDefault>()
-
-                //.AddSingleton<IStoryFactory, StoryFactory>()
-                //.AddSingleton<IStoryBuilder, StoryBuilder>()
-                //.AddSingleton<IConnectionSetting>(appSettings)
-                //.AddSingleton<IFtpSettings>(appSettings)
-                //.AddSingleton<IConnectionFactory, ConnectionFactoryMsSql>()
-                //.AddSingleton<IRepository, RepositoryDapper>()
-                //.AddSingleton<ICrudService, CrudServiceDapper>()
-                //.AddSingleton<IFileLoader, FtpLoader>()
-                //.AddSingleton<ISchedulerFactory, StdSchedulerFactory>()
-                //.AddSingleton<ISchedulersFactory, SchedulersFactory>()
                 .AddTransient<Runner>();
 
             return services.BuildServiceProvider();

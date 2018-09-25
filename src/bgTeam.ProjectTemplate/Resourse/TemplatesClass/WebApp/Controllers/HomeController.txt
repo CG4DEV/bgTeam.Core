@@ -1,0 +1,18 @@
+﻿namespace $namespace$
+{
+    using Microsoft.AspNetCore.Mvc;
+
+    //[Route("api/[controller]/[action]")]
+    public class HomeController : Controller
+    {
+        /// <summary>
+        /// Метод по-умолчанию
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string Index()
+        {
+            return "Hello World";
+        }
+    }
+}

@@ -1,153 +1,139 @@
 ﻿namespace bgTeam.ProjectTemplate
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
-    public class ProjectGenerator
+    internal class ProjectGenerator
     {
-        private string _resPath;
-
-        public string Name { get; set; }
-
-        public string Path { get; private set; }
+        private readonly string _resPath;
 
         public ProjectGenerator(string name, string resPath)
         {
             Name = name;
             _resPath = resPath;
 
-            var dir = $"{_resPath}\\{Name}";
+            var dir = new DirectoryInfo(Path.Combine(_resPath, Name));
 
-            if (Directory.Exists(dir))
+            if (dir.Exists)
             {
-                Directory.Delete(dir, true);
-                Directory.CreateDirectory(dir);
+                dir.Delete(true);
             }
-            else
-            {
-                Directory.CreateDirectory(dir);
-            }
+
+            dir.Create();
         }
 
-        public void ProjectFile(NugetItem[] nugets, string[] projects = null, bool configs = false)
-        {
-            string temp = File.ReadAllText("./Resourse/Templates/project.txt");
+        public string Name { get; set; }
 
-            var strNuget = new StringBuilder();
-            strNuget.AppendLine("  <ItemGroup>");
+        public string Output { get; private set; }
+
+        public void ProjectFile((string Name, string Version)[] nugets, string sdk = "Microsoft.NET.Sdk", string type = "Library", string[] projects = null, bool configs = false)
+        {
+            var result = new StringBuilder(File.ReadAllText("./Resourse/Templates/project.txt"));
+
+            result.Replace("$sdk$", sdk);
+            result.Replace("$type$", type);
+
+            var builder = new StringBuilder();
+
+            builder.AppendLine("  <ItemGroup>");
             foreach (var item in nugets)
             {
-                strNuget.AppendLine($"    <PackageReference Include=\"{item.Name}\" Version=\"{item.Version}\" />");
+                builder.AppendLine($"    <PackageReference Include=\"{item.Name}\" Version=\"{item.Version}\" />");
             }
-            strNuget.AppendLine("  </ItemGroup>");
 
-            temp = temp.Replace("$nugets$", strNuget.ToString());
+            builder.AppendLine("  </ItemGroup>");
+
+            result.Replace("$nugets$", builder.ToString());
+
+            builder.Clear();
 
             if (projects != null)
             {
-                var strPrj = new StringBuilder();
-                strPrj.AppendLine("  <ItemGroup>");
+                builder.AppendLine("  <ItemGroup>");
+
                 foreach (var item in projects)
                 {
-                    strPrj.AppendLine($"    <ProjectReference Include=\"..\\..\\src\\{item}\\{item}.csproj\" />");
+                    builder.AppendLine($"    <ProjectReference Include=\"..\\..\\src\\{item}\\{item}.csproj\" />");
                 }
-                strPrj.AppendLine("  </ItemGroup>");
 
-                temp = temp.Replace("$projects$", strPrj.ToString());
+                builder.AppendLine("  </ItemGroup>");
+
+                result.Replace("$projects$", builder.ToString());
+
+                builder.Clear();
             }
             else
             {
-                temp = temp.Replace("$projects$", string.Empty);
+                result.Replace("$projects$", string.Empty);
             }
 
             if (configs)
             {
-                string tempCnf = File.ReadAllText("./Resourse/Templates/configs.txt");
-
-                temp = temp.Replace("$configs$", tempCnf);
+                result.Replace("$configs$", File.ReadAllText("./Resourse/Templates/configs.txt"));
             }
             else
             {
-                temp = temp.Replace("$configs$", string.Empty);
+                result.Replace("$configs$", string.Empty);
             }
 
-            Path = $"{Name}\\{Name}.csproj";
+            Output = $"{Name}/{Name}.csproj";
 
-            File.WriteAllText($"{_resPath}\\{Path}", temp);
+            File.WriteAllText(Path.Combine(_resPath, Output), result.ToString());
         }
 
-        internal void ClassTemplateFile(string name, string pathTemp, string[] folderPath = null, IList<KeyValueStr> replist = null)
+        public void ClassTemplateFile(string name, string pathTemp, string[] folderPath = null, IList<(string Key, string Value)> replist = null)
         {
             if (folderPath == null)
             {
-                folderPath = new string[] { };
+                folderPath = Array.Empty<string>();
             }
 
-            string temp = File.ReadAllText($".\\Resourse\\TemplatesClass\\{pathTemp}.txt");
+            var result = new StringBuilder(File.ReadAllText($"./Resourse/TemplatesClass/{pathTemp}.txt"));
 
-            var pathList = new List<string>();
-
-            pathList.Add(Name);
+            var pathList = new List<string>
+            {
+                Name
+            };
             pathList.AddRange(folderPath);
 
-            //temp = temp.Replace("$name$", name);
-            temp = temp.Replace("$namespace$", string.Join(".", pathList));
+            result.Replace("$namespace$", string.Join(".", pathList));
 
             if (replist != null && replist.Count > 0)
             {
                 foreach (var item in replist)
                 {
-                    temp = temp.Replace(item.Key, item.Value);
+                    result.Replace(item.Key, item.Value);
                 }
             }
 
-            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join("\\", folderPath)}\\{name}.cs", temp);
+            File.WriteAllText($"{_resPath}/{Name}/{string.Join("/", folderPath)}/{name}.cs", result.ToString());
         }
 
-        internal void JsonTemplateFile(string name, string pathTemp, params string[] folderPath)
+        public void JsonTemplateFile(string name, string pathTemp, string[] folderPath = null, IList<(string Key, string Value)> replist = null)
         {
-            string temp = File.ReadAllText($".\\Resourse\\TemplatesClass\\{pathTemp}.json");
+            if (folderPath == null)
+            {
+                folderPath = Array.Empty<string>();
+            }
 
-            //var pathList = new List<string>();
+            var result = new StringBuilder(File.ReadAllText($"./Resourse/TemplatesClass/{pathTemp}.json"));
 
-            //pathList.Add(Name);
-            //pathList.AddRange(folderPath);
+            if (replist != null && replist.Count > 0)
+            {
+                foreach (var item in replist)
+                {
+                    result.Replace(item.Key, item.Value);
+                }
+            }
 
-            //temp = temp.Replace("$namespace$", string.Join('.', pathList));
-
-            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join("\\", folderPath)}\\{name}.json", temp);
+            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join("\\", folderPath)}\\{name}.json", result.ToString());
         }
 
         public void Folder(string folder)
         {
             Directory.CreateDirectory($"{_resPath}\\{Name}\\{folder}");
-        }
-    }
-
-    public class NugetItem
-    {
-        public string Name { get; set; }
-
-        public string Version { get; set; }
-
-        public NugetItem(string name, string version)
-        {
-            Name = name;
-            Version = version;
-        }
-    }
-
-    public class KeyValueStr
-    {
-        public string Key { get; set; }
-
-        public string Value { get; set; }
-
-        public KeyValueStr(string key, string value)
-        {
-            Key = key;
-            Value = value;
         }
     }
 }
