@@ -191,7 +191,7 @@
                         ("Swashbuckle.AspNetCore", "3.0.0")
                     }, "Microsoft.NET.Sdk.Web", "Exe", new[] { $"{name}.WebApp" }, true);
                 p8.ClassTemplateFile("Program", "Web\\Program", replist: new List<(string, string)> { ("$prj$", name) });
-                p8.ClassTemplateFile("Startup", "Web\\Startup", replist: new List<(string, string)> { ("$api-name$", $"{name} API") });
+                p8.ClassTemplateFile("Startup", "Web\\Startup", replist: new List<(string, string)> { ("$prj$", name), ("$api-name$", $"{name} API") });
                 p8.JsonTemplateFile("appsettings", "Web\\appsettings");
                 p8.Folder("Properties");
                 p8.JsonTemplateFile("launchSettings", "Web\\launchSettings", new[] { "Properties" }, new List<(string, string)> { ("$prj$", p8.Name) });

@@ -1,6 +1,6 @@
 namespace $namespace$
 {
-    using BetLab.VIPDashboard.WebApp;
+    using $prj$.WebApp;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
