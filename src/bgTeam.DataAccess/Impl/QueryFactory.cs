@@ -1,26 +1,25 @@
 ﻿namespace bgTeam.DataAccess.Impl
 {
+    using System;
     using Microsoft.Extensions.DependencyInjection;
 
     public class QueryFactory : IQueryFactory
     {
-        private readonly IServiceCollection _services;
+        private readonly IServiceProvider _provider;
 
-        public QueryFactory(IServiceCollection services)
+        public QueryFactory(IServiceProvider provider)
         {
-            _services = services;
+            _provider = provider;
         }
 
         public IQuery<TCommandContext> Create<TCommandContext>()
         {
-            var provider = _services.BuildServiceProvider();
-            return provider.GetService<IQuery<TCommandContext>>();
+            return _provider.GetService<IQuery<TCommandContext>>();
         }
 
         public IQuery<TCommandContext, TResult> Create<TCommandContext, TResult>()
         {
-            var provider = _services.BuildServiceProvider();
-            return provider.GetService<IQuery<TCommandContext, TResult>>();
+            return _provider.GetService<IQuery<TCommandContext, TResult>>();
         }
     }
 }
