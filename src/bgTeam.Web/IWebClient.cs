@@ -8,6 +8,11 @@
 
     public interface IWebClient
     {
+        /// <summary>
+        /// Устанавливает количество одновременных соединений с сервером
+        /// </summary>
+        int ConnectionsLimit { get; set; }
+
         Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class;
 

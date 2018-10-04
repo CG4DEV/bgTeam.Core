@@ -65,7 +65,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.ProjectTemplate.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Impl.PostgreSQL", "src\bgTeam.Impl.PostgreSQL\bgTeam.Impl.PostgreSQL.csproj", "{9800E06E-9818-442F-B5DA-04204A376639}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.bgTeam.Impl.Dapper", "tests\Test.bgTeam.Impl.Dapper\Test.bgTeam.Impl.Dapper.csproj", "{9C426BCA-60F8-4727-92AC-05300F05E443}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.bgTeam.Impl.Dapper", "tests\Test.bgTeam.Impl.Dapper\Test.bgTeam.Impl.Dapper.csproj", "{9C426BCA-60F8-4727-92AC-05300F05E443}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
