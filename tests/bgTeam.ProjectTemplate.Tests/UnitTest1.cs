@@ -12,38 +12,38 @@ namespace bgTeam.ProjectTemplate.Tests
 
         }
 
-        [Fact]
-        public void Generator_ProjectFile()
-        {
-            var name = "bgTeam.TestGenerate";
-            var path = "result";
+        //[Fact]
+        //public void Generator_ProjectFile()
+        //{
+        //    var name = "bgTeam.TestGenerate";
+        //    var path = "result";
 
-            var p1 = new ProjectGenerator($"{name}.Common", path);
+        //    var p1 = new ProjectGenerator($"{name}.Common", path);
 
-            p1.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", bgTeamVersion) });
-            p1.Folder("Impl");
-            //g.ClassTemplateFile();
+        //    p1.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", bgTeamVersion) });
+        //    p1.Folder("Impl");
+        //    //g.ClassTemplateFile();
 
-            var p2 = new ProjectGenerator($"{name}.DataAccess", path);
-            p2.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.DataAccess", bgTeamVersion) });
-            p2.Folder("Impl");
+        //    var p2 = new ProjectGenerator($"{name}.DataAccess", path);
+        //    p2.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.DataAccess", bgTeamVersion) });
+        //    p2.Folder("Impl");
 
-            var p3 = new ProjectGenerator($"{name}.Domain", path);
-            p3.ProjectFile(new NugetItem[] { });
+        //    var p3 = new ProjectGenerator($"{name}.Domain", path);
+        //    p3.ProjectFile(new NugetItem[] { });
 
-            var p4 = new ProjectGenerator($"{name}.Story", path);
-            p4.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", bgTeamVersion) });
+        //    var p4 = new ProjectGenerator($"{name}.Story", path);
+        //    p4.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", bgTeamVersion) });
 
-            var p5 = new ProjectGenerator($"{name}.App", path);
-            p4.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", bgTeamVersion) });
-        }
+        //    var p5 = new ProjectGenerator($"{name}.App", path);
+        //    p4.ProjectFile(new NugetItem[] { new NugetItem("bgTeam.Core", bgTeamVersion) });
+        //}
 
-        [Fact]
-        public void Generator_SolutionGenerator()
-        {
-            var s1 = new SolutionGenerator();
+        //[Fact]
+        //public void Generator_SolutionGenerator()
+        //{
+        //    var s1 = new SolutionGenerator();
 
-            s1.Generate("test", "Sso", new SolutionSettings());
-        }
+        //    s1.Generate("test", "Sso", new SolutionSettings());
+        //}
     }
 }
