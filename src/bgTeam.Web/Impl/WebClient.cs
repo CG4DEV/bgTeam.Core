@@ -69,20 +69,6 @@
             }
         }
 
-        public string Test
-        {
-            get
-            {
-#if NETCOREAPP2_1
-                return "Core 2.1";
-#elif NETCOREAPP2_0
-                return "Core 2.0";
-#else
-                return "Standart";
-#endif
-            }
-        }
-
         /// <summary>
         /// Указывает, сколько времени (в мс) будет закеширован полученный IP адрес для каждого доменного имени
         /// </summary>
@@ -132,7 +118,7 @@
             set
             {
 #if NETCOREAPP2_1
-                _handler.PooledConnectionIdleTimeout = TimeSpan.FromSeconds(value);
+                _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
 #elif NETCOREAPP2_0
                 throw new NotSupportedException();
 #else
@@ -163,7 +149,7 @@
             set
             {
 #if NETCOREAPP2_1
-                _handler.PooledConnectionLifetime = TimeSpan.FromSeconds(value);
+                _handler.PooledConnectionLifetime = TimeSpan.FromMilliseconds(value);
 #elif NETCOREAPP2_0
                 throw new NotSupportedException();
 #else
