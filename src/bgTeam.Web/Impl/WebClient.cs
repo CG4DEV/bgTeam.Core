@@ -1,10 +1,10 @@
 ﻿namespace bgTeam.Web.Impl
 {
-    using bgTeam.Extensions;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using bgTeam.Extensions;
+    using Newtonsoft.Json;
 #if !NETCOREAPP2_1
     using System.Net;
 #endif
@@ -163,7 +163,7 @@
             return await ProcessResult<T>(resultGet);
         }
 
-        public async Task<T> PostAsync<T>(string action, object postParams = null)
+        public async Task<T> PostAsync<T>(string method, object postParams = null)
             where T : class
         {
             var result = string.Empty;
@@ -172,12 +172,12 @@
             {
                 var dic = GetFormContentDictionary(postParams);
                 var content = new FormUrlEncodedContent(dic);
-                var resultPost = await _client.PostAsync(action, content);
+                var resultPost = await _client.PostAsync(method, content);
                 result = await resultPost.Content.ReadAsStringAsync();
             }
             else
             {
-                var resultPost = await _client.PostAsync(action, null);
+                var resultPost = await _client.PostAsync(method, null);
                 result = await resultPost.Content.ReadAsStringAsync();
             }
 
@@ -225,8 +225,10 @@
                 return baseUrl;
             }
 
-            var builder = new UriBuilder(baseUrl);
-            builder.Port = -1;
+            var builder = new UriBuilder(baseUrl)
+            {
+                Port = -1,
+            };
             string url = builder.ToString();
             return url;
         }
@@ -234,6 +236,11 @@
         private async Task<T> ProcessResult<T>(HttpResponseMessage response)
             where T : class
         {
+            if (string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
+            {
+                response.Content.Headers.ContentType.CharSet = "utf-8";
+            }
+
             var result = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(result) || result == "[]")

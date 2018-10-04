@@ -18,4 +18,10 @@
     <ProjectReference Include="..\..\src\bgTeam.Impl.Sqlite\bgTeam.Impl.Sqlite.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -76,7 +76,7 @@
         {
             if (string.IsNullOrWhiteSpace(tableName))
             {
-                throw new ArgumentNullException("TableName", "tableName cannot be null or empty.");
+                throw new ArgumentNullException(nameof(tableName), "tableName cannot be null or empty.");
             }
 
             StringBuilder result = new StringBuilder();
@@ -99,7 +99,7 @@
         {
             if (string.IsNullOrWhiteSpace(columnName))
             {
-                throw new ArgumentNullException("ColumnName", "columnName cannot be null or empty.");
+                throw new ArgumentNullException(nameof(columnName), "columnName cannot be null or empty.");
             }
 
             StringBuilder result = new StringBuilder();

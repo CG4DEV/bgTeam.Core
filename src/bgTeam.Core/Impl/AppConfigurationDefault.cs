@@ -8,7 +8,7 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Реализация по-умолчанию реализации класса для получения значений из конфигурационного файла
+    /// Реализация по-умолчанию реализации класса для получения значений из конфигурационного файла.
     /// </summary>
     public class AppConfigurationDefault : IAppConfiguration
     {
@@ -30,26 +30,26 @@
         }
 
         /// <summary>
-        /// Получение значения настройки по её названию key
+        /// Получение значения настройки по её названию key.
         /// </summary>
-        /// <param name="key">Название настройки</param>
-        /// <returns>Строка. Значение настройки</returns>
+        /// <param name="key">Название настройки.</param>
+        /// <returns>Строка. Значение настройки.</returns>
         public string this[string key] => _configurationRoot[key];
 
         /// <summary>
-        /// Возвращает строку подключения по её названию в конфигаруционном файле
+        /// Возвращает строку подключения по её названию в конфигаруционном файле.
         /// </summary>
-        /// <param name="name">Название строки подключения</param>
-        /// <returns>Строку подключения</returns>
+        /// <param name="name">Название строки подключения.</param>
+        /// <returns>Строку подключения.</returns>
         public string GetConnectionString(string name)
         {
             return _configurationRoot.GetConnectionString(name);
         }
 
         /// <summary>
-        /// Возвращает секцию настроек по её имени
+        /// Возвращает секцию настроек по её имени.
         /// </summary>
-        /// <param name="name">Название секции настроек</param>
+        /// <param name="name">Название секции настроек.</param>
         /// <returns></returns>
         public IConfigurationSection GetSection(string name)
         {
@@ -65,7 +65,7 @@
             {
                 appsettingsFile = File.ReadAllText(Path.Combine(curDir, $"{fileConfiguration}.json"));
             }
-            catch (FileNotFoundException exp)
+            catch (FileNotFoundException)
             {
                 throw new ArgumentException($"Not find config file - {fileConfiguration}.json, path - {curDir}\\");
             }

@@ -94,7 +94,7 @@
 
             var pathList = new List<string>
             {
-                Name
+                Name,
             };
             pathList.AddRange(folderPath);
 

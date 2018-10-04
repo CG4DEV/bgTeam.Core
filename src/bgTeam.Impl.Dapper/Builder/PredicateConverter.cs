@@ -354,7 +354,7 @@
                 Not = false,
                 Operator = Operator.Like,
                 PropertyName = memberExpression.Member.Name,
-                Value = string.Format("%{0}%", value)
+                Value = string.Format("%{0}%", value),
             };
         }
 
@@ -410,7 +410,7 @@
                 {
                     Operator = Operator.Eq,
                     PropertyName = propertyName,
-                    Value = InvokeExpression(memberExpression)
+                    Value = InvokeExpression(memberExpression),
                 };
             }
 

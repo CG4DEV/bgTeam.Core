@@ -7,7 +7,7 @@
     using System.Reflection;
     using System.Text;
     using DapperExtensions.Mapper;
-    using Mapper.Sql;
+    using DapperExtensions.Mapper.Sql;
 
     public interface IDapperExtensionsConfiguration
     {
@@ -38,7 +38,6 @@
         {
         }
 
-
         public DapperExtensionsConfiguration(Type defaultMapper, IList<Assembly> mappingAssemblies, ISqlDialect sqlDialect, string identityColumn)
         {
             DefaultMapper = defaultMapper;
@@ -57,8 +56,7 @@
 
         public IClassMapper GetMap(Type entityType)
         {
-            IClassMapper map;
-            if (!_classMaps.TryGetValue(entityType, out map))
+            if (!_classMaps.TryGetValue(entityType, out var map))
             {
                 Type mapType = GetMapType(entityType);
                 if (mapType == null)

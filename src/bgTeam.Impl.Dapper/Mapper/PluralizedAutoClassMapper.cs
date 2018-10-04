@@ -7,9 +7,9 @@ namespace DapperExtensions.Mapper
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Automatically maps an entity to a table using a combination of reflection and naming conventions for keys. 
+    /// Automatically maps an entity to a table using a combination of reflection and naming conventions for keys.
     /// Identical to AutoClassMapper, but attempts to pluralize table names automatically.
-    /// Example: Person entity maps to People table
+    /// Example: Person entity maps to People table.
     /// </summary>
     public class PluralizedAutoClassMapper<T> : AutoClassMapper<T>
         where T : class
@@ -40,11 +40,10 @@ namespace DapperExtensions.Mapper
                 { "(.+[^aeiou])y$", "$1ies" },
                 { "(.+z)$", "$1zes" },
                 { "([m|l])ouse$", "$1ice" },
-                { "(.+)(e|i)x$", @"$1ices"},    // ie, Matrix, Index
-                { "(octop|vir)us$", "$1i"},
-                { "(.+(s|x|sh|ch))$", @"$1es"},
-                { "(.+)", @"$1s" }
-
+                { "(.+)(e|i)x$", @"$1ices" },    // ie, Matrix, Index
+                { "(octop|vir)us$", "$1i" },
+                { "(.+(s|x|sh|ch))$", @"$1es" },
+                { "(.+)", @"$1s" },
             };
 
             public static string Pluralize(string singular)

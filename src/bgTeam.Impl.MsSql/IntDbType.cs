@@ -39,7 +39,7 @@
                 SqlDbType = SqlDbType.Structured,
                 Direction = ParameterDirection.Input,
                 TypeName = "IntegerIdList",
-                Value = numberList
+                Value = numberList,
             };
         }
     }

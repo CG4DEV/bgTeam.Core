@@ -59,7 +59,7 @@
                 { typeof(short), KeyType.Identity }, { typeof(short?), KeyType.Identity },
                 { typeof(ushort), KeyType.Identity }, { typeof(ushort?), KeyType.Identity },
                 { typeof(int), KeyType.Identity }, { typeof(int?), KeyType.Identity },
-                { typeof(uint), KeyType.Identity}, { typeof(uint?), KeyType.Identity },
+                { typeof(uint), KeyType.Identity }, { typeof(uint?), KeyType.Identity },
                 { typeof(long), KeyType.Identity }, { typeof(long?), KeyType.Identity },
                 { typeof(ulong), KeyType.Identity }, { typeof(ulong?), KeyType.Identity },
                 { typeof(BigInteger), KeyType.Identity }, { typeof(BigInteger?), KeyType.Identity },
@@ -128,7 +128,7 @@
         //}
 
         /// <summary>
-        /// Fluently, maps an entity property to a column
+        /// Fluently, maps an entity property to a column.
         /// </summary>
         //protected PropertyMap Map(Expression<Func<T, object>> expression)
         //{
@@ -165,10 +165,10 @@
         }
 
         /// <summary>
-        /// Fluently, maps an entity property to a column
+        /// Fluently, maps an entity property to a column.
         /// </summary>
         /// <param name="propertyInfo"></param>
-        /// <param name="overwrite">If an existing map is present, overwrite it</param>
+        /// <param name="overwrite">If an existing map is present, overwrite it.</param>
         /// <returns></returns>
         protected PropertyMap Map(PropertyInfo propertyInfo, bool overwrite = true)
         {

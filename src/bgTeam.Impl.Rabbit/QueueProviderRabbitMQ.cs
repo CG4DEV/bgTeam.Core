@@ -136,11 +136,11 @@
         }
 
         /// <summary>
-        /// Проверяем что очередь создана
+        /// Проверяем что очередь создана.
         /// </summary>
         private void Init(IEnumerable<string> queues)
         {
-            _logger.Debug($"QueueProviderRabbitMQ: create connect to { string.Join(", ", queues)}");
+            _logger.Debug($"QueueProviderRabbitMQ: create connect to {string.Join(", ", queues)}");
 
             using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())

@@ -33,6 +33,6 @@
         /// <summary>
         /// The property is a key that is not automatically managed.
         /// </summary>
-        Assigned
+        Assigned,
     }
 }

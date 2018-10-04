@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Queues;
+    using bgTeam.Queues;
 
     public interface ISyncQueryFactory
     {

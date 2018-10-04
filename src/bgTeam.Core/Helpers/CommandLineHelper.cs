@@ -66,7 +66,7 @@
                  .Select(x => new
                  {
                      Key = x.Value,
-                     Value = args[Array.IndexOf(lowArgs, x.Key) + 1]
+                     Value = args[Array.IndexOf(lowArgs, x.Key) + 1],
                  })
                  .ToDictionary(x => x.Key, x => x.Value);
 

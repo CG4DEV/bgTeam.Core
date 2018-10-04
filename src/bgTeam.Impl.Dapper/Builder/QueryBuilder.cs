@@ -14,7 +14,7 @@
             _predicateGroup = new PredicateGroup
             {
                 Operator = groupOperator,
-                Predicates = new List<IPredicate>()
+                Predicates = new List<IPredicate>(),
             };
         }
 

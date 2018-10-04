@@ -15,8 +15,7 @@
                 sinkOptions,
                 messageTemplateTextFormatter,
                 batchSizeLimit ?? 100,
-                period ?? TimeSpan.FromSeconds(5)
-            );
+                period ?? TimeSpan.FromSeconds(5));
 
             return loggerConfiguration.Sink(sink);
         }

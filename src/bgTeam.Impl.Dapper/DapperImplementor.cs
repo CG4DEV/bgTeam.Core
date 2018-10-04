@@ -11,7 +11,7 @@
     using bgTeam.DataAccess;
     using Dapper;
     using DapperExtensions.Mapper;
-    using Mapper.Sql;
+    using DapperExtensions.Mapper.Sql;
 
     public class DapperImplementor : IDapperImplementor
     {
@@ -39,14 +39,16 @@
             return result.SingleOrDefault();
         }
 
-        public Task<IEnumerable<T>> GetAllAsync<T>(IDbConnection connection, object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout, bool buffered) where T : class
+        public Task<IEnumerable<T>> GetAllAsync<T>(IDbConnection connection, object predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout, bool buffered)
+            where T : class
         {
             IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
             IPredicate wherePredicate = GetPredicate(classMap, predicate);
             return GetListAsync<T>(connection, classMap, wherePredicate, sort, transaction, commandTimeout);
         }
 
-        protected async Task<IEnumerable<T>> GetListAsync<T>(IDbConnection connection, IClassMapper classMap, IPredicate predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout) where T : class
+        protected async Task<IEnumerable<T>> GetListAsync<T>(IDbConnection connection, IClassMapper classMap, IPredicate predicate, IList<ISort> sort, IDbTransaction transaction, int? commandTimeout)
+            where T : class
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             string sql = SqlGenerator.Select(classMap, predicate, sort, parameters);
@@ -188,12 +190,12 @@
             return keyValues;
         }
 
-        public async Task<bool> UpdateAsync<T>(IDbConnection connection, T entity, IPredicate prd, IDbTransaction transaction, int? commandTimeout)
+        public async Task<bool> UpdateAsync<T>(IDbConnection connection, T entity, IPredicate predicate, IDbTransaction transaction, int? commandTimeout)
             where T : class
         {
             IClassMapper classMap = SqlGenerator.Configuration.GetMap(entity.GetType());
             //IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
-            IPredicate predicate = prd ?? GetKeyPredicate(classMap, entity);
+            predicate = predicate ?? GetKeyPredicate(classMap, entity);
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             string sql = SqlGenerator.Update(classMap, predicate, parameters);
             DynamicParameters dynamicParameters = new DynamicParameters();
@@ -380,7 +382,7 @@
                        : new PredicateGroup
                              {
                                  Operator = GroupOperator.And,
-                                 Predicates = predicates
+                                 Predicates = predicates,
                              };
         }
 
@@ -430,7 +432,7 @@
                        : new PredicateGroup
                              {
                                  Operator = GroupOperator.And,
-                                 Predicates = predicates
+                                 Predicates = predicates,
                              };
         }
 
@@ -453,7 +455,7 @@
                        : new PredicateGroup
                        {
                            Operator = GroupOperator.And,
-                           Predicates = predicates
+                           Predicates = predicates,
                        };
         }
 

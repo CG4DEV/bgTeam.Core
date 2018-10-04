@@ -58,7 +58,7 @@
 		shared\configs\connectionStrings.Live.json = shared\configs\connectionStrings.Live.json
 		shared\configs\connectionStrings.Release.json = shared\configs\connectionStrings.Release.json
 		shared\configs\connectionStrings.Uat.json = shared\configs\connectionStrings.Uat.json
-	EndProjectSection"
+	EndProjectSection",
             };
 
             var p1 = new ProjectGenerator($"{name}.Common", fullPath);
@@ -80,7 +80,7 @@
                 new[]
                 {
                     ("bgTeam.Core", settings.BgTeamVersion),
-                    ("bgTeam.DataAccess", settings.BgTeamVersion)
+                    ("bgTeam.DataAccess", settings.BgTeamVersion),
                 }, projects: new[] { $"{name}.Domain" });
             p2.Folder("Impl");
             p2.ClassTemplateFile("TestQuery", "DataAccess\\TestQuery", replist: new List<(string, string)> { ("$prj$", name) });
@@ -101,7 +101,7 @@
                 new[]
                 {
                     ("bgTeam.Core", settings.BgTeamVersion),
-                    ("bgTeam.DataAccess", settings.BgTeamVersion)
+                    ("bgTeam.DataAccess", settings.BgTeamVersion),
                 }, projects: new[] { $"{name}.Domain" });
             p4.ClassTemplateFile("TestStory", "Story\\TestStory", replist: new List<(string, string)> { ("$prj$", name) });
             p4.ClassTemplateFile("TestStoryContext", "Story\\TestStoryContext");
@@ -115,8 +115,9 @@
                     ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
                     ("Microsoft.NET.Test.Sdk", "15.5.0"),
                     ("xunit", "2.3.1"),
-                    ("xunit.runner.visualstudio", "2.3.1")
-                }, projects: new[] { $"{name}.Story" }, configs: true);
+                    ("xunit.runner.visualstudio", "2.3.1"),
+                }, projects: new[] { $"{name}.Story" },
+                configs: true);
             p5.Folder("Common");
             p5.ClassTemplateFile("TestStoryTests", "Tests\\TestStoryTests", replist: new List<(string, string)> { ("$prj$", name) });
             p5.ClassTemplateFile("FactoryTestService", "Tests\\FactoryTestService", new[] { "Common" });
@@ -149,15 +150,17 @@
                         ("bgTeam.Core", settings.BgTeamVersion),
                         ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                         ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                        ("Scrutor", "2.1.2")
-                    }, type: "Exe", projects: new[] { $"{name}.Story" }, configs: true);
+                        ("Scrutor", "2.1.2"),
+                    }, type: "Exe",
+                    projects: new[] { $"{name}.Story" },
+                    configs: true);
                 p6.ClassTemplateFile("AppSettings", "App\\AppSettings");
                 p6.ClassTemplateFile("AppIocConfigure", "App\\AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Program", "App\\Program", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Runner", "App\\Runner", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.JsonTemplateFile("appsettings", "App\\appsettings");
                 p6.Folder("Properties");
-                p6.JsonTemplateFile("launchSettings", "App\\launchSettings", new[] { "Properties" }, new List<(string, string)>{ ("$prj$", p6.Name) });
+                p6.JsonTemplateFile("launchSettings", "App\\launchSettings", new[] { "Properties" }, new List<(string, string)> { ("$prj$", p6.Name) });
                 var fp6 = new ProjectInfoItem(p6.Name, $"{path}\\{p6.Output}");
                 fmain.AddChild(fp6);
                 result.Add(fp6);
@@ -173,7 +176,7 @@
                         ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                         ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
                         ("Microsoft.AspNetCore.All", "2.1.1"),
-                        ("Scrutor", "2.1.2")
+                        ("Scrutor", "2.1.2"),
                     }, projects: new[] { $"{name}.Common", $"{name}.DataAccess", $"{name}.Story" });
                 p7.ClassTemplateFile("AppSettings", "App\\AppSettings");
                 p7.ClassTemplateFile("AppIocConfigure", "WebApp\\AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
@@ -188,8 +191,12 @@
                 p8.ProjectFile(
                     new[]
                     {
-                        ("Swashbuckle.AspNetCore", "3.0.0")
-                    }, "Microsoft.NET.Sdk.Web", "Exe", new[] { $"{name}.WebApp" }, true);
+                        ("Swashbuckle.AspNetCore", "3.0.0"),
+                    },
+                    "Microsoft.NET.Sdk.Web",
+                    "Exe",
+                    new[] { $"{name}.WebApp" },
+                    true);
                 p8.ClassTemplateFile("Program", "Web\\Program", replist: new List<(string, string)> { ("$prj$", name) });
                 p8.ClassTemplateFile("Startup", "Web\\Startup", replist: new List<(string, string)> { ("$prj$", name), ("$api-name$", $"{name} API") });
                 p8.JsonTemplateFile("appsettings", "Web\\appsettings");
@@ -252,6 +259,7 @@ MinimumVisualStudioVersion = 10.0.40219.1");
                 str.AppendLine($"		{{{prj.Code}}}.Uat|Any CPU.ActiveCfg = Uat|Any CPU");
                 str.AppendLine($"		{{{prj.Code}}}.Uat|Any CPU.Build.0 = Uat|Any CPU");
             }
+
             str.AppendLine("	EndGlobalSection");
 
             str.AppendLine(
@@ -267,6 +275,7 @@ MinimumVisualStudioVersion = 10.0.40219.1");
                     str.AppendLine($"		{{{item}}} = {{{prj.Code}}}");
                 }
             }
+
             str.AppendLine("	EndGlobalSection");
 
             str.AppendLine(
@@ -330,7 +339,6 @@ MinimumVisualStudioVersion = 10.0.40219.1");
 
         [Description("FAE04EC0-301F-11D3-BF4B-00C04F79EFBC")]
         Tests,
-
     }
 
     public class SolutionSettings

@@ -9,15 +9,15 @@
     public interface IEntityMapService
     {
         /// <summary>
-        /// Конвертирует сообзение из очереди в объект EntityMap
+        /// Конвертирует сообзение из очереди в объект EntityMap.
         /// </summary>
-        /// <param name="message">Сообщение из очереди</param>
+        /// <param name="message">Сообщение из очереди.</param>
         /// <returns></returns>
         EntityMap CreateEntityMap(IQueueMessage message);
     }
 
     /// <summary>
-    /// Содержит основную информацию об объекте из очереди
+    /// Содержит основную информацию об объекте из очереди.
     /// </summary>
     public class EntityMap
     {
@@ -40,27 +40,27 @@
         }
 
         /// <summary>
-        /// Тип объекта из очереди
+        /// Тип объекта из очереди.
         /// </summary>
         public string TypeName { get; private set; }
 
         /// <summary>
-        /// Ключевое поле
+        /// Ключевое поле.
         /// </summary>
         public string KeyName { get; private set; }
 
         /// <summary>
-        /// Значение ключевого поля
+        /// Значение ключевого поля.
         /// </summary>
         public object KeyValue => Properties[KeyName];
 
         /// <summary>
-        /// Словарь имя-значение всех полей объекта из очереди
+        /// Словарь имя-значение всех полей объекта из очереди.
         /// </summary>
         public Dictionary<string, object> Properties { get; private set; }
 
         /// <summary>
-        /// Имена всех свойств объекта из очереди
+        /// Имена всех свойств объекта из очереди.
         /// </summary>
         public IEnumerable<string> PropertyNames => Properties.Keys.Except(new[] { ENTITY_TYPE_NAME, ENTITY_KEY_NAME }).ToArray();
     }

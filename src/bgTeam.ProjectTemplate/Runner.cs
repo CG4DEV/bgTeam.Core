@@ -11,7 +11,7 @@
             _appSettings = appSettings;
         }
 
-        public async Task Run()
+        public Task Run()
         {
             var s1 = new SolutionGenerator();
 
@@ -19,10 +19,12 @@
             {
                 IsWeb = true,
                 IsApp = true,
-                BgTeamVersion = _appSettings.BgTeamVersion
+                BgTeamVersion = _appSettings.BgTeamVersion,
             };
 
             s1.Generate(_appSettings.NameCompany, _appSettings.NameProject, settings);
+
+            return Task.CompletedTask;
         }
     }
 }

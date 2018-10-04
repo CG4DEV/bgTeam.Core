@@ -40,7 +40,7 @@
                 SqlDbType = SqlDbType.Structured,
                 Direction = ParameterDirection.Input,
                 TypeName = "GuidIdList",
-                Value = guidList
+                Value = guidList,
             };
         }
     }
