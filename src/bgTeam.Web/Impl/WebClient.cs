@@ -5,7 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-#if !(NETCOREAPP2_1 || NETCOREAPP2_0)
+#if !NETCOREAPP2_1
     using System.Net;
 #endif
     using System.Net.Http;
@@ -19,8 +19,6 @@
 
 #if NETCOREAPP2_1
         private readonly SocketsHttpHandler _handler;
-#elif NETCOREAPP2_0
-        private readonly HttpClientHandler _handler;
 #else
         private readonly ServicePoint _servicePoint;
 #endif
@@ -34,9 +32,6 @@
 #if NETCOREAPP2_1
             _handler = new SocketsHttpHandler();
             _client = new HttpClient(_handler);
-#elif NETCOREAPP2_0
-             _handler = new HttpClientHandler();
-             _client = new HttpClient(_handler);
 #else
             _client = new HttpClient();
             _servicePoint = ServicePointManager.FindServicePoint(uri);
@@ -52,7 +47,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_0
+#if NETCOREAPP2_1
                 return _handler.MaxConnectionsPerServer;
 #else
                 return ServicePointManager.DefaultConnectionLimit;
@@ -61,7 +56,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_0
+#if NETCOREAPP2_1
                 _handler.MaxConnectionsPerServer = value;
 #else
                 ServicePointManager.DefaultConnectionLimit = value;
@@ -79,7 +74,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_0
+#if NETCOREAPP2_1
                 throw new NotSupportedException();
 #else
                 return ServicePointManager.DnsRefreshTimeout;
@@ -88,7 +83,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_0
+#if NETCOREAPP2_1
                 throw new NotSupportedException();
 #else
                 ServicePointManager.DnsRefreshTimeout = value;
@@ -108,8 +103,6 @@
             {
 #if NETCOREAPP2_1
                 return Convert.ToInt32(_handler.PooledConnectionIdleTimeout.TotalMilliseconds);
-#elif NETCOREAPP2_0
-                throw new NotSupportedException();
 #else
                 return _servicePoint.MaxIdleTime;
 #endif
@@ -119,8 +112,6 @@
             {
 #if NETCOREAPP2_1
                 _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
-#elif NETCOREAPP2_0
-                throw new NotSupportedException();
 #else
                 _servicePoint.MaxIdleTime = value;
 #endif
@@ -139,8 +130,6 @@
             {
 #if NETCOREAPP2_1
                 return Convert.ToInt32(_handler.PooledConnectionLifetime.TotalMilliseconds);
-#elif NETCOREAPP2_0
-                throw new NotSupportedException();
 #else
                 return _servicePoint.ConnectionLeaseTimeout;
 #endif
@@ -150,8 +139,6 @@
             {
 #if NETCOREAPP2_1
                 _handler.PooledConnectionLifetime = TimeSpan.FromMilliseconds(value);
-#elif NETCOREAPP2_0
-                throw new NotSupportedException();
 #else
                 _servicePoint.ConnectionLeaseTimeout = value;
 #endif
