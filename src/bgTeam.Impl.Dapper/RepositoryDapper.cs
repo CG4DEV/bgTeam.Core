@@ -19,30 +19,30 @@
             _factory = factory;
         }
 
-        public T Get<T>(ISqlObject obj)
+        public T Get<T>(ISqlObject obj, IDbConnection connection = null)
         {
-            var list = GetAll<T>(obj);
+            var list = GetAll<T>(obj, connection);
 
             return list.SingleOrDefault();
         }
 
-        public async Task<T> GetAsync<T>(ISqlObject obj)
+        public async Task<T> GetAsync<T>(ISqlObject obj, IDbConnection connection = null)
         {
-            var list = await GetAllAsync<T>(obj);
+            var list = await GetAllAsync<T>(obj, connection);
 
             return list.SingleOrDefault();
         }
 
-        public T Get<T>(string sql, object param = null)
+        public T Get<T>(string sql, object param = null, IDbConnection connection = null)
         {
-            var list = GetAll<T>(sql, param);
+            var list = GetAll<T>(sql, param, connection);
 
             return list.SingleOrDefault();
         }
 
-        public async Task<T> GetAsync<T>(string sql, object param = null)
+        public async Task<T> GetAsync<T>(string sql, object param = null, IDbConnection connection = null)
         {
-            var list = await GetAllAsync<T>(sql, param);
+            var list = await GetAllAsync<T>(sql, param, connection);
 
             return list.SingleOrDefault();
         }
@@ -107,21 +107,35 @@
             }
         }
 
-        public T Get<T>(Expression<Func<T, bool>> predicate)
+        public T Get<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null)
             where T : class
         {
-            using (var connection = _factory.Create())
+            if (connection == null)
+            {
+                using (connection = _factory.Create())
+                {
+                    return connection.Get<T>(predicate);
+                }
+            }
+            else
             {
                 return connection.Get<T>(predicate);
             }
         }
 
-        public async Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null)
             where T : class
         {
-            using (var connection = await _factory.CreateAsync())
+            if (connection == null)
             {
-                return await connection.GetAsync<T>(predicate);
+                using (connection = await _factory.CreateAsync())
+                {
+                    return await connection.GetAsync<T>(predicate);
+                }
+            }
+            else
+            {
+                return connection.Get<T>(predicate);
             }
         }
 

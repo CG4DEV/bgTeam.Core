@@ -17,7 +17,7 @@
         /// <typeparam name="T">Тип получаемого объекта</typeparam>
         /// <param name="obj">Объект с запросом к базе данных</param>
         /// <returns></returns>
-        T Get<T>(ISqlObject obj);
+        T Get<T>(ISqlObject obj, IDbConnection connection = null);
 
         /// <summary>
         /// Асинхронно выполняет запрос к базе данных и возвращает объект из базы данных
@@ -25,7 +25,7 @@
         /// <typeparam name="T">Тип получаемого объекта</typeparam>
         /// <param name="obj">Объект с запросом к базе данных</param>
         /// <returns></returns>
-        Task<T> GetAsync<T>(ISqlObject obj);
+        Task<T> GetAsync<T>(ISqlObject obj, IDbConnection connection = null);
 
         /// <summary>
         /// Выполняет запрос к базе данных и возвращает объект из базы данных
@@ -34,7 +34,7 @@
         /// <param name="sql">Запрос к базе данных</param>
         /// <param name="param">Параметры запроса</param>
         /// <returns></returns>
-        T Get<T>(string sql, object param = null);
+        T Get<T>(string sql, object param = null, IDbConnection connection = null);
 
         /// <summary>
         /// Асинхронно выполняет запрос к базе данных и возвращает объект из базы данных
@@ -43,7 +43,7 @@
         /// <param name="sql">Запрос к базе данных</param>
         /// <param name="param">Параметры запроса</param>
         /// <returns></returns>
-        Task<T> GetAsync<T>(string sql, object param = null);
+        Task<T> GetAsync<T>(string sql, object param = null, IDbConnection connection = null);
 
         /// <summary>
         /// Выполняет запрос к базе данных на основе предиката и возвращает объект из базы данных
@@ -51,7 +51,7 @@
         /// <typeparam name="T">Тип получаемого объекта</typeparam>
         /// <param name="predicate">Предикат</param>
         /// <returns></returns>
-        T Get<T>(Expression<Func<T, bool>> predicate)
+        T Get<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null)
             where T : class;
 
         /// <summary>
@@ -60,7 +60,7 @@
         /// <typeparam name="T">Тип получаемого объекта</typeparam>
         /// <param name="predicate">Предикат</param>
         /// <returns></returns>
-        Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate)
+        Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null)
             where T : class;
 
         /// <summary>
