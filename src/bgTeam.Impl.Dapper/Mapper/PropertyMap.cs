@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+
     /// <summary>
     /// Maps an entity property to its corresponding column in the database.
     /// </summary>

@@ -25,7 +25,7 @@
         {
             if (string.IsNullOrWhiteSpace(tableName))
             {
-                throw new ArgumentNullException("TableName");
+                throw new ArgumentNullException(nameof(tableName));
             }
 
             StringBuilder result = new StringBuilder();
@@ -36,7 +36,6 @@
             }
 
             result.AppendFormat("{0}{1}", tableName, CloseQuote);
-
 
             if (!string.IsNullOrWhiteSpace(alias))
             {
@@ -53,7 +52,7 @@
 
         public override string GetPagingSql(string sql, int page, int resultsPerPage, IDictionary<string, object> parameters)
         {
-            int startValue = (page * resultsPerPage);
+            int startValue = page * resultsPerPage;
             return GetSetSql(sql, startValue, resultsPerPage, parameters);
         }
 
@@ -62,7 +61,7 @@
             string result = string.Format("{0} OFFSET @firstResult ROWS FETCH NEXT @maxResults ROWS ONLY", sql);
             parameters.Add("@firstResult", firstResult);
             parameters.Add("@maxResults", maxResults);
-            return result;            
+            return result;
         }
     }
 }

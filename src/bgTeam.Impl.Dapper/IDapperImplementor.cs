@@ -4,7 +4,7 @@
     using System.Data;
     using System.Threading.Tasks;
     using bgTeam.DataAccess;
-    using Mapper.Sql;
+    using DapperExtensions.Mapper.Sql;
 
     public interface IDapperImplementor
     {

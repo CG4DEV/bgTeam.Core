@@ -36,7 +36,7 @@
                 MaxDepth = 5,
                 TypeNameHandling = TypeNameHandling.All,
                 NullValueHandling = NullValueHandling.Ignore,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             };
             return JsonConvert.SerializeObject(source, jsonSerializerSettings);
         }

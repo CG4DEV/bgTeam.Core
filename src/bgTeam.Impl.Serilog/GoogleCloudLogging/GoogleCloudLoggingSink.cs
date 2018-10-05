@@ -20,7 +20,8 @@
         private readonly MonitoredResource _resource;
         private readonly MessageTemplateTextFormatter _messageTemplateTextFormatter;
 
-        public GoogleCloudLoggingSink(GoogleCloudLoggingSinkOptions sinkOptions, MessageTemplateTextFormatter messageTemplateTextFormatter, int batchSizeLimit, TimeSpan period) : base(batchSizeLimit, period)
+        public GoogleCloudLoggingSink(GoogleCloudLoggingSinkOptions sinkOptions, MessageTemplateTextFormatter messageTemplateTextFormatter, int batchSizeLimit, TimeSpan period)
+            : base(batchSizeLimit, period)
         {
             _client = LoggingServiceV2Client.Create();
             _sinkOptions = sinkOptions;
@@ -44,7 +45,7 @@
                 {
                     LogName = _logName,
                     Severity = TranslateSeverity(e.Level),
-                    Timestamp = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTimeOffset(e.Timestamp)
+                    Timestamp = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTimeOffset(e.Timestamp),
                 };
 
                 if (_messageTemplateTextFormatter != null)

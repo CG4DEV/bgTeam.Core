@@ -37,7 +37,7 @@
         {
             if (OnSubscribe == null)
             {
-                throw new ArgumentNullException("OnSubscribe");
+                throw new ArgumentNullException(nameof(OnSubscribe));
             }
 
             while (true)

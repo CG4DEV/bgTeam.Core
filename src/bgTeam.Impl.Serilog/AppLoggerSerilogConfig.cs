@@ -42,7 +42,7 @@
 
                 ["Serilog:WriteTo:1:Name"] = "RollingFile",
                 ["Serilog:WriteTo:1:Args:pathFormat"] = "logs\\log-{Date}.log",
-                ["Serilog:WriteTo:1:Args:outputTemplate"] = "{Timestamp:yyyy.MM.dd HH:mm:ss} [{Level:u3}] {Message}{NewLine}{Exception}"
+                ["Serilog:WriteTo:1:Args:outputTemplate"] = "{Timestamp:yyyy.MM.dd HH:mm:ss} [{Level:u3}] {Message}{NewLine}{Exception}",
             };
 
             return new ConfigurationBuilder()

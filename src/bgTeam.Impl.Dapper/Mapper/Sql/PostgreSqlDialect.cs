@@ -15,22 +15,12 @@
             return GetSetSql(sql, startValue, resultsPerPage, parameters);
         }
 
-        public override string GetSetSql(string sql, int pageNumber, int maxResults, IDictionary<string, object> parameters)
+        public override string GetSetSql(string sql, int firstResult, int maxResults, IDictionary<string, object> parameters)
         {
             string result = string.Format("{0} LIMIT @maxResults OFFSET @pageStartRowNbr", sql);
             parameters.Add("@maxResults", maxResults);
-            parameters.Add("@pageStartRowNbr", pageNumber /* * maxResults */); //HACK: fixing DapperExtensions bug
+            parameters.Add("@pageStartRowNbr", firstResult /* * maxResults */); //HACK: fixing DapperExtensions bug
             return result;
-        }
-
-        public override string GetColumnName(string prefix, string columnName, string alias)
-        {
-            return base.GetColumnName(null, columnName, alias);
-        }
-
-        public override string GetTableName(string schemaName, string tableName, string alias)
-        {
-            return base.GetTableName(schemaName, tableName, alias);
         }
     }
 }

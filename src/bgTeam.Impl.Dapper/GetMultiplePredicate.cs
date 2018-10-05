@@ -27,7 +27,7 @@
             {
                 Value = predicate,
                 Type = typeof(T),
-                Sort = sort
+                Sort = sort,
             });
         }
 
@@ -37,7 +37,7 @@
             _items.Add(new GetMultiplePredicateItem
             {
                 Value = id,
-                Type = typeof(T)
+                Type = typeof(T),
             });
         }
 

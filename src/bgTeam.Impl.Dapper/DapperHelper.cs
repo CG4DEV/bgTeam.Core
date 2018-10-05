@@ -10,7 +10,7 @@
     using System.Threading.Tasks;
     using DapperExtensions.Builder;
     using DapperExtensions.Mapper;
-    using Mapper.Sql;
+    using DapperExtensions.Mapper.Sql;
     using ISort = bgTeam.DataAccess.ISort;
 
     public static class DapperHelper
@@ -27,8 +27,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the default class mapper to use when generating class maps. If not specified, AutoClassMapper<T> is used.
-        /// DapperExtensions.Configure(Type, IList<Assembly>, ISqlDialect) can be used instead to set all values at once
+        /// Gets or sets the default class mapper to use when generating class maps. If not specified, AutoClassMapper&lt;T&gt; is used.
+        /// DapperExtensions.Configure(Type, IList&lt;Assembly&gt;, ISqlDialect) can be used instead to set all values at once.
         /// </summary>
         public static Type DefaultMapper
         {
@@ -45,7 +45,7 @@
 
         /// <summary>
         /// Gets or sets the type of sql to be generated.
-        /// DapperExtensions.Configure(Type, IList<Assembly>, ISqlDialect) can be used instead to set all values at once
+        /// DapperExtensions.Configure(Type, IList&lt;Assembly&gt;, ISqlDialect) can be used instead to set all values at once.
         /// </summary>
         public static ISqlDialect SqlDialect
         {
@@ -96,7 +96,7 @@
         }
 
         /// <summary>
-        /// Gets the Dapper Extensions Implementation
+        /// Gets the Dapper Extensions Implementation.
         /// </summary>
         private static IDapperImplementor Instance
         {
@@ -150,7 +150,7 @@
         }
 
         /// <summary>
-        /// Executes a query for the specified id, returning the data typed as per T
+        /// Executes a query for the specified id, returning the data typed as per T.
         /// </summary>
         public static T Get<T>(this IDbConnection connection, object id, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
@@ -357,7 +357,7 @@
 
         /// <summary>
         /// Generates a COMB Guid which solves the fragmented index issue.
-        /// See: http://davybrion.com/blog/2009/05/using-the-guidcomb-identifier-strategy
+        /// See: http://davybrion.com/blog/2009/05/using-the-guidcomb-identifier-strategy .
         /// </summary>
         public static Guid GetNextGuid()
         {

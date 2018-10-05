@@ -32,12 +32,12 @@
         {
             if (string.IsNullOrEmpty(sql))
             {
-                throw new ArgumentNullException("SQL");
+                throw new ArgumentNullException(nameof(sql));
             }
 
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             int selectIndex = GetSelectEnd(sql) + 1;

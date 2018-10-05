@@ -28,13 +28,13 @@
                                    typeof(Guid),
                                    typeof(DateTime),
                                    typeof(DateTimeOffset),
-                                   typeof(byte[])
+                                   typeof(byte[]),
                                };
-        
+
         public static MemberInfo GetProperty(LambdaExpression lambda)
         {
             Expression expr = lambda;
-            for (; ; )
+            while (true)
             {
                 switch (expr.NodeType)
                 {
@@ -61,7 +61,6 @@
             {
                 return result;
             }
-
 
             foreach (var propertyInfo in obj.GetType().GetProperties())
             {

@@ -21,12 +21,12 @@
         {
             if (string.IsNullOrEmpty(sql))
             {
-                throw new ArgumentNullException("SQL");
+                throw new ArgumentNullException(nameof(sql));
             }
 
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             var result = string.Format("{0} LIMIT @Offset, @Count", sql);
@@ -41,12 +41,14 @@
             {
                 throw new ArgumentNullException(columnName, "columnName cannot be null or empty.");
             }
+
             var result = new StringBuilder();
             result.AppendFormat(columnName);
             if (!string.IsNullOrWhiteSpace(alias))
             {
                 result.AppendFormat(" AS {0}", QuoteString(alias));
             }
+
             return result.ToString();
         }
     }

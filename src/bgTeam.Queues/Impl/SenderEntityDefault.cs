@@ -59,7 +59,7 @@
 
                 SendQueue(mess, queues, entityType);
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 if (tryAttempt < 5)
                 {

@@ -9,13 +9,13 @@
     using System.Text;
     using bgTeam.DataAccess;
     using DapperExtensions.Mapper;
-    using Mapper.Sql;
+    using DapperExtensions.Mapper.Sql;
 
     public static class Predicates
     {
         /// <summary>
         /// Factory method that creates a new IFieldPredicate predicate: [FieldName] [Operator] [Value].
-        /// Example: WHERE FirstName = 'Foo'
+        /// Example: WHERE FirstName = 'Foo'.
         /// </summary>
         /// <typeparam name="T">The type of the entity.</typeparam>
         /// <param name="expression">An expression that returns the left operand [FieldName].</param>
@@ -32,20 +32,20 @@
                            PropertyName = propertyInfo.Name,
                            Operator = op,
                            Value = value,
-                           Not = not
+                           Not = not,
                        };
         }
 
         /// <summary>
         /// Factory method that creates a new IPropertyPredicate predicate: [FieldName1] [Operator] [FieldName2]
-        /// Example: WHERE FirstName = LastName
+        /// Example: WHERE FirstName = LastName.
         /// </summary>
         /// <typeparam name="T">The type of the entity for the left operand.</typeparam>
         /// <typeparam name="T2">The type of the entity for the right operand.</typeparam>
         /// <param name="expression">An expression that returns the left operand [FieldName1].</param>
         /// <param name="op">The comparison operator.</param>
         /// <param name="expression2">An expression that returns the right operand [FieldName2].</param>
-        /// <param name="not">Effectively inverts the comparison operator. Example: WHERE FirstName &lt;&gt; LastName </param>
+        /// <param name="not">Effectively inverts the comparison operator. Example: WHERE FirstName &lt;&gt; LastName.</param>
         /// <returns>An instance of IPropertyPredicate.</returns>
         public static IPropertyPredicate Property<T, T2>(Expression<Func<T, object>> expression, Operator op, Expression<Func<T2, object>> expression2, bool not = false)
             where T : class
@@ -58,7 +58,7 @@
                            PropertyName = propertyInfo.Name,
                            PropertyName2 = propertyInfo2.Name,
                            Operator = op,
-                           Not = not
+                           Not = not,
                        };
         }
 
@@ -74,7 +74,7 @@
             return new PredicateGroup
              {
                  Operator = op,
-                 Predicates = predicate
+                 Predicates = predicate,
              };
         }
 
@@ -87,7 +87,7 @@
             return new ExistsPredicate<TSub>
                        {
                            Not = not,
-                           Predicate = predicate
+                           Predicate = predicate,
                        };
         }
 
@@ -102,7 +102,7 @@
                        {
                            Not = not,
                            PropertyName = propertyInfo.Name,
-                           Value = values
+                           Value = values,
                        };
         }
 
@@ -115,7 +115,7 @@
             return new Sort
                        {
                            PropertyName = propertyInfo.Name,
-                           Ascending = ascending
+                           Ascending = ascending,
                        };
         }
     }
@@ -262,7 +262,6 @@
         BetweenValues Value { get; set; }
 
         bool Not { get; set; }
-
     }
 
     public class BetweenPredicate<T> : BasePredicate, IBetweenPredicate
@@ -314,7 +313,7 @@
         /// <summary>
         /// Like (You can use % in the value to do wilcard searching)
         /// </summary>
-        Like
+        Like,
     }
 
     public interface IPredicateGroup : IPredicate
@@ -346,6 +345,7 @@
                     {
                         return sqlGenerator.Configuration.Dialect.EmptyExpression;
                     }
+
                     return s;
                 }) + ")";
         }
@@ -401,6 +401,6 @@
     public enum GroupOperator
     {
         And,
-        Or
+        Or,
     }
 }

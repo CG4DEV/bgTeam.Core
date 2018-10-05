@@ -49,7 +49,7 @@
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             StringBuilder sql = new StringBuilder(string.Format(
@@ -75,12 +75,12 @@
         {
             if (sort == null || !sort.Any())
             {
-                throw new ArgumentNullException("Sort", "Sort cannot be null or empty.");
+                throw new ArgumentNullException(nameof(sort), "Sort cannot be null or empty.");
             }
 
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             StringBuilder innerSql = new StringBuilder(string.Format(
@@ -104,12 +104,12 @@
         {
             if (sort == null || !sort.Any())
             {
-                throw new ArgumentNullException("Sort", "Sort cannot be null or empty.");
+                throw new ArgumentNullException(nameof(sort), "Sort cannot be null or empty.");
             }
 
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             StringBuilder innerSql = new StringBuilder(string.Format(
@@ -129,12 +129,11 @@
             return sql;
         }
 
-
         public virtual string Count(IClassMapper classMap, IPredicate predicate, IDictionary<string, object> parameters)
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             StringBuilder sql = new StringBuilder(string.Format(
@@ -187,12 +186,12 @@
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException("Predicate");
+                throw new ArgumentNullException(nameof(predicate));
             }
 
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity || p.KeyType == KeyType.Assigned));
@@ -223,12 +222,12 @@
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException("Predicate");
+                throw new ArgumentNullException(nameof(predicate));
             }
 
             if (parameters == null)
             {
-                throw new ArgumentNullException("Parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             StringBuilder sql = new StringBuilder(string.Format("DELETE FROM {0}", GetTableName(classMap)));

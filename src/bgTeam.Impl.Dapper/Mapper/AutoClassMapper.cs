@@ -73,7 +73,7 @@ namespace DapperExtensions.Mapper
                 }
                 ////else if (Attribute.IsDefined(propertyInfo, typeof(MapToAttribute)))
                 ////    propertyMap = Map(propertyInfo, false).Column(((MapToAttribute)propertyInfo.GetCustomAttribute(typeof(MapToAttribute))).DatabaseColumn);
-                else if (string.IsNullOrEmpty(columnPrefix) == false)
+                else if (!string.IsNullOrEmpty(columnPrefix))
                 {
                     propertyMap = Map(propertyInfo, false).Column(string.Format("{0}{1}", columnPrefix, propertyInfo.Name));
                 }

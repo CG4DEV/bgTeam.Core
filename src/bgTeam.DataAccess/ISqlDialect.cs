@@ -13,6 +13,6 @@
         Oracle,
         PostgreSql,
         MySql,
-        Sqlite
+        Sqlite,
     }
 }

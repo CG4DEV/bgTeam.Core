@@ -33,7 +33,7 @@
         }
 
         /// <summary>
-        /// Проверяет коллекцию 
+        /// Проверяет коллекцию
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arg"></param>
