@@ -19,155 +19,155 @@
             _factory = factory;
         }
 
-        public T Get<T>(ISqlObject obj, IDbConnection connection = null)
+        public T Get<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             var list = GetAll<T>(obj, connection);
 
             return list.SingleOrDefault();
         }
 
-        public async Task<T> GetAsync<T>(ISqlObject obj, IDbConnection connection = null)
+        public async Task<T> GetAsync<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var list = await GetAllAsync<T>(obj, connection);
+            var list = await GetAllAsync<T>(obj, connection, transaction);
 
             return list.SingleOrDefault();
         }
 
-        public T Get<T>(string sql, object param = null, IDbConnection connection = null)
+        public T Get<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var list = GetAll<T>(sql, param, connection);
+            var list = GetAll<T>(sql, param, connection, transaction);
 
             return list.SingleOrDefault();
         }
 
-        public async Task<T> GetAsync<T>(string sql, object param = null, IDbConnection connection = null)
+        public async Task<T> GetAsync<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var list = await GetAllAsync<T>(sql, param, connection);
+            var list = await GetAllAsync<T>(sql, param, connection, transaction);
 
             return list.SingleOrDefault();
         }
 
-        public IEnumerable<T> GetAll<T>(ISqlObject obj, IDbConnection connection = null)
+        public IEnumerable<T> GetAll<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.Query<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+                    return connection.Query<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return connection.Query<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+                return connection.Query<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj, IDbConnection connection = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+                    return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+                return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
             }
         }
 
-        public IEnumerable<T> GetAll<T>(string sql, object param = null, IDbConnection connection = null)
+        public IEnumerable<T> GetAll<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.Query<T>(sql, param, commandTimeout: _commandTimeout);
+                    return connection.Query<T>(sql, param, transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return connection.Query<T>(sql, param, commandTimeout: _commandTimeout);
+                return connection.Query<T>(sql, param, transaction, commandTimeout: _commandTimeout);
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null, IDbConnection connection = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.QueryAsync<T>(sql, param, commandTimeout: _commandTimeout);
+                    return await connection.QueryAsync<T>(sql, param, transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return await connection.QueryAsync<T>(sql, param, commandTimeout: _commandTimeout);
+                return await connection.QueryAsync<T>(sql, param, transaction, commandTimeout: _commandTimeout);
             }
         }
 
-        public T Get<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null)
+        public T Get<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.Get<T>(predicate);
+                    return connection.Get<T>(predicate, transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return connection.Get<T>(predicate);
+                return connection.Get<T>(predicate, transaction, commandTimeout: _commandTimeout);
             }
         }
 
-        public async Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null)
+        public async Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.GetAsync<T>(predicate);
+                    return await connection.GetAsync<T>(predicate, transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return connection.Get<T>(predicate);
+                return connection.Get<T>(predicate, transaction, commandTimeout: _commandTimeout);
             }
         }
 
-        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null)
+        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.GetAll<T>(predicate);
+                    return connection.GetAll<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return connection.GetAll<T>(predicate);
+                return connection.GetAll<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.GetAllAsync<T>(predicate);
+                    return await connection.GetAllAsync<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return await connection.GetAllAsync<T>(predicate);
+                return await connection.GetAllAsync<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
             }
         }
 
