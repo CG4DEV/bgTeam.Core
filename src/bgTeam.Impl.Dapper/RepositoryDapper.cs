@@ -21,7 +21,7 @@
 
         public T Get<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var list = GetAll<T>(obj, connection);
+            var list = GetAll<T>(obj, connection, transaction);
 
             return list.SingleOrDefault();
         }
@@ -53,7 +53,7 @@
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.Query<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
+                    return connection.Query<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
                 }
             }
             else
@@ -68,7 +68,7 @@
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
+                    return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
                 }
             }
             else
@@ -83,7 +83,7 @@
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.Query<T>(sql, param, transaction, commandTimeout: _commandTimeout);
+                    return connection.Query<T>(sql, param, commandTimeout: _commandTimeout);
                 }
             }
             else
@@ -98,7 +98,7 @@
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.QueryAsync<T>(sql, param, transaction, commandTimeout: _commandTimeout);
+                    return await connection.QueryAsync<T>(sql, param, commandTimeout: _commandTimeout);
                 }
             }
             else
@@ -114,7 +114,7 @@
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.Get<T>(predicate, transaction, commandTimeout: _commandTimeout);
+                    return connection.Get<T>(predicate, commandTimeout: _commandTimeout);
                 }
             }
             else
@@ -130,7 +130,7 @@
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.GetAsync<T>(predicate, transaction, commandTimeout: _commandTimeout);
+                    return await connection.GetAsync<T>(predicate, commandTimeout: _commandTimeout);
                 }
             }
             else
@@ -146,7 +146,7 @@
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.GetAll<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
+                    return connection.GetAll<T>(predicate, commandTimeout: _commandTimeout);
                 }
             }
             else
@@ -162,7 +162,7 @@
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.GetAllAsync<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
+                    return await connection.GetAllAsync<T>(predicate, commandTimeout: _commandTimeout);
                 }
             }
             else
