@@ -80,14 +80,16 @@
             // если нашли доп. конфигурации
             if (!string.IsNullOrEmpty(buildConfigure))
             {
+                SettingsProxy addtionalConf = null;
                 var appsettingsFileAdd = Path.Combine(curDir, $"{fileConfiguration}.{buildConfigure}.json");
                 if (File.Exists(appsettingsFileAdd))
                 {
                     builder.AddJsonFile(appsettingsFileAdd);
+                    addtionalConf = JsonConvert.DeserializeObject<SettingsProxy>(File.ReadAllText(appsettingsFileAdd));
                 }
 
                 //var secondConf = builder.Build();
-                var confsPath = mainConf.AppConfigsPath;
+                var confsPath = addtionalConf?.AppConfigsPath ?? mainConf.AppConfigsPath;
 
                 if (!string.IsNullOrEmpty(mainConf.AppConfigsAdditional))
                 {
