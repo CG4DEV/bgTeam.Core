@@ -55,10 +55,16 @@
 
         public void PushMessage(IQueueMessage message)
         {
-            PushMessageInternal(message, _queues);
+            PushMessageInternal(_queues, message);
         }
 
         public void PushMessage(IQueueMessage message, params string[] queues)
+        {
+            queues = GetDistinctQueues(queues);
+            PushMessageInternal(queues, message);
+        }
+
+        private string[] GetDistinctQueues(string[] queues)
         {
             queues = queues.CheckNullOrEmpty(nameof(queues)).Distinct().ToArray();
 
@@ -83,31 +89,52 @@
                 }
             }
 
-            PushMessageInternal(message, queues);
+            return queues;
         }
 
-        private void PushMessageInternal(IQueueMessage message, IEnumerable<string> queues)
+        private void PushMessageInternal(IEnumerable<string> queues, params IQueueMessage[] messages)
         {
             using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                var body = _msgProvider.PrepareMessageByte(message);
-
-                foreach (var item in queues)
+                foreach (var message in messages)
                 {
-                    var bProp = channel.CreateBasicProperties();
-                    var bHeaders = new Dictionary<string, object>();
+                    var body = _msgProvider.PrepareMessageByte(message);
 
-                    bHeaders.Add("x-delay", message.Delay);
-                    bProp.Headers = bHeaders;
-                    bProp.DeliveryMode = 2;
+                    foreach (var item in queues)
+                    {
+                        var bProp = channel.CreateBasicProperties();
+                        var bHeaders = new Dictionary<string, object>();
 
-                    ////channel.BasicPublish(routingKey: item, body: body, exchange: string.Empty, basicProperties: bProp);
-                    ////channel.BasicPublish(string.Empty, item, bProp, body);
+                        bHeaders.Add("x-delay", message.Delay);
+                        bProp.Headers = bHeaders;
+                        bProp.DeliveryMode = 2;
 
-                    channel.BasicPublish(EXCHANGE_DEFAULT, item, bProp, body);
+                        channel.BasicPublish(EXCHANGE_DEFAULT, item, bProp, body);
+                    }
                 }
             }
+        }
+
+        public void PushMessages(IEnumerable<IQueueMessage> messages)
+        {
+            if (messages.NullOrEmpty())
+            {
+                return;
+            }
+
+            PushMessageInternal(_queues, messages.ToArray());
+        }
+
+        public void PushMessages(IEnumerable<IQueueMessage> messages, params string[] queues)
+        {
+            if (messages.NullOrEmpty())
+            {
+                return;
+            }
+
+            queues = GetDistinctQueues(queues);
+            PushMessageInternal(queues, messages.ToArray());
         }
 
         public QueueMessageWork AskMessage(string queueName)
