@@ -13,6 +13,12 @@
         /// </summary>
         int ConnectionsLimit { get; set; }
 
+        int DnsRefreshTimeout { get; set; }
+
+        int ConnectionLeaseTimeout { get; set; }
+
+        int MaxIdleTime { get; set; }
+
         Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class;
 

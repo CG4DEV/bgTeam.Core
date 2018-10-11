@@ -38,6 +38,10 @@
 #endif
 
             _client.BaseAddress = uri;
+
+            ConnectionsLimit = 1024;
+            MaxIdleTime = 300000; // 5 мин
+            ConnectionLeaseTimeout = 0; // закрываем соединение сразу после выполнения запроса
         }
 
         /// <summary>
