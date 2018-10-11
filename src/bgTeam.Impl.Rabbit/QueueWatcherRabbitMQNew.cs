@@ -7,7 +7,7 @@
     using bgTeam.Queues.Exceptions;
     using RabbitMQ.Client;
 
-    public class NewQueueWatcherRabbitMQ : IQueueWatcher<IQueueMessage>
+    public class QueueWatcherRabbitMQNew : IQueueWatcher<IQueueMessage>
     {
         private readonly IAppLogger _logger;
         private readonly IConnectionFactory _factory;
@@ -16,7 +16,7 @@
         private readonly int _threadSleep;
         private readonly SemaphoreSlim _semaphore;
 
-        public NewQueueWatcherRabbitMQ(
+        public QueueWatcherRabbitMQNew(
             IAppLogger logger,
             IMessageProvider msgProvider,
             IQueueProviderSettings settings,
@@ -38,7 +38,7 @@
             _threadSleep = 30000;
         }
 
-        public NewQueueWatcherRabbitMQ(
+        public QueueWatcherRabbitMQNew(
             IAppLogger logger,
             IMessageProvider msgProvider,
             IConnectionFactory factory,
