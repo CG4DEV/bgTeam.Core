@@ -10,12 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Analyzer Include="..\..\lint\SonarQube\Google.Protobuf.dll" />
-    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.CSharp.dll" />
-    <Analyzer Include="..\..\lint\SonarQube\SonarAnalyzer.dll" />
-    <Analyzer Include="..\..\lint\StyleCop\Newtonsoft.Json.dll" />
-    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\lint\StyleCop\StyleCop.Analyzers.dll" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.6.0.7024">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -35,24 +37,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\lint\linter.ruleset">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\lint\SonarQube\Google.Protobuf.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\lint\SonarQube\SonarAnalyzer.CSharp.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\lint\SonarQube\SonarAnalyzer.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\lint\StyleCop\Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\lint\StyleCop\StyleCop.Analyzers.CodeFixes.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\lint\StyleCop\StyleCop.Analyzers.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\shared\configs\connectionStrings.Debug.json">

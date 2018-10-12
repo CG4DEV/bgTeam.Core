@@ -5,6 +5,9 @@
     using System.IO;
     using System.Linq;
 
+    /// <summary>
+    /// Helpers function for configs files
+    /// </summary>
     public static class ConfigHelper
     {
         /// <summary>
