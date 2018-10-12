@@ -6,7 +6,10 @@
     using System.Linq;
     using System.Reflection;
 
-    public static class PluginLoader
+    /// <summary>
+    /// Helpers function for plugins
+    /// </summary>
+    public static class PluginHelpers
     {
         /// <summary>
         /// Загружает информацию о типах из внешних библиотек dll. Производит позднее связывание
@@ -23,7 +26,7 @@
             }
 
             var plugins = dirInfo.GetFiles("*.dll")
-                .Select(x => Assembly.LoadFile(x.FullName))
+                .Select(x => Assembly.Load(x.FullName))
                 .Where(a => a.GetTypes().Any(x => TypesPredicate<T>(x)));
 
             if (!plugins.Any())
