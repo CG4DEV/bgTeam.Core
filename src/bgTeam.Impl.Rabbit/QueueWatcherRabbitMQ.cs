@@ -57,6 +57,8 @@
 
         public event EventHandler<ExtThreadExceptionEventArgs> OnError;
 
+        public event EventHandler<ExtThreadExceptionEventArgs> OnWarning;
+
         public void StartWatch(string queueName)
         {
             if (OnSubscribe == null)
@@ -83,6 +85,12 @@
                             _logger.Info("No messages");
                             await Task.Delay(_threadSleep);
                         }
+                    }
+                    catch (ProcessMessageException exp) when (exp.InnerException is BgTeamException bexp)
+                    {
+                        _logger.Warning($"Exception of type {bexp.GetType().Name}: {bexp.Message}{Environment.NewLine}{bexp.StackTrace}");
+
+                        OnWarning?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, bexp));
                     }
                     catch (ProcessMessageException exp)
                     {

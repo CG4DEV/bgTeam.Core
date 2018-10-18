@@ -1,4 +1,5 @@
-﻿using bgTeam.Impl;
+﻿using bgTeam;
+using bgTeam.Impl;
 using bgTeam.Impl.Rabbit;
 using bgTeam.Queues;
 using Moq;
