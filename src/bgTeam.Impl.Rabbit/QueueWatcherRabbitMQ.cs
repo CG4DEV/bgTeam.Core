@@ -86,7 +86,7 @@
                     }
                     catch (ProcessMessageException exp) when (exp.InnerException is QueueException qexp)
                     {
-                        _logger.Warning($"Exception of type {qexp.GetType().Name}: {qexp.Message}{Environment.NewLine}{cexp.StackTrace}");
+                        _logger.Warning($"Exception of type {qexp.GetType().Name}: {qexp.Message}{Environment.NewLine}{qexp.StackTrace}");
 
                         OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, qexp));
                     }
