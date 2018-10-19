@@ -84,11 +84,11 @@
                             await Task.Delay(_threadSleep);
                         }
                     }
-                    catch (ProcessMessageException exp) when (exp.InnerException is BgTeamException bexp)
+                    catch (ProcessMessageException exp) when (exp.InnerException is QueueException qexp)
                     {
-                        _logger.Warning($"Exception of type {bexp.GetType().Name}: {bexp.Message}{Environment.NewLine}{bexp.StackTrace}");
+                        _logger.Warning($"Exception of type {qexp.GetType().Name}: {qexp.Message}{Environment.NewLine}{cexp.StackTrace}");
 
-                        OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, bexp));
+                        OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, qexp));
                     }
                     catch (ProcessMessageException exp)
                     {
