@@ -108,7 +108,7 @@
                             await Task.Delay(_threadSleep);
                         }
                     }
-                    catch (ProcessMessageException exp) when (exp.InnerException is QueueException qexp)
+                    catch (ProcessMessageException exp) when (exp.InnerException is QueueWarningException qexp)
                     {
                         _logger.Warning($"Exception of type {qexp.GetType().Name}: {qexp.Message}{Environment.NewLine}{qexp.StackTrace}");
 
