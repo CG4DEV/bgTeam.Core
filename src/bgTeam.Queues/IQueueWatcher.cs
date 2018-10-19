@@ -13,8 +13,6 @@
 
         event EventHandler<ExtThreadExceptionEventArgs> OnError;
 
-        event EventHandler<ExtThreadExceptionEventArgs> OnWarning;
-
         void StartWatch(string queueName);
     }
 }
