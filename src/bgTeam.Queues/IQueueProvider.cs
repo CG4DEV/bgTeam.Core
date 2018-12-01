@@ -15,9 +15,9 @@
 
         void PushMessages(IEnumerable<IQueueMessage> messages, params string[] queues);
 
-        QueueMessageWork AskMessage(string queueName);
+        //QueueMessageWork AskMessage(string queueName);
 
-        void DeleteMessage(QueueMessageWork message);
+        //void DeleteMessage(QueueMessageWork message);
 
         uint GetQueueMessageCount(string queueName);
     }

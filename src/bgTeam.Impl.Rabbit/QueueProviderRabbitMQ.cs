@@ -137,15 +137,15 @@
             PushMessageInternal(queues, messages.ToArray());
         }
 
-        public QueueMessageWork AskMessage(string queueName)
-        {
-            throw new NotImplementedException();
-        }
+        //public QueueMessageWork AskMessage(string queueName)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void DeleteMessage(QueueMessageWork message)
-        {
-            throw new NotImplementedException();
-        }
+        //public void DeleteMessage(QueueMessageWork message)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public uint GetQueueMessageCount(string queueName)
         {
