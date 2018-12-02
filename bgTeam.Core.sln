@@ -67,6 +67,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Impl.PostgreSQL", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.bgTeam.Impl.Dapper", "tests\Test.bgTeam.Impl.Dapper\Test.bgTeam.Impl.Dapper.csproj", "{9C426BCA-60F8-4727-92AC-05300F05E443}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.Impl.Quartz", "src\bgTeam.Impl.Quartz\bgTeam.Impl.Quartz.csproj", "{801D502D-B0A8-44C7-A576-66A8951A7A78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,10 @@ Global
 		{9C426BCA-60F8-4727-92AC-05300F05E443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C426BCA-60F8-4727-92AC-05300F05E443}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C426BCA-60F8-4727-92AC-05300F05E443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{801D502D-B0A8-44C7-A576-66A8951A7A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{801D502D-B0A8-44C7-A576-66A8951A7A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{801D502D-B0A8-44C7-A576-66A8951A7A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{801D502D-B0A8-44C7-A576-66A8951A7A78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,6 +182,7 @@ Global
 		{869EB4D1-9604-4E7D-8D8B-D5641D5E31C7} = {98CD1A87-4AF2-4E26-A796-9B6014F41129}
 		{9800E06E-9818-442F-B5DA-04204A376639} = {31178BA8-BE59-44AF-B181-EB391CE7B580}
 		{9C426BCA-60F8-4727-92AC-05300F05E443} = {98CD1A87-4AF2-4E26-A796-9B6014F41129}
+		{801D502D-B0A8-44C7-A576-66A8951A7A78} = {8782A6D2-30DE-4725-8C7B-C085738A9014}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CB9FA6A-5909-4F90-B874-6E2317139337}
