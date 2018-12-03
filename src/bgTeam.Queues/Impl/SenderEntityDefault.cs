@@ -16,72 +16,62 @@
             _queueProvider = queueProvider;
         }
 
-        //public void Send<T>(object entity, string entityType)
-        //    where T : IQueueMessage
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void Send<T>(object entity, string entityType, int? delay)
-        //    where T : IQueueMessage
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public void Send<T>(IQueueMessage msg, params string[] queues)
+        public void Send(IQueueMessage msg, params string[] queues)
         {
             SendQueue(msg, queues);
         }
 
         public void Send<T>(object entity, string entityType, params string[] queues)
-            where T : IQueueMessage
+            where T : IQueueMessage, new()
         {
-            SendInternal<T>(entity, entityType, queues, null);
+            SendInternal<T>(entity, queues, entityType, null);
         }
 
         public void Send<T>(object entity, string entityType, int? delay, params string[] queues)
-            where T : IQueueMessage
+            where T : IQueueMessage, new()
         {
-            SendInternal<T>(entity, entityType, queues, delay);
+            SendInternal<T>(entity, queues, entityType, delay);
         }
 
-        private void SendInternal<T>(object entity, string entityType, string[] queues, int? delay, int tryAttempt = 1)
-            where T : IQueueMessage
+        private void SendInternal<T>(object entity, string[] queues, string entityType, int? delay)
+            where T : IQueueMessage, new()
         {
             var str = MessageProviderDefault.ObjectToStr(entity);
 
+            var mess = new T
+            {
+                Uid = Guid.NewGuid(),
+                Body = str,
+                Delay = delay,
+            };
+
+            SendQueue(mess, queues, entityType);
+        }
+
+        private void SendQueue(IQueueMessage mess, string[] queues, string entityType = "entity empty", int? delay = 1, int tryAttempt = 1)
+        {
             try
             {
-                var mess = default(T);
+                _queueProvider.PushMessage(mess, queues);
 
-                mess.Body = str;
-                mess.Delay = delay;
-
-                SendQueue(mess, queues, entityType);
+                _logger.Info($"Success send entity - {entityType}");
             }
-            catch (Exception)
+            catch (Exception exp)
             {
                 if (tryAttempt < 5)
                 {
-                    _logger.Warning($"Failed send entity {entity} after {tryAttempt} attempt. We will try again");
+                    _logger.Warning($"Failed send entity {mess.Body} after {tryAttempt} attempt. We will try again. Exception - {exp.Message}");
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
 
                     // повторить попытку отправления
-                    SendInternal<T>(entity, entityType, queues, ++tryAttempt);
+                    SendQueue(mess, queues, entityType, delay, ++tryAttempt);
                 }
                 else
                 {
-                    _logger.Error($"Failed send entity {entity} after {tryAttempt} attempt. Lost entity");
+                    _logger.Error($"Failed send entity {mess.Body} after {tryAttempt} attempt. Lost entity. Exception - {exp.Message}");
                 }
             }
-        }
-
-        private void SendQueue(IQueueMessage mess, string[] queues, string entityType = "entity empty")
-        {
-            _queueProvider.PushMessage(mess, queues);
-
-            _logger.Info($"Success send entity - {entityType}");
         }
     }
 }

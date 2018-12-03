@@ -21,13 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Impl\QueueWatcherDefault.cs" />
-    <Compile Remove="QueueMessageWork.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
-  </ItemGroup>
-
 </Project>

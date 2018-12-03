@@ -108,13 +108,13 @@
                             await Task.Delay(_threadSleep);
                         }
                     }
-                    catch (ProcessMessageException exp) when (exp.InnerException is QueueWarningException qexp)
+                    catch (QueueWatcherException exp) when (exp.InnerException is QueueWatcherWarningException qexp)
                     {
                         _logger.Warning($"Exception of type {qexp.GetType().Name}: {qexp.Message}{Environment.NewLine}{qexp.StackTrace}");
 
                         OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, qexp));
                     }
-                    catch (ProcessMessageException exp)
+                    catch (QueueWatcherException exp)
                     {
                         _logger.Error(exp);
 
@@ -160,7 +160,7 @@
 
                     if (exp != null)
                     {
-                        throw new ProcessMessageException(message, $"bgTeam: {exp.Message}", exp);
+                        throw new QueueWatcherException($"bgTeam: {exp.Message}", message, exp);
                     }
 
                     return true;

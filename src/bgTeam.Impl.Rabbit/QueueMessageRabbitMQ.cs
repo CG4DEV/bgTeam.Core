@@ -1,12 +1,18 @@
 ﻿namespace bgTeam.Impl.Rabbit
 {
+    using System;
     using System.Collections.Generic;
-    using bgTeam.Queues;
     using System.Linq;
+    using bgTeam.Queues;
 
     public class QueueMessageRabbitMQ : IQueueMessage
     {
         private const int DelayStep = 900000;
+
+        public QueueMessageRabbitMQ()
+        {
+            Errors = new List<string>();
+        }
 
         public QueueMessageRabbitMQ(string body)
         {
@@ -14,7 +20,7 @@
             Errors = new List<string>();
         }
 
-        public IList<string> Errors { get; set; }
+        public Guid Uid { get; set; }
 
         public string Body { get; set; }
 
@@ -33,5 +39,7 @@
             {
             }
         }
+
+        public IList<string> Errors { get; set; }
     }
 }
