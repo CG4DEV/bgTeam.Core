@@ -2,7 +2,6 @@
 {
     using global::Quartz;
     using System;
-    using System.Collections.Generic;
 
     public interface ISchedulersFactory : IDisposable
     {
