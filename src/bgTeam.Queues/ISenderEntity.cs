@@ -1,6 +1,8 @@
 ﻿namespace bgTeam.Queues
 {
-    public interface ISenderEntity
+    using System;
+
+    public interface ISenderEntity : IDisposable
     {
         void Send<T>(IQueueMessage msg, params string[] queues);
 
