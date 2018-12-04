@@ -11,7 +11,7 @@
     /// для удерживания подключения в singleton
     /// после переноса в базовые сборки отключить из Trcont.Common nuget библиотеку bgTeam.Impl.Rabbit
     /// </summary>
-    public class ConnectionFactoryRabbitMq : IConnectionFactory, IDisposable
+    public class ConnectionFactoryRabbitMQ : IConnectionFactory, IDisposable
     {
         private bool disposed = false;
         private readonly IAppLogger _logger;
@@ -19,7 +19,7 @@
         private readonly object _lock = new object();
         private IConnection _connection;
 
-        public ConnectionFactoryRabbitMq(IAppLogger logger, IQueueProviderSettings settings)
+        public ConnectionFactoryRabbitMQ(IAppLogger logger, IQueueProviderSettings settings)
         {
             _logger = logger;
             _connectionFactory = new ConnectionFactory()
@@ -32,7 +32,7 @@
             };
         }
 
-        ~ConnectionFactoryRabbitMq()
+        ~ConnectionFactoryRabbitMQ()
         {
             Dispose(false);
         }
