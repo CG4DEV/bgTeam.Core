@@ -1,11 +1,12 @@
 ﻿namespace bgTeam.Queues
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public delegate Task QueueMessageHandler(IQueueMessage message);
 
-    public interface IQueueProvider
+    public interface IQueueProvider : IDisposable
     {
         void PushMessage(IQueueMessage message);
 
