@@ -8,7 +8,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class QueueProviderRabbitMQNew : IQueueProvider, IDisposable
+    public class QueueProviderRabbitMQNew : IQueueProvider
     {
         private bool _disposed = false;
         private readonly string EXCHANGE_DEFAULT = "bgTeam.direct";
@@ -86,16 +86,6 @@
 
             queues = GetDistinctQueues(queues);
             PushMessageInternal(queues, messages.ToArray());
-        }
-
-        public QueueMessageWork AskMessage(string queueName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteMessage(QueueMessageWork message)
-        {
-            throw new NotImplementedException();
         }
 
         public uint GetQueueMessageCount(string queueName)

@@ -9,6 +9,7 @@
 
     public class QueueProviderRabbitMQ : IQueueProvider
     {
+        private bool _disposed = false;
         private readonly string EXCHANGE_DEFAULT = "bgTeam.direct";
 
         private readonly bool _useDelay;
@@ -192,6 +193,10 @@
                     channel.QueueBind(queue, EXCHANGE_DEFAULT, item);
                 }
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
