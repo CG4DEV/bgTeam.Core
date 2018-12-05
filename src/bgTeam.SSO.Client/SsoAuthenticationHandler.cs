@@ -32,12 +32,12 @@
                     return Success(token);
                 }
 
-                //_log.Info("Token verification failed", Array.Empty<object>());
+                // _log.Info("Token verification failed", Array.Empty<object>());
                 return AuthenticateResult.NoResult();
             }
             catch (Exception ex)
             {
-                //log
+                // log
                 return AuthenticateResult.NoResult();
             }
         }
