@@ -1,10 +1,8 @@
 ﻿namespace bgTeam.Queues.Impl
 {
     using bgTeam.Extensions;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
 
     public class SenderEntityDefault : ISenderEntity
@@ -19,6 +17,11 @@
         {
             _logger = logger;
             _queueProvider = queueProvider;
+        }
+
+        ~SenderEntityDefault()
+        {
+            Dispose(false);
         }
 
         public void Send(IQueueMessage msg, params string[] queues)
@@ -36,6 +39,41 @@
             where T : IQueueMessage, new()
         {
             SendInternal<T>(entity, queues, entityType, delay);
+        }
+
+        public void SendList<T>(IEnumerable<object> entities, string entityType, int? delay = null, params string[] queues)
+            where T : IQueueMessage, new()
+        {
+            if (!entities.NullOrEmpty())
+            {
+                foreach (var entity in entities)
+                {
+                    SendInternal<T>(entity, queues, entityType, delay);
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+
+            // подавляем финализацию
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing && _queueProvider != null)
+                {
+                    // Освобождаем управляемые ресурсы
+                    _queueProvider.Dispose();
+                }
+
+                // освобождаем неуправляемые объекты
+                _disposed = true;
+            }
         }
 
         private void SendInternal<T>(object entity, string[] queues, string entityType, int? delay)
@@ -76,62 +114,6 @@
                 {
                     _logger.Error($"Failed send entity {mess.Body} after {tryAttempt} attempt. Lost entity. Exception - {exp.Message}");
                 }
-            }
-        }
-
-        public void SendList<T>(IEnumerable<object> entities, string entityType, int? delay = null, params string[] queues)
-            where T : IQueueMessage
-        {
-            if (!entities.NullOrEmpty())
-            {
-                var msgs = new List<IQueueMessage>();
-                entities.DoForEach(entity =>
-                {
-                    var msg = (IQueueMessage)Activator.CreateInstance(typeof(T), new object[] { JsonConvert.SerializeObject(entity) });
-                    msg.Delay = delay;
-                    msgs.Add(msg);
-                });
-
-                // Отправка в очередь
-                SendListQueue(msgs, entityType, queues);
-            }
-        }
-
-        private void SendListQueue<T>(T msgs, string entityType, string[] queues)
-            where T : IEnumerable<IQueueMessage>
-        {
-            if (!queues.NullOrEmpty())
-            {
-                _queueProvider.PushMessages(msgs, queues);
-            }
-            else
-            {
-                _queueProvider.PushMessages(msgs);
-            }
-
-            _logger.Info($"Success send entitis - {entityType}, count: {msgs.Count()}");
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-
-            // подавляем финализацию
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing && _queueProvider != null)
-                {
-                    // Освобождаем управляемые ресурсы
-                    _queueProvider.Dispose();
-                }
-
-                // освобождаем неуправляемые объекты
-                _disposed = true;
             }
         }
     }

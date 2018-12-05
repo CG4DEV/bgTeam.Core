@@ -14,6 +14,6 @@
             where T : IQueueMessage, new();
 
         void SendList<T>(IEnumerable<object> entities, string entityType, int? delay = null, params string[] queues)
-            where T : IQueueMessage;
+            where T : IQueueMessage, new();
     }
 }

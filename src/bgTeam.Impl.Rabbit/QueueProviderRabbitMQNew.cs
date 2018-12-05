@@ -67,27 +67,6 @@
             PushMessageInternal(queues, message);
         }
 
-        public void PushMessages(IEnumerable<IQueueMessage> messages)
-        {
-            if (messages.NullOrEmpty())
-            {
-                return;
-            }
-
-            PushMessageInternal(_queues, messages.ToArray());
-        }
-
-        public void PushMessages(IEnumerable<IQueueMessage> messages, params string[] queues)
-        {
-            if (messages.NullOrEmpty())
-            {
-                return;
-            }
-
-            queues = GetDistinctQueues(queues);
-            PushMessageInternal(queues, messages.ToArray());
-        }
-
         public uint GetQueueMessageCount(string queueName)
         {
             var queue = _queues.SingleOrDefault(x => x.Equals(queueName, StringComparison.InvariantCultureIgnoreCase));
