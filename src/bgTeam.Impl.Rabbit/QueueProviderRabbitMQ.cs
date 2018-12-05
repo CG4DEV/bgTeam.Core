@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.Impl.Rabbit
 {
+    using bgTeam;
     using bgTeam.Extensions;
     using bgTeam.Queues;
     using RabbitMQ.Client;
@@ -7,6 +8,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Желательное использование одного провайдера на поток
+    /// </summary>
     public class QueueProviderRabbitMQ : IQueueProvider
     {
         private bool _disposed = false;
@@ -19,24 +23,20 @@
         private readonly IMessageProvider _msgProvider;
 
         private static readonly object _locker = new object();
+        private static readonly object _lockChannel = new object();
+
+        private IModel _channel;
 
         public QueueProviderRabbitMQ(
             IAppLogger logger,
             IMessageProvider msgProvider,
-            IQueueProviderSettings settings,
+            IConnectionFactory factory,
             bool useDelay = false,
             params string[] queues)
         {
             _logger = logger;
             _msgProvider = msgProvider;
-            _factory = new ConnectionFactory()
-            {
-                HostName = settings.Host,
-                Port = settings.Port,
-                VirtualHost = settings.VirtualHost,
-                UserName = settings.Login,
-                Password = settings.Password,
-            };
+            _factory = factory;
 
             if (queues.NullOrEmpty())
             {
@@ -54,6 +54,11 @@
             Init(queues);
         }
 
+        ~QueueProviderRabbitMQ()
+        {
+            Dispose(false);
+        }
+
         public void PushMessage(IQueueMessage message)
         {
             PushMessageInternal(_queues, message);
@@ -63,6 +68,44 @@
         {
             queues = GetDistinctQueues(queues);
             PushMessageInternal(queues, message);
+        }
+
+        public uint GetQueueMessageCount(string queueName)
+        {
+            var queue = _queues.SingleOrDefault(x => x.Equals(queueName, StringComparison.InvariantCultureIgnoreCase));
+            if (queue == null)
+            {
+                throw new Exception($"Не найдена очередь с именем {queueName}");
+            }
+
+            using (var channel = CreateChannel())
+            {
+                return channel.MessageCount(queue);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+
+            // подавляем финализацию
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing && _channel != null)
+                {
+                    // Освобождаем управляемые ресурсы
+                    _channel.Close();
+                    _channel.Dispose();
+                }
+
+                // освобождаем неуправляемые объекты
+                _disposed = true;
+            }
         }
 
         private string[] GetDistinctQueues(string[] queues)
@@ -93,73 +136,21 @@
             return queues;
         }
 
-        private void PushMessageInternal(IEnumerable<string> queues, params IQueueMessage[] messages)
+        private void PushMessageInternal(IEnumerable<string> queues, IQueueMessage message)
         {
-            using (var connection = _factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            var channel = CreateChannel();
+            var body = _msgProvider.PrepareMessageByte(message);
+
+            foreach (var item in queues)
             {
-                foreach (var message in messages)
-                {
-                    var body = _msgProvider.PrepareMessageByte(message);
+                var bProp = channel.CreateBasicProperties();
+                var bHeaders = new Dictionary<string, object>();
 
-                    foreach (var item in queues)
-                    {
-                        var bProp = channel.CreateBasicProperties();
-                        var bHeaders = new Dictionary<string, object>();
+                bHeaders.Add("x-delay", message.Delay);
+                bProp.Headers = bHeaders;
+                bProp.DeliveryMode = 2;
 
-                        bHeaders.Add("x-delay", message.Delay);
-                        bProp.Headers = bHeaders;
-                        bProp.DeliveryMode = 2;
-
-                        channel.BasicPublish(EXCHANGE_DEFAULT, item, bProp, body);
-                    }
-                }
-            }
-        }
-
-        public void PushMessages(IEnumerable<IQueueMessage> messages)
-        {
-            if (messages.NullOrEmpty())
-            {
-                return;
-            }
-
-            PushMessageInternal(_queues, messages.ToArray());
-        }
-
-        public void PushMessages(IEnumerable<IQueueMessage> messages, params string[] queues)
-        {
-            if (messages.NullOrEmpty())
-            {
-                return;
-            }
-
-            queues = GetDistinctQueues(queues);
-            PushMessageInternal(queues, messages.ToArray());
-        }
-
-        //public QueueMessageWork AskMessage(string queueName)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void DeleteMessage(QueueMessageWork message)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public uint GetQueueMessageCount(string queueName)
-        {
-            var queue = _queues.SingleOrDefault(x => x.Equals(queueName, StringComparison.InvariantCultureIgnoreCase));
-            if (queue == null)
-            {
-                throw new Exception($"Не найдена очередь с именем {queueName}");
-            }
-
-            using (var connection = _factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                return channel.MessageCount(queue);
+                channel.BasicPublish(EXCHANGE_DEFAULT, item, bProp, body);
             }
         }
 
@@ -170,8 +161,7 @@
         {
             _logger.Debug($"QueueProviderRabbitMQ: create connect to {string.Join(", ", queues)}");
 
-            using (var connection = _factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            using (var channel = CreateChannel())
             {
                 _logger.Debug($"QueueProviderRabbitMQ: connect open");
 
@@ -195,8 +185,21 @@
             }
         }
 
-        public void Dispose()
+        private IModel CreateChannel()
         {
+            if (_channel == null || !_channel.IsOpen)
+            {
+                //Лочим на всякий, вдруг один экземпляр провайдера попадет в несколько потоков
+                lock (_lockChannel)
+                {
+                    if (_channel == null || !_channel.IsOpen)
+                    {
+                        _channel = _factory.CreateConnection().CreateModel();
+                    }
+                }
+            }
+
+            return _channel;
         }
     }
 }

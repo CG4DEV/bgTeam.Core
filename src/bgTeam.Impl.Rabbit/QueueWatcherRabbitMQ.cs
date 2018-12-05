@@ -66,17 +66,41 @@
 
             while (true)
             {
+                _logger.Debug($"NewQueueWatcherRabbitMQ: create connection");
+                using (var connection = _factory.CreateConnection())
+                {
+                    try
+                    {
+                        MainLoop(queueName, connection);
+                    }
+                    catch (Exception ex)
+                    {
+                        var args = connection.CloseReason;
+                        if (args != null)
+                        {
+                            _logger.Error($"NewQueueWatcherRabbitMQ: connection shutdown. Reason: {args.ReplyCode} - {args.ReplyText}");
+                        }
+                        else
+                        {
+                            _logger.Error($"NewQueueWatcherRabbitMQ: error: {ex.Message}");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void MainLoop(string queueName, IConnection connection)
+        {
+            while (true)
+            {
                 _semaphore.Wait();
                 Task.Factory.StartNew(async () =>
                 {
                     var noMsg = false;
 
-                    ////var taskId = Task.CurrentId;
-                    ////_logger.Debug($"  Start read queue - {queueName}:{taskId}");
-
                     try
                     {
-                        noMsg = await AskMessage(queueName);
+                        noMsg = await AskMessage(queueName, connection);
 
                         if (!noMsg)
                         {
@@ -95,9 +119,6 @@
                         _logger.Error(exp);
 
                         OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, exp.GetBaseException()));
-
-                        // TODO : Не ждём если возникла ошибка при обработке
-                        // await Task.Delay(_threadSleep);
                     }
                     catch (Exception exp)
                     {
@@ -108,23 +129,17 @@
                     }
                     finally
                     {
-                        ////_logger.Debug($"  End read queue - {queueName}:{taskId}");
-
                         _semaphore.Release();
                     }
                 });
             }
         }
 
-        protected async Task<bool> AskMessage(string queueName)
+        protected async Task<bool> AskMessage(string queueName, IConnection connection)
         {
-            _logger.Debug($"QueueWatcherRabbitMQ: create connect to {queueName}");
-
-            using (var connection = _factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                _logger.Debug($"QueueWatcherRabbitMQ: connect open");
-
+                _logger.Debug($"NewQueueWatcherRabbitMQ: channel open");
                 var res = channel.BasicGet(queueName, false);
                 if (res != null)
                 {
