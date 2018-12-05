@@ -8,7 +8,7 @@
     /// <summary>
     /// Elasticsearch client
     /// </summary>
-    public interface IClientEs
+    public interface IElasticsearchClient
     {
         /// <summary>
         /// Index document in elasticsearch

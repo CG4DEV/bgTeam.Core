@@ -8,17 +8,14 @@
     using Elasticsearch.Net;
     using Nest;
 
-    public class ConnectionFactoryEs : IConnectionFactoryEs
+    public class ElasticsearchConnectionFactory : IElasticsearchConnectionFactory
     {
-        private readonly IConnectionSettingsEs _setting;
-        private readonly StaticConnectionPool _staticConnectionPool;
         private readonly ConnectionSettings _connectionSettings;
 
-        public ConnectionFactoryEs(IConnectionSettingsEs setting)
+        public ElasticsearchConnectionFactory(IElasticsearchConnectionSettings setting)
         {
-            _setting = setting;
-            _staticConnectionPool = new StaticConnectionPool(setting.Nodes.Select(x => new Uri(x)));
-            _connectionSettings = new ConnectionSettings(_staticConnectionPool);
+            var staticConnectionPool = new StaticConnectionPool(setting.Nodes.Select(x => new Uri(x)));
+            _connectionSettings = new ConnectionSettings(staticConnectionPool);
         }
 
         public ElasticClient CreateClient()

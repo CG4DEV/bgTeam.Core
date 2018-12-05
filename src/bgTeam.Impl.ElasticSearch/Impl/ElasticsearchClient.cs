@@ -8,12 +8,12 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class ClientEs : IClientEs
+    public class ElasticsearchClient : IElasticsearchClient
     {
-        private readonly IConnectionFactoryEs _connectionFactoryEs;
+        private readonly IElasticsearchConnectionFactory _connectionFactoryEs;
 
-        public ClientEs(
-            IConnectionFactoryEs connectionFactoryEs)
+        public ElasticsearchClient(
+            IElasticsearchConnectionFactory connectionFactoryEs)
         {
             _connectionFactoryEs = connectionFactoryEs;
         }
@@ -84,6 +84,17 @@
             }
         }
 
+        public IEnumerable<T> Search<T>(string field, DateTime? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+            where T : class
+        {
+            return Search<T>(field, value.ToString(), indexName, sortField, ascSort, size);
+        }
+
+        public IEnumerable<T> Search<T>(string field, double? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null) where T : class
+        {
+            return Search<T>(field, value.ToString(), indexName, sortField, ascSort, size);
+        }
+
         public IEnumerable<T> Search<T>(string field, string value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
             where T : class
         {
@@ -104,15 +115,16 @@
             return result.Documents.ToList();
         }
 
-        public IEnumerable<T> Search<T>(string field, DateTime? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+        public async Task<IEnumerable<T>> SearchAsync<T>(string field, DateTime? value, string indexName, string sortField = "Id", bool askSort = false, int? size = null)
             where T : class
         {
-            return Search<T>(field, value.ToString(), indexName, sortField, ascSort, size);
+            return await SearchAsync<T>(field, value.ToString(), indexName, sortField, askSort, size);
         }
 
-        public IEnumerable<T> Search<T>(string field, double? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null) where T : class
+        public async Task<IEnumerable<T>> SearchAsync<T>(string field, double? value, string indexName, string sortField = "Id", bool askSort = false, int? size = null)
+            where T : class
         {
-            return Search<T>(field, value.ToString(), indexName, sortField, ascSort, size);
+            return await SearchAsync<T>(field, value.ToString(), indexName, sortField, askSort, size);
         }
 
         public async Task<IEnumerable<T>> SearchAsync<T>(string field, string value, string indexName, string sortField = "Id", bool askSort = false, int? size = null)
@@ -133,18 +145,6 @@
             }
 
             return result.Documents.ToList();
-        }
-
-        public async Task<IEnumerable<T>> SearchAsync<T>(string field, DateTime? value, string indexName, string sortField = "Id", bool askSort = false, int? size = null)
-            where T : class
-        {
-            return await SearchAsync<T>(field, value.ToString(), indexName, sortField, askSort, size);
-        }
-
-        public async Task<IEnumerable<T>> SearchAsync<T>(string field, double? value, string indexName, string sortField = "Id", bool askSort = false, int? size = null)
-            where T : class
-        {
-            return await SearchAsync<T>(field, value.ToString(), indexName, sortField, askSort, size);
         }
     }
 }

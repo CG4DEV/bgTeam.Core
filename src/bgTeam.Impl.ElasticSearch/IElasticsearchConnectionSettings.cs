@@ -7,7 +7,7 @@
     /// <summary>
     /// Elasticsearch connection settings
     /// </summary>
-    public interface IConnectionSettingsEs
+    public interface IElasticsearchConnectionSettings
     {
         /// <summary>
         /// Elastic search nodes

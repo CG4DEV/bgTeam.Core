@@ -6,7 +6,7 @@
     /// <summary>
     /// Elasticsearch client factory
     /// </summary>
-    public interface IConnectionFactoryEs
+    public interface IElasticsearchConnectionFactory
     {
         /// <summary>
         /// Create new client instance
