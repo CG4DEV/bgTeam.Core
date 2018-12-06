@@ -10,7 +10,7 @@
     /// </summary>
     public abstract class BaseSchedulersFactory : ISchedulersFactory
     {
-        private readonly IServiceProvider _container;
+        protected readonly IServiceProvider _container;
         private readonly ISchedulerFactory _schedulerFactory;
 
         protected BaseSchedulersFactory(
@@ -68,7 +68,7 @@
         //    };
         //}
 
-        private IJobDetail CreateJob<T>(string jobName, IDictionary<string, object> param)
+        private static IJobDetail CreateJob<T>(string jobName, IDictionary<string, object> param)
             where T : IJob
         {
             var map = new JobDataMap(param);
@@ -80,7 +80,7 @@
             return jobDetail;
         }
 
-        private ITrigger CreateTrigger(string triggerName, string cronString, IJobDetail job)
+        private static ITrigger CreateTrigger(string triggerName, string cronString, IJobDetail job)
         {
             ITrigger trigger = TriggerBuilder.Create()
                 .ForJob(job)
