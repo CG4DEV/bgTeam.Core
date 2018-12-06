@@ -1,6 +1,7 @@
-﻿namespace bgTeam.Impl.Quartz.Impl
+﻿namespace bgTeam.Impl.Quartz
 {
     using bgTeam.Extensions;
+    using bgTeam.Quartz;
     using global::Quartz;
     using System;
     using System.Collections.Generic;
@@ -30,43 +31,26 @@
             CreateScheduler(jobDetail, trigger);
         }
 
-        public void Dispose()
-        {
-            var list = _schedulerFactory.GetAllSchedulers().Result;
-
-            if (!list.NullOrEmpty())
-            {
-                list.DoForEach(x => x.Shutdown(false));
-            }
-        }
-
         protected abstract IDictionary<string, object> CreateCommonMap(IJobTriggerInfo config);
 
-        //private IDictionary<string, object> CreateCommonMap(InsuranceConfiguration config)
-        //{
-        //    var logger = _container.GetService<IAppLogger>();
-        //    var repository = _container.GetService<IRepository>();
-        //    var sender = _container.GetService<ISenderEntityTest>();
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-        //    var sqlObject = new SqlObjectDefault(
-        //        config.SqlString,
-        //        new
-        //        {
-        //            DateChangeFrom = config.DateChangeOffsetFrom.HasValue ? DateTime.Now.AddHours(config.DateChangeOffsetFrom.Value) : new DateTime(1900, 01, 01),
-        //            DateChangeTo = config.DateChangeOffsetTo.HasValue ? DateTime.Now.AddHours(config.DateChangeOffsetTo.Value) : new DateTime(1900, 01, 01),
-        //        });
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                var list = _schedulerFactory.GetAllSchedulers().Result;
 
-        //    return new Dictionary<string, object>()
-        //    {
-        //        { "Logger", logger },
-        //        { "Repository", repository },
-        //        { "Sender", sender },
-
-        //        { "ContextType", config.ContextType },
-        //        { "QueueName", config.NameQueue },
-        //        { "SqlObject", sqlObject },
-        //    };
-        //}
+                if (!list.NullOrEmpty())
+                {
+                    list.DoForEach(x => x.Shutdown(false));
+                }
+            }
+        }
 
         private static IJobDetail CreateJob<T>(string jobName, IDictionary<string, object> param)
             where T : IJob

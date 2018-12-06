@@ -1,10 +1,9 @@
 ﻿namespace bgTeam.Impl.ElasticSearch
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
+    using bgTeam.ElasticSearch;
     using Elasticsearch.Net;
     using Nest;
 

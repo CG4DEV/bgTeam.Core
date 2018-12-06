@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Impl.Quartz
+﻿namespace bgTeam.Quartz
 {
     using global::Quartz;
     using System;

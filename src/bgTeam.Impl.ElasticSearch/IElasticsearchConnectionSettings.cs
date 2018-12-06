@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Impl.ElasticSearch
+﻿namespace bgTeam.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
