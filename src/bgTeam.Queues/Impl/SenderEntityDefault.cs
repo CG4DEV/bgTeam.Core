@@ -8,8 +8,8 @@
     public class SenderEntityDefault : ISenderEntity
     {
         private bool _disposed = false;
-        private readonly IAppLogger _logger;
-        private readonly IQueueProvider _queueProvider;
+        private IAppLogger _logger;
+        private IQueueProvider _queueProvider;
 
         public SenderEntityDefault(
             IAppLogger logger,
@@ -72,6 +72,8 @@
                 }
 
                 // освобождаем неуправляемые объекты
+                _queueProvider = null;
+                _logger = null;
                 _disposed = true;
             }
         }
