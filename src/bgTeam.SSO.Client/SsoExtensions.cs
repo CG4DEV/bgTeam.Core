@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;
 
-    public static class Extensions
+    public static class SsoExtensions
     {
         public static void AddSsoAuthentication(this IServiceCollection services, Func<string, Task<bool>> validateTokenFunc)
         {
