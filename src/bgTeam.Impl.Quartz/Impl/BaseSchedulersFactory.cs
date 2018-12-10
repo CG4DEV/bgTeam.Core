@@ -1,6 +1,7 @@
-﻿namespace bgTeam.Impl.Quartz.Impl
+﻿namespace bgTeam.Impl.Quartz
 {
     using bgTeam.Extensions;
+    using bgTeam.Quartz;
     using global::Quartz;
     using System;
     using System.Collections.Generic;
@@ -10,7 +11,7 @@
     /// </summary>
     public abstract class BaseSchedulersFactory : ISchedulersFactory
     {
-        private readonly IServiceProvider _container;
+        protected readonly IServiceProvider _container;
         private readonly ISchedulerFactory _schedulerFactory;
 
         protected BaseSchedulersFactory(
@@ -30,45 +31,28 @@
             CreateScheduler(jobDetail, trigger);
         }
 
+        protected abstract IDictionary<string, object> CreateCommonMap(IJobTriggerInfo config);
+
         public void Dispose()
         {
-            var list = _schedulerFactory.GetAllSchedulers().Result;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            if (!list.NullOrEmpty())
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                list.DoForEach(x => x.Shutdown(false));
+                var list = _schedulerFactory.GetAllSchedulers().Result;
+
+                if (!list.NullOrEmpty())
+                {
+                    list.DoForEach(x => x.Shutdown(false));
+                }
             }
         }
 
-        protected abstract IDictionary<string, object> CreateCommonMap(IJobTriggerInfo config);
-
-        //private IDictionary<string, object> CreateCommonMap(InsuranceConfiguration config)
-        //{
-        //    var logger = _container.GetService<IAppLogger>();
-        //    var repository = _container.GetService<IRepository>();
-        //    var sender = _container.GetService<ISenderEntityTest>();
-
-        //    var sqlObject = new SqlObjectDefault(
-        //        config.SqlString,
-        //        new
-        //        {
-        //            DateChangeFrom = config.DateChangeOffsetFrom.HasValue ? DateTime.Now.AddHours(config.DateChangeOffsetFrom.Value) : new DateTime(1900, 01, 01),
-        //            DateChangeTo = config.DateChangeOffsetTo.HasValue ? DateTime.Now.AddHours(config.DateChangeOffsetTo.Value) : new DateTime(1900, 01, 01),
-        //        });
-
-        //    return new Dictionary<string, object>()
-        //    {
-        //        { "Logger", logger },
-        //        { "Repository", repository },
-        //        { "Sender", sender },
-
-        //        { "ContextType", config.ContextType },
-        //        { "QueueName", config.NameQueue },
-        //        { "SqlObject", sqlObject },
-        //    };
-        //}
-
-        private IJobDetail CreateJob<T>(string jobName, IDictionary<string, object> param)
+        private static IJobDetail CreateJob<T>(string jobName, IDictionary<string, object> param)
             where T : IJob
         {
             var map = new JobDataMap(param);
@@ -80,7 +64,7 @@
             return jobDetail;
         }
 
-        private ITrigger CreateTrigger(string triggerName, string cronString, IJobDetail job)
+        private static ITrigger CreateTrigger(string triggerName, string cronString, IJobDetail job)
         {
             ITrigger trigger = TriggerBuilder.Create()
                 .ForJob(job)

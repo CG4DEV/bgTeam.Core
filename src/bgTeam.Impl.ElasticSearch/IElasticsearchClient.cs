@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Impl.ElasticSearch
+﻿namespace bgTeam.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     /// <summary>
     /// Elasticsearch client
     /// </summary>
-    public interface IClientEs
+    public interface IElasticsearchClient
     {
         /// <summary>
         /// Index document in elasticsearch

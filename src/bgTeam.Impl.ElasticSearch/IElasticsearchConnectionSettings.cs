@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Impl.ElasticSearch
+﻿namespace bgTeam.ElasticSearch
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Elasticsearch connection settings
     /// </summary>
-    public interface IConnectionSettingsEs
+    public interface IElasticsearchConnectionSettings
     {
         /// <summary>
         /// Elastic search nodes

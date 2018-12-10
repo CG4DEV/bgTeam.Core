@@ -1,9 +1,5 @@
-﻿namespace bgTeam.Impl.Quartz
+﻿namespace bgTeam.Quartz
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     public interface IJobTriggerInfo
     {
         string Name { get; set; }

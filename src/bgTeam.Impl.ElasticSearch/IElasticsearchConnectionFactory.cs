@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Impl.ElasticSearch
+﻿namespace bgTeam.ElasticSearch
 {
     using Nest;
     using System.Threading.Tasks;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Elasticsearch client factory
     /// </summary>
-    public interface IConnectionFactoryEs
+    public interface IElasticsearchConnectionFactory
     {
         /// <summary>
         /// Create new client instance
