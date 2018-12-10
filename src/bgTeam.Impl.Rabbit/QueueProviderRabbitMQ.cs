@@ -17,10 +17,10 @@
         private readonly string EXCHANGE_DEFAULT = "bgTeam.direct";
 
         private readonly bool _useDelay;
-        private readonly List<string> _queues;
-        private readonly IAppLogger _logger;
-        private readonly IConnectionFactory _factory;
-        private readonly IMessageProvider _msgProvider;
+        private List<string> _queues;
+        private IAppLogger _logger;
+        private IConnectionFactory _factory;
+        private IMessageProvider _msgProvider;
 
         private static readonly object _locker = new object();
         private static readonly object _lockChannel = new object();
@@ -104,6 +104,12 @@
                 }
 
                 // освобождаем неуправляемые объекты
+                _channel = null;
+                _logger = null;
+                _factory = null;
+                _msgProvider = null;
+                _queues = null;
+
                 _disposed = true;
             }
         }

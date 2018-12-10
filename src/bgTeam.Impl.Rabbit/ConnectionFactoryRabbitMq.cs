@@ -14,8 +14,8 @@
     public class ConnectionFactoryRabbitMQ : IConnectionFactory, IDisposable
     {
         private bool disposed = false;
-        private readonly IAppLogger _logger;
-        private readonly ConnectionFactory _connectionFactory;
+        private IAppLogger _logger;
+        private ConnectionFactory _connectionFactory;
         private readonly object _lock = new object();
         private IConnection _connection;
 
@@ -183,6 +183,9 @@
                 }
 
                 // освобождаем неуправляемые объекты
+                _connection = null;
+                _logger = null;
+                _connectionFactory = null;
                 disposed = true;
             }
         }
