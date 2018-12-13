@@ -49,6 +49,7 @@
 
         private ClaimsPrincipal DecodeToken(string token)
         {
+            //TODO: map jwt claims to actual aspnet claims
             var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
             return new ClaimsPrincipal(new ClaimsIdentity(jwtToken.Claims, Constants.SCHEME_NAME));
         }
