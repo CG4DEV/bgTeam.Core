@@ -16,7 +16,7 @@
         {
             const string validateUrl = "api/auth/validatetoken";
 
-            var address = $"https://{GetIssuerAddressFromToken(token)}/{validateUrl}";
+            var address = $"{GetIssuerAddressFromToken(token)}/{validateUrl}";
             SsoReplyResult reply = null;
             using (var httpClient = new HttpClient())
             {
