@@ -27,7 +27,7 @@
 
             try
             {
-                if (await Options.ValidateTokenFunc(token))
+                if (await Options.TokenValidationProvider.ValidateTokenAsync(token))
                 {
                     return Success(token);
                 }

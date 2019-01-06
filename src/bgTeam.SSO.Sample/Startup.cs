@@ -20,12 +20,8 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSsoAuthentication(async token =>
-            {
-                // TODO: make validation method static or make SsoClient singleton
-                var cl = new SsoClient();
-                return await cl.ValidateToken(token);
-            });
+            var ssoEndpoint = Configuration["SSO:RemoteTokenValidationEndpoint"];
+            services.AddSsoAuthentication(new RemoteTokenValidationProvider(ssoEndpoint));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
