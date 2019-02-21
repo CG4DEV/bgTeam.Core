@@ -330,6 +330,17 @@
         }
 
         /// <summary>
+        /// Executes a query using the specified predicate, returning an integer that represents the number of rows that match the query.
+        /// </summary>
+        public static Task<int> CountAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate = null, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            var prGroup = PredicateConverter<T>.FromExpression(predicate);
+
+            return Instance.CountAsync<T>(connection, prGroup, transaction, commandTimeout);
+        }
+
+        /// <summary>
         /// Executes a select query for multiple objects, returning IMultipleResultReader for each predicate.
         /// </summary>
         public static IMultipleResultReader GetMultiple(this IDbConnection connection, GetMultiplePredicate predicate, IDbTransaction transaction = null, int? commandTimeout = null)

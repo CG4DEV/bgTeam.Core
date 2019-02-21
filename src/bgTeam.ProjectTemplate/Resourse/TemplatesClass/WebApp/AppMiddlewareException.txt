@@ -19,23 +19,23 @@ namespace $namespace$
             _logger = logger;
         }
 
-        public Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context)
         {
             try
             {
-                return _next(context);
+                return await _next(context);
             }
             catch (BadRequestException ex)
             {
-                return HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
+                return await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
             }
             catch (AggregateException exp)
             {
-                return HandleExceptionAsync(context, exp.GetBaseException(), HttpStatusCode.InternalServerError);
+                return await HandleExceptionAsync(context, exp.GetBaseException(), HttpStatusCode.InternalServerError);
             }
             catch (Exception exp)
             {
-                return HandleExceptionAsync(context, exp, HttpStatusCode.InternalServerError);
+                return await HandleExceptionAsync(context, exp, HttpStatusCode.InternalServerError);
             }
         }
 

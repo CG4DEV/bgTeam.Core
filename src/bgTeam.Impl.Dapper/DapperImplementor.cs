@@ -263,6 +263,27 @@
             return connection.Query<int>(sql, dynamicParameters, transaction, false, commandTimeout, CommandType.Text).Single();
         }
 
+        public Task<int> CountAsync<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout) 
+            where T : class
+        {
+            var classMap = SqlGenerator.Configuration.GetMap<T>();
+
+            var wherePredicate = GetPredicate(classMap, predicate);
+
+            var parameters = new Dictionary<string, object>();
+
+            var sql = SqlGenerator.Count(classMap, wherePredicate, parameters);
+
+            var dynamicParameters = new DynamicParameters();
+
+            foreach (var parameter in parameters)
+            {
+                dynamicParameters.Add(parameter.Key, parameter.Value);
+            }
+
+            return connection.QuerySingleAsync<int>(sql, dynamicParameters, transaction, commandTimeout, CommandType.Text);
+        }
+
         public IMultipleResultReader GetMultiple(IDbConnection connection, GetMultiplePredicate predicate, IDbTransaction transaction, int? commandTimeout)
         {
             if (SqlGenerator.SupportsMultipleStatements())

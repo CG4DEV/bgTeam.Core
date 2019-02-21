@@ -196,5 +196,93 @@ namespace Test.bgTeam.Impl.Dapper.Tests
             Assert.Equal(5, res.Single().Id);
         }
 
+        [Fact]
+        public async Task Test_GetPaginatedResultAsync()
+        {
+            ICrudService serv = new CrudServiceDapper(_factory.ConnectionFactory);
+
+            await serv.ExecuteAsync(@"CREATE TABLE 'TestEntity'
+                                (
+                                    [Id] INTEGER  NOT NULL PRIMARY KEY,
+                                    [Name] TEXT  NULL
+                                )");
+
+            int res1 = await serv.InsertAsync(new TestEntity { Id = 1, Name = "First test entity" });
+            int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
+            int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });
+            int res4 = await serv.InsertAsync(new TestEntity { Id = 4, Name = "Fourth test entity" });
+            int res5 = await serv.InsertAsync(new TestEntity { Id = 5, Name = "Fifth test entity" });
+            int res6 = await serv.InsertAsync(new TestEntity { Id = 6, Name = "Sixth test entity" });
+
+            IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
+
+            var sort = new List<ISort>()
+            {
+                Predicates.Sort<TestEntity>(x => x.Id)
+            };
+
+            var firstPage = await rep.GetPaginatedResultAsync<TestEntity>(null, sort, 0, 2);
+            var secondPage = await rep.GetPaginatedResultAsync<TestEntity>(null, sort, 1, 2);
+            var thirdPage = await rep.GetPaginatedResultAsync<TestEntity>(null, sort, 2, 2);
+
+            await serv.ExecuteAsync(@"DROP TABLE 'TestEntity'");
+
+            Assert.Equal(6, firstPage.Total);
+            Assert.Equal(2, firstPage.Data.Count());
+            Assert.Equal(1, firstPage.Data.First().Id);
+            Assert.Equal(2, firstPage.Data.Skip(1).First().Id);
+
+            Assert.Equal(6, secondPage.Total);
+            Assert.Equal(2, secondPage.Data.Count());
+            Assert.Equal(3, secondPage.Data.First().Id);
+            Assert.Equal(4, secondPage.Data.Skip(1).First().Id);
+
+            Assert.Equal(6, thirdPage.Total);
+            Assert.Equal(2, thirdPage.Data.Count());
+            Assert.Equal(5, thirdPage.Data.First().Id);
+            Assert.Equal(6, thirdPage.Data.Skip(1).First().Id);
+        }
+        [Fact]
+        public async Task Test_GetPaginatedResultAsyncPredicate()
+        {
+            ICrudService serv = new CrudServiceDapper(_factory.ConnectionFactory);
+
+            await serv.ExecuteAsync(@"CREATE TABLE 'TestEntity'
+                                (
+                                    [Id] INTEGER  NOT NULL PRIMARY KEY,
+                                    [Name] TEXT  NULL
+                                )");
+
+            int res1 = await serv.InsertAsync(new TestEntity { Id = 1, Name = "X-Test01" });
+            int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "X-Test02" });
+            int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "X-Test03" });
+            int res4 = await serv.InsertAsync(new TestEntity { Id = 4, Name = "Y-Test01" });
+            int res5 = await serv.InsertAsync(new TestEntity { Id = 5, Name = "Y-Test02" });
+            int res6 = await serv.InsertAsync(new TestEntity { Id = 6, Name = "Y-Test03" });
+
+            IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
+
+            var sort = new List<ISort>()
+            {
+                Predicates.Sort<TestEntity>(x => x.Id)
+            };
+
+            var firstPage = await rep.GetPaginatedResultAsync<TestEntity>(x => x.Name.Contains("X-Test"), sort, 0, 2);
+            var secondPage = await rep.GetPaginatedResultAsync<TestEntity>(x => x.Name.Contains("X-Test"), sort, 1, 2);
+            var thirdPage = await rep.GetPaginatedResultAsync<TestEntity>(x => x.Name.Contains("X-Test"), sort, 2, 2);
+
+            await serv.ExecuteAsync(@"DROP TABLE 'TestEntity'");
+
+            Assert.Equal(3, firstPage.Total);
+            Assert.Equal(2, firstPage.Data.Count());
+            Assert.Equal(1, firstPage.Data.First().Id);
+            Assert.Equal(2, firstPage.Data.Skip(1).First().Id);
+
+            Assert.Equal(3, secondPage.Total);
+            Assert.Equal(3, Assert.Single(secondPage.Data).Id);
+
+            Assert.Equal(3, thirdPage.Total);
+            Assert.Empty(thirdPage.Data);
+        }
     }
 }
