@@ -23,19 +23,19 @@ namespace $namespace$
         {
             try
             {
-                return await _next(context);
+                await _next(context);
             }
             catch (BadRequestException ex)
             {
-                return await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
+                await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
             }
             catch (AggregateException exp)
             {
-                return await HandleExceptionAsync(context, exp.GetBaseException(), HttpStatusCode.InternalServerError);
+                await HandleExceptionAsync(context, exp.GetBaseException(), HttpStatusCode.InternalServerError);
             }
             catch (Exception exp)
             {
-                return await HandleExceptionAsync(context, exp, HttpStatusCode.InternalServerError);
+                await HandleExceptionAsync(context, exp, HttpStatusCode.InternalServerError);
             }
         }
 
