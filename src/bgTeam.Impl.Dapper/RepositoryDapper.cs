@@ -189,6 +189,26 @@
             }
         }
 
+        public async Task<PaginatedResult<T>> GetPaginatedResultAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbConnection connection = null, IDbTransaction transaction = null)
+            where T : class
+        {
+            if (connection == null)
+            {
+                using (connection = await _factory.CreateAsync())
+                {
+                    return PaginatedResult<T>.Create(
+                        await connection.CountAsync(predicate, transaction, _commandTimeout),
+                        await connection.GetPageAsync(predicate, sort, page, resultsPerPage, transaction, _commandTimeout));
+                }
+            }
+            else
+            {
+                return PaginatedResult<T>.Create(
+                    await connection.CountAsync(predicate, transaction, _commandTimeout),
+                    await connection.GetPageAsync(predicate, sort, page, resultsPerPage, transaction, _commandTimeout));
+            }
+        }
+
         //public async Task<Dapper.SqlMapper.GridReader> QueryMultipleAsync(string sql, object param = null)
         //{
         //    using (var connection = await _factory.CreateAsync())

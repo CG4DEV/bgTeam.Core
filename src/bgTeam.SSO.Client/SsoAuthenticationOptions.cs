@@ -1,16 +1,14 @@
 ﻿namespace bgTeam.SSO.Client
 {
-    using System;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication;
 
-    public class SsoAuthenticationOptions : AuthenticationSchemeOptions
+    internal class SsoAuthenticationOptions : AuthenticationSchemeOptions
     {
         public SsoAuthenticationOptions()
         {
             ClaimsIssuer = Constants.SCHEME_NAME;
         }
 
-        public Func<string, Task<bool>> ValidateTokenFunc { get; set; }
+        public ITokenValidationProvider TokenValidationProvider { get; set; }
     }
 }

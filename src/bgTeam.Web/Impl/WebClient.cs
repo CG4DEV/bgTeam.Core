@@ -167,23 +167,30 @@
             return await ProcessResult<T>(resultGet);
         }
 
-        public async Task<T> PostAsync<T>(string method, object postParams = null)
+        public async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
             var result = string.Empty;
 
+            HttpContent content = null;
             if (postParams != null)
             {
                 var dic = GetFormContentDictionary(postParams);
-                var content = new FormUrlEncodedContent(dic);
-                var resultPost = await _client.PostAsync(method, content);
-                result = await resultPost.Content.ReadAsStringAsync();
+                content = new FormUrlEncodedContent(dic);
             }
-            else
+
+            if (!headers.NullOrEmpty())
             {
-                var resultPost = await _client.PostAsync(method, null);
-                result = await resultPost.Content.ReadAsStringAsync();
+                if (content == null)
+                {
+                    content = new StringContent(string.Empty);
+                }
+
+                FillContentHeaders(headers, content);
             }
+
+            var resultPost = await _client.PostAsync(method, content);
+            result = await resultPost.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(result) || result == "[]")
             {
@@ -200,6 +207,14 @@
                 _logger.Error(exp);
 
                 return default(T);
+            }
+        }
+
+        private void FillContentHeaders(IDictionary<string, object> headers, HttpContent content)
+        {
+            foreach (var header in headers)
+            {
+                content.Headers.Add(header.Key, header.Value.ToString());
             }
         }
 

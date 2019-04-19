@@ -46,6 +46,9 @@
         int Count<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
             where T : class;
 
+        Task<int> CountAsync<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
         IMultipleResultReader GetMultiple(IDbConnection connection, GetMultiplePredicate predicate, IDbTransaction transaction, int? commandTimeout);
     }
 }

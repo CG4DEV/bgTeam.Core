@@ -10,8 +10,14 @@
         private readonly IAppConfiguration _appConfiguration;
 
         public AppLoggerSerilogConfig()
+            : this("Information")
         {
             MinimumLevel = "Information";
+        }
+
+        public AppLoggerSerilogConfig(string minimumLevel)
+        {
+            MinimumLevel = minimumLevel;
         }
 
         public AppLoggerSerilogConfig(IAppConfiguration appConfiguration)
