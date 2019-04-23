@@ -1,20 +1,17 @@
 ﻿namespace bgTeam.Web.Impl
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using bgTeam.Extensions;
-    using Newtonsoft.Json;
-#if !NETCOREAPP2_1
-    using System.Net;
-#endif
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using bgTeam;
+    using bgTeam.Extensions;
     using bgTeam.Web;
     using bgTeam.Web.Builders;
     using bgTeam.Web.Exceptions;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web;
 
     public class WebClient : IWebClient
