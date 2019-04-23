@@ -1,16 +1,14 @@
 ﻿namespace DapperExtensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
     using DapperExtensions.Builder;
     using DapperExtensions.Mapper;
     using DapperExtensions.Mapper.Sql;
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Threading.Tasks;
     using ISort = bgTeam.DataAccess.ISort;
 
     public static class DapperHelper
@@ -232,13 +230,6 @@
             return Instance.InsertAsync<T>(connection, entity, transaction, commandTimeout).Result;
         }
 
-        [Obsolete("Используй InsertAsync вместо", false)]
-        public static async Task<dynamic> InsertAcync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
-            where T : class
-        {
-            return await Instance.InsertAsync<T>(connection, entity, transaction, commandTimeout);
-        }
-
         public static async Task<dynamic> InsertAsync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
     where T : class
         {
@@ -254,13 +245,13 @@
             return Instance.UpdateAsync<T>(connection, entity, predicate, transaction, commandTimeout).Result;
         }
 
-        public static async Task<bool> UpdateAcync<T>(this IDbConnection connection, T entity, IPredicate predicate = null, IDbTransaction transaction = null, int? commandTimeout = null)
+        public static async Task<bool> UpdateAsync<T>(this IDbConnection connection, T entity, IPredicate predicate = null, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
         {
             return await Instance.UpdateAsync<T>(connection, entity, predicate, transaction, commandTimeout);
         }
 
-        public static async Task<bool> UpdateAcync<T>(this IDbConnection connection, T entity, Expression<Func<T, bool>> predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+        public static async Task<bool> UpdateAsync<T>(this IDbConnection connection, T entity, Expression<Func<T, bool>> predicate, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
         {
             var prGroup = PredicateConverter<T>.FromExpression(predicate);

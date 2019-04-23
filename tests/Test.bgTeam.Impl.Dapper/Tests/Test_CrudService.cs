@@ -64,7 +64,7 @@ namespace Test.bgTeam.Impl.Dapper.Tests
             int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
             int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });
 
-            bool res4 = await serv.UpdateAcync(new TestEntity { Id = 3, Name = "Third test entity UPDATED" });
+            bool res4 = await serv.UpdateAsync(new TestEntity { Id = 3, Name = "Third test entity UPDATED" });
 
             IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
 
@@ -97,7 +97,7 @@ namespace Test.bgTeam.Impl.Dapper.Tests
             int res2 = await serv.InsertAsync(new TestEntity { Id = 2, Name = "Second test entity" });
             int res3 = await serv.InsertAsync(new TestEntity { Id = 3, Name = "Third test entity" });
 
-            bool res4 = await serv.DeleteAcync(new TestEntity { Id = 3 });
+            bool res4 = await serv.DeleteAsync(new TestEntity { Id = 3 });
 
             IRepository rep = new RepositoryDapper(_factory.ConnectionFactory);
 
