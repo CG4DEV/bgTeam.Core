@@ -15,6 +15,7 @@
     using bgTeam.Web;
     using bgTeam.Web.Builders;
     using bgTeam.Web.Exceptions;
+    using System.Web;
 
     public class WebClient : IWebClient
     {
@@ -177,7 +178,7 @@
             FillHeaders(headers, msg);
 
             var resultGet = await _client.SendAsync(msg);
-            return await ProcessResult<T>(resultGet);
+            return await ProcessResultAsync<T>(resultGet);
         }
 
         public async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
@@ -202,27 +203,7 @@
             }
 
             var resultPost = await _client.PostAsync(method, content);
-
-            CheckResult(resultPost);
-
-            result = await resultPost.Content.ReadAsStringAsync();
-
-            if (string.IsNullOrWhiteSpace(result) || result == "[]")
-            {
-                return default(T);
-            }
-
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(result);
-            }
-            catch (JsonException exp)
-            {
-                _logger.Error(result);
-                _logger.Error(exp);
-
-                return default(T);
-            }
+            return await ProcessResultAsync<T>(resultPost);
         }
 
         private void CheckResult(HttpResponseMessage resultPost)
@@ -235,6 +216,7 @@
                     {
                         return;
                     }
+
                 case HttpStatusCode.BadRequest:
                 case HttpStatusCode.Unauthorized:
                 case HttpStatusCode.Forbidden:
@@ -246,6 +228,7 @@
                     {
                         throw new WebClientException($"Status code: {resultPost.StatusCode}. Message: {resultPost.ReasonPhrase}", resultPost.StatusCode);
                     }
+
                 default:
                     {
                         throw new WebClientException($"Unknown http error. Status code: {resultPost.StatusCode}. Message {resultPost.ReasonPhrase}", resultPost.StatusCode);
@@ -291,13 +274,22 @@
             {
                 Port = -1,
             };
+
+            var query = HttpUtility.ParseQueryString(builder.Query);
+            queryParams.DoForEach(x => query.Add(x.Key, x.Value.ToString()));
+            builder.Query = query.ToString();
+
             string url = builder.ToString();
+
+            _logger.Info($"Built url for GET request: {url}");
             return url;
         }
 
-        private async Task<T> ProcessResult<T>(HttpResponseMessage response)
+        private async Task<T> ProcessResultAsync<T>(HttpResponseMessage response)
             where T : class
         {
+            CheckResult(response);
+
             if (string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
             {
                 response.Content.Headers.ContentType.CharSet = "utf-8";
@@ -319,9 +311,12 @@
 
                 return JsonConvert.DeserializeObject<T>(result);
             }
-            catch (JsonSerializationException)
+            catch (JsonSerializationException exp)
             {
-                return null;
+                _logger.Error(result);
+                _logger.Error(exp);
+
+                throw new Exception($"Can't covert to {typeof(T)}. Response: {result}", exp);
             }
         }
 
