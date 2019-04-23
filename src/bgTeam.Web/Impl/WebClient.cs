@@ -8,14 +8,20 @@
 #if !NETCOREAPP2_1
     using System.Net;
 #endif
+    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using bgTeam;
+    using bgTeam.Web;
+    using bgTeam.Web.Builders;
+    using bgTeam.Web.Exceptions;
 
     public class WebClient : IWebClient
     {
         private readonly string _url;
         private readonly IAppLogger _logger;
         private readonly HttpClient _client;
+        private readonly IContentBuilder _builder;
 
 #if NETCOREAPP2_1
         private readonly SocketsHttpHandler _handler;
@@ -24,9 +30,16 @@
 #endif
 
         public WebClient(IAppLogger logger, string url)
+            : this(logger, url, new FormUrlEncodedContentBuilder())
+        {
+
+        }
+
+        public WebClient(IAppLogger logger, string url, IContentBuilder builder)
         {
             _logger = logger;
             _url = url.CheckNull(nameof(url));
+            _builder = builder.CheckNull(nameof(builder));
 
             var uri = new Uri(_url);
 #if NETCOREAPP2_1
@@ -175,8 +188,7 @@
             HttpContent content = null;
             if (postParams != null)
             {
-                var dic = GetFormContentDictionary(postParams);
-                content = new FormUrlEncodedContent(dic);
+                content = _builder.Build(postParams);
             }
 
             if (!headers.NullOrEmpty())
@@ -190,6 +202,9 @@
             }
 
             var resultPost = await _client.PostAsync(method, content);
+
+            CheckResult(resultPost);
+
             result = await resultPost.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(result) || result == "[]")
@@ -207,6 +222,34 @@
                 _logger.Error(exp);
 
                 return default(T);
+            }
+        }
+
+        private void CheckResult(HttpResponseMessage resultPost)
+        {
+            switch (resultPost.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                case HttpStatusCode.NoContent:
+                case HttpStatusCode.PartialContent:
+                    {
+                        return;
+                    }
+                case HttpStatusCode.BadRequest:
+                case HttpStatusCode.Unauthorized:
+                case HttpStatusCode.Forbidden:
+                case HttpStatusCode.NotFound:
+                case HttpStatusCode.InternalServerError:
+                case HttpStatusCode.BadGateway:
+                case HttpStatusCode.ServiceUnavailable:
+                case HttpStatusCode.GatewayTimeout:
+                    {
+                        throw new WebClientException($"Status code: {resultPost.StatusCode}. Message: {resultPost.ReasonPhrase}", resultPost.StatusCode);
+                    }
+                default:
+                    {
+                        throw new WebClientException($"Unknown http error. Status code: {resultPost.StatusCode}. Message {resultPost.ReasonPhrase}", resultPost.StatusCode);
+                    }
             }
         }
 
@@ -282,13 +325,6 @@
             }
         }
 
-        public static Dictionary<string, string> GetFormContentDictionary(object body)
-        {
-            var result = new Dictionary<string, string>();
-            AddObjToDict(result, body);
-            return result;
-        }
-
         private static void FillHeaders(IDictionary<string, object> headers, HttpRequestMessage msg)
         {
             if (headers != null)
@@ -298,65 +334,6 @@
                     msg.Headers.Add(header.Key, header.Value.ToString());
                 }
             }
-        }
-
-        private static void AddListToDict(Dictionary<string, string> dict, Proxy arrayItem, string key = null)
-        {
-            int i = 0;
-            var array = arrayItem.Value as System.Collections.IEnumerable;
-
-            foreach (var item in array)
-            {
-                if (item is System.Collections.IEnumerable && !(item is string))
-                {
-                    throw new ArgumentException("No embedded arrays in array");
-                }
-
-                var name = key ?? $"{arrayItem.Name}[{{0}}]";
-
-                if (item.GetType().IsClass)
-                {
-                    AddObjToDict(dict, item, string.Format(name, i++) + "[{0}]");
-                }
-                else
-                {
-                    dict.Add(string.Format(name, i++), item.ToString());
-                }
-            }
-        }
-
-        private static void AddObjToDict(Dictionary<string, string> dict, object obj, string key = null)
-        {
-            var type = obj.GetType();
-
-            var nameValueList = type.GetProperties()
-                .Select(x => new Proxy { Name = x.Name.ToLowerInvariant(), Value = x.GetValue(obj) })
-                .Where(x => x.Value != null);
-
-            foreach (var item in nameValueList)
-            {
-                var name = key ?? $"{item.Name}";
-
-                if (item.Value is System.Collections.IEnumerable && !(item.Value is string))
-                {
-                    AddListToDict(dict, item, string.Format(name, item.Name) + "[{0}]");
-                }
-                else if (item.Value.GetType().IsClass && !(item.Value is string))
-                {
-                    AddObjToDict(dict, item.Value, string.Format(name, item.Name) + "[{0}]");
-                }
-                else
-                {
-                    dict.Add(string.Format(name, item.Name), item.Value.ToString());
-                }
-            }
-        }
-
-        private class Proxy
-        {
-            public string Name { get; set; }
-
-            public object Value { get; set; }
         }
     }
 }
