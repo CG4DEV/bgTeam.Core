@@ -1,10 +1,9 @@
 ﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
-    using System;
-    using System.Data;
-    using System.Threading.Tasks;
     using DapperExtensions;
     using global::Dapper;
+    using System.Data;
+    using System.Threading.Tasks;
 
     public class CrudServiceDapper : ICrudService
     {
@@ -33,27 +32,8 @@
             return true;
         }
 
-        [Obsolete("Используй InsertAsync вместо", false)]
-        public async Task<bool> InsertAcync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
-            where T : class
-        {
-            if (connection == null)
-            {
-                using (connection = await _factory.CreateAsync())
-                {
-                    await connection.InsertAcync(entity, transaction: transaction);
-                }
-            }
-            else
-            {
-                await connection.InsertAcync(entity, transaction: transaction);
-            }
-
-            return true;
-        }
-
         public async Task<dynamic> InsertAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
-    where T : class
+            where T : class
         {
             if (connection == null)
             {
@@ -84,19 +64,19 @@
             }
         }
 
-        public async Task<bool> UpdateAcync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
+        public async Task<bool> UpdateAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.UpdateAcync(entity, transaction: transaction);
+                    return await connection.UpdateAsync(entity, transaction: transaction);
                 }
             }
             else
             {
-                return await connection.UpdateAcync(entity, transaction: transaction);
+                return await connection.UpdateAsync(entity, transaction: transaction);
             }
         }
 
@@ -117,7 +97,7 @@
         }
 
         // TODO : необходимо реализовать async для connection.Delete
-        public async Task<bool> DeleteAcync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
+        public async Task<bool> DeleteAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
