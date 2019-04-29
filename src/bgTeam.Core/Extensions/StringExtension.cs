@@ -37,7 +37,13 @@
                 return defValue;
             }
 
-            return int.Parse(str);
+            int res = 0;
+            if (int.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out res))
+            {
+                return res;
+            }
+
+            return defValue;
         }
 
         /// <summary>
@@ -53,7 +59,13 @@
                 return defValue;
             }
 
-            return float.Parse(str, CultureInfo.InvariantCulture);
+            float res = 0;
+            if (float.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out res))
+            {
+                return res;
+            }
+
+            return defValue;
         }
 
         /// <summary>
