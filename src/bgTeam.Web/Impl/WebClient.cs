@@ -160,6 +160,15 @@
             }
         }
 
+        /// <summary>
+        /// Устанавливает или возвращает таймаут запроса к серверу
+        /// </summary>
+        public TimeSpan RequestTimeout
+        {
+            get { return _client.Timeout; }
+            set { _client.Timeout = value; }
+        }
+
         public string Url => _url;
 
         public async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
@@ -252,6 +261,11 @@
                     if (!baseUrl.EndsWith("/"))
                     {
                         baseUrl = $"{baseUrl}/";
+                    }
+
+                    if (method.StartsWith("/"))
+                    {
+                        method = method.Substring(1);
                     }
 
                     baseUrl = $"{baseUrl}{method}";
