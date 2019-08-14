@@ -22,5 +22,10 @@
             parameters.Add("@pageStartRowNbr", firstResult /* * maxResults */); //HACK: fixing DapperExtensions bug
             return result;
         }
+
+        public override string GetColumnName(string prefix, string columnName, string alias)
+        {
+            return base.GetColumnName(null, columnName, alias);
+        }
     }
 }

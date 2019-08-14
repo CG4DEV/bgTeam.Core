@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="google-signin-client_id" content="<PUT_YOUR_GOOGLE_KEY_HERE>.apps.googleusercontent.com">
+    <!-- Don't forget to authorize this javascript origin domain in google apps console.  -->
+    <meta charset="utf-8" />
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <title>Google auth test page</title>
+    <script>
+        function onSignIn(googleUser) {
+            var token = googleUser.getAuthResponse().id_token;
+            testProtectedMethod(token);
+        }
+
+        function testProtectedMethod(token) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:5000/api/values'); // protected backend endpoint
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                alert('Response: ' + xhr.responseText);
+            };
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token)
+            xhr.send();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+</body>
+</html>
