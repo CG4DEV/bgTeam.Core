@@ -27,8 +27,8 @@ namespace Test.bgTeam.Impl.Rabbit.Tests
 
             var watch = new QueueWatcherRabbitMQ(logger, msgprovider, fmock.Object);
 
-            watch.OnSubscribe += Watch_OnSubscribe;
-            watch.OnError += Watch_OnError;
+            watch.Subscribe += Watch_OnSubscribe;
+            watch.Error += Watch_OnError;
 
             watch.StartWatch("Test");
         }
