@@ -77,6 +77,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.SSO.Client", "src\bg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.SSO.Sample", "src\bgTeam.SSO.Sample\bgTeam.SSO.Sample.csproj", "{8AEBF6BA-DE85-4C81-95DD-249138EE65E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.Impl.MongoDB", "src\bgTeam.Impl.MongoDB\bgTeam.Impl.MongoDB.csproj", "{A45944CA-4476-4557-A247-A485929CAB1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -175,6 +177,10 @@ Global
 		{8AEBF6BA-DE85-4C81-95DD-249138EE65E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AEBF6BA-DE85-4C81-95DD-249138EE65E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AEBF6BA-DE85-4C81-95DD-249138EE65E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A45944CA-4476-4557-A247-A485929CAB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A45944CA-4476-4557-A247-A485929CAB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A45944CA-4476-4557-A247-A485929CAB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A45944CA-4476-4557-A247-A485929CAB1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,6 +212,7 @@ Global
 		{6A95151E-5212-4298-9935-8A287F5DFB49} = {8782A6D2-30DE-4725-8C7B-C085738A9014}
 		{697B73DB-67C5-4C74-AFD3-E0A00398321C} = {5A0DAB44-86A5-4448-AFE7-8ABB0ED9CC19}
 		{8AEBF6BA-DE85-4C81-95DD-249138EE65E9} = {5A0DAB44-86A5-4448-AFE7-8ABB0ED9CC19}
+		{A45944CA-4476-4557-A247-A485929CAB1D} = {31178BA8-BE59-44AF-B181-EB391CE7B580}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CB9FA6A-5909-4F90-B874-6E2317139337}
