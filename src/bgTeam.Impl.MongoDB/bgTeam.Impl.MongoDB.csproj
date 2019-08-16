@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
     <ProjectReference Include="..\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
   </ItemGroup>
   

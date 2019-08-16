@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataAccess.Impl.MongoDB
 {
+    using bgTeam.Extensions;
     using global::MongoDB.Driver;
     using System;
     using System.Collections.Generic;
@@ -19,10 +20,7 @@
         public virtual T Get<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -32,10 +30,7 @@
         public virtual async Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
             var findResult = await collection.FindAsync(predicate);
@@ -73,32 +68,22 @@
             return await findResult.ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<T>> GetPageAsync<T>(int skip, int limit, IList<ISort> sort, Expression<Func<T, bool>> predicate)
-            where T : class
-        {
-            var collection = _db.GetCollection<T>(typeof(T).Name);
-            var filter = Builders<T>.Filter.Where(predicate);
-
-            var findResult = await collection.FindAsync(filter, new FindOptions<T>
-            {
-                Sort = SortGenerate<T>(sort),
-                Skip = skip <= 0 ? null : (int?)skip,
-                Limit = limit <= 0 ? null : (int?)limit,
-            });
-
-            return await findResult.ToListAsync();
-        }
-
         public virtual async Task<IEnumerable<T>> GetPageAsync<T>(int skip, int limit, IList<ISort> sort, params Expression<Func<T, bool>>[] predicates)
             where T : class
         {
+            FilterDefinition<T>[] filters;
+            var builder = Builders<T>.Filter;
+
             if (predicates == null || predicates.Length == 0)
             {
-                throw new ArgumentException("predicates is null or empty");
+                filters = new[] { builder.Where(_ => true) };
             }
+            else
+            {
+                filters = predicates.Select(x => builder.Where(x)).ToArray();
+            }
+
             var collection = _db.GetCollection<T>(typeof(T).Name);
-            var builder = Builders<T>.Filter;
-            var filters = predicates.Select(x => builder.Where(x)).ToArray();
             var filter = builder.And(filters);
 
             var findResult = await collection.FindAsync(filter, new FindOptions<T>
@@ -114,10 +99,7 @@
         public virtual async Task<IEnumerable<V>> GetAllWithProjectionAsync<T, V>(Expression<Func<T, V>> result, Expression<Func<T, bool>> predicate = null)
             where T : class
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException(nameof(result));
-            }
+            result.CheckNull(nameof(result));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
             var res = collection.Find(predicate ?? (_ => true));
@@ -128,10 +110,7 @@
         public virtual void Insert<T>(T document)
             where T : class
         {
-            if (document == null)
-            {
-                throw new ArgumentNullException(nameof(document));
-            }
+            document.CheckNull(nameof(document));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -141,10 +120,7 @@
         public virtual async Task InsertAsync<T>(T document)
             where T : class
         {
-            if (document == null)
-            {
-                throw new ArgumentNullException(nameof(document));
-            }
+            document.CheckNull(nameof(document));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -154,10 +130,7 @@
         public virtual void InsertMany<T>(IEnumerable<T> documents)
             where T : class
         {
-            if (documents == null)
-            {
-                throw new ArgumentNullException(nameof(documents));
-            }
+            documents.CheckNull(nameof(documents));
 
             if (documents.Any())
             {
@@ -170,10 +143,7 @@
         public virtual async Task InsertManyAsync<T>(IEnumerable<T> documents)
             where T : class
         {
-            if (documents == null)
-            {
-                throw new ArgumentNullException(nameof(documents));
-            }
+            documents.CheckNull(nameof(documents));
 
             if (documents.Any())
             {
@@ -186,10 +156,7 @@
         public virtual bool Delete<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -201,10 +168,7 @@
         public virtual async Task<bool> DeleteAsync<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -216,10 +180,7 @@
         public virtual bool DeleteMany<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -231,10 +192,7 @@
         public virtual async Task<bool> DeleteManyAsync<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -243,12 +201,10 @@
             return result.IsAcknowledged;
         }
 
-        public virtual bool Update<T>(Expression<Func<T, bool>> predicate, T entity, bool isUpsert = false) where T : class
+        public virtual bool Update<T>(Expression<Func<T, bool>> predicate, T entity, bool isUpsert = false)
+            where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -257,12 +213,10 @@
             return result.IsAcknowledged;
         }
 
-        public virtual async Task<bool> UpdateAsync<T>(Expression<Func<T, bool>> predicate, T entity, bool isUpsert = false) where T : class
+        public virtual async Task<bool> UpdateAsync<T>(Expression<Func<T, bool>> predicate, T entity, bool isUpsert = false)
+            where T : class
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            predicate.CheckNull(nameof(predicate));
 
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
@@ -279,20 +233,22 @@
             return collection.CountDocuments<T>(predicate ?? (_ => true));
         }
 
-        public virtual async Task<long> CountAsync<T>(Expression<Func<T, bool>> predicate)
-            where T : class
-        {
-            var collection = _db.GetCollection<T>(typeof(T).Name);
-
-            return await collection.CountDocumentsAsync<T>(predicate ?? (_ => true));
-        }
-
         public virtual async Task<long> CountAsync<T>(params Expression<Func<T, bool>>[] predicates)
             where T : class
         {
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            FilterDefinition<T>[] filters;
             var builder = Builders<T>.Filter;
-            var filters = predicates.Select(x => builder.Where(x)).ToArray();
+
+            if (predicates.NullOrEmpty())
+            {
+                filters = new[] { builder.Where(_ => true) };
+            }
+            else
+            {
+                filters = predicates.Select(x => builder.Where(x)).ToArray();
+            }
+
+            var collection = _db.GetCollection<T>(typeof(T).Name);
             var filter = builder.And(filters);
 
             return await collection.CountDocumentsAsync(filter);
@@ -300,6 +256,8 @@
 
         private SortDefinition<T> SortGenerate<T>(IList<ISort> sort)
         {
+            sort.CheckNull(nameof(sort));
+
             List<SortDefinition<T>> mongoSort = new List<SortDefinition<T>>();
 
             foreach (ISort s in sort)

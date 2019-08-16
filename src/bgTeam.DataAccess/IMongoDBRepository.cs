@@ -52,17 +52,6 @@
         /// <param name="skip">to offset pointer</param>
         /// <param name="limit">page count</param>
         /// <param name="sort">ordering by field name</param>
-        /// <param name="predicate">filtering</param>
-        Task<IEnumerable<T>> GetPageAsync<T>(int skip, int limit, IList<ISort> sort, Expression<Func<T, bool>> predicate)
-            where T : class;
-
-        /// <summary>
-        /// Get page by filter async
-        /// </summary>
-        /// <typeparam name="T">Collection type</typeparam>
-        /// <param name="skip">to offset pointer</param>
-        /// <param name="limit">page count</param>
-        /// <param name="sort">ordering by field name</param>
         /// <param name="predicate">array of filters</param>
         Task<IEnumerable<T>> GetPageAsync<T>(int skip, int limit, IList<ISort> sort, params Expression<Func<T, bool>>[] predicates)
             where T : class;
@@ -175,14 +164,6 @@
         /// <typeparam name="T">Collection type</typeparam>
         /// <param name="predicate">filtering</param>
         long Count<T>(Expression<Func<T, bool>> predicate)
-            where T : class;
-
-        /// <summary>
-        /// Count documents by filter async
-        /// </summary>
-        /// <typeparam name="T">Collection type</typeparam>
-        /// <param name="predicate">filtering</param>
-        Task<long> CountAsync<T>(Expression<Func<T, bool>> predicate)
             where T : class;
 
         /// <summary>
