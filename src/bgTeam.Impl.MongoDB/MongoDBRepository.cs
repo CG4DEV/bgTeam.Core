@@ -74,7 +74,7 @@
             FilterDefinition<T>[] filters;
             var builder = Builders<T>.Filter;
 
-            if (predicates == null || predicates.Length == 0)
+            if (predicates.NullOrEmpty())
             {
                 filters = new[] { builder.Where(_ => true) };
             }
