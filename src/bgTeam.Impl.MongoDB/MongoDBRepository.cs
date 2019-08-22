@@ -279,6 +279,9 @@
         public virtual async Task<bool> UpdateAsync<T>(FilterDefinition<T> filter, UpdateDefinition<T> update)
             where T : class
         {
+            filter.CheckNull(nameof(filter));
+            update.CheckNull(nameof(update));
+
             var collection = _db.GetCollection<T>(typeof(T).Name);
 
             var result = await collection.UpdateOneAsync(filter, update);
