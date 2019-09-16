@@ -53,15 +53,15 @@
             _threadSleep = 30000;
         }
 
-        public event QueueMessageHandler OnSubscribe;
+        public event QueueMessageHandler Subscribe;
 
-        public event EventHandler<ExtThreadExceptionEventArgs> OnError;
+        public event EventHandler<ExtThreadExceptionEventArgs> Error;
 
         public void StartWatch(string queueName)
         {
-            if (OnSubscribe == null)
+            if (Subscribe == null)
             {
-                throw new ArgumentNullException(nameof(OnSubscribe));
+                throw new ArgumentNullException(nameof(Subscribe));
             }
 
             while (true)
@@ -112,13 +112,13 @@
                     {
                         _logger.Warning($"Exception of type {qexp.GetType().Name}: {qexp.Message}{Environment.NewLine}{qexp.StackTrace}");
 
-                        OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, qexp));
+                        Error?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, qexp));
                     }
                     catch (QueueWatcherException exp)
                     {
                         _logger.Error(exp);
 
-                        OnError?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, exp.GetBaseException()));
+                        Error?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, exp.GetBaseException()));
                     }
                     catch (Exception exp)
                     {
@@ -147,7 +147,7 @@
                     Exception exp = null;
                     try
                     {
-                        await OnSubscribe(message);
+                        await Subscribe(message);
                     }
                     catch (Exception ex)
                     {

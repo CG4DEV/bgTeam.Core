@@ -11,6 +11,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
     using System.Web;
 
@@ -21,7 +22,7 @@
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
         private readonly SocketsHttpHandler _handler;
 #else
         private readonly ServicePoint _servicePoint;
@@ -33,6 +34,18 @@
 
         }
 
+#if NETCOREAPP2_1 || NETCOREAPP2_2
+        public WebClient(IAppLogger logger, string url, X509CertificateCollection clientCertificates)
+            : this(logger, url, new FormUrlEncodedContentBuilder())
+        {
+            var sslOptions = new System.Net.Security.SslClientAuthenticationOptions();
+            sslOptions.ClientCertificates = clientCertificates;
+            sslOptions.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+
+            _handler.SslOptions = sslOptions;
+        }
+#endif
+
         public WebClient(IAppLogger logger, string url, IContentBuilder builder)
         {
             _logger = logger;
@@ -40,14 +53,13 @@
             _builder = builder.CheckNull(nameof(builder));
 
             var uri = new Uri(_url);
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
             _handler = new SocketsHttpHandler();
             _client = new HttpClient(_handler);
 #else
             _client = new HttpClient();
             _servicePoint = ServicePointManager.FindServicePoint(uri);
 #endif
-
             _client.BaseAddress = uri;
 
             ConnectionsLimit = 1024;
@@ -62,7 +74,7 @@
         {
             get
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
                 return _handler.MaxConnectionsPerServer;
 #else
                 return ServicePointManager.DefaultConnectionLimit;
@@ -71,7 +83,7 @@
 
             set
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
                 _handler.MaxConnectionsPerServer = value;
 #else
                 ServicePointManager.DefaultConnectionLimit = value;
@@ -89,7 +101,7 @@
         {
             get
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
                 throw new NotSupportedException();
 #else
                 return ServicePointManager.DnsRefreshTimeout;
@@ -98,7 +110,7 @@
 
             set
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
                 throw new NotSupportedException();
 #else
                 ServicePointManager.DnsRefreshTimeout = value;
@@ -116,7 +128,7 @@
         {
             get
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
                 return Convert.ToInt32(_handler.PooledConnectionIdleTimeout.TotalMilliseconds);
 #else
                 return _servicePoint.MaxIdleTime;
@@ -125,7 +137,7 @@
 
             set
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
                 _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
 #else
                 _servicePoint.MaxIdleTime = value;
@@ -143,7 +155,7 @@
         {
             get
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2
                 return Convert.ToInt32(_handler.PooledConnectionLifetime.TotalMilliseconds);
 #else
                 return _servicePoint.ConnectionLeaseTimeout;
