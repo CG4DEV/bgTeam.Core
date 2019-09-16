@@ -39,10 +39,10 @@
     <None Update="Resourse\lint\linter.ruleset">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\shared\configs\connectionStrings.Debug.json">
+    <None Update="Resourse\shared\configs\connectionStrings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\shared\configs\connectionStrings.Live.json">
+    <None Update="Resourse\shared\configs\connectionStrings.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\shared\configs\connectionStrings.Release.json">
