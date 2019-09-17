@@ -128,12 +128,12 @@
                 }
             }
 
-            File.WriteAllText($"{_resPath}\\{Name}\\{string.Join("\\", folderPath)}\\{name}.json", result.ToString());
+            File.WriteAllText($"{_resPath}{Path.DirectorySeparatorChar}{Name}{Path.DirectorySeparatorChar}{string.Join($"{Path.DirectorySeparatorChar}", folderPath)}{Path.DirectorySeparatorChar}{name}.json", result.ToString());
         }
 
         public void Folder(string folder)
         {
-            Directory.CreateDirectory($"{_resPath}\\{Name}\\{folder}");
+            Directory.CreateDirectory($"{_resPath}{Path.DirectorySeparatorChar}{Name}{Path.DirectorySeparatorChar}{folder}");
         }
     }
 }
