@@ -22,21 +22,21 @@
             _configurationRoot = Initialize("appsettings");
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AppConfigurationDefault"/> class.
-        /// </summary>
-        /// <param name="name"></param>
-        public AppConfigurationDefault(string name)
-        {
-            _configurationRoot = Initialize(name, null);
-        }
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="AppConfigurationDefault"/> class.
+        ///// </summary>
+        ///// <param name="name"></param>
+        //public AppConfigurationDefault(string name)
+        //{
+        //    _configurationRoot = Initialize(name, null);
+        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppConfigurationDefault"/> class.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="envVariable"></param>
-        public AppConfigurationDefault(string name, string envVariable)
+        public AppConfigurationDefault(string envVariable, string name = "appsettings")
         {
             _configurationRoot = Initialize(name, envVariable);
         }

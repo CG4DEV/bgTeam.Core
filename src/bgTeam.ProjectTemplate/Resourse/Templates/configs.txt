@@ -5,10 +5,10 @@
 </ItemGroup>
 
 <ItemGroup>
-    <Content Include="..\..\shared\configs\connectionStrings.Debug.json" Link="Configs\connectionStrings.Debug.json">
+    <Content Include="..\..\shared\configs\connectionStrings.Development.json" Link="Configs\connectionStrings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\shared\configs\connectionStrings.Live.json" Link="Configs\connectionStrings.Live.json">
+    <Content Include="..\..\shared\configs\connectionStrings.Production.json" Link="Configs\connectionStrings.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\shared\configs\connectionStrings.Release.json" Link="Configs\connectionStrings.Release.json">

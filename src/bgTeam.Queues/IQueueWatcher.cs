@@ -9,9 +9,9 @@
 
     public interface IQueueWatcher<IQueueMessage>
     {
-        event QueueMessageHandler OnSubscribe;
+        event QueueMessageHandler Subscribe;
 
-        event EventHandler<ExtThreadExceptionEventArgs> OnError;
+        event EventHandler<ExtThreadExceptionEventArgs> Error;
 
         void StartWatch(string queueName);
     }
