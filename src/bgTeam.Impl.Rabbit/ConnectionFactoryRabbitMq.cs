@@ -122,6 +122,18 @@
             set { _connectionFactory.ContinuationTimeout = value; }
         }
 
+        public TimeSpan NetworkRecoveryInterval
+        {
+            get { return _connectionFactory.NetworkRecoveryInterval; }
+            set { _connectionFactory.NetworkRecoveryInterval = value; }
+        }
+
+        public bool AutomaticRecoveryEnabled
+        {
+            get { return _connectionFactory.AutomaticRecoveryEnabled; }
+            set { _connectionFactory.AutomaticRecoveryEnabled = value; }
+        }
+
         public AuthMechanismFactory AuthMechanismFactory(IList<string> mechanismNames)
         {
             return _connectionFactory.AuthMechanismFactory(mechanismNames);
