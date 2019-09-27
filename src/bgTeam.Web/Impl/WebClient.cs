@@ -313,7 +313,8 @@
         {
             CheckResult(response);
 
-            if (string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
+            if (response.Content.Headers.ContentType != null
+                || string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
             {
                 response.Content.Headers.ContentType.CharSet = "utf-8";
             }
