@@ -314,14 +314,14 @@
             CheckResult(response);
 
             if (response.Content.Headers.ContentType != null
-                || string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
+                && string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
             {
                 response.Content.Headers.ContentType.CharSet = "utf-8";
             }
 
             var result = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrWhiteSpace(result) || result == "[]")
+            if (string.IsNullOrWhiteSpace(result))
             {
                 return default(T);
             }
