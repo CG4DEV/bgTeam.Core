@@ -29,15 +29,19 @@
             {
                 if (await Options.TokenValidationProvider.ValidateTokenAsync(token))
                 {
+                    Options.OnSuccess?.Invoke();
+
                     return Success(token);
                 }
 
+                Options.OnFail?.Invoke();
                 // _log.Info("Token verification failed", Array.Empty<object>());
                 return AuthenticateResult.NoResult();
             }
             catch (Exception ex)
             {
                 // log
+                Options.OnFail?.Invoke();
                 return AuthenticateResult.NoResult();
             }
         }
