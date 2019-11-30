@@ -8,6 +8,7 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -31,7 +32,6 @@
         public WebClient(IAppLogger logger, string url)
             : this(logger, url, new FormUrlEncodedContentBuilder())
         {
-
         }
 
 #if NETCOREAPP2_1 || NETCOREAPP2_2
@@ -49,22 +49,27 @@
         public WebClient(IAppLogger logger, string url, IContentBuilder builder)
         {
             _logger = logger;
-            _url = url.CheckNull(nameof(url));
+            _url = url;
             _builder = builder.CheckNull(nameof(builder));
 
-            var uri = new Uri(_url);
 #if NETCOREAPP2_1 || NETCOREAPP2_2
             _handler = new SocketsHttpHandler();
             _client = new HttpClient(_handler);
 #else
             _client = new HttpClient();
-            _servicePoint = ServicePointManager.FindServicePoint(uri);
+
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                var uri = new Uri(_url);
+                _servicePoint = ServicePointManager.FindServicePoint(uri);
+            }
 #endif
-            _client.BaseAddress = uri;
 
             ConnectionsLimit = 1024;
             MaxIdleTime = 300000; // 5 мин
             ConnectionLeaseTimeout = 0; // закрываем соединение сразу после выполнения запроса
+
+            Culture = CultureInfo.CurrentCulture;
         }
 
         /// <summary>
@@ -173,6 +178,11 @@
         }
 
         /// <summary>
+        /// Culture for query builder. <see cref="CultureInfo.CurrentCulture"/>.
+        /// </summary>
+        public CultureInfo Culture { get; set; }
+
+        /// <summary>
         /// Устанавливает или возвращает таймаут запроса к серверу
         /// </summary>
         public TimeSpan RequestTimeout
@@ -191,7 +201,7 @@
                 method = method.CheckNull(nameof(method));
             }
 
-            string url = BuildGetUrl(method, queryParams);
+            string url = BuildUrl(method, queryParams);
             var msg = new HttpRequestMessage(HttpMethod.Get, url);
             FillHeaders(headers, msg);
 
@@ -202,8 +212,6 @@
         public async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
-            var result = string.Empty;
-
             HttpContent content = null;
             if (postParams != null)
             {
@@ -220,7 +228,9 @@
                 FillContentHeaders(headers, content);
             }
 
-            var resultPost = await _client.PostAsync(method, content);
+            var url = BuildUrl(method);
+            var resultPost = await _client.PostAsync(url, content);
+
             return await ProcessResultAsync<T>(resultPost);
         }
 
@@ -262,7 +272,7 @@
             }
         }
 
-        private string BuildGetUrl(string method, IDictionary<string, object> queryParams)
+        private string BuildUrl(string method, IDictionary<string, object> queryParams = null)
         {
             string baseUrl;
             if (!string.IsNullOrWhiteSpace(_url))
@@ -288,24 +298,44 @@
                 baseUrl = method;
             }
 
-            if (queryParams == null || !queryParams.Any())
+            if (queryParams.NullOrEmpty())
             {
                 return baseUrl;
             }
 
-            var builder = new UriBuilder(baseUrl)
-            {
-                Port = -1,
-            };
+            var builder = new UriBuilder(baseUrl);
 
             var query = HttpUtility.ParseQueryString(builder.Query);
-            queryParams.DoForEach(x => query.Add(x.Key, x.Value.ToString()));
+            queryParams.DoForEach(x => query.Add(x.Key, ObjectToQueryStringValue(x.Value)));
             builder.Query = query.ToString();
 
             string url = builder.ToString();
 
-            _logger.Info($"Built url for GET request: {url}");
+            _logger.Debug($"Built url for request: {url}");
             return url;
+        }
+
+        private string ObjectToQueryStringValue(object o)
+        {
+            switch (o)
+            {
+                case string str:
+                    return str;
+                case DateTime dateTime:
+                    return dateTime.ToString(Culture);
+                case DateTimeOffset dateTimeOffset:
+                    return dateTimeOffset.ToString(Culture);
+                case TimeSpan timeSpan:
+                    return timeSpan.ToString("G", Culture);
+                case double dbl:
+                    return dbl.ToString(Culture);
+                case decimal dcml:
+                    return dcml.ToString(Culture);
+                case float flt:
+                    return flt.ToString(Culture);
+                default:
+                    return o.ToString();
+            }
         }
 
         private async Task<T> ProcessResultAsync<T>(HttpResponseMessage response)

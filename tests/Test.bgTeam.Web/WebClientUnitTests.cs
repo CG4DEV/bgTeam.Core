@@ -3,13 +3,11 @@ using bgTeam.Impl;
 using bgTeam.Web.Impl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Mvc.Formatters.Json;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -95,6 +93,151 @@ namespace Test.bgTeam.Web
 
             Assert.NotNull(result);
             Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_String()
+        {
+            var query = new Dictionary<string, object> { { "query", "stringQuery" } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryString", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(query["query"], result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_Int()
+        {
+            var expected = 12345678;
+            var query = new Dictionary<string, object> { { "query", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryInt", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.ToString(CultureInfo.InvariantCulture), result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_Double()
+        {
+            var expected = 12345.678D;
+            var query = new Dictionary<string, object> { { "query", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryDouble", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.ToString(CultureInfo.InvariantCulture), result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_DateTime()
+        {
+            var expected = DateTime.Now;
+            var query = new Dictionary<string, object> { { "query", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryDateTime", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.ToString(CultureInfo.InvariantCulture), result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_DateTimeOffset()
+        {
+            var expected = DateTimeOffset.Now;
+            var query = new Dictionary<string, object> { { "query", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryDateTimeOffset", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.ToString(CultureInfo.InvariantCulture), result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_TimeSpan()
+        {
+            var expected = TimeSpan.FromMilliseconds(31241241124);
+            var query = new Dictionary<string, object> { { "query", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryTimeSpan", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.ToString("G", CultureInfo.InvariantCulture), result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_Float()
+        {
+            var expected = 123.45678F;
+            var query = new Dictionary<string, object> { { "query", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryFloat", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.ToString(CultureInfo.InvariantCulture), result);
+        }
+
+        [Fact]
+        public async Task Get_QueryString_Decimal()
+        {
+            var expected = 123.45678M;
+            var query = new Dictionary<string, object> { { "query", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            webClient.Culture = CultureInfo.InvariantCulture;
+            var result = await webClient.GetAsync<string>("Test/GetQueryDecimal", query).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.ToString(CultureInfo.InvariantCulture), result);
+        }
+
+        [Fact]
+        public async Task Get_SendHeader()
+        {
+            var expected = "headerValue";
+            var headers = new Dictionary<string, object> { { "test_header", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            var result = await webClient.GetAsync<string>("Test/GetReturnHeaderValue", headers: headers).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task Post_SendHeader()
+        {
+            var expected = "headerValue";
+            var headers = new Dictionary<string, object> { { "test_header", expected } };
+            var webClient = new WebClient(_appLogger, _hostUrl);
+            var result = await webClient.PostAsync<string>("Test/PostReturnHeaderValue", headers: headers).ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async Task Get_String_WithOffset()
+        {
+            var webClient = new WebClient(_appLogger, _hostUrl + "/Test");
+            var result = await webClient.GetAsync<string>("GetString").ConfigureAwait(false);
+
+            Assert.Equal("GetString", result);
+        }
+
+        [Fact]
+        public async Task Post_String_WithOffset()
+        {
+            var webClient = new WebClient(_appLogger, _hostUrl + "/Test");
+            var result = await webClient.PostAsync<string>("PostString").ConfigureAwait(false);
+
+            Assert.Equal("PostString", result);
         }
 
         public void Dispose()
