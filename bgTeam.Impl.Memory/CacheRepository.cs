@@ -4,7 +4,7 @@ namespace bgTeam.DataAccess.Impl.Memory
     using System.Linq;
     using System.Threading;
 
-    public class CacheRepository<TKey, TValue> : InternalMemoryRepository<TKey, CacheValue<TValue>>, ICacheRepository<TKey, TValue>
+    public class CacheRepository<TKey, TValue> : BaseMemoryRepository<TKey, CacheValue<TValue>>, ICacheRepository<TKey, TValue>
     {
         protected const int _defaultCacheMinutes = 10;
         protected readonly bool _defaultIsTouched = false;

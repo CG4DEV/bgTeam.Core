@@ -3,11 +3,11 @@ namespace bgTeam.DataAccess.Impl.Memory
     using System.Collections.Concurrent;
     using System.Linq;
 
-    public class InternalMemoryRepository<TKey, TValue>
+    public class BaseMemoryRepository<TKey, TValue>
     {
         protected readonly ConcurrentDictionary<TKey, TValue> _container;
 
-        public InternalMemoryRepository()
+        public BaseMemoryRepository()
         {
             _container = new ConcurrentDictionary<TKey, TValue>();
         }

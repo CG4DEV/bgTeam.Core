@@ -2,7 +2,7 @@ namespace bgTeam.DataAccess.Impl.Memory
 {
     using System.Linq;
 
-    public class MemoryRepository<TKey, TValue> : InternalMemoryRepository<TKey, TValue>, IMemoryRepository<TKey, TValue>
+    public class MemoryRepository<TKey, TValue> : BaseMemoryRepository<TKey, TValue>, IMemoryRepository<TKey, TValue>
     {
         public MemoryRepository()
             : base()
