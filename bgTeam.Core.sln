@@ -79,6 +79,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.SSO.Sample", "src\bg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.Impl.MongoDB", "src\bgTeam.Impl.MongoDB\bgTeam.Impl.MongoDB.csproj", "{A45944CA-4476-4557-A247-A485929CAB1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.Impl.Memory", "bgTeam.Impl.Memory\bgTeam.Impl.Memory.csproj", "{187B61BC-1EF7-4796-BF7D-2E7201FCCD80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,11 +183,16 @@ Global
 		{A45944CA-4476-4557-A247-A485929CAB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A45944CA-4476-4557-A247-A485929CAB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A45944CA-4476-4557-A247-A485929CAB1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187B61BC-1EF7-4796-BF7D-2E7201FCCD80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187B61BC-1EF7-4796-BF7D-2E7201FCCD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187B61BC-1EF7-4796-BF7D-2E7201FCCD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187B61BC-1EF7-4796-BF7D-2E7201FCCD80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{187B61BC-1EF7-4796-BF7D-2E7201FCCD80} = {31178BA8-BE59-44AF-B181-EB391CE7B580}
 		{376939B6-B2F0-4CA7-9A3E-48E193AA906F} = {69DFCB1E-89C8-4DCE-82DE-8E5A13DE9820}
 		{AC8A6101-D6AE-44D8-B60D-E0E7E8758B0F} = {69DFCB1E-89C8-4DCE-82DE-8E5A13DE9820}
 		{C69E61C8-3102-4409-8726-DE3AA72D1C19} = {69DFCB1E-89C8-4DCE-82DE-8E5A13DE9820}
