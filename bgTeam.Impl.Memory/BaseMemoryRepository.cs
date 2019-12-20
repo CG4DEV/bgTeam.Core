@@ -31,7 +31,7 @@ namespace bgTeam.DataAccess.Impl.Memory
 
         protected virtual IQueryable<TValue> GetAll()
         {
-            return _container.Values.AsQueryable();
+            return _container.Select(x => x.Value).AsQueryable();
         }
 
         protected virtual int Count()
