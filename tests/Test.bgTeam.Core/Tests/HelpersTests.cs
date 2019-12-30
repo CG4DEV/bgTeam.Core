@@ -10,13 +10,12 @@ using Xunit;
 
 namespace Test.bgTeam.Core.Tests
 {
-    public class Test_Helpers
+    public class HelpersTest
     {
         [Fact]
         public void ConfigHelper_Init()
         {
-            var fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-            var configFolderPath = Path.Combine(fileInfo.Directory.FullName, "Configurations");
+            var configFolderPath = Path.Combine(Environment.CurrentDirectory, "Configurations");
             var configurations = ConfigHelper.Init<InsuranceConfiguration>(configFolderPath);
 
             Assert.True(configurations.Any());

@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Test.bgTeam.Core
 {
-    public class Test_StoryBuilder
+    public class StoryBuilderTests
     {
         [Fact]
         public void SingletonsShoulPersist()

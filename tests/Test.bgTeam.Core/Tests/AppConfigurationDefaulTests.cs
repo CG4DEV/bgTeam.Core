@@ -7,12 +7,8 @@ using Xunit;
 
 namespace Test.bgTeam.Core
 {
-    public class Test_AppConfigurationDefault
+    public class AppConfigurationDefaulTests
     {
-        public Test_AppConfigurationDefault()
-        {
-            
-        }
 
         [Fact]
         public void Test_AppConfigurationDefault_Test1()
@@ -23,7 +19,7 @@ namespace Test.bgTeam.Core
         [Fact]
         public void Test_AppConfigurationDefault_Test2()
         {
-            var config = new AppConfigurationDefault("appsettings.test");
+            var config = new AppConfigurationDefault(null, "appsettings.test");
 
             Assert.Equal("Test1", config["Param1"]);
             Assert.Equal("Test2", config["Param2"]);
@@ -39,7 +35,7 @@ namespace Test.bgTeam.Core
         [Fact]
         public void Test_AppConfigurationDefault_Test3()
         {
-            var config = new AppConfigurationDefault("appsettings.test", "Debug");
+            var config = new AppConfigurationDefault("Debug", "appsettings.test");
 
             Assert.Equal("Test1", config["Param1"]);
             Assert.Equal("Test2", config["Param2"]);
@@ -55,13 +51,13 @@ namespace Test.bgTeam.Core
         [Fact]
         public void Test_AppConfigurationDefault_Test4()
         {
-            Assert.Throws<FileNotFoundException>(delegate { new AppConfigurationDefault("appsettings.throw"); });
+            Assert.Throws<ArgumentException>(delegate { new AppConfigurationDefault("appsettings.throw"); });
         }
 
         [Fact]
         public void Test_AppConfigurationDefault_Test5()
         {
-            var config = new AppConfigurationDefault("appsettings.test", "Array");
+            var config = new AppConfigurationDefault("Array", "appsettings.test");
 
             Assert.Equal("Test01", config["Param6:0"]);
             Assert.Equal("Test02", config["Param6:1"]);
@@ -72,7 +68,7 @@ namespace Test.bgTeam.Core
         [Fact]
         public void Test_AppConfigurationDefault_Test6()
         {
-            var config = new AppConfigurationDefault("appsettings.test");
+            var config = new AppConfigurationDefault(null, "appsettings.test");
 
             var section = config.GetSection("Param8");
 
@@ -83,7 +79,7 @@ namespace Test.bgTeam.Core
         [Fact]
         public void Test_AppConfigurationDefault_Test7()
         {
-            var config = new AppConfigurationDefault("appsettings.test");
+            var config = new AppConfigurationDefault(null, "appsettings.test");
 
             var section = config.GetSection("Param3");
 

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Test.bgTeam.Core
 {
-    public class Test_QueryBuilder
+    public class QueryBuilderTests
     {
         [Fact]
         public void SingletonsShoulPersist()
