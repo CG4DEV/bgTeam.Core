@@ -32,8 +32,6 @@ namespace Test.bgTeam.Impl.Dapper.Tests
             int insertedRecordsCount = (await _fixture.Repository.GetAllAsync<TestEntity>(x => x.Id == 1 || x.Id == 2)).Count();
             TestEntity insertedEntity = await _fixture.Repository.GetAsync<TestEntity>(x => x.Id == 3);
 
-            await _fixture.CrudService.ExecuteAsync(@"DROP TABLE 'TestEntity'");
-
             Assert.Equal(1, res1);
             Assert.Equal(2, res2);
             Assert.NotNull(insertedEntity);
