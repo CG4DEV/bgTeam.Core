@@ -38,12 +38,12 @@
 
         public IDbConnection Create(string connectionString)
         {
-            _logger.Debug($"ConnectionFactoryMsSql: {connectionString}");
+            _logger.Debug($"ConnectionFactorySqlLite: {connectionString}");
 
             SQLiteConnection dbConnection = new SQLiteConnection(connectionString);
             dbConnection.Open();
 
-            _logger.Debug($"ConnectionFactoryMsSql: connect open");
+            _logger.Debug($"ConnectionFactorySqlLite: connect open");
 
             return dbConnection;
         }

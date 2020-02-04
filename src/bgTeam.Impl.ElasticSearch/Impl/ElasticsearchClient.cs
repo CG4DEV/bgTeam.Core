@@ -22,7 +22,7 @@
         public ElasticsearchClient(
             IElasticsearchConnectionFactory connectionFactoryEs)
         {
-            _connectionFactoryEs = connectionFactoryEs;
+            _connectionFactoryEs = connectionFactoryEs ?? throw new ArgumentNullException(nameof(connectionFactoryEs));
         }
 
         /// <summary>

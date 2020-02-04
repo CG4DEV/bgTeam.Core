@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataAccess.Impl
 {
+    using System;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -11,7 +12,7 @@
 
         public QueryBuilder(IQueryFactory commandFactory)
         {
-            _commandFactory = commandFactory;
+            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         }
 
         public void Execute<TCommandContext>(TCommandContext commandContext)
@@ -21,6 +22,7 @@
 
         public async Task ExecuteAsync<TCommandContext>(TCommandContext commandContext)
         {
+            var asd = _commandFactory.Create<TCommandContext>();
             await _commandFactory.Create<TCommandContext>().ExecuteAsync(commandContext);
         }
 

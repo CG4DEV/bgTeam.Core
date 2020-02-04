@@ -48,13 +48,9 @@
         /// <param name="description">Значение строки описания</param>
         /// <returns>Значение перечисление</returns>
         public static T GetValueFromDescription<T>(string description)
+            where T : Enum
         {
             var type = typeof(T);
-
-            if (!type.IsEnum)
-            {
-                throw new InvalidOperationException();
-            }
 
             foreach (var field in type.GetFields())
             {
@@ -75,7 +71,7 @@
                 }
             }
 
-            throw new ArgumentException($"Not found description: {description} on {typeof(T).Name}");
+            throw new ArgumentException($"Not found description: {description} on {typeof(T).Name}", nameof(description));
         }
     }
 }

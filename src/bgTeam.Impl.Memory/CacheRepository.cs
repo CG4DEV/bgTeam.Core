@@ -34,6 +34,7 @@ namespace bgTeam.DataAccess.Impl.Memory
             _expireTime = expireTime;
             _repository = new MemoryRepository<TKey, CacheValue<TValue>>();
             _timer = new Timer(Clear, null, new TimeSpan(0, 0, 0), new TimeSpan(0, 2, 0));
+            _defaultIsTouched = defaultIsTouched;
         }
 
         public virtual bool TryGetValue(TKey key, out TValue value, bool? isTouched)

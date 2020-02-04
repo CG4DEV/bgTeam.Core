@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
+  </ItemGroup>
+
 </Project>

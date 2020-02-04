@@ -26,21 +26,19 @@ namespace DapperExtensions.Mapper
 
             private static readonly IDictionary<string, string> Pluralizations = new Dictionary<string, string>
             {
-                // Start with the rarest cases, and move to the most common
-                { "person", "people" },
-                { "ox", "oxen" },
-                { "child", "children" },
-                { "foot", "feet" },
-                { "tooth", "teeth" },
-                { "goose", "geese" },
-                // And now the more standard rules.
-                { "(.*)fe?$", "$1ves" },         // ie, wolf, wife
+                { "(p|P)erson$", "$1eople" },
+                { "(o|O)x", "$1xen" },
+                { "(c|C)hild", "$1hildren" },
+                { "(f|F)oot", "$1eet" },
+                { "(t|T)ooth", "$1eeth" },
+                { "(g|G)oose", "$1eese" },
+                { "(.*)fe?$", "$1ves" },
                 { "(.*)man$", "$1men" },
                 { "(.+[aeiou]y)$", "$1s" },
                 { "(.+[^aeiou])y$", "$1ies" },
                 { "(.+z)$", "$1zes" },
                 { "([m|l])ouse$", "$1ice" },
-                { "(.+)(e|i)x$", @"$1ices" },    // ie, Matrix, Index
+                { "(.+)(e|i)x$", @"$1ices" },
                 { "(octop|vir)us$", "$1i" },
                 { "(.+(s|x|sh|ch))$", @"$1es" },
                 { "(.+)", @"$1s" },
@@ -48,7 +46,7 @@ namespace DapperExtensions.Mapper
 
             public static string Pluralize(string singular)
             {
-                if (Unpluralizables.Contains(singular))
+                if (Unpluralizables.Contains(singular, StringComparer.InvariantCultureIgnoreCase))
                 {
                     return singular;
                 }

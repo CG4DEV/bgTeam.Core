@@ -10,7 +10,7 @@
     /// <summary>
     /// Реализация по-умолчанию реализации класса для получения значений из конфигурационного файла.
     /// </summary>
-    public class AppConfigurationDefault : IAppConfiguration
+    public class AppConfigurationDefault : IConfigSection
     {
         private readonly IConfigurationRoot _configurationRoot;
 

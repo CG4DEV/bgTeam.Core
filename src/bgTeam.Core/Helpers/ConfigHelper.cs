@@ -16,7 +16,7 @@
         public static IEnumerable<T> Init<T>(string path)
             where T : new()
         {
-            var files = Directory.GetFiles(path);
+            var files = Directory.GetFiles(path, "*.json");
 
             if (!files.Any())
             {

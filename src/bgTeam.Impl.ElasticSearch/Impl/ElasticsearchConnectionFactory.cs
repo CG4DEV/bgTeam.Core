@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using bgTeam.ElasticSearch;
+    using bgTeam.Extensions;
     using Elasticsearch.Net;
     using Nest;
 
@@ -20,6 +21,16 @@
         /// <param name="setting"></param>
         public ElasticsearchConnectionFactory(IElasticsearchConnectionSettings setting)
         {
+            if (setting == null)
+            {
+                throw new ArgumentNullException(nameof(setting));
+            }
+
+            if (setting.Nodes.NullOrEmpty())
+            {
+                throw new ArgumentOutOfRangeException(nameof(setting), "Should be used one node at least");
+            }
+
             var staticConnectionPool = new StaticConnectionPool(setting.Nodes.Select(x => new Uri(x)));
             _connectionSettings = new ConnectionSettings(staticConnectionPool);
         }
@@ -27,7 +38,7 @@
         /// <summary>
         /// Create new client instance
         /// </summary>
-        public ElasticClient CreateClient()
+        public IElasticClient CreateClient()
         {
             return CreateClientAsync().Result;
         }
@@ -35,7 +46,7 @@
         /// <summary>
         /// Create new client instance
         /// </summary>
-        public async Task<ElasticClient> CreateClientAsync()
+        public async Task<IElasticClient> CreateClientAsync()
         {
             return new ElasticClient(_connectionSettings);
         }
