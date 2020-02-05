@@ -8,7 +8,7 @@ namespace bgTeam.Core.Tests.Tests.DataAccess.Impl.Memory
     public class CacheRepositoryTests
     {
         [Fact]
-        public async Task ValueShouldBeNotReturnesIfTimeIsExpired()
+        public async Task ValueShouldBeNotReturnedIfTimeIsExpired()
         {
             var repository = new CacheRepository<string, string>(new System.TimeSpan(0, 0, 0, 0, 20), true);
             Assert.True(repository.TrySetValue("key1", "value1"));
@@ -16,7 +16,7 @@ namespace bgTeam.Core.Tests.Tests.DataAccess.Impl.Memory
             Assert.True(repository.TryGetValue("key1", out string value));
             Assert.Equal("value1", value);
 
-            await Task.Delay(30);
+            await Task.Delay(50);
             Assert.False(repository.TryGetValue("key1", out _));
         }
 

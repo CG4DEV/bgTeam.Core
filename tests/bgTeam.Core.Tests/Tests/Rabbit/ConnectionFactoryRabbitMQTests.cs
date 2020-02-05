@@ -33,7 +33,7 @@ namespace bgTeam.Core.Tests.Rabbit
         }
 
         [Fact]
-        public async Task CreateConnectionShouldThrowsExceptionIfUsedNotSuitableHost()
+        public void CreateConnectionShouldThrowsExceptionIfUsedNotSuitableHost()
         {
             var (appLogger, queueProviderSettings) = GetMocks();
             var connectionFactoryRabbitMQ = new ConnectionFactoryRabbitMQ(appLogger.Object, new QueueProviderSettings

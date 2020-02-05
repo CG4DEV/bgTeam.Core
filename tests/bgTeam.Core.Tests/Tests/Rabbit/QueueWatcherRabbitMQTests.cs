@@ -61,7 +61,7 @@ namespace bgTeam.Core.Tests.Rabbit
         }
 
         [Fact]
-        public async Task StartWatch()
+        public void StartWatch()
         {
             var (appLogger, messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
             var queueWatcherRabbitMQ = new QueueWatcherRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object);

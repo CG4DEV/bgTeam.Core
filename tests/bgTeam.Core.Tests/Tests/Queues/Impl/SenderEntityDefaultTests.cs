@@ -32,7 +32,7 @@ namespace bgTeam.Core.Tests.Tests.Queues.Impl
         }
 
         [Fact]
-        public async Task SendEntity()
+        public void SendEntity()
         {
             var (appLogger, queueProvider) = GetMocks();
             var senderEntityDefault = new SenderEntityDefault(appLogger.Object, queueProvider.Object);
@@ -41,7 +41,7 @@ namespace bgTeam.Core.Tests.Tests.Queues.Impl
         }
 
         [Fact]
-        public async Task SendEntityWithExceptionShouldRetryAttemption5Times()
+        public void SendEntityWithExceptionShouldRetryAttemption5Times()
         {
             var (appLogger, queueProvider) = GetMocks();
             queueProvider.Setup(x => x.PushMessage(It.IsAny<IQueueMessage>(), "queue1"))
@@ -52,7 +52,7 @@ namespace bgTeam.Core.Tests.Tests.Queues.Impl
         }
 
         [Fact]
-        public async Task SendObject()
+        public void SendObject()
         {
             var (appLogger, queueProvider) = GetMocks();
             var senderEntityDefault = new SenderEntityDefault(appLogger.Object, queueProvider.Object);
@@ -61,7 +61,7 @@ namespace bgTeam.Core.Tests.Tests.Queues.Impl
         }
 
         [Fact]
-        public async Task SendObjectWithDelay()
+        public void SendObjectWithDelay()
         {
             var (appLogger, queueProvider) = GetMocks();
             var senderEntityDefault = new SenderEntityDefault(appLogger.Object, queueProvider.Object);
@@ -70,7 +70,7 @@ namespace bgTeam.Core.Tests.Tests.Queues.Impl
         }
 
         [Fact]
-        public async Task SendObjectList()
+        public void SendObjectList()
         {
             var (appLogger, queueProvider) = GetMocks();
             var senderEntityDefault = new SenderEntityDefault(appLogger.Object, queueProvider.Object);
@@ -80,11 +80,11 @@ namespace bgTeam.Core.Tests.Tests.Queues.Impl
         }
 
         [Fact]
-        public async Task Dispose()
+        public void Dispose()
         {
             var (appLogger, queueProvider) = GetMocks();
             using (var senderEntityDefault = new SenderEntityDefault(appLogger.Object, queueProvider.Object))
-            {  
+            {
             };
             queueProvider.Verify(x => x.Dispose());
         }
