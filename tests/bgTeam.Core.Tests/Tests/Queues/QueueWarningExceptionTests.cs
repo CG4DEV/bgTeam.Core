@@ -1,4 +1,5 @@
 ﻿using bgTeam.Web.Exceptions;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Runtime.Serialization;
@@ -29,6 +30,12 @@ namespace bgTeam.Core.Tests.Tests.Queues
             var ex = await Assert.ThrowsAsync<QueueWarningException>(() => throw new QueueWarningException("msg", new Exception()));
             Assert.Equal("msg", ex.Message);
             Assert.NotNull(ex.InnerException);
+        }
+
+        [Fact]
+        public void SerializingException()
+        {
+            Assert.NotNull(JsonConvert.DeserializeObject<QueueWarningException>(JsonConvert.SerializeObject(new QueueWarningException())));
         }
     }
 }

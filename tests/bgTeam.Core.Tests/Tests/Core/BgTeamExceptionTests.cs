@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -25,6 +26,12 @@ namespace bgTeam.Core.Tests.Tests.Core
             var ex = await Assert.ThrowsAsync<BgTeamException>(() => throw new BgTeamException("msg", new Exception()));
             Assert.Equal("msg", ex.Message);
             Assert.NotNull(ex.InnerException);
+        }
+
+        [Fact]
+        public void SerializingException()
+        {
+            Assert.NotNull(JsonConvert.DeserializeObject<BgTeamException>(JsonConvert.SerializeObject(new BgTeamException())));
         }
     }
 }

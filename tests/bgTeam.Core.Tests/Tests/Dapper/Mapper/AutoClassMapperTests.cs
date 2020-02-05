@@ -17,11 +17,11 @@ namespace bgTeam.Core.Tests.Tests.Dapper.Mapper
             Assert.Equal("TestClass2", mapper2.TableName);
         }
 
-        [Fact(Skip = "Work not as planning?")]
+        [Fact]
         public void Schema()
         {
             var mapper = new AutoClassMapper<TestClass>();
-            Assert.Equal("public", mapper.SchemaName);
+            Assert.Equal("pb", mapper.SchemaName);
 
             var mapper2 = new AutoClassMapper<TestClass2>();
             Assert.Null(mapper2.SchemaName);
@@ -39,10 +39,14 @@ namespace bgTeam.Core.Tests.Tests.Dapper.Mapper
         [Schema("pb")]
         class TestClass
         {
+            [Identity]
             public int Id { get; set; }
 
             [Ignore]
             public string Name { get; set; }
+
+            [MapTo("some_column")]
+            public string SomeColumn { get; set; }
         }
 
         public class TestClass2

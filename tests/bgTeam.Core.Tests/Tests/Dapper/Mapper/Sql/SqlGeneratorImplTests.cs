@@ -15,7 +15,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void SelectShouldThrowExceptionIfParametersIsNull()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("parameters", () =>
             {
@@ -26,16 +26,16 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void Select() 
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             var query = sqlGenerator.Select(mapper, GetPredicateForId(), GetSortById(), new Dictionary<string, object>());
-            Assert.Equal("SELECT id AS \"Id\" FROM \"TestClass\" WHERE (id = @Id_0) ORDER BY id ASC", query);
+            Assert.Equal("SELECT id AS \"Id\" FROM \"TestingClass\" WHERE (id = @Id_0) ORDER BY id ASC", query);
         }
 
         [Fact]
         public void SelectPagedShouldThrowExceptionIfSortIsNullOrEmpty()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("sort", () =>
             {
@@ -50,7 +50,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void SelectPagedShouldThrowExceptionIfParametersIsNull()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("parameters", () =>
             {
@@ -61,11 +61,11 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void SelectPaged()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             var dictionary = new Dictionary<string, object>();
             var query = sqlGenerator.SelectPaged(mapper, GetPredicateForId(), GetSortById(), 2, 10, dictionary);
-            Assert.Equal("SELECT id AS \"Id\" FROM \"TestClass\" WHERE (id = @Id_0) ORDER BY id ASC LIMIT @Offset, @Count", query);
+            Assert.Equal("SELECT id AS \"Id\" FROM \"TestingClass\" WHERE (id = @Id_0) ORDER BY id ASC LIMIT @Offset, @Count", query);
             Assert.Equal(1, dictionary["@Id_0"]);
             Assert.Equal(20, dictionary["@Offset"]);
             Assert.Equal(10, dictionary["@Count"]);
@@ -74,7 +74,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void SelectSetShouldThrowExceptionIfSortIsNullOrEmpty()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("sort", () =>
             {
@@ -89,7 +89,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void SelectSetShouldThrowExceptionIfParametersIsNull()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("parameters", () =>
             {
@@ -100,11 +100,11 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void SelectSet()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             var dictionary = new Dictionary<string, object>();
             var query = sqlGenerator.SelectSet(mapper, GetPredicateForId(), GetSortById(), 2, 10, dictionary);
-            Assert.Equal("SELECT id AS \"Id\" FROM \"TestClass\" WHERE (id = @Id_0) ORDER BY id ASC LIMIT @Offset, @Count", query);
+            Assert.Equal("SELECT id AS \"Id\" FROM \"TestingClass\" WHERE (id = @Id_0) ORDER BY id ASC LIMIT @Offset, @Count", query);
             Assert.Equal(1, dictionary["@Id_0"]);
             Assert.Equal(2, dictionary["@Offset"]);
             Assert.Equal(10, dictionary["@Count"]);
@@ -123,21 +123,21 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         [Fact]
         public void Count()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             var dictionary = new Dictionary<string, object>();
             var query = sqlGenerator.Count(mapper, GetPredicateForId(), dictionary);
-            Assert.Equal("SELECT COUNT(*) AS \"Total\" FROM \"TestClass\" WHERE (id = @Id_0)", query);
+            Assert.Equal("SELECT COUNT(*) AS \"Total\" FROM \"TestingClass\" WHERE (id = @Id_0)", query);
             Assert.Equal(1, dictionary["@Id_0"]);
         }
 
         [Fact]
         public void Insert()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             var query = sqlGenerator.Insert(mapper);
-            Assert.Equal("INSERT INTO \"TestClass\" (id) VALUES (@Id)", query);
+            Assert.Equal("INSERT INTO \"TestingClass\" (id) VALUES (@Id)", query);
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentException>(() =>
             {
-                sqlGenerator.Insert(new ClassMapper<TestClass>());
+                sqlGenerator.Insert(new ClassMapper<TestingClass>());
             });
         }
 
@@ -156,7 +156,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("predicate", () =>
             {
-                sqlGenerator.Update(SqlHelper.GetMapper<TestClass>(), null, null);
+                sqlGenerator.Update(SqlHelper.GetMapper<TestingClass>(), null, null);
             });
         }
 
@@ -166,7 +166,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("parameters", () =>
             {
-                sqlGenerator.Update(SqlHelper.GetMapper<TestClass>(), GetPredicateForId(), null);
+                sqlGenerator.Update(SqlHelper.GetMapper<TestingClass>(), GetPredicateForId(), null);
             });
         }
 
@@ -176,18 +176,18 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentException>(() =>
             {
-                sqlGenerator.Update(new ClassMapper<TestClass>(), GetPredicateForId(), new Dictionary<string, object>());
+                sqlGenerator.Update(new ClassMapper<TestingClass>(), GetPredicateForId(), new Dictionary<string, object>());
             });
         }
 
         [Fact]
         public void Update()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             var dictionary = new Dictionary<string, object>();
             var query = sqlGenerator.Update(mapper, GetGroupPredicate(), dictionary);
-            Assert.Equal("UPDATE \"TestClass\" SET id = @Id WHERE ((id = @Id_0) AND (id <= @Id_1))", query);
+            Assert.Equal("UPDATE \"TestingClass\" SET id = @Id WHERE ((id = @Id_0) AND (id <= @Id_1))", query);
             Assert.Equal(1, dictionary["@Id_0"]);
         }
 
@@ -197,7 +197,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("predicate", () =>
             {
-                sqlGenerator.Delete(SqlHelper.GetMapper<TestClass>(), null, null);
+                sqlGenerator.Delete(SqlHelper.GetMapper<TestingClass>(), null, null);
             });
         }
 
@@ -207,18 +207,18 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentNullException>("parameters", () =>
             {
-                sqlGenerator.Delete(SqlHelper.GetMapper<TestClass>(), GetPredicateForId(), null);
+                sqlGenerator.Delete(SqlHelper.GetMapper<TestingClass>(), GetPredicateForId(), null);
             });
         }
 
         [Fact]
         public void Delete()
         {
-            var mapper = SqlHelper.GetMapper<TestClass>();
+            var mapper = SqlHelper.GetMapper<TestingClass>();
             var sqlGenerator = GetSqlGenerator();
             var dictionary = new Dictionary<string, object>();
             var query = sqlGenerator.Delete(mapper, GetPredicateForId(), dictionary);
-            Assert.Equal("DELETE FROM \"TestClass\" WHERE (id = @Id_0)", query);
+            Assert.Equal("DELETE FROM \"TestingClass\" WHERE (id = @Id_0)", query);
             Assert.Equal(1, dictionary["@Id_0"]);
         }
 
@@ -228,13 +228,13 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             var sqlGenerator = GetSqlGenerator();
             Assert.Throws<ArgumentException>(() =>
             {
-                sqlGenerator.GetColumnName(SqlHelper.GetMapper<TestClass>(), "Name", true);
+                sqlGenerator.GetColumnName(SqlHelper.GetMapper<TestingClass>(), "Name", true);
             });
         }
 
-        private FieldPredicate<TestClass> GetPredicateForId()
+        private FieldPredicate<TestingClass> GetPredicateForId()
         {
-            return new FieldPredicate<TestClass>()
+            return new FieldPredicate<TestingClass>()
             {
                 PropertyName = "Id",
                 Operator = Operator.Eq,
@@ -250,7 +250,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
                 Predicates = new List<IPredicate>()
                 {
                     GetPredicateForId(),
-                    new FieldPredicate<TestClass>()
+                    new FieldPredicate<TestingClass>()
                     {
                         PropertyName = "Id",
                         Operator = Operator.Le,
@@ -264,7 +264,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
         {
             return new List<ISort>()
             {
-                Predicates.Sort<TestClass>(x => x.Id)
+                Predicates.Sort<TestingClass>(x => x.Id)
             };
         }
 
@@ -275,7 +275,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
 
     }
 
-    class TestClass
+    class TestingClass
     {
         [ColumnName("id")]
         public int Id { get; set; }
