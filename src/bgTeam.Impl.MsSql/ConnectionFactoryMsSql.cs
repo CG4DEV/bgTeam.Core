@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataAccess.Impl.MsSql
 {
+    using System;
     using System.Data;
     using System.Data.SqlClient;
     using System.Threading.Tasks;
@@ -14,8 +15,12 @@
             IConnectionSetting setting,
             ISqlDialect dialect = null)
         {
-            _logger = logger;
-            _setting = setting;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _setting = setting ?? throw new ArgumentNullException(nameof(setting));
+            if (string.IsNullOrEmpty(_setting.ConnectionString))
+            {
+                throw new ArgumentOutOfRangeException(nameof(setting), "Connection string should not be null or empty");
+            }
 
             if (dialect != null)
             {

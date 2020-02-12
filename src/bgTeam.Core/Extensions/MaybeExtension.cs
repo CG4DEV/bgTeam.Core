@@ -8,6 +8,7 @@
     /// </summary>
     public static class MaybeExtension
     {
+        // May be correct name is IfTrue?
         public static TInput IfLess<TInput>(this TInput o, Func<TInput, bool> evaluator)
             where TInput : class
         {
@@ -19,6 +20,7 @@
             return evaluator(o) ? o : null;
         }
 
+        // May be correct name is IfFalse?
         public static TInput IfUnless<TInput>(this TInput o, Func<TInput, bool> evaluator)
             where TInput : class
         {

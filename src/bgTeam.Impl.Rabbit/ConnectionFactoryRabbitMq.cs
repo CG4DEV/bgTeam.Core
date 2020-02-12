@@ -19,9 +19,15 @@
         private readonly object _lock = new object();
         private IConnection _connection;
 
+        // Maybe pass IConnection Factory in constructor? - Can't test this
         public ConnectionFactoryRabbitMQ(IAppLogger logger, IQueueProviderSettings settings)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
             _connectionFactory = new ConnectionFactory()
             {
                 HostName = settings.Host,

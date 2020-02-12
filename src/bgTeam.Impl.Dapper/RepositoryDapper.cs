@@ -176,7 +176,7 @@
         {
             using (var connection = _factory.Create())
             {
-                return connection.GetPage<T>(predicate, sort, page, resultsPerPage);
+                return connection.GetPage<T>(predicate, sort, page, resultsPerPage, buffered: true);
             }
         }
 

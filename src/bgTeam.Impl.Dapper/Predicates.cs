@@ -381,7 +381,7 @@
             IClassMapper map = configuration.GetMap(type);
             if (map == null)
             {
-                throw new NullReferenceException(string.Format("Map was not found for {0}", type));
+                throw new InvalidOperationException(string.Format("Map was not found for {0}", type));
             }
 
             return map;

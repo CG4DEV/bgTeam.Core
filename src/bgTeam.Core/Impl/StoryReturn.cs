@@ -1,5 +1,6 @@
 ﻿namespace bgTeam
 {
+    using System;
     using System.Threading.Tasks;
 
     public class StoryReturn<TStoryContext> : IStoryReturn<TStoryContext>
@@ -14,7 +15,7 @@
             TStoryContext context)
         {
             _access = access;
-            _factory = factory;
+            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             _context = context;
         }
 

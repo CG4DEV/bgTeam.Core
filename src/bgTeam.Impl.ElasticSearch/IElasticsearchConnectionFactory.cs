@@ -11,11 +11,11 @@
         /// <summary>
         /// Create new client instance
         /// </summary>
-        ElasticClient CreateClient();
+        IElasticClient CreateClient();
 
         /// <summary>
         /// Create new client instance
         /// </summary>
-        Task<ElasticClient> CreateClientAsync();
+        Task<IElasticClient> CreateClientAsync();
     }
 }

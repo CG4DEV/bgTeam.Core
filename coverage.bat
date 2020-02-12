@@ -29,7 +29,7 @@ for %%f in (%%i) do (
 -filter:"%Filters%" ^
 -mergebyhash ^
 -skipautoprops ^
--excludebyattribute:"System.CodeDom.Compiler.GeneratedCodeAttribute" ^
+-excludebyattribute:"*.GeneratedCodeAttribute;*.ExcludeFromCodeCoverageAttribute" ^
 -output:"%~dp0reports\%%~nxf.xml"
 )
 )

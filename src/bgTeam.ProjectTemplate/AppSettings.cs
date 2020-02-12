@@ -13,7 +13,7 @@
 
     internal class AppSettings : IAppSettings
     {
-        public AppSettings(IAppConfiguration config)
+        public AppSettings(IConfigSection config)
         {
             NameCompany = config[nameof(NameCompany)];
 

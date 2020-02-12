@@ -19,7 +19,7 @@
             ISchedulerFactory schedulerFactory)
         {
             _container = container;
-            _schedulerFactory = schedulerFactory;
+            _schedulerFactory = schedulerFactory ?? throw new ArgumentNullException(nameof(schedulerFactory));
         }
 
         public void Create<T>(IJobTriggerInfo config)

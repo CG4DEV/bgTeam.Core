@@ -7,6 +7,7 @@
     using bgTeam.Queues.Exceptions;
     using RabbitMQ.Client;
 
+    [Obsolete("Using class bgTeam.Impl.Rabbit.QueueConsumerAsyncRabbitMQ instead")]
     public class QueueWatcherRabbitMQ : IQueueWatcher<IQueueMessage>
     {
         private readonly IAppLogger _logger;
@@ -22,8 +23,13 @@
             IQueueProviderSettings settings,
             int threadsCount = 1)
         {
-            _logger = logger;
-            _msgProvider = msgProvider;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _msgProvider = msgProvider ?? throw new ArgumentNullException(nameof(msgProvider));
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
             _factory = new ConnectionFactory()
             {
                 HostName = settings.Host,
@@ -34,7 +40,6 @@
             };
 
             _semaphore = new SemaphoreSlim(threadsCount, threadsCount);
-
             _threadSleep = 30000;
         }
 
@@ -44,9 +49,9 @@
             IConnectionFactory factory,
             int threadsCount = 1)
         {
-            _logger = logger;
-            _msgProvider = msgProvider;
-            _factory = factory;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _msgProvider = msgProvider ?? throw new ArgumentNullException(nameof(msgProvider));
+            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
             _semaphore = new SemaphoreSlim(threadsCount, threadsCount);
 

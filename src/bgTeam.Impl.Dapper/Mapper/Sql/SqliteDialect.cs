@@ -39,7 +39,7 @@
         {
             if (string.IsNullOrWhiteSpace(columnName))
             {
-                throw new ArgumentNullException(columnName, "columnName cannot be null or empty.");
+                throw new ArgumentNullException(nameof(columnName), "columnName cannot be null or empty.");
             }
 
             var result = new StringBuilder();

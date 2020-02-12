@@ -8,6 +8,7 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -22,7 +23,7 @@
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
         private readonly SocketsHttpHandler _handler;
 #else
         private readonly ServicePoint _servicePoint;
@@ -34,7 +35,7 @@
 
         }
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
         public WebClient(IAppLogger logger, string url, X509CertificateCollection clientCertificates)
             : this(logger, url, new FormUrlEncodedContentBuilder())
         {
@@ -49,22 +50,26 @@
         public WebClient(IAppLogger logger, string url, IContentBuilder builder)
         {
             _logger = logger;
-            _url = url.CheckNull(nameof(url));
+            _url = url;
             _builder = builder.CheckNull(nameof(builder));
 
-            var uri = new Uri(_url);
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
             _handler = new SocketsHttpHandler();
             _client = new HttpClient(_handler);
 #else
             _client = new HttpClient();
-            _servicePoint = ServicePointManager.FindServicePoint(uri);
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                var uri = new Uri(_url);
+                _servicePoint = ServicePointManager.FindServicePoint(uri);
+            }
 #endif
-            _client.BaseAddress = uri;
 
             ConnectionsLimit = 1024;
             MaxIdleTime = 300000; // 5 мин
             ConnectionLeaseTimeout = 0; // закрываем соединение сразу после выполнения запроса
+
+            Culture = CultureInfo.CurrentCulture;
         }
 
         /// <summary>
@@ -74,7 +79,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return _handler.MaxConnectionsPerServer;
 #else
                 return ServicePointManager.DefaultConnectionLimit;
@@ -83,7 +88,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.MaxConnectionsPerServer = value;
 #else
                 ServicePointManager.DefaultConnectionLimit = value;
@@ -101,7 +106,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 throw new NotSupportedException();
 #else
                 return ServicePointManager.DnsRefreshTimeout;
@@ -110,7 +115,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 throw new NotSupportedException();
 #else
                 ServicePointManager.DnsRefreshTimeout = value;
@@ -128,7 +133,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return Convert.ToInt32(_handler.PooledConnectionIdleTimeout.TotalMilliseconds);
 #else
                 return _servicePoint.MaxIdleTime;
@@ -137,7 +142,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
 #else
                 _servicePoint.MaxIdleTime = value;
@@ -155,7 +160,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return Convert.ToInt32(_handler.PooledConnectionLifetime.TotalMilliseconds);
 #else
                 return _servicePoint.ConnectionLeaseTimeout;
@@ -164,7 +169,7 @@
 
             set
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.PooledConnectionLifetime = TimeSpan.FromMilliseconds(value);
 #else
                 _servicePoint.ConnectionLeaseTimeout = value;
@@ -181,6 +186,11 @@
             set { _client.Timeout = value; }
         }
 
+        /// <summary>
+        /// Culture for query builder. <see cref="CultureInfo.CurrentCulture"/>.
+        /// </summary>
+        public CultureInfo Culture { get; set; }
+
         public string Url => _url;
 
         public async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
@@ -191,7 +201,7 @@
                 method = method.CheckNull(nameof(method));
             }
 
-            string url = BuildGetUrl(method, queryParams);
+            string url = BuildUrl(method, queryParams);
             var msg = new HttpRequestMessage(HttpMethod.Get, url);
             FillHeaders(headers, msg);
 
@@ -202,8 +212,6 @@
         public async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
-            var result = string.Empty;
-
             HttpContent content = null;
             if (postParams != null)
             {
@@ -220,7 +228,8 @@
                 FillContentHeaders(headers, content);
             }
 
-            var resultPost = await _client.PostAsync(method, content);
+            var url = BuildUrl(method);
+            var resultPost = await _client.PostAsync(url, content);
             return await ProcessResultAsync<T>(resultPost);
         }
 
@@ -262,7 +271,7 @@
             }
         }
 
-        private string BuildGetUrl(string method, IDictionary<string, object> queryParams)
+        private string BuildUrl(string method, IDictionary<string, object> queryParams = null)
         {
             string baseUrl;
             if (!string.IsNullOrWhiteSpace(_url))
@@ -288,24 +297,44 @@
                 baseUrl = method;
             }
 
-            if (queryParams == null || !queryParams.Any())
+            if (queryParams.NullOrEmpty())
             {
                 return baseUrl;
             }
 
-            var builder = new UriBuilder(baseUrl)
-            {
-                Port = -1,
-            };
+            var builder = new UriBuilder(baseUrl);
 
             var query = HttpUtility.ParseQueryString(builder.Query);
-            queryParams.DoForEach(x => query.Add(x.Key, x.Value.ToString()));
+            queryParams.DoForEach(x => query.Add(x.Key, ObjectToQueryStringValue(x.Value)));
             builder.Query = query.ToString();
 
             string url = builder.ToString();
 
-            _logger.Info($"Built url for GET request: {url}");
+            _logger.Debug($"Built url for request: {url}");
             return url;
+        }
+
+        private string ObjectToQueryStringValue(object o)
+        {
+            switch (o)
+            {
+                case string str:
+                    return str;
+                case DateTime dateTime:
+                    return dateTime.ToString(Culture);
+                case DateTimeOffset dateTimeOffset:
+                    return dateTimeOffset.ToString(Culture);
+                case TimeSpan timeSpan:
+                    return timeSpan.ToString("G", Culture);
+                case double dbl:
+                    return dbl.ToString(Culture);
+                case decimal dcml:
+                    return dcml.ToString(Culture);
+                case float flt:
+                    return flt.ToString(Culture);
+                default:
+                    return o.ToString();
+            }
         }
 
         private async Task<T> ProcessResultAsync<T>(HttpResponseMessage response)
@@ -314,14 +343,14 @@
             CheckResult(response);
 
             if (response.Content.Headers.ContentType != null
-                || string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
+                && string.Equals(response.Content.Headers.ContentType.CharSet, "utf8", StringComparison.OrdinalIgnoreCase))
             {
                 response.Content.Headers.ContentType.CharSet = "utf-8";
             }
 
             var result = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrWhiteSpace(result) || result == "[]")
+            if (string.IsNullOrWhiteSpace(result))
             {
                 return default(T);
             }

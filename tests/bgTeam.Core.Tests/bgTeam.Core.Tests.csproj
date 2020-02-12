@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.1" />
+    <PackageReference Include="Moq" Version="4.10.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\bgTeam.Core\bgTeam.Core.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Dapper\bgTeam.Impl.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Memory\bgTeam.Impl.Memory.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.MongoDB\bgTeam.Impl.MongoDB.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.MsSql\bgTeam.Impl.MsSql.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Oracle\bgTeam.Impl.Oracle.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.PostgreSQL\bgTeam.Impl.PostgreSQL.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Log4Net\bgTeam.Impl.Log4Net.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Rabbit\bgTeam.Impl.Rabbit.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Serilog\bgTeam.Impl.Serilog.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Sqlite\bgTeam.Impl.Sqlite.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.ElasticSearch\bgTeam.Impl.ElasticSearch.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Impl.Quartz\bgTeam.Impl.Quartz.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.Web\bgTeam.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Files\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TestLibrary">
+      <HintPath>Assemblies\TestLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Configurations\appsettings.withEmptyConfsPath.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\appsettings.test.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\appsettings.test.Array.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\appsettings.test.Debug.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\appsettings.withAdditionalConfigs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assemblies\TestLibrary.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assemblies\TestLibraryPlugins.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\Additional\additional.Test.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\some.settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\WithSameStructure\appsettings2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configurations\WithSameStructure\appsettings1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

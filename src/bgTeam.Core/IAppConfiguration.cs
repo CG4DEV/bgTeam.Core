@@ -5,7 +5,7 @@
     /// <summary>
     /// Интерфейс для получения значений из конфигурационного файла
     /// </summary>
-    public interface IAppConfiguration
+    public interface IConfigSection
     {
         string this[string key] { get; }
 
