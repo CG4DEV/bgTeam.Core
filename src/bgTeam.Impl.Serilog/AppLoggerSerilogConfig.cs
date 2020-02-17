@@ -7,7 +7,7 @@
 
     public class AppLoggerSerilogConfig : IAppLoggerConfig
     {
-        private readonly IConfigSection _appConfiguration;
+        private readonly IAppConfiguration _appConfiguration;
 
         public AppLoggerSerilogConfig()
             : this("Information")
@@ -20,7 +20,7 @@
             MinimumLevel = minimumLevel;
         }
 
-        public AppLoggerSerilogConfig(IConfigSection appConfiguration)
+        public AppLoggerSerilogConfig(IAppConfiguration appConfiguration)
             : this()
         {
             _appConfiguration = appConfiguration;

@@ -7,6 +7,11 @@
 
     public class FormUrlEncodedContentBuilder : IContentBuilder
     {
+        /// <summary>
+        /// Builds HttpContent object from anonymus object
+        /// </summary>
+        /// <param name="param">Anonymus object</param>
+        /// <returns></returns>
         public HttpContent Build(object param)
         {
             var dic = GetFormContentDictionary(param);
