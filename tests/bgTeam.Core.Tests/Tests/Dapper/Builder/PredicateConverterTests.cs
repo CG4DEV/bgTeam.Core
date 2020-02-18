@@ -5,7 +5,6 @@ using System.Data;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Reflection;
 
 namespace bgTeam.Core.Tests.Tests.Dapper.Builder
 {
