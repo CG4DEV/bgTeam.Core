@@ -103,7 +103,7 @@ namespace bgTeam.Core.Tests.Tests.Loggers.Serilog
                 .AddInMemoryCollection(microsoftConfig)
                 .Build();
 
-            var config = new Mock<IConfigSection>();
+            var config = new Mock<IAppConfiguration>();
             config.Setup(x => x.GetSection(It.IsAny<string>()))
                 .Returns((string section) => buildedConf.GetSection(section));
 

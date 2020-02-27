@@ -5,8 +5,16 @@
     using System.Linq;
     using System.Net.Http;
 
+    /// <summary>
+    /// Generates HttpContent using any object as source
+    /// </summary>
     public class FormUrlEncodedContentBuilder : IContentBuilder
     {
+        /// <summary>
+        /// Builds HttpContent object from any object
+        /// </summary>
+        /// <param name="param">Anonymus or any another object</param>
+        /// <returns></returns>
         public HttpContent Build(object param)
         {
             var dic = GetFormContentDictionary(param);
@@ -34,7 +42,7 @@
 
                 var name = key ?? $"{arrayItem.Name}[{{0}}]";
 
-                if (item.GetType().IsClass)
+                if (item.GetType().IsClass && !(item is string))
                 {
                     AddObjToDict(dict, item, string.Format(name, i++) + "[{0}]");
                 }
@@ -51,7 +59,8 @@
 
             var nameValueList = type.GetProperties()
                 .Select(x => new Proxy { Name = x.Name.ToLowerInvariant(), Value = x.GetValue(obj) })
-                .Where(x => x.Value != null);
+                .Where(x => x.Value != null)
+                .ToArray();
 
             foreach (var item in nameValueList)
             {

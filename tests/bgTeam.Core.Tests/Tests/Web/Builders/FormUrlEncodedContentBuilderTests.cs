@@ -1,5 +1,6 @@
 ﻿using bgTeam.Web.Builders;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,6 +18,15 @@ namespace bgTeam.Core.Tests.Tests.Web.Builders
         }
 
         [Fact]
+        public async Task BuildForClassWithArrayOfStrings()
+        {
+            var formUrlEncodedContentBuilder = new FormUrlEncodedContentBuilder();
+            var form = formUrlEncodedContentBuilder.Build(new TestEntity2 { Names = new[] { "John", "Nicolas" }});
+            var content = await form.ReadAsStringAsync();
+            Assert.Equal("names%5B0%5D=John&names%5B1%5D=Nicolas", content);
+        }
+
+        [Fact]
         public void NestedArrayNotSupported()
         {
             var formUrlEncodedContentBuilder = new FormUrlEncodedContentBuilder();
@@ -29,6 +39,11 @@ namespace bgTeam.Core.Tests.Tests.Web.Builders
         class TestEntity
         {
             public string Name { get; } = "Hey";
+        }
+
+        class TestEntity2
+        {
+            public IEnumerable<string> Names { get; set; }
         }
     }
 }

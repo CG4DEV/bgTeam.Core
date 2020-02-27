@@ -13,7 +13,7 @@
         {
             var services = new ServiceCollection();
 
-            IConfigSection config;
+            IAppConfiguration config;
 
             // TODO: внести исправления в базовую сборку класс AppConfigurationDefault
             if (cmdParams.ContainsKey("env"))
@@ -31,7 +31,7 @@
 
             services
                 .AddSingleton<IServiceCollection>(services)
-                .AddSingleton<IConfigSection>(config)
+                .AddSingleton<IAppConfiguration>(config)
                 .AddSingleton<IAppSettings>(appSettings)
                 .AddSingleton<IAppLogger, AppLoggerDefault>()
                 .AddTransient<Runner>();
