@@ -10,7 +10,7 @@
     /// <summary>
     /// Реализация по-умолчанию реализации класса для получения значений из конфигурационного файла.
     /// </summary>
-    public class AppConfigurationDefault : IConfigSection
+    public class AppConfigurationDefault : IAppConfiguration
     {
         private readonly IConfigurationRoot _configurationRoot;
 
@@ -79,7 +79,7 @@
             }
             catch (FileNotFoundException)
             {
-                throw new ArgumentException($"Not find config file - {fileConfiguration}.json, path - {curDir}\\");
+                throw new ArgumentException($"Not find config file - {fileConfiguration}.json, path - {curDir}/");
             }
 
             var builder = new ConfigurationBuilder()
