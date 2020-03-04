@@ -1,20 +1,19 @@
 ﻿namespace bgTeam.Web.Impl
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Net;
+    using System.Net.Http;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Threading.Tasks;
+    using System.Web;
     using bgTeam;
     using bgTeam.Extensions;
     using bgTeam.Web;
     using bgTeam.Web.Builders;
     using bgTeam.Web.Exceptions;
     using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Threading.Tasks;
-    using System.Web;
 
     public class WebClient : IWebClient
     {
@@ -193,7 +192,7 @@
 
         public string Url => _url;
 
-        public async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+        public virtual async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
             if (string.IsNullOrWhiteSpace(_url))
@@ -209,7 +208,7 @@
             return await ProcessResultAsync<T>(resultGet);
         }
 
-        public async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
+        public virtual async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
             HttpContent content = null;
