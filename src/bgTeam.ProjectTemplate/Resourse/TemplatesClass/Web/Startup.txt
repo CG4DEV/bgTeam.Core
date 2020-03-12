@@ -1,11 +1,12 @@
 namespace $namespace$
 {
-    using $prj$.WebApp;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.OpenApi.Models;
     using Newtonsoft.Json.Serialization;
-    using Swashbuckle.AspNetCore.Swagger;
+    using $prj$.WebApp;
 
     public class Startup
     {
@@ -15,7 +16,7 @@ namespace $namespace$
         {
             services
                 .AddMvc()
-                .AddJsonOptions(options =>
+                .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -25,14 +26,13 @@ namespace $namespace$
             // Swagger
             services.AddSwaggerGen(x =>
             {
-                x.SwaggerDoc("v1", new Info { Title = "$api-name$", Version = "v1" });
+                x.SwaggerDoc("v1", new OpenApiInfo { Title = "$api-name$", Version = "v1" });
             });
-
             AppIocConfigure.Configure(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -43,19 +43,20 @@ namespace $namespace$
                 app.UseExceptionHandler("/home/error");
             }
 
+            app.UseSwagger();
             app.UseSwaggerUI(x =>
             {
-                x.SwaggerEndpoint("v1/swagger.json", "$api-name$");
+                x.SwaggerEndpoint("v1/swagger.json", "trcont.ShopMonitoring API");
             });
 
-            app.UseSwagger();
+            app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMiddleware<AppMiddlewareException>();
 
-            app.UseMvc(x =>
+            app.UseEndpoints(endpoints =>
             {
-                x.MapRoute(name: "default", template: "{controller=Home}/{action=Index}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

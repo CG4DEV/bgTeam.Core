@@ -2,10 +2,12 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    public class HomeController : Controller
+	[ApiController]
+    [Route("api/[controller]/[action]")]
+    public class ApiController : Controller
     {
         /// <summary>
-        /// Default method.
+        /// Api test method.
         /// </summary>
         /// <returns></returns>
         [HttpGet]

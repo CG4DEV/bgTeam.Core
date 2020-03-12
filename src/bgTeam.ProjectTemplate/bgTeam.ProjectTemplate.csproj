@@ -109,6 +109,9 @@
     <None Update="Resourse\TemplatesClass\WebApp\AppMiddlewareException.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resourse\TemplatesClass\WebApp\Controllers\ApiController.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resourse\TemplatesClass\WebApp\Controllers\HomeController.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -146,10 +149,6 @@
     <None Update="Resourse\TemplatesClass\App\Runner.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resourse\TemplatesClass\WebApp\Controllers\" />
   </ItemGroup>
 
 </Project>

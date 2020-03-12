@@ -13,7 +13,7 @@
             var container = AppIocConfigure.Configure(cmdParams);
             var runner = container.GetService<Runner>();
 
-            await runner.Run();
+            await runner.Run(cmdParams);
         }
     }
 }

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
+    using System.Reflection;
     using System.Text;
     using bgTeam.Extensions;
 
@@ -11,7 +12,7 @@
     {
         public void Generate(string @namespace, string name, SolutionSettings settings)
         {
-            var folder = "result";
+            var folder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "result");
 
             if (Directory.Exists(folder))
             {
@@ -177,7 +178,7 @@
                         ("bgTeam.Core", settings.BgTeamVersion),
                         ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                         ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                        ("Microsoft.AspNetCore.All", "2.1.1"),
+                        ("Microsoft.AspNetCore.App", "3.1.0"),
                         ("Scrutor", "2.1.2"),
                     }, projects: new[] { $"{name}.Common", $"{name}.DataAccess", $"{name}.Story" });
                 p7.ClassTemplateFile("AppSettings", $"App{Path.DirectorySeparatorChar}AppSettings");
@@ -185,6 +186,7 @@
                 p7.ClassTemplateFile("AppMiddlewareException", $"WebApp{Path.DirectorySeparatorChar}AppMiddlewareException", replist: new List<(string, string)> { ("$prj$", name) });
                 p7.Folder("Controllers");
                 p7.ClassTemplateFile("HomeController", $"WebApp{Path.DirectorySeparatorChar}Controllers{Path.DirectorySeparatorChar}HomeController", new[] { "Controllers" });
+                p7.ClassTemplateFile("ApiController", $"WebApp{Path.DirectorySeparatorChar}Controllers{Path.DirectorySeparatorChar}ApiController", new[] { "Controllers" });
                 var fp7 = new ProjectInfoItem(p7.Name, $"{path}{Path.DirectorySeparatorChar}{p7.Output}");
                 fmain.AddChild(fp7);
                 result.Add(fp7);
@@ -193,7 +195,8 @@
                 p8.ProjectFile(
                     new[]
                     {
-                        ("Swashbuckle.AspNetCore", "3.0.0"),
+                        ("Swashbuckle.AspNetCore", "5.0.0"),
+                        ("Microsoft.AspNetCore.Mvc.NewtonsoftJson", "3.1.0"),
                     },
                     "Microsoft.NET.Sdk.Web",
                     "Exe",

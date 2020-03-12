@@ -11,6 +11,12 @@ bgTeam infrastructure for .NET projects
 
 These libraries are designed to build projects on microservice architecture. Assemblies allow you to quickly release the basic infrastructure layers, which allows you to concentrate on the development of functionality
 
+### Generating new project by template
+
+To generate new project you can run bgTeam.ProjectTemplate from visual studio or using console:
+dotnet run --framework=netcoreapp3.1 -company trcont -project ShopMonitoring -is-web true -is-app true -bg-team-version 3.1.5 (required only --framework parameter)
+Solution will be generated in folder bin/result.
+
 ### Contents
 
 Package  | Description | NuGet 
