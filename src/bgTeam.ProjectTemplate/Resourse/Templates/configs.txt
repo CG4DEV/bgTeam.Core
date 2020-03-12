@@ -5,7 +5,7 @@
 </ItemGroup>
 
 <ItemGroup>
-    <Content Include="..\..\shared\configs\connectionStrings.Development.json" Link="Configs\connectionStrings.Development.json">
+    <Content Include="..\..\shared\configs\connectionStrings.Debug.json" Link="Configs\connectionStrings.Debug.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\shared\configs\connectionStrings.Production.json" Link="Configs\connectionStrings.Production.json">

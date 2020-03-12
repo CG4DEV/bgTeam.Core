@@ -1,23 +1,21 @@
 namespace $namespace$
 {
-    using System.Diagnostics;
-    using System.Threading.Tasks;
-    using bgTeam.Core.Helpers;
-    using Microsoft.Extensions.DependencyInjection;
-
+    /// <summary>
+    /// Entrypoint class for application.
+    /// </summary>
     internal static class Program
     {
-        internal static async Task Main(string[] args)
+        /// <summary>
+        /// Entrypoint method for application.
+        /// </summary>
+        /// <param name="args"></param>
+        internal static void Main(string[] args)
         {
-            var cmdParams = CommandLineHelper.ParseArgs(args);
-            var process = Process.GetCurrentProcess();
-
-            var container = AppIocConfigure.Configure(cmdParams);
-            var runner = container.GetService<Runner>();
-
-            await runner.Run();
-
-            process.WaitForExit();
+            new ApplicationBuilder(args)
+                .BuildApplication()
+                .StartHealthChecks()
+                .RunServices()
+                .WaitForExit();
         }
     }
 }

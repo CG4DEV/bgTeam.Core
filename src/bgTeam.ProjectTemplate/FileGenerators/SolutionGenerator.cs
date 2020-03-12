@@ -55,7 +55,7 @@
                 Description =
     @"	ProjectSection(SolutionItems) = preProject
 		shared\configs\connectionStrings.Debug.json = shared\configs\connectionStrings.Debug.json
-		shared\configs\connectionStrings.Live.json = shared\configs\connectionStrings.Live.json
+		shared\configs\connectionStrings.Production.json = shared\configs\connectionStrings.Production.json
 		shared\configs\connectionStrings.Release.json = shared\configs\connectionStrings.Release.json
 		shared\configs\connectionStrings.Uat.json = shared\configs\connectionStrings.Uat.json
 	EndProjectSection",
@@ -113,9 +113,9 @@
                 new[]
                 {
                     ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                    ("Microsoft.NET.Test.Sdk", "15.5.0"),
-                    ("xunit", "2.3.1"),
-                    ("xunit.runner.visualstudio", "2.3.1"),
+                    ("Microsoft.NET.Test.Sdk", "16.2.0"),
+                    ("xunit", "2.4.0"),
+                    ("xunit.runner.visualstudio", "2.4.0"),
                 }, projects: new[] { $"{name}.Story" },
                 configs: true);
             p5.Folder("Common");
@@ -157,6 +157,8 @@
                 p6.ClassTemplateFile("AppSettings", $"App{Path.DirectorySeparatorChar}AppSettings");
                 p6.ClassTemplateFile("AppIocConfigure", $"App{Path.DirectorySeparatorChar}AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Program", $"App{Path.DirectorySeparatorChar}Program", replist: new List<(string, string)> { ("$prj$", name) });
+                p6.ClassTemplateFile("Application", $"App{Path.DirectorySeparatorChar}Application", replist: new List<(string, string)> { ("$prj$", name) });
+                p6.ClassTemplateFile("ApplicationBuilder", $"App{Path.DirectorySeparatorChar}ApplicationBuilder", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Runner", $"App{Path.DirectorySeparatorChar}Runner", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.JsonTemplateFile("appsettings", $"App{Path.DirectorySeparatorChar}appsettings");
                 p6.Folder("Properties");
