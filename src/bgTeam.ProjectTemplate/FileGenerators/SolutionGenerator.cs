@@ -26,6 +26,7 @@
             File.WriteAllText($"{folder}{Path.DirectorySeparatorChar}{@namespace}.{name}.sln", file);
 
             File.Copy("./Resourse/.gitignore", $"{folder}/.gitignore");
+            File.WriteAllText($"{folder}/coverage.bat", File.ReadAllText("./Resourse/coverage.bat").Replace("$namespace$", @namespace));
 
             foreach (var item in Directory.EnumerateFiles("./Resourse/shared", "*", SearchOption.AllDirectories))
             {
@@ -35,6 +36,13 @@
             }
 
             foreach (var item in Directory.EnumerateFiles("./Resourse/lint", "*", SearchOption.AllDirectories))
+            {
+                var dest = $"{folder}/{Path.GetRelativePath("./Resourse/", item)}";
+                Directory.CreateDirectory(Path.GetDirectoryName(dest));
+                File.Copy(item, dest);
+            }
+
+            foreach (var item in Directory.EnumerateFiles("./Resourse/wiki-generator", "*", SearchOption.AllDirectories))
             {
                 var dest = $"{folder}/{Path.GetRelativePath("./Resourse/", item)}";
                 Directory.CreateDirectory(Path.GetDirectoryName(dest));

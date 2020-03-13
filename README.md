@@ -17,6 +17,11 @@ To generate new project you can run bgTeam.ProjectTemplate from visual studio or
 dotnet run --framework=netcoreapp3.1 -company trcont -project ShopMonitoring -is-web true -is-app true -bg-team-version 3.1.5 (required only --framework parameter)
 Solution will be generated in folder bin/result.
 
+### Generating coverage report
+
+Move to folder with project and run coverage.bat, it will generate report to file coverage/index.htm
+After report will be generated it will try to send coverage result to gitlab (settings in wiki-generator/settings.json)
+
 ### Contents
 
 Package  | Description | NuGet 
