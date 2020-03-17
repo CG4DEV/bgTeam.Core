@@ -44,5 +44,4 @@ exit /b %errorlevel%
 
 :RunWikiGenerator
 "./wiki-generator/WikiGenerator.exe"
-TIMEOUT /T 300 
 exit /b %errorlevel%
