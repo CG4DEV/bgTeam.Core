@@ -11,7 +11,6 @@ namespace bgTeam.Core.Tests.Tests.Dapper.Builder
     [Collection("SqlLiteCollection")]
     public class PredicateConverterTests
     {
-        //TODO - finish writting tests, whrn will be fixed
         [Fact]
         public void GeneratingPredicateFromExpression()
         {
@@ -28,9 +27,8 @@ namespace bgTeam.Core.Tests.Tests.Dapper.Builder
 
             var groupPredicate = GeneratePredicate(sourcePredicate) as PredicateGroup;
             Assert.NotNull(groupPredicate);
-            Assert.Equal(10, groupPredicate.Predicates.Count);
-            Assert.NotNull(groupPredicate.Predicates[1] as PredicateGroup);
-        }
+            Assert.Equal(11, groupPredicate.Predicates.Count);
+        }   
 
         string Hi()
         {
