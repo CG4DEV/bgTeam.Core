@@ -36,6 +36,9 @@
     <None Update="Resourse\.gitignore">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resourse\coverage.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resourse\lint\linter.ruleset">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
