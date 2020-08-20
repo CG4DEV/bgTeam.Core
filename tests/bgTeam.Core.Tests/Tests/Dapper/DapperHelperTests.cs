@@ -95,7 +95,7 @@ namespace bgTeam.Core.Tests.Tests.Dapper
             var connection = new Mock<IDbConnection>();
             DapperHelper.InstanceFactory = (conf) => dapper.Object;
             connection.Object.Delete<TestEntity>(new FieldPredicate<TestEntity>());
-            dapper.Verify(x => x.Delete(It.IsAny<IDbConnection>(), It.IsAny<object>(), null, null));
+            dapper.Verify(x => x.Delete<TestEntity>(It.IsAny<IDbConnection>(), It.IsAny<FieldPredicate<TestEntity>>(), null, null));
         }
 
         [Fact]

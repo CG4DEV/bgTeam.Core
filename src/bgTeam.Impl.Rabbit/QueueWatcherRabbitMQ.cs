@@ -1,6 +1,7 @@
 ﻿namespace bgTeam.Impl.Rabbit
 {
     using System;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using bgTeam.Queues;
@@ -148,7 +149,7 @@
                 var res = channel.BasicGet(queueName, false);
                 if (res != null)
                 {
-                    var message = _msgProvider.ExtractObject(res.Body);
+                    var message = _msgProvider.ExtractObject(Encoding.UTF8.GetString(res.Body.ToArray()));
                     Exception exp = null;
                     try
                     {
