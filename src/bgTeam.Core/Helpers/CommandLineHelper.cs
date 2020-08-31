@@ -33,7 +33,7 @@
                 }
                 else
                 {
-                    key = key.Substring(1);
+                    key = key.Substring(keyPrefix.Length);
                 }
 
                 i++;
