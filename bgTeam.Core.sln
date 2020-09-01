@@ -75,7 +75,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Impl.Memory", "src\b
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoryRunner", "StoryRunner", "{2FB69DB7-B91A-476F-B8EA-944D94FF5D27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.StoryRunner", "src\bgTeam.Kado.StoryRunner\bgTeam.StoryRunner.csproj", "{2F1EC975-B53D-48F5-9B6E-6E8CC1C67598}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.StoryRunner", "src\bgTeam.StoryRunner\bgTeam.StoryRunner.csproj", "{2F1EC975-B53D-48F5-9B6E-6E8CC1C67598}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.StoryRunnerScheduler", "src\bgTeam.StoryRunnerScheduler\bgTeam.StoryRunnerScheduler.csproj", "{1CE130BF-73D2-4FAE-B3C0-342A414CCFA7}"
 EndProject
