@@ -1,17 +1,22 @@
 namespace $namespace$
 {
+    using $prj$.WebApp;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
     using Newtonsoft.Json.Serialization;
-    using $prj$.WebApp;
 
+    /// <summary>
+    /// class Startup
+    /// </summary>
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -28,25 +33,24 @@ namespace $namespace$
             {
                 x.SwaggerDoc("v1", new OpenApiInfo { Title = "$api-name$", Version = "v1" });
             });
+
             AppIocConfigure.Configure(services);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline
+        /// <summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/home/error");
-            }
 
             app.UseSwagger();
             app.UseSwaggerUI(x =>
             {
-                x.SwaggerEndpoint("v1/swagger.json", "trcont.ShopMonitoring API");
+                x.SwaggerEndpoint("v1/swagger.json", "$api-name$");
             });
 
             app.UseRouting();

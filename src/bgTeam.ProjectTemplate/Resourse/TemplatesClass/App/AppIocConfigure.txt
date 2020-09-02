@@ -9,7 +9,7 @@
     using bgTeam.DataAccess.Impl.MsSql;
     using bgTeam.Impl;
     using Microsoft.Extensions.DependencyInjection;
-    using trcont.ShopMonitoring.Story;
+    using $prj$.Story;
 
     /// <summary>
     /// Configurating IOC.

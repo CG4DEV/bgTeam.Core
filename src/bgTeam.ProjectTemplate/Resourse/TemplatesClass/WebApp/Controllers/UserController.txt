@@ -4,7 +4,7 @@
 
 	[ApiController]
     [Route("api/[controller]/[action]")]
-    public class ApiController : Controller
+    public class UserController : Controller
     {
         /// <summary>
         /// Api test method.
@@ -13,7 +13,7 @@
         [HttpGet]
         public string Index()
         {
-            return "Hello World";
+            return "This user controller";
         }
     }
 }

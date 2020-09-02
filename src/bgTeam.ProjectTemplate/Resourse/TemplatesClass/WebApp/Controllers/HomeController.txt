@@ -1,6 +1,7 @@
 ﻿namespace $namespace$
 {
     using Microsoft.AspNetCore.Mvc;
+    using System.Net;
 
     public class HomeController : Controller
     {
@@ -9,9 +10,14 @@
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public string Index()
+        public ContentResult Index()
         {
-            return "Hello World";
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<h2>$api-name$</h2><div><a href='./swagger/' style='color: #4488dd'>show swagger</a></div>",
+            };
         }
     }
 }

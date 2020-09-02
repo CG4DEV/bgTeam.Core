@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{A1E57A12
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		coverage.bat = coverage.bat
+		lint\linter.ruleset = lint\linter.ruleset
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -77,7 +78,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoryRunner", "StoryRunner"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.StoryRunner", "src\bgTeam.StoryRunner\bgTeam.StoryRunner.csproj", "{2F1EC975-B53D-48F5-9B6E-6E8CC1C67598}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.StoryRunnerScheduler", "src\bgTeam.StoryRunnerScheduler\bgTeam.StoryRunnerScheduler.csproj", "{1CE130BF-73D2-4FAE-B3C0-342A414CCFA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.StoryRunnerScheduler", "src\bgTeam.StoryRunnerScheduler\bgTeam.StoryRunnerScheduler.csproj", "{1CE130BF-73D2-4FAE-B3C0-342A414CCFA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
