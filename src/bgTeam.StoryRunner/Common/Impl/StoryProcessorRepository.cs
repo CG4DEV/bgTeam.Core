@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using bgTeam.StoryRunner.Domain;
 
     public class StoryProcessorRepository : IStoryProcessorRepository
     {

@@ -12,7 +12,7 @@
     /// <summary>
     /// Schedulers factory Quartz
     /// </summary>
-    internal class JobSchedulersFactory : BaseSchedulersFactory
+    public class JobSchedulersFactory : BaseSchedulersFactory
     {
         public JobSchedulersFactory(
             IServiceProvider container,
