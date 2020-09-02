@@ -19,7 +19,7 @@
             if (cmdParams.ContainsKey("env"))
             {
                 // Задаём конфигурацию через пришедший параметр
-                config = new AppConfigurationDefault("appsettings", cmdParams["env"]);
+                config = new AppConfigurationDefault(cmdParams["env"]);
             }
             else
             {

@@ -81,7 +81,7 @@ namespace bgTeam.Core.Tests.Rabbit
             var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
             queueProviderRabbitMQ.PushMessage(new QueueMessageDefault() { Body = "hi" });
-            model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue1", false, It.IsAny<IBasicProperties>(), It.IsAny<byte[]>()));
+            model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue1", false, It.IsAny<IBasicProperties>(), It.IsAny<ReadOnlyMemory<byte>>()));
         }
 
         [Fact]
@@ -93,8 +93,8 @@ namespace bgTeam.Core.Tests.Rabbit
             var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
             queueProviderRabbitMQ.PushMessage(new QueueMessageDefault() { Body = "hi" }, "queue1", "queue2");
-            model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue1", false, It.IsAny<IBasicProperties>(), It.IsAny<byte[]>()));
-            model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue2", false, It.IsAny<IBasicProperties>(), It.IsAny<byte[]>()));
+            model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue1", false, It.IsAny<IBasicProperties>(), It.IsAny<ReadOnlyMemory<byte>>()));
+            model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue2", false, It.IsAny<IBasicProperties>(), It.IsAny<ReadOnlyMemory<byte>>()));
         }
 
         [Fact]

@@ -1,6 +1,5 @@
 ﻿namespace $namespace$
 {
-    using System;
     using $prj$.Story;
     using bgTeam;
     using bgTeam.Core;
@@ -10,13 +9,13 @@
 
     public class AppIocConfigure
     {
-        public static IServiceProvider Configure(IServiceCollection services)
+        public static IServiceCollection Configure(IServiceCollection services)
         {
             services.Scan(scan => scan
-                     .FromAssemblyOf<IStoryLibrary>()
-                     .AddClasses(classes => classes.AssignableTo(typeof(IStory<,>)))
-                     .AsImplementedInterfaces()
-                     .WithTransientLifetime());
+                .FromAssemblyOf<IStoryLibrary>()
+                .AddClasses(classes => classes.AssignableTo(typeof(IStory<,>)))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
 
             var config = new AppConfigurationDefault();
 
@@ -27,7 +26,7 @@
                 .AddSingleton<IStoryFactory, StoryFactory>()
                 .AddSingleton<IStoryBuilder, StoryBuilder>();
 
-            return services.BuildServiceProvider();
+            return services;
         }
     }
 }

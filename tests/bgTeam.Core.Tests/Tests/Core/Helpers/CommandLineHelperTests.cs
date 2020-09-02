@@ -35,6 +35,30 @@ namespace bgTeam.Core.Tests.Core.Helpers
         }
 
         [Fact]
+        public void ParseArgs2()
+        {
+            var agrs = CommandLineHelper.ParseArgs(new[] { "-framework", "netcoreapp3.1", "-project", "TestProject",
+                "-is-app", "true", "-is-web", "false" });
+            Assert.Equal(4, agrs.Count);
+            Assert.Equal("netcoreapp3.1", agrs["framework"]);
+            Assert.Equal("TestProject", agrs["project"]);
+            Assert.Equal("false", agrs["is-web"]);
+            Assert.Equal("true", agrs["is-app"]);
+        }
+
+        [Fact]
+        public void ParseArgsLongPrefix()
+        {
+            var agrs = CommandLineHelper.ParseArgs(new[] { "_pref_framework", "netcoreapp3.1", "_pref_project", "TestProject",
+                "_pref_is-app", "true", "_pref_is-web", "false" }, "_pref_");
+            Assert.Equal(4, agrs.Count);
+            Assert.Equal("netcoreapp3.1", agrs["framework"]);
+            Assert.Equal("TestProject", agrs["project"]);
+            Assert.Equal("false", agrs["is-web"]);
+            Assert.Equal("true", agrs["is-app"]);
+        }
+
+        [Fact]
         public void CreateArgsInstance()
         {
             var instance = CommandLineHelper.CreateArgsInstance<Model>(new Dictionary<string, string>(){ { "epochs", "Epochs" } }, new[] { "epochs", "19" });

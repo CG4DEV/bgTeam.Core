@@ -31,8 +31,10 @@
                 {
                     throw new ArgumentException($"Строка параметров имеет не верный формат: {key}, ожидалось: {keyPrefix}{key}", nameof(keyPrefix));
                 }
-
-                key = key.Replace(keyPrefix, string.Empty);
+                else
+                {
+                    key = key.Substring(keyPrefix.Length);
+                }
 
                 i++;
                 var value = i < args.Length ? args[i] : null;

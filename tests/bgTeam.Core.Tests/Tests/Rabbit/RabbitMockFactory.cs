@@ -29,6 +29,15 @@ namespace bgTeam.Core.Tests.Rabbit
                     return message.Object;
                 });
 
+            messageProvider.Setup(x => x.ExtractObject(It.IsAny<string>()))
+                .Returns((string source) =>
+                {
+                    var message = new Mock<IQueueMessage>();
+                    message.SetupGet(x => x.Body)
+                        .Returns(source);
+                    return message.Object;
+                });
+
             var connection = new Mock<IConnection>();
             if (model == null)
             {
