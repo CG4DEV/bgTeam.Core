@@ -1,20 +1,17 @@
 ﻿namespace bgTeam.Web.Impl
 {
-    using bgTeam;
-    using bgTeam.Extensions;
-    using bgTeam.Web;
-    using bgTeam.Web.Builders;
-    using bgTeam.Web.Exceptions;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
     using System.Web;
+    using bgTeam.Extensions;
+    using bgTeam.Web.Builders;
+    using bgTeam.Web.Exceptions;
+    using Newtonsoft.Json;
 
     public class WebClient : IWebClient
     {
@@ -32,7 +29,6 @@
         public WebClient(IAppLogger logger, string url)
             : this(logger, url, new FormUrlEncodedContentBuilder())
         {
-
         }
 
 #if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
@@ -58,6 +54,7 @@
             _client = new HttpClient(_handler);
 #else
             _client = new HttpClient();
+
             if (!string.IsNullOrWhiteSpace(url))
             {
                 var uri = new Uri(_url);
@@ -178,6 +175,11 @@
         }
 
         /// <summary>
+        /// Culture for query builder. <see cref="CultureInfo.CurrentCulture"/>.
+        /// </summary>
+        public CultureInfo Culture { get; set; }
+
+        /// <summary>
         /// Устанавливает или возвращает таймаут запроса к серверу
         /// </summary>
         public TimeSpan RequestTimeout
@@ -186,14 +188,9 @@
             set { _client.Timeout = value; }
         }
 
-        /// <summary>
-        /// Culture for query builder. <see cref="CultureInfo.CurrentCulture"/>.
-        /// </summary>
-        public CultureInfo Culture { get; set; }
-
         public string Url => _url;
 
-        public async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+        public virtual async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
             if (string.IsNullOrWhiteSpace(_url))
@@ -209,7 +206,7 @@
             return await ProcessResultAsync<T>(resultGet);
         }
 
-        public async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
+        public virtual async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
             HttpContent content = null;
@@ -230,6 +227,7 @@
 
             var url = BuildUrl(method);
             var resultPost = await _client.PostAsync(url, content);
+
             return await ProcessResultAsync<T>(resultPost);
         }
 
