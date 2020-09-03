@@ -82,9 +82,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.StoryRunnerScheduler
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.StoryRunner.Example", "examples\bgTeam.StoryRunner.Example\bgTeam.StoryRunner.Example.csproj", "{5A887126-A255-48AA-A5A6-2AEDE78D7B66}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{720EF10A-5A62-4D97-A257-F989963A56D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoryRunner.Examples", "StoryRunner.Examples", "{720EF10A-5A62-4D97-A257-F989963A56D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.StoryRunnerScheduler.Example", "examples\bgTeam.StoryRunnerScheduler.Example\bgTeam.StoryRunnerScheduler.Example.csproj", "{FDD31208-AC69-43E0-B9B1-9374D7939DDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.StoryRunnerScheduler.Example", "examples\bgTeam.StoryRunnerScheduler.Example\bgTeam.StoryRunnerScheduler.Example.csproj", "{FDD31208-AC69-43E0-B9B1-9374D7939DDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

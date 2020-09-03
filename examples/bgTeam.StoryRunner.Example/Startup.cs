@@ -55,7 +55,8 @@ namespace bgTeam.StoryRunner.Example
                     var qps = s.GetService<IQueueProviderSettings>();
                     var cs = new ConnectionFactoryRabbitMQ(logger, qps);
 
-                    return new QueueWatcherRabbitMQ(logger, mp, cs, threads);
+                    //return new QueueWatcherRabbitMQ(logger, mp, cs, threads);
+                    return new QueueConsumerAsyncRabbitMQ(cs, mp);
                 })
                 .AddSingleton<IStoryProcessorRepository, StoryProcessorRepository>()
                 .AddSingleton<IStoryProcessor, StoryProcessor>();
