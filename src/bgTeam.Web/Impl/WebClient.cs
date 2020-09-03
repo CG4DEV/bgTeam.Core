@@ -3,15 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
     using System.Web;
-    using bgTeam;
     using bgTeam.Extensions;
-    using bgTeam.Web;
     using bgTeam.Web.Builders;
     using bgTeam.Web.Exceptions;
     using Newtonsoft.Json;
@@ -190,11 +187,6 @@
             get { return _client.Timeout; }
             set { _client.Timeout = value; }
         }
-
-        /// <summary>
-        /// Culture for query builder. <see cref="CultureInfo.CurrentCulture"/>.
-        /// </summary>
-        public CultureInfo Culture { get; set; }
 
         public string Url => _url;
 
