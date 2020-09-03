@@ -16,10 +16,13 @@
         private readonly GoogleCloudLoggingSinkOptions _sinkOptions;
         private readonly LoggingServiceV2Client _client;
         private readonly string _logName;
-        private readonly LogNameOneof _logNameToWrite;
+        private readonly string _logNameToWrite;
         private readonly MonitoredResource _resource;
         private readonly MessageTemplateTextFormatter _messageTemplateTextFormatter;
 
+        // TODO 
+        // Check correctness of _logNameToWrite variable, because there were some changes in google API
+        // and this variable was changed to build project successfully.
         public GoogleCloudLoggingSink(GoogleCloudLoggingSinkOptions sinkOptions, MessageTemplateTextFormatter messageTemplateTextFormatter, int batchSizeLimit, TimeSpan period)
             : base(batchSizeLimit, period)
         {
@@ -30,7 +33,7 @@
 
             var ln = new LogName(sinkOptions.ProjectId, sinkOptions.LogName);
             _logName = ln.ToString();
-            _logNameToWrite = LogNameOneof.From(ln);
+            _logNameToWrite = sinkOptions.LogName;
 
             _messageTemplateTextFormatter = messageTemplateTextFormatter;
         }

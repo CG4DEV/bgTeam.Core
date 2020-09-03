@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.ProjectTemplate
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     internal class Runner
@@ -11,18 +12,19 @@
             _appSettings = appSettings;
         }
 
-        public Task Run()
+        public Task Run(Dictionary<string, string> cmdParams)
         {
             var s1 = new SolutionGenerator();
+            var parsedParams = new CmdParams(cmdParams);
 
             var settings = new SolutionSettings
             {
-                IsWeb = true,
-                IsApp = true,
-                BgTeamVersion = _appSettings.BgTeamVersion,
+                IsWeb = parsedParams.IsWeb ?? true,
+                IsApp = parsedParams.IsApp ?? true,
+                BgTeamVersion = parsedParams.BgTeamVersion ?? _appSettings.BgTeamVersion,
             };
 
-            s1.Generate(_appSettings.NameCompany, _appSettings.NameProject, settings);
+            s1.Generate(parsedParams.CompanyName ?? _appSettings.NameCompany, parsedParams.ProjectName ?? _appSettings.NameProject, settings);
 
             return Task.CompletedTask;
         }

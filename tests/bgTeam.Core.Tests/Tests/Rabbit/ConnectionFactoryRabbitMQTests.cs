@@ -91,8 +91,8 @@ namespace bgTeam.Core.Tests.Rabbit
         {
             var (appLogger, queueProviderSettings) = GetMocks();
             var connectionFactoryRabbitMQ = new ConnectionFactoryRabbitMQ(appLogger.Object, queueProviderSettings.Object);
-            connectionFactoryRabbitMQ.RequestedHeartbeat = 120;
-            Assert.Equal(120, connectionFactoryRabbitMQ.RequestedHeartbeat);
+            connectionFactoryRabbitMQ.RequestedHeartbeat = TimeSpan.FromSeconds(1);
+            Assert.Equal(TimeSpan.FromSeconds(1), connectionFactoryRabbitMQ.RequestedHeartbeat);
         }
 
         [Fact]

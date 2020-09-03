@@ -1,6 +1,14 @@
 ﻿<ItemGroup>
-  <None Update="appsettings.json">
+  <None Include="appsettings.json">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+  <None Include="appsettings.Development.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <DependentUpon>appsettings.json</DependentUpon>
+  </None>
+  <None Include="appsettings.Production.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <DependentUpon>appsettings.json</DependentUpon>
   </None>
 </ItemGroup>
 
@@ -9,12 +17,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\shared\configs\connectionStrings.Production.json" Link="Configs\connectionStrings.Production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\shared\configs\connectionStrings.Release.json" Link="Configs\connectionStrings.Release.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\shared\configs\connectionStrings.Uat.json" Link="Configs\connectionStrings.Uat.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
 </ItemGroup>

@@ -4,9 +4,12 @@ using bgTeam.Impl.ElasticSearch;
 using Elasticsearch.Net;
 using Moq;
 using Nest;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -30,7 +33,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
             var (factory, client) = GetMocks();
             var response = SuccessfulGetResponse(new TestEntity());
             client.Setup(x => x.Get(It.IsAny<DocumentPath<TestEntity>>(), null))
-                .Returns(response.Object);
+                .Returns(response);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             Assert.NotNull(elasticSearchClient.Get<TestEntity>("id", "index"));
         }
@@ -63,7 +66,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
             var (factory, client) = GetMocks();
             var response = SuccessfulGetResponse(new TestEntity());
             client.Setup(x => x.GetAsync(It.IsAny<DocumentPath<TestEntity>>(), null, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(response.Object);
+                .ReturnsAsync(response);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             var result = await elasticSearchClient.GetAsync<TestEntity>("id", "index");
             Assert.NotNull(result);
@@ -95,7 +98,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         public void Index()
         {
             var (factory, client) = GetMocks();
-            var response = new Mock<IIndexResponse>();
+            var response = new Mock<IndexResponse>();
             response.SetupGet(x => x.IsValid)
                 .Returns(true);
             client.Setup(x => x.Index(It.IsAny<TestEntity>(), It.IsAny<Func<IndexDescriptor<TestEntity>, IIndexRequest<TestEntity>>>()))
@@ -109,7 +112,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         public void UnsuccessfulIndexShouldThrowException()
         {
             var (factory, client) = GetMocks();
-            var response = new Mock<IIndexResponse>();
+            var response = new Mock<IndexResponse>();
             response.SetupGet(x => x.IsValid)
                 .Returns(false);
             client.Setup(x => x.Index(It.IsAny<TestEntity>(), It.IsAny<Func<IndexDescriptor<TestEntity>, IIndexRequest<TestEntity>>>()))
@@ -122,7 +125,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         public async Task IndexAsync()
         {
             var (factory, client) = GetMocks();
-            var response = new Mock<IIndexResponse>();
+            var response = new Mock<IndexResponse>();
             response.SetupGet(x => x.IsValid)
                 .Returns(true);
             client.Setup(x => x.IndexAsync(It.IsAny<TestEntity>(), It.IsAny<Func<IndexDescriptor<TestEntity>, IIndexRequest<TestEntity>>>(), It.IsAny<CancellationToken>()))
@@ -136,7 +139,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         public async Task UnsuccessfulIndexAsyncShouldThrowException()
         {
             var (factory, client) = GetMocks();
-            var response = new Mock<IIndexResponse>();
+            var response = new Mock<IndexResponse>();
             response.SetupGet(x => x.IsValid)
                 .Returns(false);
             client.Setup(x => x.IndexAsync(It.IsAny<TestEntity>(), It.IsAny<Func<IndexDescriptor<TestEntity>, IIndexRequest<TestEntity>>>(), It.IsAny<CancellationToken>()))
@@ -237,23 +240,30 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
             return response;
         }
 
-        private Mock<IGetResponse<T>> SuccessfulGetResponse<T>(T source) 
+        private GetResponse<T> SuccessfulGetResponse<T>(T source) 
             where T : class
         {
-            var response = new Mock<IGetResponse<T>>();
-            response.SetupGet(x => x.Source)
-                .Returns(source);
-            response.SetupGet(x => x.IsValid)
-                .Returns(true);
-            return response;
+            var getResponse = new GetResponse<T>();
+
+            var sourceInfo = getResponse.GetType().GetProperty(nameof(getResponse.Source));
+            sourceInfo.SetValue(getResponse, source);
+
+            var apiCallDetails = new ApiCallDetails { HttpStatusCode = 200, Success = true };
+            var _originalApiInfo = typeof(ResponseBase).GetField("_originalApiCall", BindingFlags.NonPublic | BindingFlags.Instance);
+            _originalApiInfo.SetValue(getResponse, apiCallDetails);
+
+            return getResponse;
         }
 
-        private Mock<IGetResponse<T>> ExceptionGetResponse<T>(ElasticsearchClientException originalException)
+        private Mock<GetResponse<T>> ExceptionGetResponse<T>(ElasticsearchClientException originalException)
             where T : class
         {
-            var response = new Mock<IGetResponse<T>>();
-            response.SetupGet(x => x.OriginalException)
+            var response = new Mock<GetResponse<T>>();
+            var apiCall = new Mock<IApiCallDetails>();
+            apiCall.Setup(x => x.OriginalException)
                 .Returns(originalException);
+            response.SetupGet(x => x.ApiCall)
+                .Returns(apiCall.Object);
             response.SetupGet(x => x.IsValid)
                 .Returns(false);
             return response;

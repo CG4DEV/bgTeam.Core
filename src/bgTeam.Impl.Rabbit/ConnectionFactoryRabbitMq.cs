@@ -67,7 +67,7 @@
             set { _connectionFactory.RequestedFrameMax = value; }
         }
 
-        public ushort RequestedHeartbeat
+        public TimeSpan RequestedHeartbeat
         {
             get { return _connectionFactory.RequestedHeartbeat; }
             set { _connectionFactory.RequestedHeartbeat = value; }
@@ -109,13 +109,6 @@
             set { _connectionFactory.Uri = value; }
         }
 
-        [Obsolete]
-        public TaskScheduler TaskScheduler
-        {
-            get { return _connectionFactory.TaskScheduler; }
-            set { _connectionFactory.TaskScheduler = value; }
-        }
-
         public TimeSpan HandshakeContinuationTimeout
         {
             get { return _connectionFactory.HandshakeContinuationTimeout; }
@@ -140,7 +133,9 @@
             set { _connectionFactory.AutomaticRecoveryEnabled = value; }
         }
 
-        public AuthMechanismFactory AuthMechanismFactory(IList<string> mechanismNames)
+        public string ClientProvidedName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public IAuthMechanismFactory AuthMechanismFactory(IList<string> mechanismNames)
         {
             return _connectionFactory.AuthMechanismFactory(mechanismNames);
         }
@@ -177,6 +172,11 @@
         }
 
         public IConnection CreateConnection(IList<AmqpTcpEndpoint> endpoints)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IConnection CreateConnection(IList<AmqpTcpEndpoint> endpoints, string clientProvidedName)
         {
             throw new NotImplementedException();
         }

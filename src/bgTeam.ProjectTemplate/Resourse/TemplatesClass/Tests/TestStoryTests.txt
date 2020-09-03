@@ -1,9 +1,8 @@
 namespace $namespace$
 {
-	using System;
-	using $prj$.Story;
-	using $prj$.Tests.Common;
-	using Xunit;
+    using $prj$.Story;
+    using $prj$.Tests.Common;
+    using Xunit;
 
     public class TestStoryTests
     {
@@ -15,10 +14,10 @@ namespace $namespace$
         }
 
         [Fact]
-        public async void Test1()
+        public void Test1()
         {
-            var res = await new TestStory(_factory.Logger, _factory.Repository, _factory.CrudService)
-                .ExecuteAsync(new TestStoryContext());
+            var story = new TestStory(_factory.Logger, _factory.Repository, _factory.CrudService);
+            Assert.NotNull(story);
         }
     }
 }

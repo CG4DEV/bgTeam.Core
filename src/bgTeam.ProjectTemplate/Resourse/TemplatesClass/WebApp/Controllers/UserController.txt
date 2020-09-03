@@ -1,0 +1,19 @@
+﻿namespace $namespace$
+{
+    using Microsoft.AspNetCore.Mvc;
+
+	[ApiController]
+    [Route("api/[controller]/[action]")]
+    public class UserController : Controller
+    {
+        /// <summary>
+        /// Api test method.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string Index()
+        {
+            return "This user controller";
+        }
+    }
+}

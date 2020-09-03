@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "MAINDB": "Data Source=192.168.49.2;Initial Catalog=test2;User ID=sa;Password=sasa;Connect Timeout=600"
-  }
-}
