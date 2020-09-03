@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\bgTeam.SSO.Client\bgTeam.SSO.Client.csproj" />
+    <ProjectReference Include="..\..\src\bgTeam.SSO.Client\bgTeam.SSO.Client.csproj" />
   </ItemGroup>
 
 </Project>
