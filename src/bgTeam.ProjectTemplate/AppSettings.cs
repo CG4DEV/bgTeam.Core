@@ -2,6 +2,7 @@
 {
     using bgTeam.Core;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Reviewed")]
     internal interface IAppSettings
     {
         string NameCompany { get; set; }

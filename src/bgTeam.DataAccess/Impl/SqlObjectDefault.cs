@@ -1,6 +1,9 @@
 ﻿namespace bgTeam.DataAccess.Impl
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
     public class SqlObjectDefault : ISqlObject
     {
@@ -29,5 +32,17 @@
         /// Gets parameter list
         /// </summary>
         public object QueryParams { get; private set; }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            StringBuilder sql = new StringBuilder(Sql);
+            IEnumerable<KeyValuePair<string, object>> enumerable = QueryParams as IEnumerable<KeyValuePair<string, object>>;
+            enumerable.ToList().ForEach(item =>
+            {
+                sql.Replace(item.Key, item.Value.ToString());
+            });
+            return sql.ToString();
+        }
     }
 }

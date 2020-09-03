@@ -2,8 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
     using bgTeam.Extensions;
 
@@ -11,20 +12,23 @@
     {
         public void Generate(string @namespace, string name, SolutionSettings settings)
         {
-            var folder = "result";
+            var folder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "result");
 
             if (Directory.Exists(folder))
             {
                 Directory.Delete(folder, true);
             }
 
-            var projects = GenerateProjects($"{@namespace}.{name}", folder, "src", settings);
+            var nameSln = string.Join('.', new[] { @namespace, name }.Where(x => x != null));
+
+            var projects = GenerateProjects(nameSln, folder, "src", settings);
 
             var file = ProjectsFile(projects);
 
-            File.WriteAllText($"{folder}{Path.DirectorySeparatorChar}{@namespace}.{name}.sln", file);
+            File.WriteAllText($"{folder}{Path.DirectorySeparatorChar}{nameSln}.sln", file);
 
             File.Copy("./Resourse/.gitignore", $"{folder}/.gitignore");
+            File.WriteAllText($"{folder}/coverage.bat", File.ReadAllText("./Resourse/coverage.bat").Replace("$namespace$", @namespace));
 
             foreach (var item in Directory.EnumerateFiles("./Resourse/shared", "*", SearchOption.AllDirectories))
             {
@@ -39,6 +43,13 @@
                 Directory.CreateDirectory(Path.GetDirectoryName(dest));
                 File.Copy(item, dest);
             }
+
+            foreach (var item in Directory.EnumerateFiles("./Resourse/wiki-generator", "*", SearchOption.AllDirectories))
+            {
+                var dest = $"{folder}/{Path.GetRelativePath("./Resourse/", item)}";
+                Directory.CreateDirectory(Path.GetDirectoryName(dest));
+                File.Copy(item, dest);
+            }
         }
 
         private IEnumerable<ProjectInfoItem> GenerateProjects(string name, string folder, string path, SolutionSettings settings)
@@ -46,18 +57,18 @@
             var result = new List<ProjectInfoItem>();
             var fullPath = $"{folder}{Path.DirectorySeparatorChar}{path}";
 
-            var fmain = new ProjectInfoItem("Main", $"Main", ProjectType.Folder);
-            var ftest = new ProjectInfoItem("Tests", $"Tests", ProjectType.Folder);
-            var fshared = new ProjectInfoItem("Shared", $"Shared", ProjectType.Folder);
+            var fapps = new ProjectInfoItem("Apps", $"Apps", ProjectTypeEnum.Folder);
+            var fmain = new ProjectInfoItem("Main", $"Main", ProjectTypeEnum.Folder);
+            var fshared = new ProjectInfoItem("Shared", $"Shared", ProjectTypeEnum.Folder);
+            var fsrv = new ProjectInfoItem("Services", $"Shared", ProjectTypeEnum.Folder);
+            var ftest = new ProjectInfoItem("Tests", $"Tests", ProjectTypeEnum.Folder);
 
-            var fconfigs = new ProjectInfoItem("configs", $"configs", ProjectType.Folder)
+            var fconfigs = new ProjectInfoItem("configs", $"configs", ProjectTypeEnum.Folder)
             {
                 Description =
     @"	ProjectSection(SolutionItems) = preProject
-		shared\configs\connectionStrings.Debug.json = shared\configs\connectionStrings.Debug.json
-		shared\configs\connectionStrings.Live.json = shared\configs\connectionStrings.Live.json
-		shared\configs\connectionStrings.Release.json = shared\configs\connectionStrings.Release.json
-		shared\configs\connectionStrings.Uat.json = shared\configs\connectionStrings.Uat.json
+		shared\configs\connectionStrings.Development.json = shared\configs\connectionStrings.Development.json
+		shared\configs\connectionStrings.Production.json = shared\configs\connectionStrings.Production.json
 	EndProjectSection",
             };
 
@@ -113,16 +124,18 @@
                 new[]
                 {
                     ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                    ("Microsoft.NET.Test.Sdk", "15.5.0"),
-                    ("xunit", "2.3.1"),
-                    ("xunit.runner.visualstudio", "2.3.1"),
+                    ("Microsoft.NET.Test.Sdk", "16.7.1"),
+                    ("xunit", "2.4.1"),
+                    ("xunit.runner.visualstudio", "2.4.3"),
                 }, projects: new[] { $"{name}.Story" },
                 configs: true);
             p5.Folder("Common");
             p5.ClassTemplateFile("TestStoryTests", $"Tests{Path.DirectorySeparatorChar}TestStoryTests", replist: new List<(string, string)> { ("$prj$", name) });
             p5.ClassTemplateFile("FactoryTestService", $"Tests{Path.DirectorySeparatorChar}FactoryTestService", new[] { "Common" });
             p5.JsonTemplateFile("appsettings", $"Tests{Path.DirectorySeparatorChar}appsettings");
-            var fp5 = new ProjectInfoItem(p5.Name, $"tests{Path.DirectorySeparatorChar}{p5.Output}", ProjectType.Compile);
+            p5.JsonTemplateFile("appsettings.Development", $"Web{Path.DirectorySeparatorChar}appsettings");
+            p5.JsonTemplateFile("appsettings.Production", $"Web{Path.DirectorySeparatorChar}appsettings");
+            var fp5 = new ProjectInfoItem(p5.Name, $"tests{Path.DirectorySeparatorChar}{p5.Output}", ProjectTypeEnum.Compile);
 
             fmain.AddChild(fp1);
             fmain.AddChild(fp2);
@@ -131,9 +144,11 @@
             ftest.AddChild(fp5);
             fshared.AddChild(fconfigs);
 
+            result.Add(fapps);
             result.Add(fmain);
             result.Add(ftest);
             result.Add(fshared);
+            result.Add(fsrv);
             result.Add(fconfigs);
             result.Add(fp1);
             result.Add(fp2);
@@ -150,19 +165,24 @@
                         ("bgTeam.Core", settings.BgTeamVersion),
                         ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                         ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                        ("Scrutor", "2.1.2"),
+                        ("Scrutor", "3.2.2"),
                     }, type: "Exe",
                     projects: new[] { $"{name}.Story" },
                     configs: true);
                 p6.ClassTemplateFile("AppSettings", $"App{Path.DirectorySeparatorChar}AppSettings");
                 p6.ClassTemplateFile("AppIocConfigure", $"App{Path.DirectorySeparatorChar}AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Program", $"App{Path.DirectorySeparatorChar}Program", replist: new List<(string, string)> { ("$prj$", name) });
+                p6.ClassTemplateFile("Application", $"App{Path.DirectorySeparatorChar}Application", replist: new List<(string, string)> { ("$prj$", name) });
+                p6.ClassTemplateFile("ApplicationBuilder", $"App{Path.DirectorySeparatorChar}ApplicationBuilder", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Runner", $"App{Path.DirectorySeparatorChar}Runner", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.JsonTemplateFile("appsettings", $"App{Path.DirectorySeparatorChar}appsettings");
+                p6.JsonTemplateFile("appsettings.Development", $"Web{Path.DirectorySeparatorChar}appsettings");
+                p6.JsonTemplateFile("appsettings.Production", $"Web{Path.DirectorySeparatorChar}appsettings");
                 p6.Folder("Properties");
                 p6.JsonTemplateFile("launchSettings", $"App{Path.DirectorySeparatorChar}launchSettings", new[] { "Properties" }, new List<(string, string)> { ("$prj$", p6.Name) });
                 var fp6 = new ProjectInfoItem(p6.Name, $"{path}{Path.DirectorySeparatorChar}{p6.Output}");
-                fmain.AddChild(fp6);
+                //fmain.AddChild(fp6);
+                fapps.AddChild(fp6);
                 result.Add(fp6);
             }
 
@@ -175,14 +195,15 @@
                         ("bgTeam.Core", settings.BgTeamVersion),
                         ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                         ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
-                        ("Microsoft.AspNetCore.All", "2.1.1"),
-                        ("Scrutor", "2.1.2"),
+                        ("Microsoft.AspNetCore.App", "2.2.8"),
+                        ("Scrutor", "3.2.2"),
                     }, projects: new[] { $"{name}.Common", $"{name}.DataAccess", $"{name}.Story" });
                 p7.ClassTemplateFile("AppSettings", $"App{Path.DirectorySeparatorChar}AppSettings");
                 p7.ClassTemplateFile("AppIocConfigure", $"WebApp{Path.DirectorySeparatorChar}AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
                 p7.ClassTemplateFile("AppMiddlewareException", $"WebApp{Path.DirectorySeparatorChar}AppMiddlewareException", replist: new List<(string, string)> { ("$prj$", name) });
                 p7.Folder("Controllers");
-                p7.ClassTemplateFile("HomeController", $"WebApp{Path.DirectorySeparatorChar}Controllers{Path.DirectorySeparatorChar}HomeController", new[] { "Controllers" });
+                p7.ClassTemplateFile("HomeController", $"WebApp{Path.DirectorySeparatorChar}Controllers{Path.DirectorySeparatorChar}HomeController", new[] { "Controllers" }, new List<(string, string)> { ("$api-name$", $"{name} API") });
+                p7.ClassTemplateFile("UserController", $"WebApp{Path.DirectorySeparatorChar}Controllers{Path.DirectorySeparatorChar}UserController", new[] { "Controllers" });
                 var fp7 = new ProjectInfoItem(p7.Name, $"{path}{Path.DirectorySeparatorChar}{p7.Output}");
                 fmain.AddChild(fp7);
                 result.Add(fp7);
@@ -191,7 +212,8 @@
                 p8.ProjectFile(
                     new[]
                     {
-                        ("Swashbuckle.AspNetCore", "3.0.0"),
+                        ("Swashbuckle.AspNetCore", "5.5.1"),
+                        ("Microsoft.AspNetCore.Mvc.NewtonsoftJson", "3.1.7"),
                     },
                     "Microsoft.NET.Sdk.Web",
                     "Exe",
@@ -200,13 +222,30 @@
                 p8.ClassTemplateFile("Program", $"Web{Path.DirectorySeparatorChar}Program", replist: new List<(string, string)> { ("$prj$", name) });
                 p8.ClassTemplateFile("Startup", $"Web{Path.DirectorySeparatorChar}Startup", replist: new List<(string, string)> { ("$prj$", name), ("$api-name$", $"{name} API") });
                 p8.JsonTemplateFile("appsettings", $"Web{Path.DirectorySeparatorChar}appsettings");
+                p8.JsonTemplateFile("appsettings.Development", $"Web{Path.DirectorySeparatorChar}appsettings");
+                p8.JsonTemplateFile("appsettings.Production", $"Web{Path.DirectorySeparatorChar}appsettings");
                 p8.Folder("Properties");
                 p8.JsonTemplateFile("launchSettings", $"Web{Path.DirectorySeparatorChar}launchSettings", new[] { "Properties" }, new List<(string, string)> { ("$prj$", p8.Name) });
 
                 var fp8 = new ProjectInfoItem(p8.Name, $"{path}{Path.DirectorySeparatorChar}{p8.Output}");
-                fmain.AddChild(fp8);
+                //fmain.AddChild(fp8);
+                fapps.AddChild(fp8);
                 result.Add(fp8);
             }
+
+            var p9 = new ProjectGenerator($"{name}.StoryRunner", fullPath);
+            p9.ProjectFile(new[] { ("bgTeam.Core", settings.BgTeamVersion) });
+            p9.Folder("Impl");
+            var fp9 = new ProjectInfoItem(p9.Name, $"{path}{Path.DirectorySeparatorChar}{p9.Output}");
+            fsrv.AddChild(fp9);
+            result.Add(fp9);
+
+            var p10 = new ProjectGenerator($"{name}.StoryScheduler", fullPath);
+            p10.ProjectFile(new[] { ("bgTeam.Core", settings.BgTeamVersion) });
+            p10.Folder("Impl");
+            var fp10 = new ProjectInfoItem(p10.Name, $"{path}{Path.DirectorySeparatorChar}{p10.Output}");
+            fsrv.AddChild(fp10);
+            result.Add(fp10);
 
             return result;
         }
@@ -287,66 +326,5 @@ MinimumVisualStudioVersion = 10.0.40219.1");
 
             return str.ToString();
         }
-    }
-
-    class ProjectInfoItem
-    {
-        public string Name { get; set; }
-
-        public string Path { get; set; }
-
-        public bool Build { get; set; }
-
-        public ProjectType Type { get; set; }
-
-        public string Code { get; set; }
-
-        public string Description { get; set; }
-
-        public ProjectType Parent { get; private set; }
-
-        public IList<string> ListChild { get; private set; }
-
-        public ProjectInfoItem(string name, string path, ProjectType type = ProjectType.Compile)
-        {
-            Name = name;
-            Path = path;
-            Type = type;
-
-            if (type == ProjectType.Compile || type == ProjectType.Tests)
-            {
-                Build = true;
-            }
-
-            Code = Guid.NewGuid().ToString().ToUpperInvariant();
-
-            ListChild = new List<string>();
-        }
-
-        public void AddChild(ProjectInfoItem project)
-        {
-            ListChild.Add(project.Code);
-        }
-    }
-
-    enum ProjectType
-    {
-        [Description("9A19103F-16F7-4668-BE54-9A1E7A4F7556")]
-        Compile,
-
-        [Description("2150E333-8FDC-42A3-9474-1A3956D46DE8")]
-        Folder,
-
-        [Description("FAE04EC0-301F-11D3-BF4B-00C04F79EFBC")]
-        Tests,
-    }
-
-    public class SolutionSettings
-    {
-        public bool IsWeb { get; internal set; }
-
-        public bool IsApp { get; internal set; }
-
-        public string BgTeamVersion { get; set; }
     }
 }

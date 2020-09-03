@@ -5,6 +5,7 @@
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
     using System;
+    using System.Text;
 
     public class QueueConsumerRabbitMQ : BaseQueueConsumerRabbitMQ<EventingBasicConsumer>, IQueueWatcher<IQueueMessage>
     {
@@ -23,7 +24,7 @@
 
         private void ReceiverHandler(object sender, BasicDeliverEventArgs e)
         {
-            var message = _provider.ExtractObject(e.Body);
+            var message = _provider.ExtractObject(Encoding.UTF8.GetString(e.Body.ToArray()));
             try
             {
                 OnSubscribe(message).Wait();

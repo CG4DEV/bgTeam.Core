@@ -19,7 +19,7 @@
         {
             if (node.Attributes.Count == 0)
             {
-                throw new ArgumentException($"Не найден аттрибут с именем {attributeName}");
+                throw new ArgumentException($"Нода {node.Name} не имеет ни одного аттрибута", nameof(attributeName));
             }
 
             var attribute = node.Attributes
@@ -28,7 +28,7 @@
 
             if (attribute == null)
             {
-                throw new ArgumentException($"Не найден аттрибут с именем {attributeName}");
+                throw new ArgumentException($"Не найден аттрибут с именем {attributeName} у ноды {node.Name}", nameof(attributeName));
             }
 
             return attribute.Value;

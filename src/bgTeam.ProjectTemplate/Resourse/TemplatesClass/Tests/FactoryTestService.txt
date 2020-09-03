@@ -1,15 +1,11 @@
 ﻿namespace $namespace$
 {
-	using bgTeam;
-	using bgTeam.Core;
-	using bgTeam.Core.Impl;
-	using bgTeam.DataAccess;
-	using bgTeam.DataAccess.Impl.Dapper;
-	using bgTeam.DataAccess.Impl.MsSql;
-	using bgTeam.Impl;
-	using System;
-	using System.Collections.Generic;
-	using System.Text;
+    using bgTeam;
+    using bgTeam.Core.Impl;
+    using bgTeam.DataAccess;
+    using bgTeam.DataAccess.Impl.Dapper;
+    using bgTeam.DataAccess.Impl.MsSql;
+    using bgTeam.Impl;
 
     internal class FactoryTestService
     {
@@ -23,7 +19,7 @@
         {
             Logger = new AppLoggerDefault();
 
-            var appConfiguration = new AppConfigurationDefault("appsettings", "Debug");
+            var appConfiguration = new AppConfigurationDefault("Debug");
 
             var connectionFactory = new ConnectionFactoryMsSql(Logger, appConfiguration.GetConnectionString("MAINDB"));
 

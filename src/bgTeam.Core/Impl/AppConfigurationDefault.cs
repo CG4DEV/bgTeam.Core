@@ -79,7 +79,7 @@
             }
             catch (FileNotFoundException)
             {
-                throw new ArgumentException($"Not find config file - {fileConfiguration}.json, path - {curDir}\\");
+                throw new ArgumentException($"Not find config file - {fileConfiguration}.json, path - {curDir}/");
             }
 
             var builder = new ConfigurationBuilder()

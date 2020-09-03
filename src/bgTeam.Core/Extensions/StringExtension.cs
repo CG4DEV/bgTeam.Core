@@ -109,7 +109,7 @@
         {
             if (string.IsNullOrEmpty(str))
             {
-                throw new ArgumentException("string to upper");
+                throw new ArgumentException("string to upper", nameof(str));
             }
 
             return $"{str[0].ToString().ToUpper()}{string.Join(string.Empty, str.Skip(1))}";

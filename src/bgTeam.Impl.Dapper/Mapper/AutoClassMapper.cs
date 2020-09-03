@@ -46,7 +46,7 @@ namespace DapperExtensions.Mapper
                 schemaName = ((SchemaAttribute)EntityType.GetCustomAttribute(typeof(SchemaAttribute))).Name;
             }
 
-            base.Table(schemaName);
+            base.Schema(schemaName);
         }
 
         private void AutoMap()

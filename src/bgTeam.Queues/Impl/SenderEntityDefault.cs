@@ -15,8 +15,8 @@
             IAppLogger logger,
             IQueueProvider queueProvider)
         {
-            _logger = logger;
-            _queueProvider = queueProvider;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _queueProvider = queueProvider ?? throw new ArgumentNullException(nameof(queueProvider));
         }
 
         ~SenderEntityDefault()

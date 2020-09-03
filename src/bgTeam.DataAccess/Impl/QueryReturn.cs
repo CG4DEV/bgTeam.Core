@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.DataAccess.Impl
 {
+    using System;
     using System.Threading.Tasks;
 
     internal class QueryReturn<TCommandContext> : IQueryReturn<TCommandContext>
@@ -10,7 +11,7 @@
         public QueryReturn(IQueryFactory commandFactory, TCommandContext context)
         {
             _commandContext = context;
-            _commandFactory = commandFactory;
+            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         }
 
         public void Execute()

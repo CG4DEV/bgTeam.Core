@@ -30,8 +30,8 @@
             IMessageProvider provider,
             ushort prefetchCount)
         {
-            _connectionFactory = connectionFactory;
-            _provider = provider;
+            _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _prefetchCount = prefetchCount;
 
             Init();

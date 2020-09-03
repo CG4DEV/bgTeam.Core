@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Security.Cryptography.X509Certificates;
@@ -22,7 +23,7 @@
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
         private readonly SocketsHttpHandler _handler;
 #else
         private readonly ServicePoint _servicePoint;
@@ -33,7 +34,7 @@
         {
         }
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
         public WebClient(IAppLogger logger, string url, X509CertificateCollection clientCertificates)
             : this(logger, url, new FormUrlEncodedContentBuilder())
         {
@@ -51,7 +52,7 @@
             _url = url;
             _builder = builder.CheckNull(nameof(builder));
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
             _handler = new SocketsHttpHandler();
             _client = new HttpClient(_handler);
 #else
@@ -78,7 +79,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return _handler.MaxConnectionsPerServer;
 #else
                 return ServicePointManager.DefaultConnectionLimit;
@@ -87,7 +88,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.MaxConnectionsPerServer = value;
 #else
                 ServicePointManager.DefaultConnectionLimit = value;
@@ -105,7 +106,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 throw new NotSupportedException();
 #else
                 return ServicePointManager.DnsRefreshTimeout;
@@ -114,7 +115,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 throw new NotSupportedException();
 #else
                 ServicePointManager.DnsRefreshTimeout = value;
@@ -132,7 +133,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return Convert.ToInt32(_handler.PooledConnectionIdleTimeout.TotalMilliseconds);
 #else
                 return _servicePoint.MaxIdleTime;
@@ -141,7 +142,7 @@
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
 #else
                 _servicePoint.MaxIdleTime = value;
@@ -159,7 +160,7 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return Convert.ToInt32(_handler.PooledConnectionLifetime.TotalMilliseconds);
 #else
                 return _servicePoint.ConnectionLeaseTimeout;
@@ -168,7 +169,7 @@
 
             set
             {
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.PooledConnectionLifetime = TimeSpan.FromMilliseconds(value);
 #else
                 _servicePoint.ConnectionLeaseTimeout = value;
@@ -189,6 +190,11 @@
             get { return _client.Timeout; }
             set { _client.Timeout = value; }
         }
+
+        /// <summary>
+        /// Culture for query builder. <see cref="CultureInfo.CurrentCulture"/>.
+        /// </summary>
+        public CultureInfo Culture { get; set; }
 
         public string Url => _url;
 

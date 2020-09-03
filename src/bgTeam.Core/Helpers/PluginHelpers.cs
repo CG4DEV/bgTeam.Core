@@ -26,7 +26,7 @@
             }
 
             var plugins = dirInfo.GetFiles("*.dll")
-                .Select(x => Assembly.Load(x.FullName))
+                .Select(x => Assembly.LoadFile(x.FullName))
                 .Where(a => a.GetTypes().Any(x => TypesPredicate<T>(x)));
 
             if (!plugins.Any())
@@ -62,7 +62,7 @@
 
             if (targetType.IsClass)
             {
-                return inputType.IsClass && (inputType.Equals(targetType) || targetType.IsSubclassOf(targetType));
+                return inputType.IsClass && (inputType.Equals(targetType) || inputType.IsSubclassOf(targetType));
             }
 
             return false;

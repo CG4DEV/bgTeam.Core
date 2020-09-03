@@ -9,7 +9,7 @@
 
         public QueryFactory(IServiceProvider provider)
         {
-            _provider = provider;
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
         public IQuery<TCommandContext> Create<TCommandContext>()

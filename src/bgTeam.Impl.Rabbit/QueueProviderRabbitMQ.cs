@@ -34,13 +34,13 @@
             bool useDelay = false,
             params string[] queues)
         {
-            _logger = logger;
-            _msgProvider = msgProvider;
-            _factory = factory;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _msgProvider = msgProvider ?? throw new ArgumentNullException(nameof(msgProvider));
+            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
             if (queues.NullOrEmpty())
             {
-                throw new ArgumentNullException("queues");
+                throw new ArgumentNullException(nameof(queues));
             }
 
             _useDelay = useDelay;

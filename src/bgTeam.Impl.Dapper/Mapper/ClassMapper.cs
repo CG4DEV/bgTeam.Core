@@ -68,6 +68,7 @@
 
             Properties = new List<IPropertyMap>();
             Table(typeof(T).Name);
+            Schema(null);
         }
 
         protected Dictionary<Type, KeyType> PropertyTypeKeyTypeMapping { get; private set; }
