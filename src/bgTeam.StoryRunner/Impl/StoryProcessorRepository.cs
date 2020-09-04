@@ -1,11 +1,10 @@
-﻿namespace bgTeam.StoryRunner.Common.Impl
+﻿namespace bgTeam.StoryRunner.Impl
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using bgTeam.StoryRunner.Domain;
 
     public class StoryProcessorRepository : IStoryProcessorRepository
     {

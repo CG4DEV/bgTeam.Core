@@ -1,0 +1,1 @@
+## The project is generated automatically based on the libraries of the bgTeam company

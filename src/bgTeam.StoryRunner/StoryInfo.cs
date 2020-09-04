@@ -1,4 +1,4 @@
-﻿namespace bgTeam.StoryRunner.Domain
+﻿namespace bgTeam.StoryRunner
 {
     using System;
     using System.Reflection;

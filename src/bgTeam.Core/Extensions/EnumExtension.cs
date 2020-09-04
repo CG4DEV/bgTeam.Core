@@ -1,7 +1,9 @@
 ﻿namespace bgTeam.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -72,6 +74,24 @@
             }
 
             throw new ArgumentException($"Not found description: {description} on {typeof(T).Name}", nameof(description));
+        }
+
+        /// <summary>
+        /// Преобразовывает enum в список типа Dictionary
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Список Dictionary</returns>
+        public static Dictionary<object, string> ToDictionary<T>()
+            where T : Enum
+        {
+            return Enum.GetNames(typeof(T)).Select(x =>
+            {
+                var field = typeof(T).GetField(x);
+
+                return new KeyValuePair<object, string>(
+                    Convert.ChangeType(field.GetValue(null), Enum.GetUnderlyingType(typeof(T))),
+                    field.GetCustomAttribute<DescriptionAttribute>()?.Description ?? x);
+            }).ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }

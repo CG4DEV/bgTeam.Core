@@ -1,0 +1,44 @@
+﻿namespace $namespace$
+{
+    using bgTeam.Core;
+    using bgTeam.Queues;
+
+    internal interface IAppSettings
+    {
+        string StoryQueue { get; set; }
+
+        string ErrorQueue { get; set; }
+    }
+
+    internal class AppSettings : IAppSettings, IQueueProviderSettings
+    {
+        public string StoryQueue { get; set; }
+
+        public string ErrorQueue { get; set; }
+
+        public string ConnectionString { get; set; }
+
+        public string Host { get; set; }
+
+        public int Port { get; set; }
+
+        public string VirtualHost { get; set; }
+
+        public string Login { get; set; }
+
+        public string Password { get; set; }
+
+        public AppSettings(IAppConfiguration appConfiguration)
+        {
+            StoryQueue = appConfiguration["AppStoryQueue"];
+            ErrorQueue = appConfiguration["AppErrorQueue"];
+
+            Host = appConfiguration["RabbitMQ:Host"];
+            Port = int.Parse(appConfiguration["RabbitMQ:Port"]);
+            VirtualHost = appConfiguration["RabbitMQ:VirtualHost"];
+            Login = appConfiguration["RabbitMQ:Login"];
+            Password = appConfiguration["RabbitMQ:Password"];
+            Login = appConfiguration["RabbitMQ:Login"];
+        }
+    }
+}

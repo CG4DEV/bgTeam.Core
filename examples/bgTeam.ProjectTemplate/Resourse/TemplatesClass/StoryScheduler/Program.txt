@@ -1,0 +1,73 @@
+namespace $namespace$
+{
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
+    using bgTeam;
+    using bgTeam.Core.Helpers;
+    using bgTeam.StoryRunnerScheduler.Scheduler;
+    using Microsoft.Extensions.DependencyInjection;
+
+    public class Program
+    {
+        private static IAppLogger _logger;
+
+        static void Main(string[] args)
+        {
+            //var cmdParams = CommandLineHelper.ParseArgs(args);
+
+            var fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
+            var configFolderPath = Path.Combine(fileInfo.Directory.FullName, "Configurations");
+            var configurations = ConfigHelper.Init<JobTriggerInfo>(configFolderPath);
+
+            var sp = AppIocConfigure.Configure(configurations).BuildServiceProvider();
+
+            var runner = sp.GetService<Runner>();
+            _logger = sp.GetService<IAppLogger>();
+
+            _logger.Debug($"find {configurations.Count()} configurations");
+
+            runner.Run();
+
+            var process = Process.GetCurrentProcess();
+            process.EnableRaisingEvents = true;
+
+            AppDomain.CurrentDomain.ProcessExit += OnExit;
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+
+            runner.Run();
+
+            process.WaitForExit();
+
+            _logger.Error("Program is closed!");
+        }
+
+        private static void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            _logger.Error($"Unobserved task exception: {e.Exception}");
+            e.SetObserved();
+        }
+
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var ex = (Exception)e.ExceptionObject;
+            if (e.IsTerminating)
+            {
+                _logger.Fatal(ex);
+            }
+            else
+            {
+                _logger.Error(ex);
+            }
+        }
+
+        private static void OnExit(object sender, EventArgs e)
+        {
+            _logger.Error("Program is closed!");
+        }
+    }
+}

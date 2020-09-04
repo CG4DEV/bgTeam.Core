@@ -1,0 +1,22 @@
+{
+  "Serilog": {
+    "MinimumLevel": "Information",
+    "Using": [ "Serilog.Sinks.ColoredConsole" ],
+    "WriteTo": [
+      {
+        "Name": "ColoredConsole",
+        "Args": {
+          "outputTemplate": "{Timestamp:yyyy.MM.dd HH:mm:ss} [{Level:u3}] {Message}{NewLine}{Exception}"
+        }
+      }
+    ]
+  },
+
+  "Logging": {
+    "LogLevel": {
+      "Default": "Error",
+      "Microsoft.AspNetCore": "Error",
+      "Microsoft.EntityFrameworkCore": "Error"
+    }
+  }
+}

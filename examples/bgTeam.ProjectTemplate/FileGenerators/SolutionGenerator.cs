@@ -27,6 +27,8 @@
 
             File.WriteAllText($"{folder}{Path.DirectorySeparatorChar}{nameSln}.sln", file);
 
+            File.Copy("./Resourse/LICENSE", $"{folder}/LICENSE");
+            File.Copy("./Resourse/README.md", $"{folder}/README.md");
             File.Copy("./Resourse/.gitignore", $"{folder}/.gitignore");
             File.WriteAllText($"{folder}/coverage.bat", File.ReadAllText("./Resourse/coverage.bat").Replace("$namespace$", @namespace));
 
@@ -69,6 +71,8 @@
     @"	ProjectSection(SolutionItems) = preProject
 		shared\configs\connectionStrings.Development.json = shared\configs\connectionStrings.Development.json
 		shared\configs\connectionStrings.Production.json = shared\configs\connectionStrings.Production.json
+        shared\configs\serilog.Development.json = shared\configs\serilog.Development.json
+		shared\configs\serilog.Production.json = shared\configs\serilog.Production.json
 	EndProjectSection",
             };
 
@@ -233,16 +237,51 @@
                 result.Add(fp8);
             }
 
-            var p9 = new ProjectGenerator($"{name}.StoryRunner", fullPath);
-            p9.ProjectFile(new[] { ("bgTeam.Core", settings.BgTeamVersion) });
-            p9.Folder("Impl");
+            var p9 = new ProjectGenerator($"{name}.StRunner", fullPath);
+            p9.ProjectFile(
+                new[]
+                {
+                    ("bgTeam.Core", settings.BgTeamVersion),
+                    ("bgTeam.Queues", settings.BgTeamVersion),
+                    ("bgTeam.StoryRunner", settings.BgTeamVersion),
+                    ("Microsoft.AspNetCore", "2.2.0"),
+                },
+                type: "Exe",
+                projects: new[] { $"{name}.Story" },
+                configs: true);
+            p9.ClassTemplateFile("AppIocConfigure", $"StoryRunner{Path.DirectorySeparatorChar}AppIocConfigure");
+            p9.ClassTemplateFile("AppSettings", $"StoryRunner{Path.DirectorySeparatorChar}AppSettings");
+            p9.ClassTemplateFile("Program", $"StoryRunner{Path.DirectorySeparatorChar}Program");
+            p9.ClassTemplateFile("Runner", $"StoryRunner{Path.DirectorySeparatorChar}Runner");
+            p9.JsonTemplateFile("appsettings", $"StoryRunner{Path.DirectorySeparatorChar}appsettings");
+            p9.JsonTemplateFile("appsettings.Development", $"StoryRunner{Path.DirectorySeparatorChar}appsettings");
+            p9.JsonTemplateFile("appsettings.Production", $"StoryRunner{Path.DirectorySeparatorChar}appsettings");
             var fp9 = new ProjectInfoItem(p9.Name, $"{path}{Path.DirectorySeparatorChar}{p9.Output}");
             fsrv.AddChild(fp9);
             result.Add(fp9);
 
-            var p10 = new ProjectGenerator($"{name}.StoryScheduler", fullPath);
-            p10.ProjectFile(new[] { ("bgTeam.Core", settings.BgTeamVersion) });
-            p10.Folder("Impl");
+            var p10 = new ProjectGenerator($"{name}.StScheduler", fullPath);
+            p10.ProjectFile(
+                new[]
+                {
+                    ("bgTeam.Core", settings.BgTeamVersion),
+                    ("bgTeam.Queues", settings.BgTeamVersion),
+                    ("bgTeam.DataAccess", settings.BgTeamVersion),
+                    ("bgTeam.StoryRunnerScheduler", settings.BgTeamVersion),
+                    ("Microsoft.AspNetCore", "2.2.0"),
+                    ("Quartz", "3.1.0"),
+                },
+                type: "Exe",
+                configs: true);
+            p10.ClassTemplateFile("AppIocConfigure", $"StoryScheduler{Path.DirectorySeparatorChar}AppIocConfigure");
+            p10.ClassTemplateFile("AppSettings", $"StoryScheduler{Path.DirectorySeparatorChar}AppSettings");
+            p10.ClassTemplateFile("Program", $"StoryScheduler{Path.DirectorySeparatorChar}Program");
+            p10.ClassTemplateFile("Runner", $"StoryScheduler{Path.DirectorySeparatorChar}Runner");
+            p10.JsonTemplateFile("appsettings", $"StoryScheduler{Path.DirectorySeparatorChar}appsettings");
+            p10.JsonTemplateFile("appsettings.Development", $"StoryScheduler{Path.DirectorySeparatorChar}appsettings");
+            p10.JsonTemplateFile("appsettings.Production", $"StoryScheduler{Path.DirectorySeparatorChar}appsettings");
+            p10.Folder("Configurations");
+            p10.JsonTemplateFile("0_Examples", $"StoryScheduler{Path.DirectorySeparatorChar}0_Examples", new[] { "Configurations" });
             var fp10 = new ProjectInfoItem(p10.Name, $"{path}{Path.DirectorySeparatorChar}{p10.Output}");
             fsrv.AddChild(fp10);
             result.Add(fp10);

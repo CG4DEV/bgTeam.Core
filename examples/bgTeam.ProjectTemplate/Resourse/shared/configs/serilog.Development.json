@@ -1,0 +1,32 @@
+{
+  "Serilog": {
+    "MinimumLevel": "Verbose",
+    "Using": [ "Serilog.Sinks.ColoredConsole" ],
+    "WriteTo": [
+      {
+        "Name": "ColoredConsole",
+        "Args": {
+          "outputTemplate": "{Timestamp:yyyy.MM.dd HH:mm:ss} [{Level:u3}] {Message}{NewLine}{Exception}"
+        }
+      },
+      {
+        "Name": "RollingFile",
+        "Args": {
+          "pathFormat": "logs\\log-{Date}.log",
+          "outputTemplate": "{Timestamp:yyyy.MM.dd HH:mm:ss} [{Level:u3}] {Message}{NewLine}{Exception}",
+          "retainedFileCountLimit": 7,
+          "fileSizeLimitBytes": 52428800,
+          "shared": true
+        }
+      }
+    ]
+  },
+
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    }
+  }
+}

@@ -1,7 +1,5 @@
-﻿namespace bgTeam.StoryRunner.Common
+﻿namespace bgTeam.StoryRunner
 {
-    using bgTeam.StoryRunner.Domain;
-
     public interface IStoryProcessorRepository
     {
         StoryInfo Get(string contextName);
