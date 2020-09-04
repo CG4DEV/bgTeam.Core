@@ -55,7 +55,14 @@
                 .AddSingleton<IStoryProcessorRepository, StoryProcessorRepository>()
                 .AddSingleton<IStoryProcessor, StoryProcessor>();
 
-            //services.AddStories<IStoryLibrary>();
+            //Add story
+            services.TryAdd(new ServiceDescriptor(typeof(IStoryFactory), typeof(StoryFactory), lifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IStoryBuilder), typeof(StoryBuilder), lifetime));
+            services.Scan(scan => scan
+                .FromAssemblyOf<IStoryLibrary>()
+                .AddClasses(classes => classes.AssignableTo(typeof(IStory<,>)))
+                .AsImplementedInterfaces()
+                .WithLifetime(lifetime));
 
             services
                 .AddSingleton<Runner>();
