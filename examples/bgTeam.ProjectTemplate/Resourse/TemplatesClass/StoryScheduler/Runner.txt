@@ -3,8 +3,7 @@
     using System.Collections.Generic;
     using bgTeam;
     using bgTeam.Quartz;
-    using bgTeam.StoryRunnerScheduler.Scheduler;
-    using bgTeam.StoryRunnerScheduler.Scheduler.Jobs;
+    using bgTeam.StoryRunnerScheduler;
 
     public class Runner
     {

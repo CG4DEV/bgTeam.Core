@@ -6,10 +6,9 @@ namespace $namespace$
     using bgTeam.Queues;
     using bgTeam.Queues.Exceptions;
     using bgTeam.StoryRunner;
-    using bgTeam.StoryRunner.Common;
     using Newtonsoft.Json;
 
-    public class Runner
+    internal class Runner
     {
         private readonly IAppLogger _logger;
         private readonly IQueueProvider _queueProvider;
@@ -24,14 +23,14 @@ namespace $namespace$
             IQueueProvider queueProvider,
             IQueueWatcher<IQueueMessage> queueWatcher,
             IStoryProcessor storyProcessor,
-            IStoryRunnerSettings settings)
+            IAppSettings settings)
         {
             _logger = logger;
             _queueProvider = queueProvider;
             _queueWatcher = queueWatcher;
             _storyProcessor = storyProcessor;
 
-            _watchQueue = settings.StoryQueue;
+            _watchQueue = settings.WatchQueue;
             _errorQueue = settings.ErrorQueue;
         }
 
@@ -40,6 +39,8 @@ namespace $namespace$
             _queueWatcher.Error += _queueWatcher_OnError;
             _queueWatcher.Subscribe += QueueProvider_OnSubscribe;
             _queueWatcher.StartWatch(_watchQueue);
+
+            _logger.Debug($"connect to queue: {_watchQueue}");
         }
 
         /// <summary>

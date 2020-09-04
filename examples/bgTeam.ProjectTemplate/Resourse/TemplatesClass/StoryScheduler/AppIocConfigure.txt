@@ -14,7 +14,7 @@
     using bgTeam.Quartz;
     using bgTeam.Queues;
     using bgTeam.Queues.Impl;
-    using bgTeam.StoryRunnerScheduler.Scheduler;
+    using bgTeam.StoryRunnerScheduler;
     using global::Quartz;
     using global::Quartz.Impl;
     using Microsoft.Extensions.DependencyInjection;

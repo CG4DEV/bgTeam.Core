@@ -8,7 +8,7 @@ namespace $namespace$
     using System.Threading.Tasks;
     using bgTeam;
     using bgTeam.Core.Helpers;
-    using bgTeam.StoryRunnerScheduler.Scheduler;
+    using bgTeam.StoryRunnerScheduler;
     using Microsoft.Extensions.DependencyInjection;
 
     public class Program

@@ -245,6 +245,7 @@
                     ("bgTeam.Queues", settings.BgTeamVersion),
                     ("bgTeam.StoryRunner", settings.BgTeamVersion),
                     ("Microsoft.AspNetCore", "2.2.0"),
+                    ("Scrutor", "3.2.2"),
                 },
                 type: "Exe",
                 projects: new[] { $"{name}.Story" },

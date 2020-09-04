@@ -3,12 +3,15 @@
     using bgTeam;
     using bgTeam.Core;
     using bgTeam.Core.Impl;
+    using bgTeam.Impl;
     using bgTeam.Impl.Rabbit;
     using bgTeam.Impl.Serilog;
     using bgTeam.Queues;
-    using bgTeam.StoryRunner.Common;
-    using bgTeam.StoryRunner.Common.Impl;
+    using bgTeam.StoryRunner;
+    using bgTeam.StoryRunner.Impl;
+    using kraken.Story;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
 
     internal static class AppIocConfigure
     {
@@ -56,13 +59,13 @@
                 .AddSingleton<IStoryProcessor, StoryProcessor>();
 
             //Add story
-            services.TryAdd(new ServiceDescriptor(typeof(IStoryFactory), typeof(StoryFactory), lifetime));
-            services.TryAdd(new ServiceDescriptor(typeof(IStoryBuilder), typeof(StoryBuilder), lifetime));
+            services.TryAdd(new ServiceDescriptor(typeof(IStoryFactory), typeof(StoryFactory), ServiceLifetime.Transient));
+            services.TryAdd(new ServiceDescriptor(typeof(IStoryBuilder), typeof(StoryBuilder), ServiceLifetime.Transient));
             services.Scan(scan => scan
                 .FromAssemblyOf<IStoryLibrary>()
                 .AddClasses(classes => classes.AssignableTo(typeof(IStory<,>)))
                 .AsImplementedInterfaces()
-                .WithLifetime(lifetime));
+                .WithLifetime(ServiceLifetime.Transient));
 
             services
                 .AddSingleton<Runner>();
