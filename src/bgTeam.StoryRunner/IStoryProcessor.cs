@@ -1,4 +1,4 @@
-﻿namespace bgTeam.StoryRunner.Common
+﻿namespace bgTeam.StoryRunner
 {
     using System.Threading.Tasks;
     using bgTeam.Queues;

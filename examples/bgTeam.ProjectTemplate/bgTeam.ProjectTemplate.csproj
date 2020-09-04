@@ -85,6 +85,21 @@
     <None Update="Resourse\TemplatesClass\Domain\TestDto.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resourse\TemplatesClass\StoryRunner\AppIocConfigure.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryRunner\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryRunner\AppSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryRunner\Program.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryRunner\Runner.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resourse\TemplatesClass\Story\IStoryLibrary.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

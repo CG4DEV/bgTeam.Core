@@ -233,16 +233,32 @@
                 result.Add(fp8);
             }
 
-            var p9 = new ProjectGenerator($"{name}.StoryRunner", fullPath);
-            p9.ProjectFile(new[] { ("bgTeam.Core", settings.BgTeamVersion) });
-            p9.Folder("Impl");
+            var p9 = new ProjectGenerator($"{name}.StRunner", fullPath);
+            p9.ProjectFile(
+                new[]
+                {
+                    ("bgTeam.Core", settings.BgTeamVersion),
+                    ("bgTeam.Queues", settings.BgTeamVersion),
+                    ("bgTeam.StoryRunner", settings.BgTeamVersion),
+                    ("Microsoft.AspNetCore", "2.2.0"),
+                },
+                type: "Exe",
+                projects: new[] { $"{name}.Story" },
+                configs: true);
+            p9.ClassTemplateFile("AppIocConfigure", $"StoryRunner{Path.DirectorySeparatorChar}AppIocConfigure");
+            p9.ClassTemplateFile("AppSettings", $"StoryRunner{Path.DirectorySeparatorChar}AppSettings");
+            p9.ClassTemplateFile("Program", $"StoryRunner{Path.DirectorySeparatorChar}Program");
+            p9.ClassTemplateFile("Runner", $"StoryRunner{Path.DirectorySeparatorChar}Runner");
+            p9.JsonTemplateFile("appsettings", $"StoryRunner{Path.DirectorySeparatorChar}appsettings");
+            p9.JsonTemplateFile("appsettings.Development", $"StoryRunner{Path.DirectorySeparatorChar}appsettings");
+            p9.JsonTemplateFile("appsettings.Production", $"StoryRunner{Path.DirectorySeparatorChar}appsettings");
             var fp9 = new ProjectInfoItem(p9.Name, $"{path}{Path.DirectorySeparatorChar}{p9.Output}");
             fsrv.AddChild(fp9);
             result.Add(fp9);
 
-            var p10 = new ProjectGenerator($"{name}.StoryScheduler", fullPath);
+            var p10 = new ProjectGenerator($"{name}.StScheduler", fullPath);
             p10.ProjectFile(new[] { ("bgTeam.Core", settings.BgTeamVersion) });
-            p10.Folder("Impl");
+            //p10.Folder("Impl");
             var fp10 = new ProjectInfoItem(p10.Name, $"{path}{Path.DirectorySeparatorChar}{p10.Output}");
             fsrv.AddChild(fp10);
             result.Add(fp10);

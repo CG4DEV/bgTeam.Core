@@ -1,0 +1,66 @@
+﻿namespace $namespace$
+{
+    using bgTeam;
+    using bgTeam.Core;
+    using bgTeam.Core.Impl;
+    using bgTeam.Impl.Rabbit;
+    using bgTeam.Impl.Serilog;
+    using bgTeam.Queues;
+    using bgTeam.StoryRunner.Common;
+    using bgTeam.StoryRunner.Common.Impl;
+    using Microsoft.Extensions.DependencyInjection;
+
+    internal static class AppIocConfigure
+    {
+        public static IServiceCollection Configure(this IServiceCollection services)
+        {
+#if !DEBUG
+            var config = new AppConfigurationDefault("Production");
+#else
+            var config = new AppConfigurationDefault("Development");
+#endif
+            var appSettings = new AppSettings(config);
+            var queue = config["AppStoryQueue"];
+            var threads = ushort.Parse(config["AppThreadCount"]);
+
+            services
+                .AddSingleton<IAppSettings>(appSettings)
+                .AddSingleton<IAppConfiguration>(config)
+                .AddSingleton<IAppLogger, AppLoggerSerilog>(s =>
+                {
+                    var conf = new AppLoggerSerilogConfig();
+
+                    return new AppLoggerSerilog(conf);
+                })
+                .AddSingleton<IMessageProvider, MessageProviderDefault>()
+                .AddSingleton<IQueueProviderSettings>(appSettings)
+                .AddSingleton<IQueueProvider>(s =>
+                {
+                    var logger = s.GetService<IAppLogger>();
+                    var mp = s.GetService<IMessageProvider>();
+                    var qps = s.GetService<IQueueProviderSettings>();
+                    var cf = new ConnectionFactoryRabbitMQ(logger, qps);
+
+                    return new QueueProviderRabbitMQ(logger, mp, cf, true, queue);
+                })
+                .AddSingleton<IQueueWatcher<IQueueMessage>>(s =>
+                {
+                    var logger = s.GetService<IAppLogger>();
+                    var mp = s.GetService<IMessageProvider>();
+                    var qps = s.GetService<IQueueProviderSettings>();
+                    var cf = new ConnectionFactoryRabbitMQ(logger, qps);
+
+                    return new QueueConsumerAsyncRabbitMQ(cf, mp, threads);
+                })
+                .AddSingleton<IStoryProcessorRepository, StoryProcessorRepository>()
+                .AddSingleton<IStoryProcessor, StoryProcessor>();
+
+            //services.AddStories<IStoryLibrary>();
+
+            services
+                .AddSingleton<Runner>();
+
+            return services;
+        }
+    }
+}

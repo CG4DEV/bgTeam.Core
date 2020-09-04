@@ -1,21 +1,23 @@
-﻿namespace bgTeam.StoryRunner
+namespace $namespace$
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using bgTeam;
     using bgTeam.Queues;
     using bgTeam.Queues.Exceptions;
+    using bgTeam.StoryRunner;
     using bgTeam.StoryRunner.Common;
     using Newtonsoft.Json;
 
     public class Runner
     {
-        protected readonly IAppLogger _logger;
-        protected readonly IQueueProvider _queueProvider;
-        protected readonly IQueueWatcher<IQueueMessage> _queueWatcher;
-        protected readonly IStoryProcessor _storyProcessor;
+        private readonly IAppLogger _logger;
+        private readonly IQueueProvider _queueProvider;
+        private readonly IQueueWatcher<IQueueMessage> _queueWatcher;
+        private readonly IStoryProcessor _storyProcessor;
 
-        protected readonly string _watchQueue;
-        protected readonly string _errorQueue;
+        private readonly string _watchQueue;
+        private readonly string _errorQueue;
 
         public Runner(
             IAppLogger logger,

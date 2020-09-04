@@ -1,4 +1,4 @@
-﻿namespace bgTeam.StoryRunner.Common.Impl
+﻿namespace bgTeam.StoryRunner.Impl
 {
     using System;
     using System.Threading.Tasks;
