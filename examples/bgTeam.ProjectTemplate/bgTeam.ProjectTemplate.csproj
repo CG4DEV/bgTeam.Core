@@ -39,7 +39,13 @@
     <None Update="Resourse\coverage.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resourse\LICENSE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resourse\lint\linter.ruleset">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\shared\configs\&#xD;&#xA;          ionStrings.Development.json">
@@ -49,6 +55,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\shared\configs\connectionStrings.Production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\shared\configs\serilog.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\shared\configs\serilog.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\TemplatesClass\App\Application.txt">
@@ -98,6 +110,24 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\TemplatesClass\StoryRunner\Runner.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryScheduler\0_Examples.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryScheduler\AppIocConfigure.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryScheduler\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryScheduler\AppSettings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryScheduler\Program.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\StoryScheduler\Runner.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\TemplatesClass\Story\IStoryLibrary.txt">

@@ -1,5 +1,23 @@
 {
   "ConnectionStrings": {
-    "MAINDB": "Data Source=192.168.49.2;Initial Catalog=test2;User ID=sa;Password=sasa;Connect Timeout=600"
+    "MainDb": ""
+
+    //"MainDb": "Server=68.183.240.98;Database=kadodb;Username=remoteuser;Password=fh6GD4%Gf&"
+  },
+
+  "RabbitMQ": {
+    "Host": "",
+    "Port": "",
+    "VirtualHost": "",
+    "Login": "",
+    "Password": ""
   }
+
+  //"RabbitMQ": {
+  //  "Host": "159.65.115.155",
+  //  "Port": "5672",
+  //  "VirtualHost": "Queue.bgTeam",
+  //  "Login": "remadmin",
+  //  "Password": "af86N#dp$3d"
+  //}
 }

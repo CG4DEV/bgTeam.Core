@@ -19,4 +19,10 @@
     <Content Include="..\..\shared\configs\connectionStrings.Production.json" Link="Configs\connectionStrings.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\shared\configs\serilog.Development.json" Link="Configs\serilog.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\shared\configs\serilog.Production.json" Link="Configs\serilog.Production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
 </ItemGroup>

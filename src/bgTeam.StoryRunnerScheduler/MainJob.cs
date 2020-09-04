@@ -1,4 +1,4 @@
-﻿namespace bgTeam.StoryRunnerScheduler.Scheduler.Jobs
+﻿namespace bgTeam.StoryRunnerScheduler
 {
     using System;
     using System.Collections.Generic;

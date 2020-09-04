@@ -1,0 +1,63 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using bgTeam;
+    using bgTeam.Core;
+    using bgTeam.Core.Impl;
+    using bgTeam.DataAccess;
+    using bgTeam.DataAccess.Impl.Dapper;
+    using bgTeam.DataAccess.Impl.PostgreSQL;
+    using bgTeam.Impl.Rabbit;
+    using bgTeam.Impl.Serilog;
+    using bgTeam.Quartz;
+    using bgTeam.Queues;
+    using bgTeam.Queues.Impl;
+    using bgTeam.StoryRunnerScheduler.Scheduler;
+    using global::Quartz;
+    using global::Quartz.Impl;
+    using Microsoft.Extensions.DependencyInjection;
+
+    class AppIocConfigure
+    {
+        public static IServiceCollection Configure(IEnumerable<JobTriggerInfo> configurations)
+        {
+#if !DEBUG
+            var config = new AppConfigurationDefault("Production");
+#else
+            var config = new AppConfigurationDefault("Development");
+#endif
+            var services = new ServiceCollection();
+            var appSettings = new AppSettings(config);
+
+            services
+                .AddSingleton<IAppConfiguration>(config)
+                .AddSingleton<IAppLogger, AppLoggerSerilog>()
+                .AddSingleton<ISchedulerFactory, StdSchedulerFactory>()
+                .AddSingleton<ISchedulersFactory, JobSchedulersFactory>()
+                .AddSingleton<IConnectionSetting>(appSettings)
+                .AddSingleton<ISqlDialect, SqlDialectDapper>()
+                .AddSingleton<IConnectionFactory, ConnectionFactoryPostgreSQL>()
+                .AddSingleton<IRepository, RepositoryDapper>()
+                .AddSingleton<IMessageProvider, MessageProviderDefault>()
+                .AddSingleton<IQueueProviderSettings>(appSettings)
+                .AddSingleton<IQueueProvider>(s =>
+                {
+                    var logger = s.GetService<IAppLogger>();
+                    var mp = s.GetService<IMessageProvider>();
+                    var qps = s.GetService<IQueueProviderSettings>();
+                    var cs = new ConnectionFactoryRabbitMQ(logger, qps);
+
+                    return new QueueProviderRabbitMQ(logger, mp, cs, true, configurations.Select(x => x.NameQueue).ToArray());
+                })
+                .AddSingleton<ISenderEntity, SenderEntityDefault>();
+
+            services
+                .AddSingleton(configurations)
+                .AddSingleton<Runner>();
+
+            return services;
+        }
+    }
+}

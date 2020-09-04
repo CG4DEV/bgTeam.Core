@@ -1,4 +1,4 @@
-﻿namespace bgTeam.StoryRunnerScheduler.Scheduler
+﻿namespace bgTeam.StoryRunnerScheduler
 {
     using System;
     using bgTeam.Quartz;
