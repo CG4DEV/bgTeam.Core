@@ -62,16 +62,16 @@
             var fapps = new ProjectInfoItem("Apps", $"Apps", ProjectTypeEnum.Folder);
             var fmain = new ProjectInfoItem("Main", $"Main", ProjectTypeEnum.Folder);
             var fshared = new ProjectInfoItem("Shared", $"Shared", ProjectTypeEnum.Folder);
-            var fsrv = new ProjectInfoItem("Services", $"Shared", ProjectTypeEnum.Folder);
+            var fsrv = new ProjectInfoItem("Services", $"Services", ProjectTypeEnum.Folder);
             var ftest = new ProjectInfoItem("Tests", $"Tests", ProjectTypeEnum.Folder);
 
             var fconfigs = new ProjectInfoItem("configs", $"configs", ProjectTypeEnum.Folder)
             {
                 Description =
-    @"	ProjectSection(SolutionItems) = preProject
+    @"ProjectSection(SolutionItems) = preProject
 		shared\configs\connectionStrings.Development.json = shared\configs\connectionStrings.Development.json
 		shared\configs\connectionStrings.Production.json = shared\configs\connectionStrings.Production.json
-        shared\configs\serilog.Development.json = shared\configs\serilog.Development.json
+		shared\configs\serilog.Development.json = shared\configs\serilog.Development.json
 		shared\configs\serilog.Production.json = shared\configs\serilog.Production.json
 	EndProjectSection",
             };
@@ -296,8 +296,8 @@
 
             str.AppendLine(
 @"Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1");
 
             foreach (var prj in projects)

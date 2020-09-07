@@ -14,12 +14,10 @@ namespace $namespace$
         {
             //var cmdParams = CommandLineHelper.ParseArgs(args);
 
-            var sp = AppIocConfigure.Configure(new ServiceCollection()).BuildServiceProvider();
+            var sp = AppIocConfigure.Configure().BuildServiceProvider();
 
             var runner = sp.GetService<Runner>();
             _logger = sp.GetService<IAppLogger>();
-
-            runner.Run();
 
             var process = Process.GetCurrentProcess();
             process.EnableRaisingEvents = true;

@@ -2,18 +2,24 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using bgTeam.Extensions;
 
     internal class ProjectInfoItem
     {
+        private string _path;
+
         public string Name { get; set; }
 
-        public string Path { get; set; }
+        public string Path
+        {
+            get
+            {
+                return _path.Replace('/', '\\');
+            }
+            set
+            {
+                _path = value;
+            }
+        }
 
         public bool Build { get; set; }
 

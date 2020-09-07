@@ -1,5 +1,6 @@
 namespace $namespace$
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using bgTeam;
@@ -40,7 +41,7 @@ namespace $namespace$
             _queueWatcher.Subscribe += QueueProvider_OnSubscribe;
             _queueWatcher.StartWatch(_watchQueue);
 
-            _logger.Debug($"connect to queue: {_watchQueue}");
+            _logger.Info($"connect to queue: {_watchQueue}");
         }
 
         /// <summary>
@@ -48,14 +49,15 @@ namespace $namespace$
         /// </summary>
         protected virtual async Task QueueProvider_OnSubscribe(IQueueMessage message)
         {
-            _logger.Debug("StoryRunner - start read message");
-            _logger.Debug($"StoryRunner - {message.Body}");
+            var guid = Guid.NewGuid();
+
+            _logger.Debug($"StoryRunner ({guid}) read message - {message.Body}");
 
             var context = JsonConvert.DeserializeObject<StoryRunnerMessageWork>(message.Body);
 
             await _storyProcessor.ProcessAsync(context);
 
-            _logger.Debug("StoryRunner - End read message");
+            _logger.Debug($"StoryRunner ({guid}) - End read message");
         }
 
         protected virtual void _queueWatcher_OnError(object sender, ExtThreadExceptionEventArgs e)

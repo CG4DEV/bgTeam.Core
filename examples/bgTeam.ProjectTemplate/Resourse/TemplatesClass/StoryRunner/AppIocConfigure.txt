@@ -15,13 +15,15 @@
 
     internal static class AppIocConfigure
     {
-        public static IServiceCollection Configure(this IServiceCollection services)
+        public static IServiceCollection Configure()
         {
 #if !DEBUG
             var config = new AppConfigurationDefault("Production");
 #else
             var config = new AppConfigurationDefault("Development");
 #endif
+            var services = new ServiceCollection();
+
             var appSettings = new AppSettings(config);
             var queue = config["AppStoryQueue"];
             var threads = ushort.Parse(config["AppThreadCount"]);
@@ -29,12 +31,8 @@
             services
                 .AddSingleton<IAppSettings>(appSettings)
                 .AddSingleton<IAppConfiguration>(config)
-                .AddSingleton<IAppLogger, AppLoggerSerilog>(s =>
-                {
-                    var conf = new AppLoggerSerilogConfig();
-
-                    return new AppLoggerSerilog(conf);
-                })
+                .AddSingleton<IAppLoggerConfig, AppLoggerSerilogConfig>()
+                .AddSingleton<IAppLogger, AppLoggerSerilog>()
                 .AddSingleton<IMessageProvider, MessageProviderDefault>()
                 .AddSingleton<IQueueProviderSettings>(appSettings)
                 .AddSingleton<IQueueProvider>(s =>
