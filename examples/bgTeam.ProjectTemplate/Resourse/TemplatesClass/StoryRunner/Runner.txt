@@ -37,6 +37,8 @@ namespace $namespace$
 
         public void Run()
         {
+            _logger.Info("start");
+
             _queueWatcher.Error += _queueWatcher_OnError;
             _queueWatcher.Subscribe += QueueProvider_OnSubscribe;
             _queueWatcher.StartWatch(_watchQueue);

@@ -41,7 +41,7 @@
             Password = appConfiguration["RabbitMQ:Password"];
             Login = appConfiguration["RabbitMQ:Login"];
 
-            ConnectionString = "";
+            ConnectionString = appConfiguration.GetConnectionString("MAINDB");
         }
     }
 }

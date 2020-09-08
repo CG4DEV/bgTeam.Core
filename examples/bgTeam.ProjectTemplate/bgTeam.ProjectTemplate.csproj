@@ -63,13 +63,7 @@
     <None Update="Resourse\shared\configs\serilog.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\TemplatesClass\App\Application.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Resourse\TemplatesClass\App\launchSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\App\ApplicationBuilder.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\TemplatesClass\Common\BadRequestException.txt">

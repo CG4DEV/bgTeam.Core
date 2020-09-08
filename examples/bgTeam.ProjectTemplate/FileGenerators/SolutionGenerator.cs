@@ -169,6 +169,7 @@
                         ("bgTeam.Core", settings.BgTeamVersion),
                         ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                         ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
+                        ("bgTeam.Impl.Serilog", settings.BgTeamVersion),
                         ("Scrutor", "3.2.2"),
                     }, type: "Exe",
                     projects: new[] { $"{name}.Story" },
@@ -176,12 +177,10 @@
                 p6.ClassTemplateFile("AppSettings", $"App{Path.DirectorySeparatorChar}AppSettings");
                 p6.ClassTemplateFile("AppIocConfigure", $"App{Path.DirectorySeparatorChar}AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Program", $"App{Path.DirectorySeparatorChar}Program", replist: new List<(string, string)> { ("$prj$", name) });
-                p6.ClassTemplateFile("Application", $"App{Path.DirectorySeparatorChar}Application", replist: new List<(string, string)> { ("$prj$", name) });
-                p6.ClassTemplateFile("ApplicationBuilder", $"App{Path.DirectorySeparatorChar}ApplicationBuilder", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Runner", $"App{Path.DirectorySeparatorChar}Runner", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.JsonTemplateFile("appsettings", $"App{Path.DirectorySeparatorChar}appsettings");
-                p6.JsonTemplateFile("appsettings.Development", $"Web{Path.DirectorySeparatorChar}appsettings");
-                p6.JsonTemplateFile("appsettings.Production", $"Web{Path.DirectorySeparatorChar}appsettings");
+                p6.JsonTemplateFile("appsettings.Development", $"App{Path.DirectorySeparatorChar}appsettings");
+                p6.JsonTemplateFile("appsettings.Production", $"App{Path.DirectorySeparatorChar}appsettings");
                 p6.Folder("Properties");
                 p6.JsonTemplateFile("launchSettings", $"App{Path.DirectorySeparatorChar}launchSettings", new[] { "Properties" }, new List<(string, string)> { ("$prj$", p6.Name) });
                 var fp6 = new ProjectInfoItem(p6.Name, $"{path}{Path.DirectorySeparatorChar}{p6.Output}");

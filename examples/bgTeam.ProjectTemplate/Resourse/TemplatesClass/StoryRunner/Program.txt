@@ -6,13 +6,16 @@ namespace $namespace$
     using bgTeam;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class Program
+    /// <summary>
+    /// Entrypoint class for application.
+    /// </summary>
+    public static class Program
     {
         private static IAppLogger _logger;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            //var cmdParams = CommandLineHelper.ParseArgs(args);
+            // var cmdParams = CommandLineHelper.ParseArgs(args);
 
             var sp = AppIocConfigure.Configure().BuildServiceProvider();
 
@@ -30,7 +33,7 @@ namespace $namespace$
 
             process.WaitForExit();
 
-            _logger.Error("Program is closed!");
+            _logger.Debug("Program is closed!");
         }
 
         private static void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)

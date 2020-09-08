@@ -46,6 +46,22 @@
             return defValue;
         }
 
+        public static ushort? ToShort(this string str, ushort? defValue = null)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defValue;
+            }
+
+            ushort res = 0;
+            if (ushort.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out res))
+            {
+                return res;
+            }
+
+            return defValue;
+        }
+
         /// <summary>
         /// Если передана не пустая строка, то парсит строку в число с плавающей точкой, иначе возвращает число по-умолчанию
         /// </summary>

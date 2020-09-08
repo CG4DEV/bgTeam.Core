@@ -13,24 +13,30 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
+    /// <summary>
+    /// Configurating IOC.
+    /// </summary>
     internal static class AppIocConfigure
     {
+        /// <summary>
+        /// Configure service collection for application.
+        /// </summary>
         public static IServiceCollection Configure()
         {
+            var services = new ServiceCollection();
 #if !DEBUG
             var config = new AppConfigurationDefault("Production");
 #else
             var config = new AppConfigurationDefault("Development");
 #endif
-            var services = new ServiceCollection();
-
-            var appSettings = new AppSettings(config);
             var queue = config["AppStoryQueue"];
             var threads = ushort.Parse(config["AppThreadCount"]);
 
+            var appSettings = new AppSettings(config);
+
             services
-                .AddSingleton<IAppSettings>(appSettings)
                 .AddSingleton<IAppConfiguration>(config)
+                .AddSingleton<IAppSettings>(appSettings)
                 .AddSingleton<IAppLoggerConfig, AppLoggerSerilogConfig>()
                 .AddSingleton<IAppLogger, AppLoggerSerilog>()
                 .AddSingleton<IMessageProvider, MessageProviderDefault>()
