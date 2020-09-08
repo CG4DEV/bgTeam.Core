@@ -2,35 +2,25 @@ namespace $namespace$
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
     using bgTeam;
-    using bgTeam.Core.Helpers;
-    using bgTeam.StoryRunnerScheduler.Scheduler;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class Program
+    /// <summary>
+    /// Entrypoint class for application.
+    /// </summary>
+    public static class Program
     {
         private static IAppLogger _logger;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            //var cmdParams = CommandLineHelper.ParseArgs(args);
+            // var cmdParams = CommandLineHelper.ParseArgs(args);
 
-            var fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-            var configFolderPath = Path.Combine(fileInfo.Directory.FullName, "Configurations");
-            var configurations = ConfigHelper.Init<JobTriggerInfo>(configFolderPath);
-
-            var sp = AppIocConfigure.Configure(configurations).BuildServiceProvider();
+            var sp = AppIocConfigure.Configure().BuildServiceProvider();
 
             var runner = sp.GetService<Runner>();
             _logger = sp.GetService<IAppLogger>();
-
-            _logger.Debug($"find {configurations.Count()} configurations");
-
-            runner.Run();
 
             var process = Process.GetCurrentProcess();
             process.EnableRaisingEvents = true;
@@ -43,7 +33,7 @@ namespace $namespace$
 
             process.WaitForExit();
 
-            _logger.Error("Program is closed!");
+            _logger.Debug("Program is closed!");
         }
 
         private static void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)

@@ -1,6 +1,5 @@
 ﻿namespace $namespace$
 {
-    using System.Collections.Generic;
     using bgTeam;
     using bgTeam.Core;
     using bgTeam.Core.Impl;
@@ -8,8 +7,10 @@
     using bgTeam.DataAccess.Impl.Dapper;
     using bgTeam.DataAccess.Impl.MsSql;
     using bgTeam.Impl;
+    using bgTeam.Impl.Serilog;
+    using kraken.Story;
     using Microsoft.Extensions.DependencyInjection;
-    using $prj$.Story;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
 
     /// <summary>
     /// Configurating IOC.
@@ -19,44 +20,37 @@
         /// <summary>
         /// Configure service collection for application.
         /// </summary>
-        /// <param name="cmdParams"></param>
-        /// <returns></returns>
-        public static IServiceCollection Configure(Dictionary<string, string> cmdParams)
+        public static IServiceCollection Configure()
         {
             var services = new ServiceCollection();
-
-            IAppConfiguration config;
-            if (cmdParams.ContainsKey("env"))
-            {
-                // Задаём конфигурацию через пришедший параметр
-                config = new AppConfigurationDefault(cmdParams["env"]);
-            }
-            else
-            {
-                // Задаём конфигурацию через переменную среды
-                config = new AppConfigurationDefault();
-            }
-
+#if !DEBUG
+            var config = new AppConfigurationDefault("Production");
+#else
+            var config = new AppConfigurationDefault("Development");
+#endif
             var appSettings = new AppSettings(config);
 
-            // сканируем story
+            services
+                .AddSingleton<IAppConfiguration>(config)
+                .AddSingleton<IAppSettings>(appSettings)
+                .AddSingleton<IAppLoggerConfig, AppLoggerSerilogConfig>()
+                .AddSingleton<IAppLogger, AppLoggerSerilog>()
+                .AddSingleton<IConnectionSetting>(appSettings)
+                .AddSingleton<IConnectionFactory, ConnectionFactoryMsSql>()
+                .AddSingleton<IRepository, RepositoryDapper>()
+                .AddSingleton<ICrudService, CrudServiceDapper>();
+
+            //Add story
+            services.TryAdd(new ServiceDescriptor(typeof(IStoryFactory), typeof(StoryFactory), ServiceLifetime.Transient));
+            services.TryAdd(new ServiceDescriptor(typeof(IStoryBuilder), typeof(StoryBuilder), ServiceLifetime.Transient));
             services.Scan(scan => scan
                 .FromAssemblyOf<IStoryLibrary>()
                 .AddClasses(classes => classes.AssignableTo(typeof(IStory<,>)))
                 .AsImplementedInterfaces()
-                .WithTransientLifetime());
+                .WithLifetime(ServiceLifetime.Transient));
 
             services
-                .AddSingleton<IServiceCollection>(services)
-                .AddSingleton<IAppConfiguration>(config)
-                .AddSingleton<IAppLogger, AppLoggerDefault>()
-                .AddSingleton<IStoryFactory, StoryFactory>()
-                .AddSingleton<IStoryBuilder, StoryBuilder>()
-                .AddSingleton<IConnectionSetting>(appSettings)
-                .AddSingleton<IConnectionFactory, ConnectionFactoryMsSql>()
-                .AddSingleton<IRepository, RepositoryDapper>()
-                .AddSingleton<ICrudService, CrudServiceDapper>()
-                .AddTransient<Runner>();
+                .AddSingleton<Runner>();
 
             return services;
         }

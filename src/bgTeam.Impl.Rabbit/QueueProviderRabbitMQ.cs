@@ -165,11 +165,9 @@
         /// </summary>
         private void Init(IEnumerable<string> queues)
         {
-            _logger.Debug($"QueueProviderRabbitMQ: create connect to {string.Join(", ", queues)}");
-
             using (var channel = CreateChannel())
             {
-                _logger.Debug($"QueueProviderRabbitMQ: connect open");
+                _logger.Debug($"QueueProviderRabbitMQ: connect open {string.Join(", ", queues)}");
 
                 foreach (var item in queues)
                 {

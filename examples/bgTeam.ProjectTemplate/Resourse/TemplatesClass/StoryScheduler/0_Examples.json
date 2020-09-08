@@ -2,41 +2,44 @@
   //{
   //  "Name": "test IMDb",
   //  "DateStart": "0 * * * * ?",
-  //  "NameQueue": "Dev.BusinessProcess",
+  //  "NameQueue": "Test.BusinessProcess",
   //  "ContextType": "CalculateProviderStoryContext",
   //  "Sql": [
-  //    "SELECT \"Id\", 1 AS \"Provider\" FROM \"MovieIMDb\" where \"pid\" is null",
+  //    "SELECT \"Id\", 1 AS \"Provider\" FROM \"MovieIMDb\" where \"pid\" is null"
   //  ]
   //},
 
   //{
-  //  "Name": "test MovieKinopoisk",
-  //  "DateStart": "0 * * * * ?",
-  //  "NameQueue": "Dev.BusinessProcess",
-  //  "ContextType": "CalculateProviderStoryContext",
-  //  "Sql": [
-  //    "SELECT \"Id\", 2 AS \"Provider\" FROM \"MovieKinopoisk\" where \"pid\" is null"
-  //  ]
-  //},
-
-  //{
-  //  "Name": "test MovieMetacritic",
-  //  "DateStart": "0 * * * * ?",
-  //  "NameQueue": "Dev.BusinessProcess",
-  //  "ContextType": "CalculateProviderStoryContext",
-  //  "Sql": [
-  //    "SELECT \"Id\", 4 AS \"Provider\" FROM \"MovieMetacritic\" where \"pid\" is null"
-  //  ]
-  //},
-
-  //{
-  //  "Name": "test MovieRottenTomatoes",
-  //  "DateStart": "0 * * * * ?",
-  //  "NameQueue": "Dev.BusinessProcess",
-  //  "ContextType": "CalculateProviderStoryContext",
-  //  "Sql": [
-  //    "SELECT \"Id\", 8 AS \"Provider\" FROM \"MovieRottenTomatoes\" where \"pid\" is null"
+  //  "Name": "Update list year 2017 - 2019",
+  //  "Description": "Обновление информации по фильмам из провайдера за текущий год",
+  //  "DateStart": "0 15 1 * * ?",
+  //  "NameQueue": "Test.BusinessProcess",
+  //  "ContextType": "YearListRunnerStoryContext",
+  //  "ContextValue": [
+  //    {
+  //      "Provider": "IMDb",
+  //      "YearStart": 2018,
+  //      "YearEnd": 2020,
+  //      "Url": "https://www.imdb.com/search/title/?title_type=feature&release_date={{YEAR}}-01-01,{{YEAR}}-12-31&count=250"
+  //    },
+  //    {
+  //      "Provider": "Kinopoisk",
+  //      "YearStart": 2018,
+  //      "YearEnd": 2020,
+  //      "Url": "https://www.kinopoisk.ru/top/navigator/m_act[year]/{{YEAR}}/m_act[num_vote]/5000/m_act[is_film]/on/m_act[is_mult]/on/order/rating/perpage/200/#results"
+  //    },
+  //    {
+  //      "Provider": "Metacritic",
+  //      "YearStart": 2018,
+  //      "YearEnd": 2020,
+  //      "Url": "https://www.metacritic.com/browse/movies/score/metascore/discussed/filtered?year_selected={{YEAR}}&sort=desc"
+  //    },
+  //    {
+  //      "Provider": "RottenTomatoes",
+  //      "YearStart": 2018,
+  //      "YearEnd": 2020,
+  //      "Url": "https://www.rottentomatoes.com/top/bestofrt/?year={{YEAR}}"
+  //    }
   //  ]
   //}
-
 ]

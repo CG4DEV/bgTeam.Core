@@ -62,16 +62,16 @@
             var fapps = new ProjectInfoItem("Apps", $"Apps", ProjectTypeEnum.Folder);
             var fmain = new ProjectInfoItem("Main", $"Main", ProjectTypeEnum.Folder);
             var fshared = new ProjectInfoItem("Shared", $"Shared", ProjectTypeEnum.Folder);
-            var fsrv = new ProjectInfoItem("Services", $"Shared", ProjectTypeEnum.Folder);
+            var fsrv = new ProjectInfoItem("Services", $"Services", ProjectTypeEnum.Folder);
             var ftest = new ProjectInfoItem("Tests", $"Tests", ProjectTypeEnum.Folder);
 
             var fconfigs = new ProjectInfoItem("configs", $"configs", ProjectTypeEnum.Folder)
             {
                 Description =
-    @"	ProjectSection(SolutionItems) = preProject
+    @"ProjectSection(SolutionItems) = preProject
 		shared\configs\connectionStrings.Development.json = shared\configs\connectionStrings.Development.json
 		shared\configs\connectionStrings.Production.json = shared\configs\connectionStrings.Production.json
-        shared\configs\serilog.Development.json = shared\configs\serilog.Development.json
+		shared\configs\serilog.Development.json = shared\configs\serilog.Development.json
 		shared\configs\serilog.Production.json = shared\configs\serilog.Production.json
 	EndProjectSection",
             };
@@ -169,6 +169,7 @@
                         ("bgTeam.Core", settings.BgTeamVersion),
                         ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                         ("bgTeam.Impl.MsSql", settings.BgTeamVersion),
+                        ("bgTeam.Impl.Serilog", settings.BgTeamVersion),
                         ("Scrutor", "3.2.2"),
                     }, type: "Exe",
                     projects: new[] { $"{name}.Story" },
@@ -176,12 +177,10 @@
                 p6.ClassTemplateFile("AppSettings", $"App{Path.DirectorySeparatorChar}AppSettings");
                 p6.ClassTemplateFile("AppIocConfigure", $"App{Path.DirectorySeparatorChar}AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Program", $"App{Path.DirectorySeparatorChar}Program", replist: new List<(string, string)> { ("$prj$", name) });
-                p6.ClassTemplateFile("Application", $"App{Path.DirectorySeparatorChar}Application", replist: new List<(string, string)> { ("$prj$", name) });
-                p6.ClassTemplateFile("ApplicationBuilder", $"App{Path.DirectorySeparatorChar}ApplicationBuilder", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.ClassTemplateFile("Runner", $"App{Path.DirectorySeparatorChar}Runner", replist: new List<(string, string)> { ("$prj$", name) });
                 p6.JsonTemplateFile("appsettings", $"App{Path.DirectorySeparatorChar}appsettings");
-                p6.JsonTemplateFile("appsettings.Development", $"Web{Path.DirectorySeparatorChar}appsettings");
-                p6.JsonTemplateFile("appsettings.Production", $"Web{Path.DirectorySeparatorChar}appsettings");
+                p6.JsonTemplateFile("appsettings.Development", $"App{Path.DirectorySeparatorChar}appsettings");
+                p6.JsonTemplateFile("appsettings.Production", $"App{Path.DirectorySeparatorChar}appsettings");
                 p6.Folder("Properties");
                 p6.JsonTemplateFile("launchSettings", $"App{Path.DirectorySeparatorChar}launchSettings", new[] { "Properties" }, new List<(string, string)> { ("$prj$", p6.Name) });
                 var fp6 = new ProjectInfoItem(p6.Name, $"{path}{Path.DirectorySeparatorChar}{p6.Output}");
@@ -245,6 +244,7 @@
                     ("bgTeam.Queues", settings.BgTeamVersion),
                     ("bgTeam.StoryRunner", settings.BgTeamVersion),
                     ("Microsoft.AspNetCore", "2.2.0"),
+                    ("Scrutor", "3.2.2"),
                 },
                 type: "Exe",
                 projects: new[] { $"{name}.Story" },
@@ -295,8 +295,8 @@
 
             str.AppendLine(
 @"Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1");
 
             foreach (var prj in projects)

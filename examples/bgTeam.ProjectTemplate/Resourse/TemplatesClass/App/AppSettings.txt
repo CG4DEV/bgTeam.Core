@@ -2,11 +2,12 @@ namespace $namespace$
 {
     using bgTeam.Core;
     using bgTeam.DataAccess;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
 
-    internal class AppSettings : IConnectionSetting
+    internal interface IAppSettings : IConnectionSetting
+    {
+    }
+
+    internal class AppSettings : IAppSettings
     {
         public string ConnectionString { get; set; }
 

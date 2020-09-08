@@ -11,13 +11,13 @@
     "VirtualHost": "",
     "Login": "",
     "Password": ""
-  }
+  },
 
   //"RabbitMQ": {
-  //  "Host": "159.65.115.155",
+  //  "Host": "52.169.5.177",
   //  "Port": "5672",
-  //  "VirtualHost": "Queue.bgTeam",
-  //  "Login": "remadmin",
-  //  "Password": "af86N#dp$3d"
+  //  "VirtualHost": "agropatrol",
+  //  "Login": "apaccess101",
+  //  "Password": "JdZjZJXMvAcpeZJ3aLERYUGZAvFqwpYO1kv91Z3kPUo"
   //}
 }

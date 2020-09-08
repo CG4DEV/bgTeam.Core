@@ -5,18 +5,16 @@
 
     internal interface IAppSettings
     {
-        string StoryQueue { get; set; }
+        string WatchQueue { get; set; }
 
         string ErrorQueue { get; set; }
     }
 
     internal class AppSettings : IAppSettings, IQueueProviderSettings
     {
-        public string StoryQueue { get; set; }
+        public string WatchQueue { get; set; }
 
         public string ErrorQueue { get; set; }
-
-        public string ConnectionString { get; set; }
 
         public string Host { get; set; }
 
@@ -30,7 +28,7 @@
 
         public AppSettings(IAppConfiguration appConfiguration)
         {
-            StoryQueue = appConfiguration["AppStoryQueue"];
+            WatchQueue = appConfiguration["AppStoryQueue"];
             ErrorQueue = appConfiguration["AppErrorQueue"];
 
             Host = appConfiguration["RabbitMQ:Host"];
