@@ -22,7 +22,6 @@
 
         public async Task ExecuteAsync<TCommandContext>(TCommandContext commandContext)
         {
-            var asd = _commandFactory.Create<TCommandContext>();
             await _commandFactory.Create<TCommandContext>().ExecuteAsync(commandContext);
         }
 
