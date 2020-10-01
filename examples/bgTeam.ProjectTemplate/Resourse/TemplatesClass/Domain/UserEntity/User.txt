@@ -1,0 +1,16 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.AspNetCore.Identity;
+
+    public class RoleClaim : IdentityRoleClaim<long>
+    {
+        [Column("created_date")]
+        public DateTimeOffset CreatedDate { get; set; }
+
+        [Column("updated_date")]
+        public DateTimeOffset UpdatedDate { get; set; }
+    }
+
+}

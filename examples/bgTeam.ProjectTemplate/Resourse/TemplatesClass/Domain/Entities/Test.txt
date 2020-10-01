@@ -1,0 +1,13 @@
+﻿namespace $namespace$
+{
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("test")]
+    public class Test : BaseEntity
+    {
+        [Required]
+        [Column("name")]
+        public string Name { get; set; }
+    }
+}

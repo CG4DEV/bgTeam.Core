@@ -1,0 +1,13 @@
+﻿namespace $namespace$
+{
+    using System;
+
+    public interface ITransaction : IDisposable
+    {
+        Guid TransactionId { get; }
+
+        void Commit();
+
+        void Rollback();
+    }
+}

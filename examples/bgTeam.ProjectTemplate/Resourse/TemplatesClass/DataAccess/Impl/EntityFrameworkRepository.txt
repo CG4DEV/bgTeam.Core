@@ -1,0 +1,343 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using $prj$.Domain.Entities;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Storage;
+
+    public class EntityFrameworkRepository<TContext> : IEntityFrameworkRepository
+        where TContext : DbContext
+    {
+        private readonly TContext _context;
+
+        public EntityFrameworkRepository(TContext context)
+        {
+            _context = context;
+        }
+
+        #region Transaction class
+        private class Transaction : ITransaction, IDbContextTransaction
+        {
+            private readonly IDbContextTransaction _transaction;
+
+            public Transaction(IDbContextTransaction transaction)
+            {
+                _transaction = transaction;
+            }
+
+            public Guid TransactionId => _transaction.TransactionId;
+
+            public void Commit()
+            {
+                _transaction.Commit();
+            }
+
+            public Task CommitAsync(CancellationToken cancellationToken = default)
+            {
+                return _transaction.CommitAsync(cancellationToken);
+            }
+
+            public void Dispose()
+            {
+                _transaction.Dispose();
+            }
+
+            public ValueTask DisposeAsync()
+            {
+                return _transaction.DisposeAsync();
+            }
+
+            public void Rollback()
+            {
+                _transaction.Rollback();
+            }
+
+            public Task RollbackAsync(CancellationToken cancellationToken = default)
+            {
+                return _transaction.RollbackAsync(cancellationToken);
+            }
+        }
+        #endregion
+
+        /// <inheritdoc/>
+        public async Task<TEntity> CreateAsync<TEntity>(TEntity value)
+            where TEntity : class
+        {
+            var entry = await _context.AddAsync(value);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in entry.Navigations)
+            {
+                await item.LoadAsync();
+            }
+
+            return entry.Entity;
+        }
+
+        public async Task<IEnumerable<TEntity>> CreateAsync<TEntity>(IEnumerable<TEntity> value)
+            where TEntity : class
+        {
+            await _context.AddRangeAsync(value);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in value)
+            {
+                foreach (var navigation in _context.Entry(item).Navigations)
+                {
+                    await navigation.LoadAsync();
+                }
+            }
+
+            return value;
+        }
+
+        /// <inheritdoc/>
+        public async Task<TEntity> DeleteAsync<TEntity>(TEntity value)
+            where TEntity : class
+        {
+            var entry = _context.Set<TEntity>().Remove(value);
+            await _context.SaveChangesAsync();
+            return entry.Entity;
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<TEntity>> DeleteAsync<TEntity>(IEnumerable<TEntity> value)
+            where TEntity : class
+        {
+            _context.Set<TEntity>().RemoveRange(value);
+            await _context.SaveChangesAsync();
+            return value;
+        }
+
+        /// <inheritdoc/>
+        public ValueTask<TEntity> FindAsync<TEntity>(long id)
+            where TEntity : BaseEntity
+        {
+            return _context.FindAsync<TEntity>(id);
+        }
+
+        /// <inheritdoc/>
+        public IQueryable<TEntity> Query<TEntity>()
+            where TEntity : class
+        {
+            return _context.Set<TEntity>();
+        }
+
+        /// <inheritdoc/>
+        public async Task<TEntity> UpdateAsync<TEntity>(TEntity value)
+            where TEntity : class
+        {
+            var entry = _context.Update(value);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in entry.Navigations)
+            {
+                await item.LoadAsync();
+            }
+
+            return entry.Entity;
+        }
+
+        public async Task<ITransaction> BeginTransaction()
+        {
+            return new Transaction(await _context.Database.BeginTransactionAsync());
+        }
+
+        public async Task<ITransaction> BeginTransaction(IsolationLevel isolationLevel)
+        {
+            return new Transaction(await _context.Database.BeginTransactionAsync(isolationLevel));
+        }
+
+        #region Dapper
+        //private readonly int _commandTimeout = 300;
+
+        ///// <inheritdoc/>
+        //public T Get<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    var list = GetAll<T>(obj, connection, transaction);
+
+        //    return list.SingleOrDefault();
+        //}
+
+        ///// <inheritdoc/>
+        //public T Get<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    var list = GetAll<T>(sql, param, connection, transaction);
+
+        //    return list.SingleOrDefault();
+        //}
+
+        ///// <inheritdoc/>
+        //public T Get<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null, IDbTransaction transaction = null)
+        //    where T : class
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return connection.Get(predicate, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return connection.Get(predicate, transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public IEnumerable<T> GetAll<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return connection.Query<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return connection.Query<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public IEnumerable<T> GetAll<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return connection.Query<T>(sql, param, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return connection.Query<T>(sql, param, transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        //    where T : class
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return connection.GetAll(predicate, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return connection.GetAll(predicate, transaction: transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public async Task<IEnumerable<T>> GetAllAsync<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return await connection.QueryAsync<T>(obj.Sql, obj.QueryParams, transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public async Task<IEnumerable<T>> GetAllAsync<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return await connection.QueryAsync<T>(sql, param, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return await connection.QueryAsync<T>(sql, param, transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        //    where T : class
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return await connection.GetAllAsync(predicate, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return await connection.GetAllAsync(predicate, transaction: transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public async Task<T> GetAsync<T>(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    var list = await GetAllAsync<T>(obj, connection, transaction);
+
+        //    return list.SingleOrDefault();
+        //}
+
+        ///// <inheritdoc/>
+        //public async Task<T> GetAsync<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        //{
+        //    var list = await GetAllAsync<T>(sql, param, connection, transaction);
+
+        //    return list.SingleOrDefault();
+        //}
+
+        ///// <inheritdoc/>
+        //public async Task<T> GetAsync<T>(Expression<Func<T, bool>> predicate, IDbConnection connection = null, IDbTransaction transaction = null)
+        //    where T : class
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return await connection.GetAsync(predicate, commandTimeout: _commandTimeout);
+        //    }
+        //    else
+        //    {
+        //        return connection.Get(predicate, transaction, commandTimeout: _commandTimeout);
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //public IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> predicate, IList<ISort> sort, int page, int resultsPerPage)
+        //    where T : class
+        //{
+        //    var connection = _context.Database.GetDbConnection();
+        //    return connection.GetPage(predicate, sort, page, resultsPerPage);
+        //}
+
+        ///// <inheritdoc/>
+        //public Task<IEnumerable<T>> GetPageAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10)
+        //    where T : class
+        //{
+        //    var connection = _context.Database.GetDbConnection();
+        //    return connection.GetPageAsync(predicate, sort, page, resultsPerPage);
+        //}
+
+        //public async Task<PaginatedResult<T>> GetPaginatedResultAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbConnection connection = null, IDbTransaction transaction = null)
+        //    where T : class
+        //{
+        //    if (connection == null)
+        //    {
+        //        connection = _context.Database.GetDbConnection();
+        //        return PaginatedResult<T>.Create(
+        //            await connection.CountAsync(predicate, transaction, _commandTimeout),
+        //            await connection.GetPageAsync(predicate, sort, page, resultsPerPage, transaction, _commandTimeout));
+        //    }
+        //    else
+        //    {
+        //        return PaginatedResult<T>.Create(
+        //            await connection.CountAsync(predicate, transaction, _commandTimeout),
+        //            await connection.GetPageAsync(predicate, sort, page, resultsPerPage, transaction, _commandTimeout));
+        //    }
+        //}
+        #endregion
+    }
+
+}

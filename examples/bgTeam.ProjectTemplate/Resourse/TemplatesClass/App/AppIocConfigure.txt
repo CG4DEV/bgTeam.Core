@@ -4,11 +4,13 @@
     using bgTeam.Core;
     using bgTeam.Core.Impl;
     using bgTeam.DataAccess;
-    using bgTeam.DataAccess.Impl.Dapper;
-    using bgTeam.DataAccess.Impl.MsSql;
+    using bgTeam.DataAccess.Impl;
     using bgTeam.Impl;
     using bgTeam.Impl.Serilog;
+    using kraken.DataAccess;
+    using kraken.DataAccess.Impl;
     using kraken.Story;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -34,11 +36,17 @@
                 .AddSingleton<IAppConfiguration>(config)
                 .AddSingleton<IAppSettings>(appSettings)
                 .AddSingleton<IAppLoggerConfig, AppLoggerSerilogConfig>()
-                .AddSingleton<IAppLogger, AppLoggerSerilog>()
-                .AddSingleton<IConnectionSetting>(appSettings)
-                .AddSingleton<IConnectionFactory, ConnectionFactoryMsSql>()
-                .AddSingleton<IRepository, RepositoryDapper>()
-                .AddSingleton<ICrudService, CrudServiceDapper>();
+                .AddSingleton<IAppLogger, AppLoggerSerilog>();
+
+            services
+               .AddOptions()
+               //.AddSingleton<IDataMapper, AutoMapperImpl>()
+               .AddDbContext<AppKrakenContext>(
+                   options => options
+                       .UseLazyLoadingProxies()
+                       .UseNpgsql(config.GetConnectionString("MainDb")),
+                   ServiceLifetime.Scoped)
+               .AddScoped<IEntityFrameworkRepository, EntityFrameworkRepository<AppKrakenContext>>();
 
             //Add story
             services.TryAdd(new ServiceDescriptor(typeof(IStoryFactory), typeof(StoryFactory), ServiceLifetime.Transient));
@@ -49,10 +57,20 @@
                 .AsImplementedInterfaces()
                 .WithLifetime(ServiceLifetime.Transient));
 
+            //Add query
+            services.TryAdd(new ServiceDescriptor(typeof(IQueryFactory), typeof(QueryFactory), ServiceLifetime.Transient));
+            services.TryAdd(new ServiceDescriptor(typeof(IQueryBuilder), typeof(QueryBuilder), ServiceLifetime.Transient));
+            services.Scan(scan => scan
+                .FromAssemblyOf<IQueryLibrary>()
+                .AddClasses(classes => classes.AssignableTo(typeof(IQuery<,>)))
+                .AsImplementedInterfaces()
+                .WithLifetime(ServiceLifetime.Transient));
+
             services
                 .AddSingleton<Runner>();
 
             return services;
         }
     }
+
 }
