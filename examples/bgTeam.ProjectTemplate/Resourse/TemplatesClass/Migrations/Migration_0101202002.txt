@@ -1,0 +1,51 @@
+﻿using $prj$.DataAccess.Impl;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace $namespace$
+{
+    [DbContext(typeof(AppDbContext))]
+    [Migration("Migration_0101202001")]
+    public partial class Migration_0101202002 : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.InsertData(
+                table: "role",
+                columns: new[] { "id", "concurrency_stamp", "name", "normalized_name" },
+                values: new object[,]
+                {
+                    { 1L, "39b9b8e6-0c73-49ea-8a7c-f9a6037ae97e", "Administrator", "ADMINISTRATOR" },
+                    { 2L, "412d121b-c1cf-4803-8fec-5c90ad16488b", "Customer", "CUSTOMER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "user",
+                columns: new[] { "id", "user_name", "email_confirmed", "phone_number_confirmed", "two_factor_enabled", "lockout_enabled", "access_failed_count" },
+                values: new object[,]
+                {
+                    { 1L, "User1", false, false, false, false, 0 },
+                    { 2L, "User2", false, false, false, false, 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "user_role",
+                columns: new[] { "user_id", "role_id" },
+                values: new object[,]
+                {
+                    { 1L, 1L },
+                    { 2L, 2L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "test",
+                columns: new[] { "id", "name" },
+                values: new object[,]
+                {
+                    { 1L, "Test1" },
+                    { 2L, "Test2" }
+                });
+        }
+    }
+
+}

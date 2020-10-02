@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.11.0.20529">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.13.1.21947">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7" />
-    <PackageReference Include="Scrutor" Version="3.2.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.8" />
+    <PackageReference Include="Scrutor" Version="3.2.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,11 +69,34 @@
     <None Update="Resourse\TemplatesClass\Common\BadRequestException.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resourse\TemplatesClass\Common\Exceptions\BadRequestException.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Common\Impl\TestService.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     
     <None Update="Resourse\TemplatesClass\Common\ITestService.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\TemplatesClass\Common\TestService.txt">
+    
+    <None Update="Resourse\TemplatesClass\DataAccess\IEntityFrameworkRepository.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    
+    <None Update="Resourse\TemplatesClass\DataAccess\Impl\EntityFrameworkRepository.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    
+    <None Update="Resourse\TemplatesClass\DataAccess\Impl\AppDbContext.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    
+    <None Update="Resourse\TemplatesClass\DataAccess\ITransaction.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    
+    <None Update="Resourse\TemplatesClass\DataAccess\IQueryLibrary.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\TemplatesClass\DataAccess\TestQuery.txt">
@@ -82,13 +105,46 @@
     <None Update="Resourse\TemplatesClass\DataAccess\TestQueryContext.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resourse\TemplatesClass\Domain\BaseEntity.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\Entities\Test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserToken.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserRole.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserLogin.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserClaim.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\UserEntity\User.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\UserEntity\RoleClaim.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Domain\UserEntity\Role.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resourse\TemplatesClass\Domain\IEntity.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\TemplatesClass\Domain\Test.txt">
+    <None Update="Resourse\TemplatesClass\Domain\Dto\TestDto.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\TemplatesClass\Domain\TestDto.txt">
+    <None Update="Resourse\TemplatesClass\Migrations\Migration_0101202002.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Migrations\Migration_0101202001.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resourse\TemplatesClass\Migrations\DbContextFactory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resourse\TemplatesClass\StoryRunner\AppIocConfigure.txt">

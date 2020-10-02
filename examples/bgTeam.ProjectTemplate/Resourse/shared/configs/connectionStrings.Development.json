@@ -1,8 +1,6 @@
 {
   "ConnectionStrings": {
     "MainDb": ""
-
-    //"MainDb": "Server=68.183.240.98;Database=kadodb;Username=remoteuser;Password=fh6GD4%Gf&"
   },
 
   "RabbitMQ": {
@@ -11,13 +9,5 @@
     "VirtualHost": "",
     "Login": "",
     "Password": ""
-  },
-
-  //"RabbitMQ": {
-  //  "Host": "52.169.5.177",
-  //  "Port": "5672",
-  //  "VirtualHost": "agropatrol",
-  //  "Login": "apaccess101",
-  //  "Password": "JdZjZJXMvAcpeZJ3aLERYUGZAvFqwpYO1kv91Z3kPUo"
-  //}
+  }
 }

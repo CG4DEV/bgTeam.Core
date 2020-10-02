@@ -1,0 +1,32 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    /// <summary>
+    /// Базовая сущность.
+    /// </summary>
+    public abstract class BaseEntity : IEntity
+    {
+        /// <summary>
+        /// Идентификатор сущности.
+        /// </summary>
+        [Key]
+        [Column("id")]
+        public long? Id { get; set; }
+
+        /// <summary>
+        /// Дата создания сущности.
+        /// </summary>
+        [Column("created_date")]
+        public DateTimeOffset CreatedDate { get; set; }
+
+        /// <summary>
+        /// Дата обновления сущности.
+        /// </summary>
+        [Column("updated_date")]
+        public DateTimeOffset UpdatedDate { get; set; }
+    }
+
+}

@@ -1,12 +1,5 @@
 ﻿namespace bgTeam.ProjectTemplate
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using bgTeam.Extensions;
 
     public class SolutionSettings
     {
@@ -15,5 +8,11 @@
         public bool IsApp { get; internal set; }
 
         public string BgTeamVersion { get; set; }
+
+        public string EntityFrameworkCoreVersion { get; set; } = "3.1.8";
+
+        public string EntityFrameworkCoreNpgsqlVersion { get; set; } = "3.1.4";
+
+        public string MicrosoftIdentityStoresVersion { get; set; } = "3.1.8";
     }
 }

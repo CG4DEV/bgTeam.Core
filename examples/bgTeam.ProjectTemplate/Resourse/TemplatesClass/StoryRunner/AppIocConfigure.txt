@@ -9,7 +9,7 @@
     using bgTeam.Queues;
     using bgTeam.StoryRunner;
     using bgTeam.StoryRunner.Impl;
-    using kraken.Story;
+    using $prj$.Story;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
