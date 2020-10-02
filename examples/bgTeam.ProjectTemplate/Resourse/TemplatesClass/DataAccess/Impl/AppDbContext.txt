@@ -3,7 +3,9 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using $prj$.Domain;
     using $prj$.Domain.Entities;
+    using $prj$.Domain.UserEntity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 

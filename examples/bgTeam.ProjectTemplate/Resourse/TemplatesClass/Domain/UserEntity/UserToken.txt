@@ -1,13 +1,15 @@
 ﻿namespace $namespace$
 {
-    using System.ComponentModel.DataAnnotations;
+    using System;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.AspNetCore.Identity;
 
-    [Table("test")]
-    public class Test : BaseEntity
+    public class UserToken : IdentityUserToken<long>
     {
-        [Required]
-        [Column("name")]
-        public string Name { get; set; }
+        [Column("created_date")]
+        public DateTimeOffset CreatedDate { get; set; }
+
+        [Column("updated_date")]
+        public DateTimeOffset UpdatedDate { get; set; }
     }
 }

@@ -7,9 +7,9 @@
     using bgTeam.DataAccess.Impl;
     using bgTeam.Impl;
     using bgTeam.Impl.Serilog;
-    using kraken.DataAccess;
-    using kraken.DataAccess.Impl;
-    using kraken.Story;
+    using $prj$.DataAccess;
+    using $prj$.DataAccess.Impl;
+    using $prj$.Story;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -41,12 +41,12 @@
             services
                .AddOptions()
                //.AddSingleton<IDataMapper, AutoMapperImpl>()
-               .AddDbContext<AppKrakenContext>(
+               .AddDbContext<AppDbContext>(
                    options => options
                        .UseLazyLoadingProxies()
                        .UseNpgsql(config.GetConnectionString("MainDb")),
                    ServiceLifetime.Scoped)
-               .AddScoped<IEntityFrameworkRepository, EntityFrameworkRepository<AppKrakenContext>>();
+               .AddScoped<IEntityFrameworkRepository, EntityFrameworkRepository<AppDbContext>>();
 
             //Add story
             services.TryAdd(new ServiceDescriptor(typeof(IStoryFactory), typeof(StoryFactory), ServiceLifetime.Transient));

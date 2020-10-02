@@ -26,6 +26,10 @@
                 .AddSingleton<IStoryFactory, StoryFactory>()
                 .AddSingleton<IStoryBuilder, StoryBuilder>();
 
+            services
+                .AddControllers()
+                .AddApplicationPart(typeof(AppIocConfigure).Assembly);
+
             return services;
         }
     }

@@ -135,9 +135,6 @@
     <None Update="Resourse\TemplatesClass\Domain\IEntity.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\TemplatesClass\Domain\Test.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Resourse\TemplatesClass\Domain\Dto\TestDto.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

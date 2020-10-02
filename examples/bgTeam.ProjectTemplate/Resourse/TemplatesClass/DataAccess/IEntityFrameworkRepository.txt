@@ -4,7 +4,7 @@
     using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
-    using $prj$.Domain.Entities;
+    using $prj$.Domain;
 
     public interface IEntityFrameworkRepository //: IRepository
     {
