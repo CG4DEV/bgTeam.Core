@@ -1,0 +1,56 @@
+﻿namespace $namespace$
+{
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using $prj$.Domain;
+    using $prj$.Domain.Entities;
+    using $prj$.Domain.UserEntity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+
+    public class AppDbContext : IdentityDbContext<User, Role, long, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppDbContext"/> class.
+        /// </summary>
+        /// <param name="options">Database context options.</param>
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<Test> Tests { get; set; }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            BeforeSaveChanges();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            BeforeSaveChanges();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        protected virtual void BeforeSaveChanges()
+        {
+            var now = DateTimeOffset.Now;
+
+            foreach (var item in ChangeTracker.Entries<BaseEntity>())
+            {
+                if (item.State == EntityState.Added)
+                {
+                    item.Entity.CreatedDate = now;
+                    item.Entity.UpdatedDate = now;
+                }
+                else if (item.State == EntityState.Modified)
+                {
+                    item.Entity.UpdatedDate = now;
+                }
+            }
+        }
+    }
+
+}

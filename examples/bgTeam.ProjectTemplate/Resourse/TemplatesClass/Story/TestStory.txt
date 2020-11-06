@@ -8,7 +8,7 @@
     public class TestStory : IStory<TestStoryContext, bool>
     {
         private readonly IAppLogger _logger;
-        private readonly ICrudService _crudService;
+        // private readonly IEntityFrameworkRepository _repository;
 
         public TestStory(
             IAppLogger logger,
@@ -16,7 +16,7 @@
             ICrudService crudService)
         {
             _logger = logger;
-            _crudService = crudService;
+            // _crudService = crudService;
         }
 
         public bool Execute(TestStoryContext context)
@@ -26,13 +26,15 @@
 
         public async Task<bool> ExecuteAsync(TestStoryContext context)
         {
-            await _crudService.ExecuteAsync("if not exists (select * from sysobjects where name='Product' and xtype='U') CREATE TABLE Product (Id INT NOT NULL IDENTITY(1,1), Name varchar(255) NOT NULL)");
+            //var user = await _userManager.FindByIdAsync(context.UserId);
+            //await _crudService.ExecuteAsync("if not exists (select * from sysobjects where name='Product' and xtype='U') CREATE TABLE Product (Id INT NOT NULL IDENTITY(1,1), Name varchar(255) NOT NULL)");
 
-            await _crudService.ExecuteAsync(@"INSERT INTO Product(Name) values ('Producte 1');");
+            //await _crudService.ExecuteAsync(@"INSERT INTO Product(Name) values ('Producte 1');");
 
-            await _crudService.InsertAsync(new Test() { Name = "Producte 2" });
+            //await _crudService.InsertAsync(new Test() { Name = "Producte 2" });
 
             return true;
+
         }
     }
 }

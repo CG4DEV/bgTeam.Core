@@ -1,20 +1,21 @@
 ﻿namespace $namespace$
 {
-    using System;
+    using System.Linq;
     using System.Threading.Tasks;
-	using bgTeam;
+    using bgTeam;
     using bgTeam.DataAccess;
-    using bgTeam.Extensions;
     using $prj$.Domain.Dto;
+    using $prj$.Domain.Entities;
+    using Microsoft.EntityFrameworkCore;
 
     public class TestQuery : IQuery<TestQueryContext, TestDto>
     {
         private readonly IAppLogger _logger;
-        private readonly IRepository _repository;
+        private readonly IEntityFrameworkRepository _repository;
 
         public TestQuery(
-            IAppLogger logger, 
-            IRepository repository)
+            IAppLogger logger,
+            IEntityFrameworkRepository repository)
         {
             _logger = logger;
             _repository = repository;
@@ -27,11 +28,18 @@
 
         public async Task<TestDto> ExecuteAsync(TestQueryContext context)
         {
-            context.Id.CheckNull(nameof(context.Id));
+            var result = await _repository.Query<Test>().ToListAsync();
 
-            var sql = "";
+            _logger.Debug($"Find object: {result.Count}");
 
-            return await _repository.GetAsync<TestDto>(sql, new { Id = context.Id });
+            var test = result.First();
+
+            return new TestDto()
+            {
+                Id = test.Id.Value,
+                Name = test.Name,
+            };
         }
     }
+
 }
