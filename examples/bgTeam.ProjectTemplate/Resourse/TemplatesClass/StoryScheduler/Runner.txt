@@ -1,6 +1,7 @@
 ﻿namespace $namespace$
 {
     using System.Collections.Generic;
+    using System.Linq;
     using bgTeam;
     using bgTeam.Quartz;
     using bgTeam.StoryRunnerScheduler;
