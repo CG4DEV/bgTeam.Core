@@ -234,7 +234,7 @@
                 p8.ProjectFile(
                     new[]
                     {
-                        ("Swashbuckle.AspNetCore", "5.5.1"),
+                        ("NSwag.AspNetCore", "13.8.2"),
                         ("Microsoft.AspNetCore.Mvc.NewtonsoftJson", "3.1.7"),
                     },
                     "Microsoft.NET.Sdk.Web",
