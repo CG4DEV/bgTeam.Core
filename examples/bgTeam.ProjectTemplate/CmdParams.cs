@@ -1,7 +1,6 @@
 ﻿namespace bgTeam.ProjectTemplate
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     internal class CmdParams
     {

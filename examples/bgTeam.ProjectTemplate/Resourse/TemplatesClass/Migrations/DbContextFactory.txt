@@ -1,0 +1,28 @@
+﻿﻿using $prj$.DataAccess.Impl;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+
+namespace $namespace$
+{
+    /// <summary>
+    /// Package Manager Console - Update-DataBase
+    /// </summary>
+    public class DbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    {
+        public AppKrakenContext CreateDbContext(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json")
+               .Build();
+
+            var builder = new DbContextOptionsBuilder<AppKrakenContext>()
+                .UseNpgsql(config["CS"], z => z.MigrationsAssembly("$prj$.Migrations"));
+
+            return new AppKrakenContext(builder.Options);
+        }
+    }
+
+}

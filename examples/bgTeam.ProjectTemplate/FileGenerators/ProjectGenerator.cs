@@ -1,5 +1,6 @@
 ﻿namespace bgTeam.ProjectTemplate
 {
+    using bgTeam.ProjectTemplate.FileGenerators;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -80,7 +81,7 @@
 
             Output = $"{Name}/{Name}.csproj";
 
-            File.WriteAllText(Path.Combine(_resPath, Output), result.ToString());
+            GeneratorHelper.WriteAllText(Path.Combine(_resPath, Output), result.ToString());
         }
 
         public void ClassTemplateFile(string name, string pathTemp, string[] folderPath = null, IList<(string Key, string Value)> replist = null)
@@ -108,7 +109,7 @@
                 }
             }
 
-            File.WriteAllText($"{_resPath}/{Name}/{string.Join("/", folderPath)}/{name}.cs", result.ToString());
+            GeneratorHelper.WriteAllText($"{_resPath}/{Name}/{string.Join("/", folderPath)}/{name}.cs", result.ToString());
         }
 
         public void JsonTemplateFile(string name, string pathTemp, string[] folderPath = null, IList<(string Key, string Value)> replist = null)
@@ -128,7 +129,8 @@
                 }
             }
 
-            File.WriteAllText($"{_resPath}{Path.DirectorySeparatorChar}{Name}{Path.DirectorySeparatorChar}{string.Join($"{Path.DirectorySeparatorChar}", folderPath)}{Path.DirectorySeparatorChar}{name}.json", result.ToString());
+            var filePath = $"{_resPath}{Path.DirectorySeparatorChar}{Name}{Path.DirectorySeparatorChar}{string.Join($"{Path.DirectorySeparatorChar}", folderPath)}{Path.DirectorySeparatorChar}{name}.json";
+            GeneratorHelper.WriteAllText(filePath, result.ToString());
         }
 
         public void Folder(string folder)

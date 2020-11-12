@@ -1,0 +1,37 @@
+﻿namespace $namespace$
+{
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using $prj$.Domain;
+
+    public interface IEntityFrameworkRepository //: IRepository
+    {
+        ValueTask<TEntity> FindAsync<TEntity>(long id)
+            where TEntity : BaseEntity;
+
+        IQueryable<TEntity> Query<TEntity>()
+            where TEntity : class;
+
+        Task<TEntity> DeleteAsync<TEntity>(TEntity value)
+            where TEntity : class;
+
+        Task<IEnumerable<TEntity>> DeleteAsync<TEntity>(IEnumerable<TEntity> value)
+            where TEntity : class;
+
+        Task<TEntity> CreateAsync<TEntity>(TEntity value)
+            where TEntity : class;
+
+        Task<IEnumerable<TEntity>> CreateAsync<TEntity>(IEnumerable<TEntity> value)
+            where TEntity : class;
+
+        Task<TEntity> UpdateAsync<TEntity>(TEntity value)
+            where TEntity : class;
+
+        Task<ITransaction> BeginTransaction();
+
+        Task<ITransaction> BeginTransaction(IsolationLevel isolationLevel);
+    }
+
+}
