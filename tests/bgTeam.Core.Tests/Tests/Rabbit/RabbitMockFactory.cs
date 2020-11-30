@@ -1,20 +1,18 @@
-﻿using bgTeam.Queues;
+﻿using System.Text;
+using bgTeam.Queues;
 using Moq;
 using RabbitMQ.Client;
-using System.Text;
 
 namespace bgTeam.Core.Tests.Rabbit
 {
     public static class RabbitMockFactory
     {
         public static (
-            Mock<IAppLogger>,
             Mock<IMessageProvider>,
             Mock<IQueueProviderSettings>,
             Mock<IConnectionFactory>)
             Get(Mock<IModel> model = null)
         {
-            var appLogger = new Mock<IAppLogger>();
             var messageProvider = new Mock<IMessageProvider>();
             var queueProviderSettings = new Mock<IQueueProviderSettings>();
             var connectionFactory = new Mock<IConnectionFactory>();
@@ -52,7 +50,7 @@ namespace bgTeam.Core.Tests.Rabbit
                 .Returns(new QueueDeclareOk("queue1", 122, 3));
             model.Setup(x => x.CreateBasicProperties())
                .Returns(new Mock<IBasicProperties>().Object);
-            
+
 
             connection.Setup(x => x.CreateModel())
                 .Returns(model.Object);
@@ -60,7 +58,6 @@ namespace bgTeam.Core.Tests.Rabbit
                 .Returns(connection.Object);
 
             return (
-                appLogger,
                 messageProvider,
                 queueProviderSettings,
                 connectionFactory);

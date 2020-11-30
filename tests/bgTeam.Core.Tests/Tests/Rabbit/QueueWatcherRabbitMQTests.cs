@@ -1,8 +1,8 @@
-﻿using bgTeam.Impl.Rabbit;
-using bgTeam.Queues;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using bgTeam.Impl.Rabbit;
+using bgTeam.Queues;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Rabbit
@@ -10,50 +10,40 @@ namespace bgTeam.Core.Tests.Rabbit
     public class QueueWatcherRabbitMQTests
     {
         [Fact]
-        public void DependencyAppLogger()
-        {
-            var (appLogger, messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
-            Assert.Throws<ArgumentNullException>("logger", () =>
-            {
-                new QueueWatcherRabbitMQ(null, messageProvider.Object, queueProviderSettings.Object);
-            });
-        }
-
-        [Fact]
         public void DependencyMessageProvider()
         {
-            var (appLogger, messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
+            var (messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
             Assert.Throws<ArgumentNullException>("msgProvider", () =>
             {
-                new QueueWatcherRabbitMQ(appLogger.Object, null, queueProviderSettings.Object);
+                new QueueWatcherRabbitMQ(null, queueProviderSettings.Object);
             });
         }
 
         [Fact]
         public void DependencyQueueProviderSettings()
         {
-            var (appLogger, messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
+            var (messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
             Assert.Throws<ArgumentNullException>("settings", () =>
             {
-                new QueueWatcherRabbitMQ(appLogger.Object, messageProvider.Object, (IQueueProviderSettings)null);
+                new QueueWatcherRabbitMQ(messageProvider.Object, (IQueueProviderSettings)null);
             });
         }
 
         [Fact]
         public void DependencyConnectionFactory()
         {
-            var (appLogger, messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
+            var (messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
             Assert.Throws<ArgumentNullException>("factory", () =>
             {
-                new QueueWatcherRabbitMQ(appLogger.Object, messageProvider.Object, (RabbitMQ.Client.IConnectionFactory)null);
+                new QueueWatcherRabbitMQ(messageProvider.Object, (RabbitMQ.Client.IConnectionFactory)null);
             });
         }
 
         [Fact]
         public void DependencySubscribe()
         {
-            var (appLogger, messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
-            var queueWatcherRabbitMQ = new QueueWatcherRabbitMQ(appLogger.Object, messageProvider.Object, queueProviderSettings.Object);
+            var (messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
+            var queueWatcherRabbitMQ = new QueueWatcherRabbitMQ(messageProvider.Object, queueProviderSettings.Object);
             Assert.Throws<ArgumentNullException>("Subscribe", () =>
             {
                 queueWatcherRabbitMQ.StartWatch("queue1");
@@ -63,8 +53,8 @@ namespace bgTeam.Core.Tests.Rabbit
         [Fact]
         public void StartWatch()
         {
-            var (appLogger, messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
-            var queueWatcherRabbitMQ = new QueueWatcherRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object);
+            var (messageProvider, queueProviderSettings, connectionFactory) = RabbitMockFactory.Get();
+            var queueWatcherRabbitMQ = new QueueWatcherRabbitMQ(messageProvider.Object, connectionFactory.Object);
 
             var @event = new ManualResetEvent(false);
             IQueueMessage message = null;

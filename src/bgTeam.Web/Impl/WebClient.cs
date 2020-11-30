@@ -16,7 +16,6 @@
     public class WebClient : IWebClient
     {
         private readonly string _url;
-        private readonly IAppLogger _logger;
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
@@ -26,14 +25,14 @@
         private readonly ServicePoint _servicePoint;
 #endif
 
-        public WebClient(IAppLogger logger, string url)
-            : this(logger, url, new FormUrlEncodedContentBuilder())
+        public WebClient(string url)
+            : this(url, new FormUrlEncodedContentBuilder())
         {
         }
 
 #if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-        public WebClient(IAppLogger logger, string url, X509CertificateCollection clientCertificates)
-            : this(logger, url, new FormUrlEncodedContentBuilder())
+        public WebClient(string url, X509CertificateCollection clientCertificates)
+            : this(url, new FormUrlEncodedContentBuilder())
         {
             var sslOptions = new System.Net.Security.SslClientAuthenticationOptions();
             sslOptions.ClientCertificates = clientCertificates;
@@ -43,9 +42,8 @@
         }
 #endif
 
-        public WebClient(IAppLogger logger, string url, IContentBuilder builder)
+        public WebClient(string url, IContentBuilder builder)
         {
-            _logger = logger;
             _url = url;
             _builder = builder.CheckNull(nameof(builder));
 
@@ -307,8 +305,6 @@
             builder.Query = query.ToString();
 
             string url = builder.ToString();
-
-            _logger.Debug($"Built url for request: {url}");
             return url;
         }
 
@@ -353,22 +349,12 @@
                 return default(T);
             }
 
-            try
+            if (typeof(T) == typeof(string))
             {
-                if (typeof(T) == typeof(string))
-                {
-                    return result as T;
-                }
-
-                return JsonConvert.DeserializeObject<T>(result);
+                return result as T;
             }
-            catch (JsonSerializationException exp)
-            {
-                _logger.Error(result);
-                _logger.Error(exp);
 
-                throw new Exception($"Can't covert to {typeof(T)}. Response: {result}", exp);
-            }
+            return JsonConvert.DeserializeObject<T>(result);
         }
 
         private static void FillHeaders(IDictionary<string, object> headers, HttpRequestMessage msg)

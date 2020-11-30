@@ -1,12 +1,11 @@
-using bgTeam.Core.Tests.Infrastructure.TestServer;
-using bgTeam.Web;
-using bgTeam.Web.Impl;
-using Microsoft.AspNetCore.TestHost;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using bgTeam.Core.Tests.Infrastructure.TestServer;
+using bgTeam.Web;
+using bgTeam.Web.Impl;
+using Moq;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Tests.Web.Impl
@@ -23,17 +22,17 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public void DependencyContentBuilder()
         {
-            var (appLogger, contentBuilder) = GetMocks();
+            var contentBuilder = GetMocks();
             Assert.Throws<ArgumentNullException>("builder", () =>
             {
-                new WebClient(new Mock<IAppLogger>().Object, "http://test.com", (IContentBuilder)null);
+                new WebClient("http://test.com", (IContentBuilder)null);
             });
         }
 
         [Fact]
         public async Task GetString()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var result = await webClient.GetAsync<string>("WebClientTest/GetString").ConfigureAwait(false);
 
             Assert.Equal("GetString", result);
@@ -42,7 +41,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Post_String()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var result = await webClient.PostAsync<string>("WebClientTest/PostString").ConfigureAwait(false);
 
             Assert.Equal("PostString", result);
@@ -51,7 +50,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Post_NullString()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var result = await webClient.PostAsync<string>("WebClientTest/PostNullString").ConfigureAwait(false);
 
             Assert.Null(result);
@@ -60,7 +59,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Post_ArrayString()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var result = await webClient.PostAsync<string[]>("WebClientTest/PostArrayString").ConfigureAwait(false);
 
             Assert.NotNull(result);
@@ -70,7 +69,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Post_EmptyArrayString()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var result = await webClient.PostAsync<string[]>("WebClientTest/PostEmptyArrayString").ConfigureAwait(false);
 
             Assert.NotNull(result);
@@ -80,7 +79,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_String()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var query = new Dictionary<string, object> { { "query", "stringQuery" } };
             webClient.Culture = CultureInfo.InvariantCulture;
             var result = await webClient.GetAsync<string>("WebClientTest/GetQueryString", query).ConfigureAwait(false);
@@ -92,7 +91,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_Int()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = 12345678;
             var query = new Dictionary<string, object> { { "query", expected } };
             webClient.Culture = CultureInfo.InvariantCulture;
@@ -105,7 +104,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_Double()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = 12345.678D;
             var query = new Dictionary<string, object> { { "query", expected } };
             webClient.Culture = CultureInfo.InvariantCulture;
@@ -118,7 +117,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_DateTime()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = DateTime.Now;
             var query = new Dictionary<string, object> { { "query", expected } };
             webClient.Culture = CultureInfo.InvariantCulture;
@@ -131,7 +130,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_DateTimeOffset()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = DateTimeOffset.Now;
             var query = new Dictionary<string, object> { { "query", expected } };
             webClient.Culture = CultureInfo.InvariantCulture;
@@ -144,7 +143,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_TimeSpan()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = TimeSpan.FromMilliseconds(31241241124);
             var query = new Dictionary<string, object> { { "query", expected } };
             webClient.Culture = CultureInfo.InvariantCulture;
@@ -157,7 +156,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_Float()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = 123.45678F;
             var query = new Dictionary<string, object> { { "query", expected } };
             webClient.Culture = CultureInfo.InvariantCulture;
@@ -170,7 +169,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_QueryString_Decimal()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = 123.45678M;
             var query = new Dictionary<string, object> { { "query", expected } };
             webClient.Culture = CultureInfo.InvariantCulture;
@@ -183,7 +182,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_SendHeader()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = "headerValue";
             var headers = new Dictionary<string, object> { { "test_header", expected } };
             var result = await webClient.GetAsync<string>("WebClientTest/GetReturnHeaderValue", headers: headers).ConfigureAwait(false);
@@ -195,7 +194,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Post_SendHeader()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri);
+            var webClient = new WebClient(_fixture.BaseUri);
             var expected = "headerValue";
             var headers = new Dictionary<string, object> { { "test_header", expected } };
             var result = await webClient.PostAsync<string>("WebClientTest/PostReturnHeaderValue", headers: headers).ConfigureAwait(false);
@@ -207,7 +206,7 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Get_String_WithOffset()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri + "/WebClientTest");
+            var webClient = new WebClient(_fixture.BaseUri + "/WebClientTest");
             var result = await webClient.GetAsync<string>("GetString").ConfigureAwait(false);
 
             Assert.Equal("GetString", result);
@@ -216,22 +215,16 @@ namespace bgTeam.Core.Tests.Tests.Web.Impl
         [Fact]
         public async Task Post_String_WithOffset()
         {
-            var webClient = new WebClient(new Mock<IAppLogger>().Object, _fixture.BaseUri + "/WebClientTest");
+            var webClient = new WebClient(_fixture.BaseUri + "/WebClientTest");
             var result = await webClient.PostAsync<string>("PostString").ConfigureAwait(false);
 
             Assert.Equal("PostString", result);
         }
 
-        private (
-            Mock<IAppLogger>,
-            Mock<IContentBuilder>)
-            GetMocks()
+        private Mock<IContentBuilder> GetMocks()
         {
-            var appLogger = new Mock<IAppLogger>();
             var contentBuilder = new Mock<IContentBuilder>();
-            return (
-                appLogger,
-                contentBuilder);
+            return contentBuilder;
         }
     }
 }

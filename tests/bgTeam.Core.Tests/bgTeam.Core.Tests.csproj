@@ -29,7 +29,6 @@
     <ProjectReference Include="..\..\src\bgTeam.Impl.MsSql\bgTeam.Impl.MsSql.csproj" />
     <ProjectReference Include="..\..\src\bgTeam.Impl.Oracle\bgTeam.Impl.Oracle.csproj" />
     <ProjectReference Include="..\..\src\bgTeam.Impl.PostgreSQL\bgTeam.Impl.PostgreSQL.csproj" />
-    <ProjectReference Include="..\..\src\bgTeam.Impl.Log4Net\bgTeam.Impl.Log4Net.csproj" />
     <ProjectReference Include="..\..\src\bgTeam.Impl.Rabbit\bgTeam.Impl.Rabbit.csproj" />
     <ProjectReference Include="..\..\src\bgTeam.Impl.Serilog\bgTeam.Impl.Serilog.csproj" />
     <ProjectReference Include="..\..\src\bgTeam.Impl.Sqlite\bgTeam.Impl.Sqlite.csproj" />

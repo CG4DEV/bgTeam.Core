@@ -1,11 +1,11 @@
-﻿using bgTeam.Impl.Rabbit;
-using bgTeam.Queues;
-using Moq;
-using RabbitMQ.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using bgTeam.Impl.Rabbit;
+using bgTeam.Queues;
+using Moq;
+using RabbitMQ.Client;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Rabbit
@@ -13,42 +13,32 @@ namespace bgTeam.Core.Tests.Rabbit
     public class QueueProviderRabbitMQTests
     {
         [Fact]
-        public void DependencyAppLogger()
-        {
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
-            Assert.Throws<ArgumentNullException>("logger", () =>
-            {
-                new QueueProviderRabbitMQ(null, messageProvider.Object, connectionFactory.Object);
-            });
-        }
-
-        [Fact]
         public void DependencyMessageProvider()
         {
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
             Assert.Throws<ArgumentNullException>("msgProvider", () =>
             {
-                new QueueProviderRabbitMQ(appLogger.Object, null, connectionFactory.Object);
+                new QueueProviderRabbitMQ(null, connectionFactory.Object);
             });
         }
 
         [Fact]
         public void DependencyConnectionFactory()
         {
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
             Assert.Throws<ArgumentNullException>("factory", () =>
             {
-                new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, null);
+                new QueueProviderRabbitMQ(messageProvider.Object, null);
             });
         }
 
         [Fact]
         public void DependencyQueues()
         {
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
             Assert.Throws<ArgumentNullException>("queues", () =>
             {
-                new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object);
+                new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object);
             });
         }
 
@@ -56,9 +46,9 @@ namespace bgTeam.Core.Tests.Rabbit
         public void InitWithDelay()
         {
             var model = new Mock<IModel>();
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var connection = new Mock<IConnection>();
-            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
+            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, true, "queue1");
             model.Verify(x => x.QueueBind("queue1", "bgTeam.direct.delay", "queue1", null));
             model.Verify(x => x.ExchangeDeclare("bgTeam.direct.delay", "x-delayed-message", true, false, It.IsAny<IDictionary<string, object>>()));
         }
@@ -67,9 +57,9 @@ namespace bgTeam.Core.Tests.Rabbit
         public void InitWithoutDelay()
         {
             var model = new Mock<IModel>();
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var connection = new Mock<IConnection>();
-            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, false, "queue1");
+            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, false, "queue1");
             model.Verify(x => x.QueueBind("queue1", "bgTeam.direct", "queue1", null));
             model.Verify(x => x.ExchangeDeclare("bgTeam.direct", "direct", true, false, null));
         }
@@ -78,8 +68,8 @@ namespace bgTeam.Core.Tests.Rabbit
         public void PushMessage()
         {
             var model = new Mock<IModel>();
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
-            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, true, "queue1");
             queueProviderRabbitMQ.PushMessage(new QueueMessageDefault() { Body = "hi" });
             model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue1", false, It.IsAny<IBasicProperties>(), It.IsAny<ReadOnlyMemory<byte>>()));
         }
@@ -90,8 +80,8 @@ namespace bgTeam.Core.Tests.Rabbit
             var model = new Mock<IModel>();
             model.Setup(x => x.QueueDeclare("queue2", It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>(), null))
                 .Returns(new QueueDeclareOk("queue2", 12, 2));
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
-            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, true, "queue1");
             queueProviderRabbitMQ.PushMessage(new QueueMessageDefault() { Body = "hi" }, "queue1", "queue2");
             model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue1", false, It.IsAny<IBasicProperties>(), It.IsAny<ReadOnlyMemory<byte>>()));
             model.Verify(x => x.BasicPublish("bgTeam.direct.delay", "queue2", false, It.IsAny<IBasicProperties>(), It.IsAny<ReadOnlyMemory<byte>>()));
@@ -103,13 +93,13 @@ namespace bgTeam.Core.Tests.Rabbit
             var model = new Mock<IModel>();
             model.Setup(x => x.MessageCount("queue1"))
                 .Returns(10);
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
-            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, true, "queue1");
             var count = queueProviderRabbitMQ.GetQueueMessageCount("queue1");
             Assert.Equal((uint)10, count);
         }
 
-        [Fact(Skip="When run with one thread - this test will be hovered")]
+        [Fact(Skip = "When run with one thread - this test will be hovered")]
         public void DisposeShouldCloseChannel()
         {
             var model = new Mock<IModel>();
@@ -122,9 +112,9 @@ namespace bgTeam.Core.Tests.Rabbit
                     return 10;
                 });
 
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
 
-            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
+            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, true, "queue1");
             var task = Task.Factory.StartNew(() => queueProviderRabbitMQ.GetQueueMessageCount("queue1"));
 
             queueProviderRabbitMQ.Dispose();
@@ -139,8 +129,8 @@ namespace bgTeam.Core.Tests.Rabbit
         public void GetQueueMessageCountShouldThrowsExceptionIfQueueNotExists()
         {
             var model = new Mock<IModel>();
-            var (appLogger, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
-            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(appLogger.Object, messageProvider.Object, connectionFactory.Object, true, "queue1");
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, true, "queue1");
             Assert.Throws<Exception>(() => queueProviderRabbitMQ.GetQueueMessageCount("queue2"));
         }
     }

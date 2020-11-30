@@ -12,6 +12,5 @@
         /// <param name="commandContext"></param>
         /// <returns></returns>
         IStoryReturn<TStoryContext> Build<TStoryContext>(TStoryContext context);
-            //where TCommandContext : ICommandContext;
     }
 }
