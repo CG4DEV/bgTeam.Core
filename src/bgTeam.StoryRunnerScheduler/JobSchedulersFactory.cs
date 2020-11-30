@@ -8,6 +8,7 @@
     using bgTeam.Queues;
     using global::Quartz;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Schedulers factory Quartz
@@ -23,7 +24,7 @@
 
         protected override IDictionary<string, object> CreateCommonMap(IJobTriggerInfo conf)
         {
-            var logger = _container.GetService<IAppLogger>();
+            var logger = _container.GetService<ILogger<MainJob>>();
             var repository = _container.GetService<IRepository>();
             var sender = _container.GetService<ISenderEntity>();
 

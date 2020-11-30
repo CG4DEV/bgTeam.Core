@@ -12,16 +12,13 @@
             DateTimeZoneHandling = DateTimeZoneHandling.Utc,
         };
 
-        private readonly IAppLogger _logger;
         private readonly IServiceProvider _container;
         private readonly IStoryProcessorRepository _repository;
 
         public StoryProcessor(
-            IAppLogger logger,
             IServiceProvider container,
             IStoryProcessorRepository repository)
         {
-            _logger = logger;
             _container = container;
             _repository = repository;
         }

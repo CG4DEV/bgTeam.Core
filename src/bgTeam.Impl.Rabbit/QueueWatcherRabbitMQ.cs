@@ -11,7 +11,6 @@
     [Obsolete("Using class bgTeam.Impl.Rabbit.QueueConsumerAsyncRabbitMQ instead")]
     public class QueueWatcherRabbitMQ : IQueueWatcher<IQueueMessage>
     {
-        private readonly IAppLogger _logger;
         private readonly IConnectionFactory _factory;
         private readonly IMessageProvider _msgProvider;
 
@@ -19,12 +18,10 @@
         private readonly SemaphoreSlim _semaphore;
 
         public QueueWatcherRabbitMQ(
-            IAppLogger logger,
             IMessageProvider msgProvider,
             IQueueProviderSettings settings,
             int threadsCount = 1)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _msgProvider = msgProvider ?? throw new ArgumentNullException(nameof(msgProvider));
             if (settings == null)
             {
@@ -45,12 +42,10 @@
         }
 
         public QueueWatcherRabbitMQ(
-            IAppLogger logger,
             IMessageProvider msgProvider,
             IConnectionFactory factory,
             int threadsCount = 1)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _msgProvider = msgProvider ?? throw new ArgumentNullException(nameof(msgProvider));
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
@@ -72,25 +67,9 @@
 
             while (true)
             {
-                _logger.Debug($"NewQueueWatcherRabbitMQ: create connection");
                 using (var connection = _factory.CreateConnection())
                 {
-                    try
-                    {
-                        MainLoop(queueName, connection);
-                    }
-                    catch (Exception ex)
-                    {
-                        var args = connection.CloseReason;
-                        if (args != null)
-                        {
-                            _logger.Error($"NewQueueWatcherRabbitMQ: connection shutdown. Reason: {args.ReplyCode} - {args.ReplyText}");
-                        }
-                        else
-                        {
-                            _logger.Error($"NewQueueWatcherRabbitMQ: error: {ex.Message}");
-                        }
-                    }
+                    MainLoop(queueName, connection);
                 }
             }
         }
@@ -110,27 +89,20 @@
 
                         if (!noMsg)
                         {
-                            _logger.Info("No messages");
                             await Task.Delay(_threadSleep);
                         }
                     }
                     catch (QueueWatcherException exp) when (exp.InnerException is QueueWatcherWarningException qexp)
                     {
-                        _logger.Warning($"Exception of type {qexp.GetType().Name}: {qexp.Message}{Environment.NewLine}{qexp.StackTrace}");
-
                         Error?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, qexp));
                     }
                     catch (QueueWatcherException exp)
                     {
-                        _logger.Error(exp);
-
                         Error?.Invoke(this, new ExtThreadExceptionEventArgs(exp.QueueMessage, exp.GetBaseException()));
                     }
                     catch (Exception exp)
                     {
-                        _logger.Fatal(exp);
-
-                        // Ждём 5 сек
+                        Error?.Invoke(this, new ExtThreadExceptionEventArgs(null, exp));
                         await Task.Delay(5000);
                     }
                     finally
@@ -145,7 +117,6 @@
         {
             using (var channel = connection.CreateModel())
             {
-                _logger.Debug($"NewQueueWatcherRabbitMQ: channel open");
                 var res = channel.BasicGet(queueName, false);
                 if (res != null)
                 {

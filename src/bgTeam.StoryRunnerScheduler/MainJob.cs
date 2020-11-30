@@ -9,6 +9,7 @@
     using bgTeam.Impl.Rabbit;
     using bgTeam.Queues;
     using global::Quartz;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -28,12 +29,12 @@
         {
             JobDataMap dataMap = context.JobDetail.JobDataMap;
 
-            var logger = (IAppLogger)dataMap["Logger"];
+            var logger = (ILogger<MainJob>)dataMap["Logger"];
             var repository = (IRepository)dataMap["Repository"];
             var sender = (ISenderEntity)dataMap["Sender"];
             var config = (JobTriggerInfo)dataMap["Config"];
 
-            logger.Info($"Start job for {config.ContextType}");
+            logger.LogInformation($"Start job for {config.ContextType}");
 
             try
             {
@@ -58,7 +59,7 @@
                     sendItems = await CreateSendObjectsSQL(repository, sqlObject, config.ContextType);
                 }
 
-                logger.Info($"Find send Items - {sendItems.Count()}");
+                logger.LogInformation($"Find send Items - {sendItems.Count()}");
 
                 Parallel.ForEach(sendItems, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, item =>
                 {
@@ -67,10 +68,10 @@
             }
             catch (Exception exp)
             {
-                logger.Fatal(exp);
+                logger.LogCritical(exp, exp.Message);
             }
 
-            logger.Info($"End job for {config.ContextType}");
+            logger.LogInformation($"End job for {config.ContextType}");
         }
 
         protected virtual async Task<IEnumerable<StoryRunnerMessageWork>> CreateSendObjects(

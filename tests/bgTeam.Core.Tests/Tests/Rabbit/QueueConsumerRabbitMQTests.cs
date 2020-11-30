@@ -1,11 +1,11 @@
-﻿using bgTeam.Impl.Rabbit;
+﻿using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using bgTeam.Impl.Rabbit;
 using bgTeam.Queues;
 using Moq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
-using System.Reflection;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Rabbit
@@ -13,32 +13,12 @@ namespace bgTeam.Core.Tests.Rabbit
     public class QueueConsumerRabbitMQTests
     {
         [Fact]
-        public void DependencyConnectionFactory()
-        {
-            var (_, messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
-            Assert.Throws<ArgumentNullException>("connectionFactory", () =>
-            {
-                new QueueConsumerRabbitMQ(null, messageProvider.Object);
-            });
-        }
-
-        [Fact]
-        public void DependencyMessageProvider()
-        {
-            var (_, messageProvider, _, connectionFactory) = RabbitMockFactory.Get();
-            Assert.Throws<ArgumentNullException>("provider", () =>
-            {
-                new QueueConsumerRabbitMQ(connectionFactory.Object, null);
-            });
-        }
-
-        [Fact]
         public void ReceiverHandler()
         {
             var model = new Mock<IModel>();
-            var (_, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var queueConsumerRabbitMQ = new QueueConsumerRabbitMQ(connectionFactory.Object, messageProvider.Object);
-            
+
             queueConsumerRabbitMQ.Subscribe += (x) =>
             {
                 return Task.FromResult(new QueueMessageDefault("Hi"));
@@ -60,7 +40,7 @@ namespace bgTeam.Core.Tests.Rabbit
         public void ReceiverHandlerWithException()
         {
             var model = new Mock<IModel>();
-            var (_, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var queueConsumerRabbitMQ = new QueueConsumerRabbitMQ(connectionFactory.Object, messageProvider.Object);
 
             queueConsumerRabbitMQ.Subscribe += (x) =>
@@ -88,7 +68,7 @@ namespace bgTeam.Core.Tests.Rabbit
         public void ShutdownHandler()
         {
             var model = new Mock<IModel>();
-            var (_, messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
+            var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var queueConsumerRabbitMQ = new QueueConsumerRabbitMQ(connectionFactory.Object, messageProvider.Object);
 
             queueConsumerRabbitMQ.Subscribe += (x) =>

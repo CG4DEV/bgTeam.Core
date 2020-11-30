@@ -1,10 +1,9 @@
 ﻿namespace bgTeam.Impl.Rabbit
 {
-    using bgTeam.Queues;
-    using RabbitMQ.Client;
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using bgTeam.Queues;
+    using RabbitMQ.Client;
 
     /// <summary>
     /// Фабрика подключений к RabbitMQ
@@ -14,15 +13,13 @@
     public class ConnectionFactoryRabbitMQ : IConnectionFactory, IDisposable
     {
         private bool disposed = false;
-        private IAppLogger _logger;
         private ConnectionFactory _connectionFactory;
         private readonly object _lock = new object();
         private IConnection _connection;
 
         // Maybe pass IConnection Factory in constructor? - Can't test this
-        public ConnectionFactoryRabbitMQ(IAppLogger logger, IQueueProviderSettings settings)
+        public ConnectionFactoryRabbitMQ(IQueueProviderSettings settings)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             if (settings == null)
             {
                 throw new ArgumentNullException(nameof(settings));
@@ -202,7 +199,6 @@
 
                 // освобождаем неуправляемые объекты
                 _connection = null;
-                _logger = null;
                 _connectionFactory = null;
                 disposed = true;
             }

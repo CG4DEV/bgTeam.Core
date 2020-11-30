@@ -1,6 +1,6 @@
 ﻿namespace bgTeam.ProjectTemplate
 {
-    using bgTeam.Core;
+    using Microsoft.Extensions.Configuration;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649", Justification = "Reviewed")]
     internal interface IAppSettings
@@ -14,7 +14,7 @@
 
     internal class AppSettings : IAppSettings
     {
-        public AppSettings(IAppConfiguration config)
+        public AppSettings(IConfiguration config)
         {
             NameCompany = config[nameof(NameCompany)];
 

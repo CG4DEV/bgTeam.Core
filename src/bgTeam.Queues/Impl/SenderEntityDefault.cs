@@ -1,21 +1,18 @@
 ﻿namespace bgTeam.Queues.Impl
 {
-    using bgTeam.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using bgTeam.Extensions;
+    using bgTeam.Queues.Exceptions;
 
     public class SenderEntityDefault : ISenderEntity
     {
         private bool _disposed = false;
-        private IAppLogger _logger;
         private IQueueProvider _queueProvider;
 
-        public SenderEntityDefault(
-            IAppLogger logger,
-            IQueueProvider queueProvider)
+        public SenderEntityDefault(IQueueProvider queueProvider)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _queueProvider = queueProvider ?? throw new ArgumentNullException(nameof(queueProvider));
         }
 
@@ -73,7 +70,6 @@
 
                 // освобождаем неуправляемые объекты
                 _queueProvider = null;
-                _logger = null;
                 _disposed = true;
             }
         }
@@ -98,23 +94,17 @@
             try
             {
                 _queueProvider.PushMessage(mess, queues);
-
-                _logger.Info($"Success send entity - {entityType}");
             }
             catch (Exception exp)
             {
                 if (tryAttempt < 5)
                 {
-                    _logger.Warning($"Failed send entity {mess.Body} after {tryAttempt} attempt. We will try again. Exception - {exp.Message}");
-
                     Thread.Sleep(2000);
-
-                    // повторить попытку отправления
                     SendQueue(mess, queues, entityType, delay, ++tryAttempt);
                 }
                 else
                 {
-                    _logger.Error($"Failed send entity {mess.Body} after {tryAttempt} attempt. Lost entity. Exception - {exp.Message}");
+                    new SenderEntityException($"Failed send entity {mess.Body} after {tryAttempt} attempt. Lost entity. Exception - {exp.Message}", exp);
                 }
             }
         }

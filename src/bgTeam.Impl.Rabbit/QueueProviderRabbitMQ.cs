@@ -1,12 +1,11 @@
 ﻿namespace bgTeam.Impl.Rabbit
 {
-    using bgTeam;
-    using bgTeam.Extensions;
-    using bgTeam.Queues;
-    using RabbitMQ.Client;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using bgTeam.Extensions;
+    using bgTeam.Queues;
+    using RabbitMQ.Client;
 
     /// <summary>
     /// Желательное использование одного провайдера на поток
@@ -18,7 +17,6 @@
 
         private readonly bool _useDelay;
         private List<string> _queues;
-        private IAppLogger _logger;
         private IConnectionFactory _factory;
         private IMessageProvider _msgProvider;
 
@@ -28,13 +26,11 @@
         private IModel _channel;
 
         public QueueProviderRabbitMQ(
-            IAppLogger logger,
             IMessageProvider msgProvider,
             IConnectionFactory factory,
             bool useDelay = false,
             params string[] queues)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _msgProvider = msgProvider ?? throw new ArgumentNullException(nameof(msgProvider));
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
@@ -105,7 +101,6 @@
 
                 // освобождаем неуправляемые объекты
                 _channel = null;
-                _logger = null;
                 _factory = null;
                 _msgProvider = null;
                 _queues = null;
@@ -167,8 +162,6 @@
         {
             using (var channel = CreateChannel())
             {
-                _logger.Debug($"QueueProviderRabbitMQ: connect open {string.Join(", ", queues)}");
-
                 foreach (var item in queues)
                 {
                     if (_useDelay)
