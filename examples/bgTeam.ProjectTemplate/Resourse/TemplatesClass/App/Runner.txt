@@ -1,16 +1,17 @@
 namespace $namespace$
 {
-    using bgTeam;
     using System.Threading.Tasks;
-    using kraken.Story;
+    using bgTeam;
+    using $prj$.Story;
+    using Microsoft.Extensions.Logging;
 
     internal class Runner
     {
-        private readonly IAppLogger _logger;
+        private readonly ILogger<Runner> _logger;
         private readonly IStoryBuilder _storyBuilder;
 
         public Runner(
-            IAppLogger logger,
+            ILogger<Runner> logger,
             IStoryBuilder storyBuilder)
         {
             _logger = logger;
@@ -19,7 +20,7 @@ namespace $namespace$
 
         public async Task Run()
         {
-            _logger.Info("start");
+            _logger.LogInformation("start");
 
             var context = new TestStoryContext();
 
@@ -29,3 +30,4 @@ namespace $namespace$
         }
     }
 }
+

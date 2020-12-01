@@ -2,6 +2,7 @@ namespace $namespace$
 {
     using $prj$.Story;
     using $prj$.Tests.Common;
+    using Microsoft.Extensions.Logging;
     using Xunit;
 
     public class TestStoryTests
@@ -16,7 +17,7 @@ namespace $namespace$
         [Fact]
         public void Test1()
         {
-            var story = new TestStory(_factory.Logger, _factory.Repository, _factory.CrudService);
+            var story = new TestStory(_factory.LoggerFactory.CreateLogger<TestStory>(), _factory.Repository, _factory.CrudService);
             Assert.NotNull(story);
         }
     }

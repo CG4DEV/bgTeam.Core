@@ -3,15 +3,15 @@
     using System.Threading.Tasks;
     using bgTeam;
     using bgTeam.DataAccess;
-    using $prj$.Domain.Entities;
+    using Microsoft.Extensions.Logging;
 
     public class TestStory : IStory<TestStoryContext, bool>
     {
-        private readonly IAppLogger _logger;
+        private readonly ILogger<TestStory> _logger;
         // private readonly IEntityFrameworkRepository _repository;
 
         public TestStory(
-            IAppLogger logger,
+            ILogger<TestStory> logger,
             IRepository repository,
             ICrudService crudService)
         {

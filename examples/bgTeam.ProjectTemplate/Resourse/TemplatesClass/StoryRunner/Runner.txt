@@ -3,15 +3,15 @@ namespace $namespace$
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using bgTeam;
     using bgTeam.Queues;
     using bgTeam.Queues.Exceptions;
     using bgTeam.StoryRunner;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
     internal class Runner
     {
-        private readonly IAppLogger _logger;
+        private readonly ILogger<Runner> _logger;
         private readonly IQueueProvider _queueProvider;
         private readonly IQueueWatcher<IQueueMessage> _queueWatcher;
         private readonly IStoryProcessor _storyProcessor;
@@ -20,7 +20,7 @@ namespace $namespace$
         private readonly string _errorQueue;
 
         public Runner(
-            IAppLogger logger,
+            ILogger<Runner> logger,
             IQueueProvider queueProvider,
             IQueueWatcher<IQueueMessage> queueWatcher,
             IStoryProcessor storyProcessor,
@@ -37,13 +37,13 @@ namespace $namespace$
 
         public void Run()
         {
-            _logger.Info("start");
+            _logger.LogInformation("start");
 
             _queueWatcher.Error += _queueWatcher_OnError;
             _queueWatcher.Subscribe += QueueProvider_OnSubscribe;
             _queueWatcher.StartWatch(_watchQueue);
 
-            _logger.Info($"connect to queue: {_watchQueue}");
+            _logger.LogInformation($"connect to queue: {_watchQueue}");
         }
 
         /// <summary>
@@ -53,13 +53,13 @@ namespace $namespace$
         {
             var guid = Guid.NewGuid();
 
-            _logger.Debug($"StoryRunner ({guid}) read message - {message.Body}");
+            _logger.LogDebug($"StoryRunner ({guid}) read message - {message.Body}");
 
             var context = JsonConvert.DeserializeObject<StoryRunnerMessageWork>(message.Body);
 
             await _storyProcessor.ProcessAsync(context);
 
-            _logger.Debug($"StoryRunner ({guid}) - End read message");
+            _logger.LogDebug($"StoryRunner ({guid}) - End read message");
         }
 
         protected virtual void _queueWatcher_OnError(object sender, ExtThreadExceptionEventArgs e)

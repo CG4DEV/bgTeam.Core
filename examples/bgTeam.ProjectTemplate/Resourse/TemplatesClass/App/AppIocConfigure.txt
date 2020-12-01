@@ -1,18 +1,17 @@
 ﻿namespace $namespace$
 {
     using bgTeam;
-    using bgTeam.Core;
-    using bgTeam.Core.Impl;
     using bgTeam.DataAccess;
     using bgTeam.DataAccess.Impl;
     using bgTeam.Impl;
-    using bgTeam.Impl.Serilog;
     using $prj$.DataAccess;
     using $prj$.DataAccess.Impl;
     using $prj$.Story;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
+    using Serilog;
 
     /// <summary>
     /// Configurating IOC.
@@ -26,21 +25,24 @@
         {
             var services = new ServiceCollection();
 #if !DEBUG
-            var config = new AppConfigurationDefault("Production");
+            var env = "Production";
 #else
-            var config = new AppConfigurationDefault("Development");
+            var env = "Development";
 #endif
-            var appSettings = new AppSettings(config);
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
 
             services
-                .AddSingleton<IAppConfiguration>(config)
-                .AddSingleton<IAppSettings>(appSettings)
-                .AddSingleton<IAppLoggerConfig, AppLoggerSerilogConfig>()
-                .AddSingleton<IAppLogger, AppLoggerSerilog>();
+                .AddSingleton<IConfiguration>(config)
+                .AddSingleton<IAppSettings, AppSettings>();
+
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             services
                .AddOptions()
-               //.AddSingleton<IDataMapper, AutoMapperImpl>()
                .AddDbContext<AppDbContext>(
                    options => options
                        .UseLazyLoadingProxies()

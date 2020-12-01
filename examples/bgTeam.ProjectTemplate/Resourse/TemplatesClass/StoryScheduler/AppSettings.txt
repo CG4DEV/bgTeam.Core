@@ -1,8 +1,8 @@
 ﻿namespace $namespace$
 {
-    using bgTeam.Core;
     using bgTeam.DataAccess;
     using bgTeam.Queues;
+    using Microsoft.Extensions.Configuration;
 
     internal interface IAppSettings
     {
@@ -29,7 +29,7 @@
 
         public string ConnectionString { get; set; }
 
-        public AppSettings(IAppConfiguration appConfiguration)
+        public AppSettings(IConfiguration appConfiguration)
         {
             StoryQueue = appConfiguration["AppStoryQueue"];
             ErrorQueue = appConfiguration["AppErrorQueue"];

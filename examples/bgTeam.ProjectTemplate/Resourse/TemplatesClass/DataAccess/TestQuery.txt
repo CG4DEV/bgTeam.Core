@@ -2,19 +2,19 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using bgTeam;
     using bgTeam.DataAccess;
     using $prj$.Domain.Dto;
     using $prj$.Domain.Entities;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
 
     public class TestQuery : IQuery<TestQueryContext, TestDto>
     {
-        private readonly IAppLogger _logger;
+        private readonly ILogger<TestQuery> _logger;
         private readonly IEntityFrameworkRepository _repository;
 
         public TestQuery(
-            IAppLogger logger,
+            ILogger<TestQuery> logger,
             IEntityFrameworkRepository repository)
         {
             _logger = logger;
@@ -30,7 +30,7 @@
         {
             var result = await _repository.Query<Test>().ToListAsync();
 
-            _logger.Debug($"Find object: {result.Count}");
+            _logger.LogDebug($"Find object: {result.Count}");
 
             var test = result.First();
 

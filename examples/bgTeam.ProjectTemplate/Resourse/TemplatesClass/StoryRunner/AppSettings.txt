@@ -2,6 +2,7 @@
 {
     using bgTeam.Core;
     using bgTeam.Queues;
+    using Microsoft.Extensions.Configuration;
 
     internal interface IAppSettings
     {
@@ -26,7 +27,7 @@
 
         public string Password { get; set; }
 
-        public AppSettings(IAppConfiguration appConfiguration)
+        public AppSettings(IConfiguration appConfiguration)
         {
             WatchQueue = appConfiguration["AppStoryQueue"];
             ErrorQueue = appConfiguration["AppErrorQueue"];
@@ -36,7 +37,6 @@
             VirtualHost = appConfiguration["RabbitMQ:VirtualHost"];
             Login = appConfiguration["RabbitMQ:Login"];
             Password = appConfiguration["RabbitMQ:Password"];
-            Login = appConfiguration["RabbitMQ:Login"];
         }
     }
 }

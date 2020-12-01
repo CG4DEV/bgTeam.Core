@@ -3,22 +3,21 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using bgTeam;
-    using bgTeam.Core;
     using bgTeam.Core.Helpers;
-    using bgTeam.Core.Impl;
     using bgTeam.DataAccess;
     using bgTeam.DataAccess.Impl.Dapper;
     using bgTeam.DataAccess.Impl.PostgreSQL;
+    using bgTeam.Extensions;
     using bgTeam.Impl.Rabbit;
-    using bgTeam.Impl.Serilog;
     using bgTeam.Quartz;
     using bgTeam.Queues;
     using bgTeam.Queues.Impl;
     using bgTeam.StoryRunnerScheduler;
     using global::Quartz;
     using global::Quartz.Impl;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Serilog;
 
     /// <summary>
     /// Configurating IOC.
@@ -32,38 +31,41 @@
         {
             var services = new ServiceCollection();
 #if !DEBUG
-            var config = new AppConfigurationDefault("Production");
+            var env = "Production";
 #else
-            var config = new AppConfigurationDefault("Development");
+            var env = "Development";
 #endif
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+
             var fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
             var configFolderPath = Path.Combine(fileInfo.Directory.FullName, "Configurations");
             var configurations = ConfigHelper.Init<JobTriggerInfo>(configFolderPath);
             var queues = configurations.Select(x => x.NameQueue).ToArray();
 
-            var appSettings = new AppSettings(config);
+            services
+                .AddSingleton<IConfiguration>(config)
+                .AddSettings<IAppSettings, IConnectionSetting, IQueueProviderSettings, AppSettings>();
+
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             services
-                .AddSingleton<IAppConfiguration>(config)
-                .AddSingleton<IAppSettings>(appSettings)
-                .AddSingleton<IAppLoggerConfig, AppLoggerSerilogConfig>()
-                .AddSingleton<IAppLogger, AppLoggerSerilog>()
                 .AddSingleton<ISchedulerFactory, StdSchedulerFactory>()
                 .AddSingleton<ISchedulersFactory, JobSchedulersFactory>()
-                .AddSingleton<IConnectionSetting>(appSettings)
                 .AddSingleton<ISqlDialect, SqlDialectDapper>()
                 .AddSingleton<IConnectionFactory, ConnectionFactoryPostgreSQL>()
                 .AddSingleton<IRepository, RepositoryDapper>()
                 .AddSingleton<IMessageProvider, MessageProviderDefault>()
-                .AddSingleton<IQueueProviderSettings>(appSettings)
                 .AddSingleton<IQueueProvider>(s =>
                 {
-                    var logger = s.GetService<IAppLogger>();
                     var mp = s.GetService<IMessageProvider>();
                     var qps = s.GetService<IQueueProviderSettings>();
-                    var cs = new ConnectionFactoryRabbitMQ(logger, qps);
+                    var cs = new ConnectionFactoryRabbitMQ(qps);
 
-                    return new QueueProviderRabbitMQ(logger, mp, cs, true, queues);
+                    return new QueueProviderRabbitMQ(mp, cs, true, queues);
                 })
                 .AddSingleton<ISenderEntity, SenderEntityDefault>();
 

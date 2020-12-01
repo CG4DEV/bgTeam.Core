@@ -1,7 +1,7 @@
 namespace $namespace$
 {
-    using bgTeam.Core;
     using bgTeam.DataAccess;
+    using Microsoft.Extensions.Configuration;
 
     internal interface IAppSettings : IConnectionSetting
     {
@@ -11,7 +11,7 @@ namespace $namespace$
     {
         public string ConnectionString { get; set; }
 
-        public AppSettings(IAppConfiguration config)
+        public AppSettings(IConfiguration config)
         {
             ConnectionString = config.GetConnectionString("MAINDB");
         }

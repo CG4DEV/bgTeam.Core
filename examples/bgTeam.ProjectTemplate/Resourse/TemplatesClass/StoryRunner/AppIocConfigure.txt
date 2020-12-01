@@ -1,17 +1,17 @@
 ﻿namespace $namespace$
 {
     using bgTeam;
-    using bgTeam.Core;
-    using bgTeam.Core.Impl;
+    using bgTeam.Extensions;
     using bgTeam.Impl;
     using bgTeam.Impl.Rabbit;
-    using bgTeam.Impl.Serilog;
     using bgTeam.Queues;
     using bgTeam.StoryRunner;
     using bgTeam.StoryRunner.Impl;
     using $prj$.Story;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
+    using Serilog;
 
     /// <summary>
     /// Configurating IOC.
@@ -25,37 +25,40 @@
         {
             var services = new ServiceCollection();
 #if !DEBUG
-            var config = new AppConfigurationDefault("Production");
+            var env = "Production";
 #else
-            var config = new AppConfigurationDefault("Development");
+            var env = "Development";
 #endif
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+
             var queue = config["AppStoryQueue"];
             var threads = ushort.Parse(config["AppThreadCount"]);
 
-            var appSettings = new AppSettings(config);
+            services
+                .AddSingleton<IConfiguration>(config)
+                .AddSettings<IAppSettings, IQueueProviderSettings, AppSettings>();
+
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             services
-                .AddSingleton<IAppConfiguration>(config)
-                .AddSingleton<IAppSettings>(appSettings)
-                .AddSingleton<IAppLoggerConfig, AppLoggerSerilogConfig>()
-                .AddSingleton<IAppLogger, AppLoggerSerilog>()
                 .AddSingleton<IMessageProvider, MessageProviderDefault>()
-                .AddSingleton<IQueueProviderSettings>(appSettings)
                 .AddSingleton<IQueueProvider>(s =>
                 {
-                    var logger = s.GetService<IAppLogger>();
                     var mp = s.GetService<IMessageProvider>();
                     var qps = s.GetService<IQueueProviderSettings>();
-                    var cf = new ConnectionFactoryRabbitMQ(logger, qps);
+                    var cf = new ConnectionFactoryRabbitMQ(qps);
 
-                    return new QueueProviderRabbitMQ(logger, mp, cf, true, queue);
+                    return new QueueProviderRabbitMQ(mp, cf, true, queue);
                 })
                 .AddSingleton<IQueueWatcher<IQueueMessage>>(s =>
                 {
-                    var logger = s.GetService<IAppLogger>();
                     var mp = s.GetService<IMessageProvider>();
                     var qps = s.GetService<IQueueProviderSettings>();
-                    var cf = new ConnectionFactoryRabbitMQ(logger, qps);
+                    var cf = new ConnectionFactoryRabbitMQ(qps);
 
                     return new QueueConsumerAsyncRabbitMQ(cf, mp, threads);
                 })
