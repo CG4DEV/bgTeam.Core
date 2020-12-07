@@ -1,10 +1,10 @@
 ﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
+    using System;
+    using System.Collections.Generic;
     using bgTeam.Impl.Dapper;
     using DapperExtensions;
     using DapperExtensions.Mapper.Sql;
-    using System;
-    using System.Collections.Generic;
 
     public class SqlDialectDapper : DataAccess.ISqlDialect
     {
@@ -25,11 +25,8 @@
             return new SqlObjectDefault(sql, parametersDictionary);
         }
 
-        public void Init(SqlDialectEnum dialect)
+        public virtual void Init(SqlDialectEnum dialect)
         {
-            // TODO : Возможно стоит разместить в другом месте
-            //DapperHelper.IdentityColumn = "Id";
-
             switch (dialect)
             {
                 case SqlDialectEnum.MsSql:
