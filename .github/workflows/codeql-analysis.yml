@@ -32,7 +32,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Setup .NET environment
+    - name: Setup .NET Core environment
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.404'
