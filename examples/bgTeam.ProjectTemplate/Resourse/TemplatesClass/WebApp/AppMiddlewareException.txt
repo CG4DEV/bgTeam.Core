@@ -4,16 +4,16 @@ namespace $namespace$
     using System.Net;
     using System.Threading.Tasks;
     using $prj$.Common.Exceptions;
-    using bgTeam;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
     public class AppMiddlewareException
     {
-        private readonly IAppLogger _logger;
+        private readonly ILogger<AppMiddlewareException> _logger;
         private readonly RequestDelegate _next;
 
-        public AppMiddlewareException(RequestDelegate next, IAppLogger logger)
+        public AppMiddlewareException(RequestDelegate next, ILogger<AppMiddlewareException> logger)
         {
             _next = next;
             _logger = logger;

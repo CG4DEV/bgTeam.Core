@@ -6,7 +6,6 @@ image: Visual Studio 2019
 configuration: Release
 environment:
   ShortVersion: 3.1
-  VersionSuffix: beta
 nuget:
   project_feed: true
   disable_publish_on_pr: true

@@ -2,18 +2,18 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using bgTeam;
     using bgTeam.Quartz;
     using bgTeam.StoryRunnerScheduler;
+    using Microsoft.Extensions.Logging;
 
     public class Runner
     {
-        private readonly IAppLogger _logger;
+        private readonly ILogger<Runner> _logger;
         private readonly ISchedulersFactory _schedulersFactory;
         private readonly IEnumerable<JobTriggerInfo> _configurations;
 
         public Runner(
-            IAppLogger logger,
+            ILogger<Runner> logger,
             ISchedulersFactory schedulersFactory,
             IEnumerable<JobTriggerInfo> configurations)
         {
@@ -24,8 +24,8 @@
 
         public void Run()
         {
-            _logger.Info("start");
-            _logger.Debug($"find {_configurations.Count()} configurations");
+            _logger.LogInformation("start");
+            _logger.LogDebug($"find {_configurations.Count()} configurations");
 
             foreach (var config in _configurations)
             {

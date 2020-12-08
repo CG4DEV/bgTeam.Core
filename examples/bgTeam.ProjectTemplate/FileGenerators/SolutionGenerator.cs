@@ -235,6 +235,7 @@
                     new[]
                     {
                         ("NSwag.AspNetCore", "13.8.2"),
+                        ("Serilog.AspNetCore", "3.4.0"),
                         ("Microsoft.AspNetCore.Mvc.NewtonsoftJson", "3.1.7"),
                     },
                     "Microsoft.NET.Sdk.Web",
@@ -268,7 +269,7 @@
                 type: "Exe",
                 projects: new[] { $"{name}.Story" },
                 configs: true);
-            p9.ClassTemplateFile("AppIocConfigure", $"StoryRunner{GeneratorHelper.Separator}AppIocConfigure");
+            p9.ClassTemplateFile("AppIocConfigure", $"StoryRunner{GeneratorHelper.Separator}AppIocConfigure", replist: new List<(string, string)> { ("$prj$", name) });
             p9.ClassTemplateFile("AppSettings", $"StoryRunner{GeneratorHelper.Separator}AppSettings");
             p9.ClassTemplateFile("Program", $"StoryRunner{GeneratorHelper.Separator}Program");
             p9.ClassTemplateFile("Runner", $"StoryRunner{GeneratorHelper.Separator}Runner");

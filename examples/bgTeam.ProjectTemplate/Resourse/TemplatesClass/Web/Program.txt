@@ -1,18 +1,45 @@
 namespace $namespace$
 {
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
+    using Serilog;
 
-    internal static class Program
+    internal class Program
     {
         internal static Task Main(string[] args)
         {
-            return CreateWebHostBuilder(args).Build().RunAsync();
+            return CreateHostBuilder(args).Build().RunAsync();
         }
 
-        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, configBuilder) =>
+                {
+                    configBuilder.Sources.Clear();
+                    var env = context.HostingEnvironment.EnvironmentName;
+
+                    configBuilder.AddJsonFile("appsettings.json");
+                    configBuilder.AddJsonFile($"appsettings.{env}.json", optional: true);
+                    configBuilder.AddJsonFile($"Configs/connectionStrings.{env}.json", optional: true);
+                    configBuilder.AddJsonFile($"Configs/serilog.{env}.json", optional: true);
+
+                    configBuilder.AddEnvironmentVariables();
+                    if (args != null)
+                    {
+                        configBuilder.AddCommandLine(args);
+                    }
+                })
+                .UseSerilog((hostingContext, loggerConfiguration) =>
+                {
+                    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+        }
     }
 }

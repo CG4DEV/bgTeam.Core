@@ -1,15 +1,14 @@
 ﻿namespace $namespace$
 {
-    using bgTeam;
-    using bgTeam.Core.Impl;
     using bgTeam.DataAccess;
     using bgTeam.DataAccess.Impl.Dapper;
     using bgTeam.DataAccess.Impl.MsSql;
-    using bgTeam.Impl;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
 
     internal class FactoryTestService
     {
-        public IAppLogger Logger { get; private set; }
+        public ILoggerFactory LoggerFactory { get; private set; }
 
         public IRepository Repository { get; private set; }
 
@@ -17,11 +16,19 @@
 
         public FactoryTestService()
         {
-            Logger = new AppLoggerDefault();
+            LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(_ => { });
 
-            var appConfiguration = new AppConfigurationDefault("Debug");
+            var env = "Development";
+            var appConfiguration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env}.json")
+                .AddJsonFile($"connectionStrings.{env}.json")
+                .AddJsonFile($"serilog.{env}.json")
+                .Build();
 
-            var connectionFactory = new ConnectionFactoryMsSql(Logger, appConfiguration.GetConnectionString("MAINDB"));
+            var connectionFactory = new ConnectionFactoryMsSql(appConfiguration.GetConnectionString("MAINDB"));
+
+            var logger = LoggerFactory.CreateLogger<RepositoryDapper>();
 
             Repository = new RepositoryDapper(connectionFactory);
 
