@@ -3,6 +3,8 @@ namespace DapperExtensions.Mapper
     using bgTeam.DataAccess.Impl.Dapper;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Reflection;
     using System.Text;
@@ -35,6 +37,11 @@ namespace DapperExtensions.Mapper
             {
                 tableName = ((TableNameAttribute)EntityType.GetCustomAttribute(typeof(TableNameAttribute))).Name;
             }
+            else if (Attribute.IsDefined(EntityType, typeof(TableAttribute)))
+            {
+                var attr = EntityType.GetCustomAttribute(typeof(TableAttribute)) as TableAttribute;
+                tableName = attr.Name;
+            }
 
             base.Table(tableName);
         }
@@ -44,6 +51,11 @@ namespace DapperExtensions.Mapper
             if (Attribute.IsDefined(EntityType, typeof(SchemaAttribute)))
             {
                 schemaName = ((SchemaAttribute)EntityType.GetCustomAttribute(typeof(SchemaAttribute))).Name;
+            }
+            else if (Attribute.IsDefined(EntityType, typeof(TableAttribute)))
+            {
+                var attr = EntityType.GetCustomAttribute(typeof(TableAttribute)) as TableAttribute;
+                schemaName = attr.Schema;
             }
 
             base.Schema(schemaName);
@@ -63,13 +75,18 @@ namespace DapperExtensions.Mapper
             foreach (PropertyInfo propertyInfo in EntityType.GetProperties())
             {
                 PropertyMap propertyMap;
-                if (Attribute.IsDefined(propertyInfo, typeof(IgnoreAttribute)))
+                if (Attribute.IsDefined(propertyInfo, typeof(IgnoreAttribute))
+                    || Attribute.IsDefined(propertyInfo, typeof(NotMappedAttribute)))
                 {
                     propertyMap = Map(propertyInfo, false).Ignore();
                 }
                 else if (Attribute.IsDefined(propertyInfo, typeof(ColumnNameAttribute)))
                 {
                     propertyMap = Map(propertyInfo, false).Column(((ColumnNameAttribute)propertyInfo.GetCustomAttribute(typeof(ColumnNameAttribute))).Name);
+                }
+                else if (Attribute.IsDefined(propertyInfo, typeof(ColumnAttribute)))
+                {
+                    propertyMap = Map(propertyInfo, false).Column(((ColumnAttribute)propertyInfo.GetCustomAttribute(typeof(ColumnAttribute))).Name);
                 }
                 ////else if (Attribute.IsDefined(propertyInfo, typeof(MapToAttribute)))
                 ////    propertyMap = Map(propertyInfo, false).Column(((MapToAttribute)propertyInfo.GetCustomAttribute(typeof(MapToAttribute))).DatabaseColumn);
@@ -87,7 +104,8 @@ namespace DapperExtensions.Mapper
                     continue;
                 }
 
-                if (Attribute.IsDefined(propertyInfo, typeof(PrymaryKeyAttribute)))
+                if (Attribute.IsDefined(propertyInfo, typeof(PrimaryKeyAttribute))
+                    || Attribute.IsDefined(propertyInfo, typeof(KeyAttribute)))
                 {
                     propertyMap.Key(KeyType.PrimaryKey);
                 }
@@ -95,6 +113,20 @@ namespace DapperExtensions.Mapper
                 if (Attribute.IsDefined(propertyInfo, typeof(IdentityAttribute)))
                 {
                     propertyMap.Key(KeyType.Identity);
+                }
+
+                if (Attribute.IsDefined(propertyInfo, typeof(DatabaseGeneratedAttribute)))
+                {
+                    var attrs = propertyInfo.GetCustomAttributes(typeof(DatabaseGeneratedAttribute));
+                    foreach (var attr in attrs)
+                    {
+                        var _attr = attr as DatabaseGeneratedAttribute;
+                        if (_attr.DatabaseGeneratedOption == DatabaseGeneratedOption.Identity)
+                        {
+                            propertyMap.Key(KeyType.Identity);
+                            break;
+                        }
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(_identityColumn) && string.Equals(propertyMap.PropertyInfo.Name, _identityColumn, StringComparison.OrdinalIgnoreCase))
@@ -105,5 +137,6 @@ namespace DapperExtensions.Mapper
                 }
             }
         }
+
     }
 }
