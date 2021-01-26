@@ -1,6 +1,6 @@
-﻿namespace bgTeam.DataAccess
+﻿namespace bgTeam.Impl.MongoDB
 {
-    using MongoDB.Driver;
+    using global::MongoDB.Driver;
 
     /// <summary>
     /// Client for connection to MongoDB
@@ -8,7 +8,7 @@
     public interface IMongoDBClient
     {
         /// <summary>
-        /// Returns <see cref="MongoDB.Driver.IMongoDatabase"/> connection
+        /// Returns <see cref="MongoDB.Driver.IMongoDatabase"> connection
         /// </summary>
         IMongoDatabase GetDatabase();
     }

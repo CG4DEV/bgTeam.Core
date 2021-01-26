@@ -1,4 +1,4 @@
-﻿namespace bgTeam.DataAccess
+﻿namespace bgTeam.Impl.MongoDB
 {
     /// <summary>
     /// MongoDB connetion settings
