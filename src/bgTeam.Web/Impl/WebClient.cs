@@ -20,18 +20,13 @@
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
         private readonly SocketsHttpHandler _handler;
-#else
-        private readonly ServicePoint _servicePoint;
-#endif
 
         public WebClient(string url)
             : this(url, new FormUrlEncodedContentBuilder())
         {
         }
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
         public WebClient(string url, X509CertificateCollection clientCertificates)
             : this(url, new FormUrlEncodedContentBuilder())
         {
@@ -41,25 +36,14 @@
 
             _handler.SslOptions = sslOptions;
         }
-#endif
 
         public WebClient(string url, IContentBuilder builder)
         {
             _url = url;
             _builder = builder.CheckNull(nameof(builder));
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
             _handler = new SocketsHttpHandler();
             _client = new HttpClient(_handler);
-#else
-            _client = new HttpClient();
-
-            if (!string.IsNullOrWhiteSpace(url))
-            {
-                var uri = new Uri(_url);
-                _servicePoint = ServicePointManager.FindServicePoint(uri);
-            }
-#endif
 
             ConnectionsLimit = 1024;
             MaxIdleTime = 300000; // 5 мин
@@ -75,47 +59,12 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return _handler.MaxConnectionsPerServer;
-#else
-                return ServicePointManager.DefaultConnectionLimit;
-#endif
             }
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.MaxConnectionsPerServer = value;
-#else
-                ServicePointManager.DefaultConnectionLimit = value;
-#endif
-            }
-        }
-
-        /// <summary>
-        /// Указывает, сколько времени (в мс) будет закеширован полученный IP адрес для каждого доменного имени
-        /// </summary>
-        /// <exception>
-        /// NotSupportedException для сред .net core
-        /// </exception>
-        public int DnsRefreshTimeout
-        {
-            get
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                throw new NotSupportedException();
-#else
-                return ServicePointManager.DnsRefreshTimeout;
-#endif
-            }
-
-            set
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                throw new NotSupportedException();
-#else
-                ServicePointManager.DnsRefreshTimeout = value;
-#endif
             }
         }
 
@@ -129,47 +78,28 @@
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return Convert.ToInt32(_handler.PooledConnectionIdleTimeout.TotalMilliseconds);
-#else
-                return _servicePoint.MaxIdleTime;
-#endif
             }
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
-#else
-                _servicePoint.MaxIdleTime = value;
-#endif
             }
         }
 
         /// <summary>
         /// Указывает, сколько времени (в мс) соединение может удерживаться открытым. По умолчанию лимита времени жизни для соединений нет. Установка его в 0 приведет к тому, что каждое соединение будет закрываться сразу после выполнения запроса.
         /// </summary>
-        /// <exception>
-        /// NotSupportedException для среды .net core 2.0
-        /// </exception>
         public int ConnectionLeaseTimeout
         {
             get
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 return Convert.ToInt32(_handler.PooledConnectionLifetime.TotalMilliseconds);
-#else
-                return _servicePoint.ConnectionLeaseTimeout;
-#endif
             }
 
             set
             {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
                 _handler.PooledConnectionLifetime = TimeSpan.FromMilliseconds(value);
-#else
-                _servicePoint.ConnectionLeaseTimeout = value;
-#endif
             }
         }
 
