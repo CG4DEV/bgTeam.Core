@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Net;
     using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
     using System.Web;
@@ -188,29 +189,110 @@
 
         public string Url => _url;
 
+        public void SetAuthHeader(string scheme, string value)
+        {
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, value);
+        }
+
         public virtual async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
-            if (string.IsNullOrWhiteSpace(_url))
-            {
-                method = method.CheckNull(nameof(method));
-            }
+            var result = await GetResponseAsync(method, queryParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
 
-            string url = BuildUrl(method, queryParams);
-            var msg = new HttpRequestMessage(HttpMethod.Get, url);
-            FillHeaders(headers, msg);
+        public virtual async Task GetAsync(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetResponseAsync(method, queryParams, headers);
+            CheckResult(result);
+        }
 
-            var resultGet = await _client.SendAsync(msg);
-            return await ProcessResultAsync<T>(resultGet);
+        public virtual async Task<T> DeleteAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+            where T : class
+        {
+            var result = await GetDeleteResponseAsync(method, queryParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
+
+        public virtual async Task DeleteAsync(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetDeleteResponseAsync(method, queryParams, headers);
+            CheckResult(result);
         }
 
         public virtual async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
-            HttpContent content = null;
-            if (postParams != null)
+            var result = await GetPostResponseAsync(method, postParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
+
+        public virtual async Task PostAsync(string method, object postParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetPostResponseAsync(method, postParams, headers);
+            CheckResult(result);
+        }
+
+        public virtual async Task<T> PutAsync<T>(string method, object putParams = null, IDictionary<string, object> headers = null)
+            where T : class
+        {
+            var result = await GetPutResponseAsync(method, putParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
+
+        public virtual async Task PutAsync(string method, object putParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetPutResponseAsync(method, putParams, headers);
+            CheckResult(result);
+        }
+
+        private Task<HttpResponseMessage> GetResponseAsync(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers)
+        {
+            HttpRequestMessage msg = BuildHttpRequest(method, queryParams, headers, HttpMethod.Get);
+            return _client.SendAsync(msg);
+        }
+
+        private Task<HttpResponseMessage> GetDeleteResponseAsync(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers)
+        {
+            HttpRequestMessage msg = BuildHttpRequest(method, queryParams, headers, HttpMethod.Delete);
+            return _client.DeleteAsync(msg.RequestUri);
+        }
+
+        private Task<HttpResponseMessage> GetPostResponseAsync(string method, object postParams, IDictionary<string, object> headers)
+        {
+            HttpContent content = BuildContent(postParams, headers);
+
+            var url = BuildUrl(method);
+            return _client.PostAsync(url, content);
+        }
+
+        private Task<HttpResponseMessage> GetPutResponseAsync(string method, object putParams, IDictionary<string, object> headers)
+        {
+            HttpContent content = BuildContent(putParams, headers);
+
+            var url = BuildUrl(method);
+            return _client.PutAsync(url, content);
+        }
+
+        private HttpRequestMessage BuildHttpRequest(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers, HttpMethod requestType)
+        {
+            if (string.IsNullOrWhiteSpace(_url))
             {
-                content = _builder.Build(postParams);
+                method.CheckNull(nameof(method));
+            }
+
+            string url = BuildUrl(method, queryParams);
+            var msg = new HttpRequestMessage(requestType, url);
+            FillHeaders(headers, msg);
+            return msg;
+        }
+
+        private HttpContent BuildContent(object requestParams, IDictionary<string, object> headers)
+        {
+            HttpContent content = null;
+            if (requestParams != null)
+            {
+                content = _builder.Build(requestParams);
             }
 
             if (!headers.NullOrEmpty())
@@ -223,10 +305,7 @@
                 FillContentHeaders(headers, content);
             }
 
-            var url = BuildUrl(method);
-            var resultPost = await _client.PostAsync(url, content);
-
-            return await ProcessResultAsync<T>(resultPost);
+            return content;
         }
 
         private void CheckResult(HttpResponseMessage resultPost)
