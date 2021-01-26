@@ -6,7 +6,6 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
-    using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
     using System.Web;
     using bgTeam.Extensions;
@@ -16,91 +15,20 @@
 
     public class WebClient : IWebClient
     {
-        private readonly string _url;
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
-        private readonly SocketsHttpHandler _handler;
-
-        public WebClient(string url)
-            : this(url, new FormUrlEncodedContentBuilder())
+        public WebClient(HttpClient client)
+            : this(client, new FormUrlEncodedContentBuilder())
         {
         }
 
-        public WebClient(string url, X509CertificateCollection clientCertificates)
-            : this(url, new FormUrlEncodedContentBuilder())
+        public WebClient(HttpClient client, IContentBuilder builder)
         {
-            var sslOptions = new System.Net.Security.SslClientAuthenticationOptions();
-            sslOptions.ClientCertificates = clientCertificates;
-            sslOptions.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-
-            _handler.SslOptions = sslOptions;
-        }
-
-        public WebClient(string url, IContentBuilder builder)
-        {
-            _url = url;
             _builder = builder.CheckNull(nameof(builder));
-
-            _handler = new SocketsHttpHandler();
-            _client = new HttpClient(_handler);
-
-            ConnectionsLimit = 1024;
-            MaxIdleTime = 300000; // 5 мин
-            ConnectionLeaseTimeout = 0; // закрываем соединение сразу после выполнения запроса
+            _client = client;
 
             Culture = CultureInfo.CurrentCulture;
-        }
-
-        /// <summary>
-        /// Количество одновременных запросов на удалённый сервер. По-умолчанию для .net core int.Max, в остальных случаях 2
-        /// </summary>
-        public int ConnectionsLimit
-        {
-            get
-            {
-                return _handler.MaxConnectionsPerServer;
-            }
-
-            set
-            {
-                _handler.MaxConnectionsPerServer = value;
-            }
-        }
-
-        /// <summary>
-        /// Указывает, после какого времени бездействия (в мс) соединение будет закрыто. Бездействие означает отсутствие передачи данных через соединение.
-        /// </summary>
-        /// <exception>
-        /// NotSupportedException для среды .net core 2.0
-        /// </exception>
-        public int MaxIdleTime
-        {
-            get
-            {
-                return Convert.ToInt32(_handler.PooledConnectionIdleTimeout.TotalMilliseconds);
-            }
-
-            set
-            {
-                _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
-            }
-        }
-
-        /// <summary>
-        /// Указывает, сколько времени (в мс) соединение может удерживаться открытым. По умолчанию лимита времени жизни для соединений нет. Установка его в 0 приведет к тому, что каждое соединение будет закрываться сразу после выполнения запроса.
-        /// </summary>
-        public int ConnectionLeaseTimeout
-        {
-            get
-            {
-                return Convert.ToInt32(_handler.PooledConnectionLifetime.TotalMilliseconds);
-            }
-
-            set
-            {
-                _handler.PooledConnectionLifetime = TimeSpan.FromMilliseconds(value);
-            }
         }
 
         /// <summary>
@@ -117,9 +45,9 @@
             set { _client.Timeout = value; }
         }
 
-        public string Url => _url;
+        public string Url => _client.BaseAddress.AbsoluteUri;
 
-        public void SetAuthHeader(string scheme, string value)
+        public virtual void SetAuthHeader(string scheme, string value)
         {
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, value);
         }
@@ -206,7 +134,7 @@
 
         private HttpRequestMessage BuildHttpRequest(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers, HttpMethod requestType)
         {
-            if (string.IsNullOrWhiteSpace(_url))
+            if (string.IsNullOrWhiteSpace(Url))
             {
                 method.CheckNull(nameof(method));
             }
@@ -279,9 +207,9 @@
         private string BuildUrl(string method, IDictionary<string, object> queryParams = null)
         {
             string baseUrl;
-            if (!string.IsNullOrWhiteSpace(_url))
+            if (!string.IsNullOrWhiteSpace(Url))
             {
-                baseUrl = _url;
+                baseUrl = Url;
                 if (!string.IsNullOrWhiteSpace(method))
                 {
                     if (!baseUrl.EndsWith("/"))
