@@ -61,21 +61,15 @@
             where TInterface : class
             where TIMplementation : WebClient, TInterface
         {
-            var clientBuilder = services.AddHttpClient<TInterface, TIMplementation>();
+            Action<IServiceProvider, HttpClient> configureClient = (sp, c) => c.BaseAddress = new Uri(baseUrl);
+            Func<IServiceProvider, SocketsHttpHandler> configureHandler = sp => new SocketsHttpHandler()
+            {
+                MaxConnectionsPerServer = connectionsLimit,
+                PooledConnectionIdleTimeout = maxIdle,
+                PooledConnectionLifetime = connectionLeaseTimeout,
+            };
 
-            clientBuilder
-                .ConfigureHttpClient(x => x.BaseAddress = new Uri(baseUrl))
-                .ConfigurePrimaryHttpMessageHandler(() =>
-                {
-                    return new SocketsHttpHandler()
-                    {
-                        MaxConnectionsPerServer = connectionsLimit,
-                        PooledConnectionIdleTimeout = maxIdle,
-                        PooledConnectionLifetime = connectionLeaseTimeout,
-                    };
-                });
-
-            return services;
+            return services.AddWebClient<TInterface, TIMplementation>(configureClient, configureHandler);
         }
 
         /// <summary>
@@ -91,11 +85,36 @@
             where TInterface : class
             where TIMplementation : WebClient, TInterface
         {
-            var clientBuilder = services.AddHttpClient<TInterface, TIMplementation>();
+            return services.AddWebClient<TInterface, TIMplementation>((sp, c) => c.BaseAddress = new Uri(baseUrl), configureHandler);
+        }
+
+        /// <summary>
+        /// Регистрирует новый типизированный HttpClient
+        /// </summary>
+        /// <typeparam name="TInterface">Интерфейс клиента</typeparam>
+        /// <typeparam name="TIMplementation">Реализация клиента</typeparam>
+        /// <param name="services">Коллекция сервисов</param>
+        /// <param name="configureClient">конфигурирует клиент</param>
+        /// <param name="configureHandler">создаёт и конфигурирует SocketsHttpHandler</param>
+        /// <param name="name">именует клиент и создаёт для него уникальные настройки</param>
+        /// <param name="handlerLifeTime">Время в течении, которого может HttpMessageHandler переиспользоваться. По-умолчанию 2 мин</param>
+        /// <returns></returns>
+        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Func<IServiceProvider, SocketsHttpHandler> configureHandler, string name = null, TimeSpan? handlerLifeTime = null)
+            where TInterface : class
+            where TIMplementation : WebClient, TInterface
+        {
+            var clientBuilder = string.IsNullOrWhiteSpace(name)
+                ? services.AddHttpClient<TInterface, TIMplementation>()
+                : services.AddHttpClient<TInterface, TIMplementation>(name);
 
             clientBuilder
-                .ConfigureHttpClient(x => x.BaseAddress = new Uri(baseUrl))
+                .ConfigureHttpClient(configureClient)
                 .ConfigurePrimaryHttpMessageHandler(configureHandler);
+
+            if (handlerLifeTime.HasValue)
+            {
+                clientBuilder.SetHandlerLifetime(handlerLifeTime.Value);
+            }
 
             return services;
         }

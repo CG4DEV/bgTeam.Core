@@ -2,24 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Threading.Tasks;
 
     public interface IWebClient
     {
         /// <summary>
-        /// Устанавливает количество одновременных соединений с сервером
+        /// Culture for query builder. <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
-        //int ConnectionsLimit { get; set; }
-
-        /// <summary>
-        /// Указывает, сколько времени (в мс) соединение может удерживаться открытым. По умолчанию лимита времени жизни для соединений нет. Установка его в 0 приведет к тому, что каждое соединение будет закрываться сразу после выполнения запроса.
-        /// </summary>
-        //int ConnectionLeaseTimeout { get; set; }
-
-        /// <summary>
-        /// Указывает, после какого времени бездействия (в мс) соединение будет закрыто. Бездействие означает отсутствие передачи данных через соединение.
-        /// </summary>
-        //int MaxIdleTime { get; set; }
+        public CultureInfo Culture { get; set; }
 
         /// <summary>
         /// Устанавливает или возвращает таймаут запроса к серверу

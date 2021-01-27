@@ -11,6 +11,7 @@
     using bgTeam.Extensions;
     using bgTeam.Web.Builders;
     using bgTeam.Web.Exceptions;
+    using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
 
     public class WebClient : IWebClient
@@ -18,6 +19,7 @@
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
+        [ActivatorUtilitiesConstructor]
         public WebClient(HttpClient client)
             : this(client, new FormUrlEncodedContentBuilder())
         {
@@ -166,7 +168,7 @@
             return content;
         }
 
-        private void CheckResult(HttpResponseMessage resultPost)
+        protected virtual void CheckResult(HttpResponseMessage resultPost)
         {
             switch (resultPost.StatusCode)
             {
