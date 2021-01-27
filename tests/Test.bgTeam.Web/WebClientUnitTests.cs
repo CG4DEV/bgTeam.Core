@@ -40,8 +40,7 @@ namespace Test.bgTeam.Web
                         .AddJsonOptions(opt => opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented)
                         .AddJsonFormatters();
 
-                    s.AddSingleton<IContentBuilder, FormUrlEncodedContentBuilder>()
-                     .AddWebClient<IWebClient, WebClient>(_hostUrl)
+                    s.AddWebClient<IWebClient, WebClient>(_hostUrl)
                      .AddWebClient<IWebClientClone, WebClientClone>(_hostUrl + "/Test");
                 })
                 .Configure(app =>
