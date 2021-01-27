@@ -10,6 +10,7 @@ using bgTeam.Web.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Test.bgTeam.Web.Services;
 using Xunit;
 
 namespace Test.bgTeam.Web
@@ -23,6 +24,7 @@ namespace Test.bgTeam.Web
         private CancellationTokenSource _token;
 
         private IWebClient _webClient;
+        private IWebClientClone _webClientClone;
 
         public WebClientUnitTests()
         {
@@ -39,7 +41,8 @@ namespace Test.bgTeam.Web
                         .AddJsonFormatters();
 
                     s.AddSingleton<IContentBuilder, FormUrlEncodedContentBuilder>()
-                     .AddWebClient<IWebClient, WebClient>(_hostUrl);
+                     .AddWebClient<IWebClient, WebClient>(_hostUrl)
+                     .AddWebClient<IWebClientClone, WebClientClone>(_hostUrl + "/Test");
                 })
                 .Configure(app =>
                 {
@@ -49,6 +52,7 @@ namespace Test.bgTeam.Web
                 .Build();
 
             _webClient = _host.Services.GetRequiredService<IWebClient>();
+            _webClientClone = _host.Services.GetRequiredService<IWebClientClone>();
             _hostTask = _host.RunAsync(_token.Token);
         }
 
@@ -61,6 +65,14 @@ namespace Test.bgTeam.Web
         }
 
         [Fact]
+        public async Task Delete_String()
+        {
+            var result = await _webClient.DeleteAsync<string>("Test/DeleteString").ConfigureAwait(false);
+
+            Assert.Equal("DeleteString", result);
+        }
+
+        [Fact]
         public async Task Post_String()
         {
             var result = await _webClient.PostAsync<string>("Test/PostString").ConfigureAwait(false);
@@ -69,9 +81,25 @@ namespace Test.bgTeam.Web
         }
 
         [Fact]
+        public async Task Put_String()
+        {
+            var result = await _webClient.PutAsync<string>("Test/PutString").ConfigureAwait(false);
+
+            Assert.Equal("PutString", result);
+        }
+
+        [Fact]
         public async Task Post_NullString()
         {
             var result = await _webClient.PostAsync<string>("Test/PostNullString").ConfigureAwait(false);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task Put_NullString()
+        {
+            var result = await _webClient.PutAsync<string>("Test/PutNullString").ConfigureAwait(false);
 
             Assert.Null(result);
         }
@@ -86,9 +114,27 @@ namespace Test.bgTeam.Web
         }
 
         [Fact]
+        public async Task Put_ArrayString()
+        {
+            var result = await _webClient.PutAsync<string[]>("Test/PutArrayString").ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+        }
+
+        [Fact]
         public async Task Post_EmptyArrayString()
         {
             var result = await _webClient.PostAsync<string[]>("Test/PostEmptyArrayString").ConfigureAwait(false);
+
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public async Task Put_EmptyArrayString()
+        {
+            var result = await _webClient.PutAsync<string[]>("Test/PutEmptyArrayString").ConfigureAwait(false);
 
             Assert.NotNull(result);
             Assert.Empty(result);
@@ -212,23 +258,29 @@ namespace Test.bgTeam.Web
             Assert.Equal(expected, result);
         }
 
-        //[Fact]
-        //public async Task Get_String_WithOffset()
-        //{
-        //    var webClient = new WebClient(_hostUrl + "/Test");
-        //    var result = await webClient.GetAsync<string>("GetString").ConfigureAwait(false);
+        [Fact]
+        public async Task Get_String_WithOffset()
+        {
+            var result = await _webClientClone.GetAsync<string>("GetString").ConfigureAwait(false);
 
-        //    Assert.Equal("GetString", result);
-        //}
+            Assert.Equal("GetString", result);
+        }
 
-        //[Fact]
-        //public async Task Post_String_WithOffset()
-        //{
-        //    var webClient = new WebClient(_hostUrl + "/Test");
-        //    var result = await webClient.PostAsync<string>("PostString").ConfigureAwait(false);
+        [Fact]
+        public async Task Post_String_WithOffset()
+        {
+            var result = await _webClientClone.PostAsync<string>("PostString").ConfigureAwait(false);
 
-        //    Assert.Equal("PostString", result);
-        //}
+            Assert.Equal("PostString", result);
+        }
+
+        [Fact]
+        public async Task Put_String_WithOffset()
+        {
+            var result = await _webClientClone.PutAsync<string>("PutString").ConfigureAwait(false);
+
+            Assert.Equal("PutString", result);
+        }
 
         public void Dispose()
         {
