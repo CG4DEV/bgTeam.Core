@@ -1,6 +1,6 @@
-﻿namespace bgTeam.DataAccess
+﻿namespace bgTeam.Impl.MongoDB
 {
-    using MongoDB.Driver;
+    using global::MongoDB.Driver;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
