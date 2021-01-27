@@ -1,4 +1,4 @@
-﻿namespace bgTeam.DataAccess.Impl.MongoDB
+﻿namespace bgTeam.Impl.MongoDB
 {
     using global::MongoDB.Driver;
 

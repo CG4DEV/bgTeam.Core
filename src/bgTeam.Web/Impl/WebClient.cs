@@ -5,171 +5,32 @@
     using System.Globalization;
     using System.Net;
     using System.Net.Http;
-    using System.Security.Cryptography.X509Certificates;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using System.Web;
     using bgTeam.Extensions;
     using bgTeam.Web.Builders;
     using bgTeam.Web.Exceptions;
+    using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
 
     public class WebClient : IWebClient
     {
-        private readonly string _url;
         private readonly HttpClient _client;
         private readonly IContentBuilder _builder;
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-        private readonly SocketsHttpHandler _handler;
-#else
-        private readonly ServicePoint _servicePoint;
-#endif
-
-        public WebClient(string url)
-            : this(url, new FormUrlEncodedContentBuilder())
+        [ActivatorUtilitiesConstructor]
+        public WebClient(HttpClient client)
+            : this(client, new FormUrlEncodedContentBuilder())
         {
         }
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-        public WebClient(string url, X509CertificateCollection clientCertificates)
-            : this(url, new FormUrlEncodedContentBuilder())
+        public WebClient(HttpClient client, IContentBuilder builder)
         {
-            var sslOptions = new System.Net.Security.SslClientAuthenticationOptions();
-            sslOptions.ClientCertificates = clientCertificates;
-            sslOptions.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
-
-            _handler.SslOptions = sslOptions;
-        }
-#endif
-
-        public WebClient(string url, IContentBuilder builder)
-        {
-            _url = url;
             _builder = builder.CheckNull(nameof(builder));
-
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-            _handler = new SocketsHttpHandler();
-            _client = new HttpClient(_handler);
-#else
-            _client = new HttpClient();
-
-            if (!string.IsNullOrWhiteSpace(url))
-            {
-                var uri = new Uri(_url);
-                _servicePoint = ServicePointManager.FindServicePoint(uri);
-            }
-#endif
-
-            ConnectionsLimit = 1024;
-            MaxIdleTime = 300000; // 5 мин
-            ConnectionLeaseTimeout = 0; // закрываем соединение сразу после выполнения запроса
+            _client = client;
 
             Culture = CultureInfo.CurrentCulture;
-        }
-
-        /// <summary>
-        /// Количество одновременных запросов на удалённый сервер. По-умолчанию для .net core int.Max, в остальных случаях 2
-        /// </summary>
-        public int ConnectionsLimit
-        {
-            get
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                return _handler.MaxConnectionsPerServer;
-#else
-                return ServicePointManager.DefaultConnectionLimit;
-#endif
-            }
-
-            set
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                _handler.MaxConnectionsPerServer = value;
-#else
-                ServicePointManager.DefaultConnectionLimit = value;
-#endif
-            }
-        }
-
-        /// <summary>
-        /// Указывает, сколько времени (в мс) будет закеширован полученный IP адрес для каждого доменного имени
-        /// </summary>
-        /// <exception>
-        /// NotSupportedException для сред .net core
-        /// </exception>
-        public int DnsRefreshTimeout
-        {
-            get
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                throw new NotSupportedException();
-#else
-                return ServicePointManager.DnsRefreshTimeout;
-#endif
-            }
-
-            set
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                throw new NotSupportedException();
-#else
-                ServicePointManager.DnsRefreshTimeout = value;
-#endif
-            }
-        }
-
-        /// <summary>
-        /// Указывает, после какого времени бездействия (в мс) соединение будет закрыто. Бездействие означает отсутствие передачи данных через соединение.
-        /// </summary>
-        /// <exception>
-        /// NotSupportedException для среды .net core 2.0
-        /// </exception>
-        public int MaxIdleTime
-        {
-            get
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                return Convert.ToInt32(_handler.PooledConnectionIdleTimeout.TotalMilliseconds);
-#else
-                return _servicePoint.MaxIdleTime;
-#endif
-            }
-
-            set
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                _handler.PooledConnectionIdleTimeout = TimeSpan.FromMilliseconds(value);
-#else
-                _servicePoint.MaxIdleTime = value;
-#endif
-            }
-        }
-
-        /// <summary>
-        /// Указывает, сколько времени (в мс) соединение может удерживаться открытым. По умолчанию лимита времени жизни для соединений нет. Установка его в 0 приведет к тому, что каждое соединение будет закрываться сразу после выполнения запроса.
-        /// </summary>
-        /// <exception>
-        /// NotSupportedException для среды .net core 2.0
-        /// </exception>
-        public int ConnectionLeaseTimeout
-        {
-            get
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                return Convert.ToInt32(_handler.PooledConnectionLifetime.TotalMilliseconds);
-#else
-                return _servicePoint.ConnectionLeaseTimeout;
-#endif
-            }
-
-            set
-            {
-#if NETCOREAPP2_1 || NETCOREAPP2_2 || NETCOREAPP3_1
-                _handler.PooledConnectionLifetime = TimeSpan.FromMilliseconds(value);
-#else
-                _servicePoint.ConnectionLeaseTimeout = value;
-#endif
-            }
         }
 
         /// <summary>
@@ -186,31 +47,112 @@
             set { _client.Timeout = value; }
         }
 
-        public string Url => _url;
+        public string Url => _client.BaseAddress.AbsoluteUri;
+
+        public virtual void SetAuthHeader(string scheme, string value)
+        {
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, value);
+        }
 
         public virtual async Task<T> GetAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
-            if (string.IsNullOrWhiteSpace(_url))
-            {
-                method = method.CheckNull(nameof(method));
-            }
+            var result = await GetResponseAsync(method, queryParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
 
-            string url = BuildUrl(method, queryParams);
-            var msg = new HttpRequestMessage(HttpMethod.Get, url);
-            FillHeaders(headers, msg);
+        public virtual async Task GetAsync(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetResponseAsync(method, queryParams, headers);
+            CheckResult(result);
+        }
 
-            var resultGet = await _client.SendAsync(msg);
-            return await ProcessResultAsync<T>(resultGet);
+        public virtual async Task<T> DeleteAsync<T>(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+            where T : class
+        {
+            var result = await GetDeleteResponseAsync(method, queryParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
+
+        public virtual async Task DeleteAsync(string method, IDictionary<string, object> queryParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetDeleteResponseAsync(method, queryParams, headers);
+            CheckResult(result);
         }
 
         public virtual async Task<T> PostAsync<T>(string method, object postParams = null, IDictionary<string, object> headers = null)
             where T : class
         {
-            HttpContent content = null;
-            if (postParams != null)
+            var result = await GetPostResponseAsync(method, postParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
+
+        public virtual async Task PostAsync(string method, object postParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetPostResponseAsync(method, postParams, headers);
+            CheckResult(result);
+        }
+
+        public virtual async Task<T> PutAsync<T>(string method, object putParams = null, IDictionary<string, object> headers = null)
+            where T : class
+        {
+            var result = await GetPutResponseAsync(method, putParams, headers);
+            return await ProcessResultAsync<T>(result);
+        }
+
+        public virtual async Task PutAsync(string method, object putParams = null, IDictionary<string, object> headers = null)
+        {
+            var result = await GetPutResponseAsync(method, putParams, headers);
+            CheckResult(result);
+        }
+
+        private Task<HttpResponseMessage> GetResponseAsync(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers)
+        {
+            HttpRequestMessage msg = BuildHttpRequest(method, queryParams, headers, HttpMethod.Get);
+            return _client.SendAsync(msg);
+        }
+
+        private Task<HttpResponseMessage> GetDeleteResponseAsync(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers)
+        {
+            HttpRequestMessage msg = BuildHttpRequest(method, queryParams, headers, HttpMethod.Delete);
+            return _client.DeleteAsync(msg.RequestUri);
+        }
+
+        private Task<HttpResponseMessage> GetPostResponseAsync(string method, object postParams, IDictionary<string, object> headers)
+        {
+            HttpContent content = BuildContent(postParams, headers);
+
+            var url = BuildUrl(method);
+            return _client.PostAsync(url, content);
+        }
+
+        private Task<HttpResponseMessage> GetPutResponseAsync(string method, object putParams, IDictionary<string, object> headers)
+        {
+            HttpContent content = BuildContent(putParams, headers);
+
+            var url = BuildUrl(method);
+            return _client.PutAsync(url, content);
+        }
+
+        private HttpRequestMessage BuildHttpRequest(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers, HttpMethod requestType)
+        {
+            if (string.IsNullOrWhiteSpace(Url))
             {
-                content = _builder.Build(postParams);
+                method.CheckNull(nameof(method));
+            }
+
+            string url = BuildUrl(method, queryParams);
+            var msg = new HttpRequestMessage(requestType, url);
+            FillHeaders(headers, msg);
+            return msg;
+        }
+
+        private HttpContent BuildContent(object requestParams, IDictionary<string, object> headers)
+        {
+            HttpContent content = null;
+            if (requestParams != null)
+            {
+                content = _builder.Build(requestParams);
             }
 
             if (!headers.NullOrEmpty())
@@ -223,13 +165,10 @@
                 FillContentHeaders(headers, content);
             }
 
-            var url = BuildUrl(method);
-            var resultPost = await _client.PostAsync(url, content);
-
-            return await ProcessResultAsync<T>(resultPost);
+            return content;
         }
 
-        private void CheckResult(HttpResponseMessage resultPost)
+        protected virtual void CheckResult(HttpResponseMessage resultPost)
         {
             switch (resultPost.StatusCode)
             {
@@ -270,9 +209,9 @@
         private string BuildUrl(string method, IDictionary<string, object> queryParams = null)
         {
             string baseUrl;
-            if (!string.IsNullOrWhiteSpace(_url))
+            if (!string.IsNullOrWhiteSpace(Url))
             {
-                baseUrl = _url;
+                baseUrl = Url;
                 if (!string.IsNullOrWhiteSpace(method))
                 {
                     if (!baseUrl.EndsWith("/"))
