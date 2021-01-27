@@ -84,12 +84,13 @@
         public static Dictionary<object, string> ToDictionary<T>()
             where T : Enum
         {
-            return Enum.GetNames(typeof(T)).Select(x =>
+            var type = typeof(T);
+            return Enum.GetNames(type).Select(x =>
             {
-                var field = typeof(T).GetField(x);
+                var field = type.GetField(x);
 
                 return new KeyValuePair<object, string>(
-                    Convert.ChangeType(field.GetValue(null), Enum.GetUnderlyingType(typeof(T))),
+                    Convert.ChangeType(field.GetValue(null), Enum.GetUnderlyingType(type)),
                     field.GetCustomAttribute<DescriptionAttribute>()?.Description ?? x);
             }).ToDictionary(x => x.Key, x => x.Value);
         }

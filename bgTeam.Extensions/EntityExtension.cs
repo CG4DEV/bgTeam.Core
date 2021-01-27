@@ -6,8 +6,6 @@
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Содержит расширения для объектов, позволяющих манипулировать значением свойств объекта по его имени.
@@ -45,22 +43,24 @@
         /// <param name="propertyValue">Устанавливаемое значение свойства.</param>
         public static void SetProperty(this object entity, string propertyName, object propertyValue)
         {
-            PropertyInfo propertyInfo = entity.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            var entityType = entity.GetType();
+            PropertyInfo propertyInfo = entityType.GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (propertyInfo != null)
             {
-                if (_systemTypes.Contains(propertyInfo.PropertyType))
+                var propertyType = propertyInfo.PropertyType;
+                if (_systemTypes.Contains(propertyType))
                 {
-                    if (propertyInfo.PropertyType == typeof(DateTime) || propertyInfo.PropertyType == typeof(DateTime?))
+                    if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
                     {
                         propertyInfo.SetValue(entity, DateTime.ParseExact(propertyValue.ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture), null);
                     }
-                    else if (propertyInfo.PropertyType == typeof(Guid) || propertyInfo.PropertyType == typeof(Guid?))
+                    else if (propertyType == typeof(Guid) || propertyType == typeof(Guid?))
                     {
                         propertyInfo.SetValue(entity, Guid.Parse(propertyValue.ToString()), null);
                     }
                     else
                     {
-                        propertyInfo.SetValue(entity, Convert.ChangeType(propertyValue, propertyInfo.PropertyType, CultureInfo.InvariantCulture), null);
+                        propertyInfo.SetValue(entity, Convert.ChangeType(propertyValue, propertyType, CultureInfo.InvariantCulture), null);
                     }
                 }
                 else
@@ -70,7 +70,7 @@
             }
             else
             {
-                propertyInfo = entity.GetType().GetProperty(propertyName + "List", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                propertyInfo = entityType.GetProperty(propertyName + "List", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 if (propertyInfo == null)
                 {
                     return;
