@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp5</TargetFrameworks>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
     <OutputType>Library</OutputType>
   </PropertyGroup>
@@ -11,9 +11,23 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition="'$(TargetFramework)'=='netcoreapp5'">
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+      </ItemGroup>
+    </When>
+
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.11" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.11" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.11" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.11" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.17.0.26580">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -26,7 +40,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <!--<PackageReference Include="Microsoft.AspNetCore.App.Ref" Version="3.1.10" />-->
   </ItemGroup>
 
   <ItemGroup>

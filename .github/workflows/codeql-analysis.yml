@@ -35,7 +35,7 @@ jobs:
     - name: Setup .NET Core environment
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.404'
+        dotnet-version: '5.0.102'
             
     - name: Build project
       run: dotnet build
