@@ -5,7 +5,8 @@ branches:
 image: Visual Studio 2019
 configuration: Release
 environment:
-  ShortVersion: 3.1
+  ShortVersion: 5.0
+  VersionSuffix: beta
 nuget:
   project_feed: true
   disable_publish_on_pr: true

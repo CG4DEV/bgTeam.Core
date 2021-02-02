@@ -36,9 +36,9 @@ namespace Test.bgTeam.Web
                 .ConfigureServices(s =>
                 {
                     s.AddMvcCore()
+                        .AddMvcOptions(opt => opt.EnableEndpointRouting = false)
                         .AddFormatterMappings()
-                        .AddJsonOptions(opt => opt.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented)
-                        .AddJsonFormatters();
+                        .AddJsonOptions(opt => opt.JsonSerializerOptions.WriteIndented = true);
 
                     s.AddWebClient<IWebClient, WebClient>(_hostUrl)
                      .AddWebClient<IWebClientClone, WebClientClone>(_hostUrl + "/Test");
