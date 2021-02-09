@@ -123,5 +123,25 @@
         /// <param name="size">Count to return</param>
         Task<IEnumerable<T>> SearchAsync<T>(string field, double? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
             where T : class;
+
+        /// <summary>
+        /// Full text search documents
+        /// </summary>
+        /// <typeparam name="T">Document type</typeparam>
+        /// <param name="searchString">String with search request</param>
+        /// <param name="indexName">Elasticsearch index</param>
+        /// <param name="size">Count to return</param>
+        IEnumerable<T> FullTextSearch<T>(string searchString, string indexName, int? size = null)
+            where T : class;
+
+        /// <summary>
+        /// Full text search documents
+        /// </summary>
+        /// <typeparam name="T">Document type</typeparam>
+        /// <param name="searchString">String with search request</param>
+        /// <param name="indexName">Elasticsearch index</param>
+        /// <param name="size">Count to return</param>
+        Task<IEnumerable<T>> FullTextSearchAsync<T>(string searchString, string indexName, int? size = null)
+            where T : class;
     }
 }

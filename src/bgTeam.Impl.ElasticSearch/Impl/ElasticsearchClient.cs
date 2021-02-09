@@ -242,5 +242,55 @@
 
             return result.Documents.ToList();
         }
+
+        /// <summary>
+        /// Full text search documents
+        /// </summary>
+        /// <typeparam name="T">Document type</typeparam>
+        /// <param name="searchString">String with search request</param>
+        /// <param name="indexName">Elasticsearch index</param>
+        /// <param name="size">Count to return</param>
+        public IEnumerable<T> FullTextSearch<T>(string searchString, string indexName, int? size = null)
+            where T : class
+        {
+            var client = _connectionFactoryEs.CreateClient();
+
+            var result = client.Search<T>(x => x
+                .Index(indexName)
+                .Size(size)
+                .Query(q => q.QueryString(qs => qs.Query(searchString).AllowLeadingWildcard(true))));
+
+            if (!result.IsValid)
+            {
+                throw new ElasticsearchException(result.DebugInformation);
+            }
+
+            return result.Documents.ToList();
+        }
+
+        /// <summary>
+        /// Full text search documents
+        /// </summary>
+        /// <typeparam name="T">Document type</typeparam>
+        /// <param name="searchString">String with search request</param>
+        /// <param name="indexName">Elasticsearch index</param>
+        /// <param name="size">Count to return</param>
+        public async Task<IEnumerable<T>> FullTextSearchAsync<T>(string searchString, string indexName, int? size = null)
+            where T : class
+        {
+            var client = await _connectionFactoryEs.CreateClientAsync();
+
+            var result = await client.SearchAsync<T>(x => x
+                .Index(indexName)
+                .Size(size)
+                .Query(q => q.QueryString(qs => qs.Query(searchString).AllowLeadingWildcard(true))));
+
+            if (!result.IsValid)
+            {
+                throw new ElasticsearchException(result.DebugInformation);
+            }
+
+            return result.Documents.ToList();
+        }
     }
 }
