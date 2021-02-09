@@ -153,7 +153,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         {
             var (factory, client) = GetMocks();
             var response = SuccessfulSearchResponse(new ReadOnlyCollection<TestEntity>(new List<TestEntity> { new TestEntity() }));
-            client.Setup(x => x.Search(It.IsAny<Func<SearchDescriptor<TestEntity>, ISearchRequest>>()))
+            client.Setup(x => x.Search<TestEntity>(It.IsAny<ISearchRequest>()))
                 .Returns(response.Object);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             var result = elasticSearchClient.Search<TestEntity>("CreatedAt", DateTime.UtcNow, "index");
@@ -165,7 +165,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         {
             var (factory, client) = GetMocks();
             var response = SuccessfulSearchResponse(new ReadOnlyCollection<TestEntity>(new List<TestEntity> { new TestEntity() }));
-            client.Setup(x => x.Search(It.IsAny<Func<SearchDescriptor<TestEntity>, ISearchRequest>>()))
+            client.Setup(x => x.Search<TestEntity>(It.IsAny<ISearchRequest>()))
                 .Returns(response.Object);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             var result = elasticSearchClient.Search<TestEntity>("Weight", 51.2, "index");
@@ -177,7 +177,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         {
             var (factory, client) = GetMocks();
             var response = UnsuccessfulSearchResponse<TestEntity>("smth went wrong");
-            client.Setup(x => x.Search(It.IsAny<Func<SearchDescriptor<TestEntity>, ISearchRequest>>()))
+            client.Setup(x => x.Search<TestEntity>(It.IsAny<ISearchRequest>()))
                 .Returns(response.Object);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             Assert.Throws<ElasticsearchException>(() => elasticSearchClient.Search<TestEntity>("Name", "John", "index"));
@@ -188,8 +188,8 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         {
             var (factory, client) = GetMocks();
             var response = SuccessfulSearchResponse(new ReadOnlyCollection<TestEntity>(new List<TestEntity> { new TestEntity() }));
-            client.Setup(x => x.SearchAsync(It.IsAny<Func<SearchDescriptor<TestEntity>, ISearchRequest>>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(response.Object);
+            client.Setup(x => x.SearchAsync<TestEntity>(It.IsAny<ISearchRequest>(), It.IsAny<CancellationToken>()))
+                 .ReturnsAsync(response.Object);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             var result = await elasticSearchClient.SearchAsync<TestEntity>("CreatedAt", DateTime.UtcNow, "index");
             Assert.Single(result);
@@ -200,7 +200,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         {
             var (factory, client) = GetMocks();
             var response = SuccessfulSearchResponse(new ReadOnlyCollection<TestEntity>(new List<TestEntity> { new TestEntity() }));
-            client.Setup(x => x.SearchAsync(It.IsAny<Func<SearchDescriptor<TestEntity>, ISearchRequest>>(), It.IsAny<CancellationToken>()))
+            client.Setup(x => x.SearchAsync<TestEntity>(It.IsAny<ISearchRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response.Object);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             var result = await elasticSearchClient.SearchAsync<TestEntity>("Weight", 51.2, "index");
@@ -212,7 +212,7 @@ namespace bgTeam.Core.Tests.Tests.ElasticSearch
         {
             var (factory, client) = GetMocks();
             var response = UnsuccessfulSearchResponse<TestEntity>("smth went wrong");
-            client.Setup(x => x.SearchAsync(It.IsAny<Func<SearchDescriptor<TestEntity>, ISearchRequest>>(), It.IsAny<CancellationToken>()))
+            client.Setup(x => x.SearchAsync<TestEntity>(It.IsAny<ISearchRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response.Object);
             var elasticSearchClient = new ElasticsearchClient(factory.Object);
             await Assert.ThrowsAsync<ElasticsearchException>(() => elasticSearchClient.SearchAsync<TestEntity>("Name", "John", "index"));
