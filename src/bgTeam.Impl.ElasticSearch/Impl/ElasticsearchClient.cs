@@ -39,18 +39,7 @@
                 .Index(indexName);
             var result = client.Get<T>(path);
 
-            if (!result.IsValid)
-            {
-                var ex = (ElasticsearchClientException)result.OriginalException;
-
-                if (ex.FailureReason.HasValue
-                    && ex.FailureReason != PipelineFailure.BadResponse
-                    && ex.Message.IndexOf("Status code 404") == -1)
-                {
-                    throw new ElasticsearchException($"Elasticsearch error.{Environment.NewLine}{result.DebugInformation}");
-                }
-            }
-
+            ValidateGetResult(result);
             return result.Source;
         }
 
@@ -68,18 +57,7 @@
                 .Index(indexName);
             var result = await client.GetAsync<T>(path);
 
-            if (!result.IsValid)
-            {
-                var ex = (ElasticsearchClientException)result.OriginalException;
-
-                if (ex.FailureReason.HasValue
-                    && ex.FailureReason != PipelineFailure.BadResponse
-                    && ex.Message.IndexOf("Status code 404") == -1)
-                {
-                    throw new ElasticsearchException($"Elasticsearch error.{Environment.NewLine}{result.DebugInformation}");
-                }
-            }
-
+            ValidateGetResult(result);
             return result.Source;
         }
 
@@ -129,7 +107,7 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        public IEnumerable<T> Search<T>(string field, DateTime? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+        public IEnumerable<T> Search<T>(string field, DateTime? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class
         {
             return Search<T>(field, value.ToString(), indexName, sortField, ascSort, size);
@@ -145,7 +123,7 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        public IEnumerable<T> Search<T>(string field, double? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+        public IEnumerable<T> Search<T>(string field, double? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class
         {
             return Search<T>(field, value.ToString(), indexName, sortField, ascSort, size);
@@ -161,18 +139,12 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        public IEnumerable<T> Search<T>(string field, string value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+        public IEnumerable<T> Search<T>(string field, string value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class
         {
-            var client = _connectionFactoryEs.CreateClient();
-            var asc = ascSort ? Nest.SortOrder.Ascending : Nest.SortOrder.Descending;
+            var query = CreateSearchQuery<T>(field, value, indexName, sortField, ascSort, size);
 
-            var result = client.Search<T>(x => x
-                .Index(indexName)
-                .Size(size)
-                .Query(q => q.Match(m => m.Field(field).Query(value)))
-                .Sort(s => s.Field(sortField, asc)));
-
+            var result = SearchInternal(query);
             if (!result.IsValid)
             {
                 throw new ElasticsearchException(result.DebugInformation);
@@ -191,7 +163,7 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        public async Task<IEnumerable<T>> SearchAsync<T>(string field, DateTime? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+        public async Task<IEnumerable<T>> SearchAsync<T>(string field, DateTime? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class
         {
             return await SearchAsync<T>(field, value.ToString(), indexName, sortField, ascSort, size);
@@ -207,7 +179,7 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        public async Task<IEnumerable<T>> SearchAsync<T>(string field, double? value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+        public async Task<IEnumerable<T>> SearchAsync<T>(string field, double? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class
         {
             return await SearchAsync<T>(field, value.ToString(), indexName, sortField, ascSort, size);
@@ -223,18 +195,12 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        public async Task<IEnumerable<T>> SearchAsync<T>(string field, string value, string indexName, string sortField = "Id", bool ascSort = false, int? size = null)
+        public async Task<IEnumerable<T>> SearchAsync<T>(string field, string value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class
         {
-            var client = await _connectionFactoryEs.CreateClientAsync();
-            var asc = ascSort ? Nest.SortOrder.Ascending : Nest.SortOrder.Descending;
+            var query = CreateSearchQuery<T>(field, value, indexName, sortField, ascSort, size);
 
-            var result = await client.SearchAsync<T>(x => x
-                .Index(indexName)
-                .Size(size)
-                .Query(q => q.Match(m => m.Field(field).Query(value)))
-                .Sort(s => s.Field(sortField, asc)));
-
+            var result = await SearchInternalAsync(query);
             if (!result.IsValid)
             {
                 throw new ElasticsearchException(result.DebugInformation);
@@ -249,48 +215,107 @@
         /// <typeparam name="T">Document type</typeparam>
         /// <param name="searchString">String with search request</param>
         /// <param name="indexName">Elasticsearch index</param>
+        /// <param name="sortField">Document field name sorted by</param>
+        /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        public IEnumerable<T> FullTextSearch<T>(string searchString, string indexName, int? size = null)
+        public IEnumerable<T> FullTextSearch<T>(string searchString, string indexName, string sortField = null, bool ascSort = false, int? size = null)
+            where T : class
+        {
+            var query = CreateFullTextQuery<T>(searchString, indexName, sortField, ascSort, size);
+
+            var result = SearchInternal(query);
+            if (!result.IsValid)
+            {
+                throw new ElasticsearchException(result.DebugInformation);
+            }
+
+            return result.Documents.ToList();
+        }
+
+        /// <summary>
+        /// Full text search documents
+        /// </summary>
+        /// <typeparam name="T">Document type</typeparam>
+        /// <param name="searchString">String with search request</param>
+        /// <param name="indexName">Elasticsearch index</param>
+        /// <param name="sortField">Document field name sorted by</param>
+        /// <param name="ascSort">Order by asc</param>
+        /// <param name="size">Count to return</param>
+        public async Task<IEnumerable<T>> FullTextSearchAsync<T>(string searchString, string indexName, string sortField = null, bool ascSort = false, int? size = null)
+            where T : class
+        {
+            var query = CreateFullTextQuery<T>(searchString, indexName, sortField, ascSort, size);
+
+            var result = await SearchInternalAsync(query);
+            if (!result.IsValid)
+            {
+                throw new ElasticsearchException(result.DebugInformation);
+            }
+
+            return result.Documents.ToList();
+        }
+
+        private async Task<ISearchResponse<T>> SearchInternalAsync<T>(SearchDescriptor<T> query)
+            where T : class
+        {
+            var client = await _connectionFactoryEs.CreateClientAsync();
+            return await client.SearchAsync<T>(query);
+        }
+
+        private ISearchResponse<T> SearchInternal<T>(SearchDescriptor<T> query)
             where T : class
         {
             var client = _connectionFactoryEs.CreateClient();
-
-            var result = client.Search<T>(x => x
-                .Index(indexName)
-                .Size(size)
-                .Query(q => q.QueryString(qs => qs.Query(searchString).AllowLeadingWildcard(true))));
-
-            if (!result.IsValid)
-            {
-                throw new ElasticsearchException(result.DebugInformation);
-            }
-
-            return result.Documents.ToList();
+            return client.Search<T>(query);
         }
 
-        /// <summary>
-        /// Full text search documents
-        /// </summary>
-        /// <typeparam name="T">Document type</typeparam>
-        /// <param name="searchString">String with search request</param>
-        /// <param name="indexName">Elasticsearch index</param>
-        /// <param name="size">Count to return</param>
-        public async Task<IEnumerable<T>> FullTextSearchAsync<T>(string searchString, string indexName, int? size = null)
+        private static SearchDescriptor<T> CreateFullTextQuery<T>(string searchString, string indexName, string sortField, bool ascSort, int? size)
             where T : class
         {
-            var client = await _connectionFactoryEs.CreateClientAsync();
+            Func<QueryContainerDescriptor<T>, QueryContainer> queryFunc = q =>
+                q.QueryString(qs => qs.Query(searchString).AllowLeadingWildcard(true));
 
-            var result = await client.SearchAsync<T>(x => x
-                .Index(indexName)
+            return CreateQuery(indexName, sortField, ascSort, size, queryFunc);
+        }
+
+        private static SearchDescriptor<T> CreateSearchQuery<T>(string field, string value, string indexName, string sortField, bool ascSort, int? size)
+            where T : class
+        {
+            Func<QueryContainerDescriptor<T>, QueryContainer> queryFunc = q =>
+                q.Match(m => m.Field(field).Query(value));
+
+            return CreateQuery(indexName, sortField, ascSort, size, queryFunc);
+        }
+
+        private static SearchDescriptor<T> CreateQuery<T>(string indexName, string sortField, bool ascSort, int? size, Func<QueryContainerDescriptor<T>, QueryContainer> queryFunc) where T : class
+        {
+            var query = new SearchDescriptor<T>(indexName)
                 .Size(size)
-                .Query(q => q.QueryString(qs => qs.Query(searchString).AllowLeadingWildcard(true))));
+                .Query(queryFunc);
 
-            if (!result.IsValid)
+            if (!string.IsNullOrWhiteSpace(sortField))
             {
-                throw new ElasticsearchException(result.DebugInformation);
+                var asc = ascSort ? SortOrder.Ascending : SortOrder.Descending;
+                query = query.Sort(s => s.Field(sortField, asc));
             }
 
-            return result.Documents.ToList();
+            return query;
+        }
+
+        private static void ValidateGetResult<T>(GetResponse<T> result)
+            where T : class
+        {
+            if (!result.IsValid)
+            {
+                var ex = (ElasticsearchClientException)result.OriginalException;
+
+                if (ex.FailureReason.HasValue
+                    && ex.FailureReason != PipelineFailure.BadResponse
+                    && ex.Message.IndexOf("Status code 404") == -1)
+                {
+                    throw new ElasticsearchException($"Elasticsearch error.{Environment.NewLine}{result.DebugInformation}");
+                }
+            }
         }
     }
 }
