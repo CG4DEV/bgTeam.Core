@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp5</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
     <OutputType>Exe</OutputType>
     <ApplicationIcon />
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <Choose>
-    <When Condition="'$(TargetFramework)'=='netcoreapp5'">
+    <When Condition="'$(TargetFramework)'=='net5.0'">
       <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
       </ItemGroup>

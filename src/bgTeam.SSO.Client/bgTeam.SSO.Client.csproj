@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp5</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   
@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition="'$(TargetFramework)'=='netcoreapp5'">
+    <When Condition="'$(TargetFramework)'=='net5.0'">
       <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
