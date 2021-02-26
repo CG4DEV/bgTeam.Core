@@ -1,4 +1,4 @@
-﻿namespace bgTeam.Queues
+﻿namespace bgTeam.Queues.Exceptions
 {
     using System;
     using System.Runtime.Serialization;

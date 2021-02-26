@@ -1,7 +1,8 @@
-﻿namespace bgTeam.Queues
+﻿namespace bgTeam.Queues.Exceptions
 {
     using System;
 
+    [Serializable]
     public class QueueWatcherException : Exception
     {
         public IQueueMessage QueueMessage { get; private set; }
