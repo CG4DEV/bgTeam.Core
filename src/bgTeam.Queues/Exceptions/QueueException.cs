@@ -4,23 +4,23 @@
     using System.Runtime.Serialization;
 
     [Serializable]
-    public class QueueWatcherWarningException : Exception
+    public class QueueException : Exception
     {
-        public QueueWatcherWarningException()
+        public QueueException()
         {
         }
 
-        public QueueWatcherWarningException(string message)
+        public QueueException(string message)
             : base(message)
         {
         }
 
-        public QueueWatcherWarningException(string message, Exception innerException)
+        public QueueException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
-        protected QueueWatcherWarningException(SerializationInfo info, StreamingContext context)
+        protected QueueException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

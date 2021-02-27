@@ -1,6 +1,7 @@
 ﻿namespace bgTeam.Impl.Kafka
 {
     using System;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using bgTeam.Extensions;
@@ -8,26 +9,27 @@
     using bgTeam.Queues.Exceptions;
     using Confluent.Kafka;
     using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
 
-    public class BaseKafkaQueueWatcher<TQueueMessage> : IQueueWatcher<TQueueMessage>
-        where TQueueMessage : IQueueMessage
+    public class KafkaQueueWatcher<TMessage> : IQueueWatcher<TMessage>, IDisposable
+        where TMessage : IKafkaMessage
     {
-        private readonly ILogger<BaseKafkaQueueWatcher<TQueueMessage>> _logger;
-        private readonly IMessageProvider _messageProvider;
+        private const int COMMIT_PERIOD = 10;
+
+        private readonly ILogger<KafkaQueueWatcher<TMessage>> _logger;
         private readonly IKafkaSettings _kafkaSettings;
 
         private IConsumer<byte[], byte[]> _consumer;
         private string _topic;
         private Task _mainLoop;
         private CancellationTokenSource _cts;
+        private bool _disposedValue;
 
-        public BaseKafkaQueueWatcher(
-            ILogger<BaseKafkaQueueWatcher<TQueueMessage>> logger,
-            IMessageProvider messageProvider,
+        public KafkaQueueWatcher(
+            ILogger<KafkaQueueWatcher<TMessage>> logger,
             IKafkaSettings kafkaSettings)
         {
             _logger = logger;
-            _messageProvider = messageProvider;
             _kafkaSettings = kafkaSettings;
         }
 
@@ -35,9 +37,7 @@
 
         public event EventHandler<ExtThreadExceptionEventArgs> Error;
 
-        protected ILogger<BaseKafkaQueueWatcher<TQueueMessage>> Logger => _logger;
-
-        protected IMessageProvider MessageProvider => _messageProvider;
+        protected ILogger<KafkaQueueWatcher<TMessage>> Logger => _logger;
 
         protected IKafkaSettings KafkaSettings => _kafkaSettings;
 
@@ -45,11 +45,12 @@
         {
             _topic = queueName.CheckNull(nameof(queueName));
 
-            if (_consumer != null)
+            if (Subscribe == null)
             {
-                _cts.Cancel();
-                _consumer.Close();
+                throw new QueueException("No subscribers");
             }
+
+            Close();
 
             _consumer = BuildConsumer(_kafkaSettings);
             _cts = new CancellationTokenSource();
@@ -58,17 +59,122 @@
             _mainLoop = Task.Factory.StartNew(MainLoop, _cts.Token);
         }
 
-        private Task MainLoop()
+        public void Close()
         {
-            return Task.CompletedTask;
+            if (_consumer != null)
+            {
+                _cts.Cancel();
+                _consumer.Close();
+                _consumer = null;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _cts?.Dispose();
+                    _consumer?.Dispose();
+                }
+
+                _cts = null;
+                _consumer = null;
+                _disposedValue = true;
+            }
+        }
+
+        protected virtual async Task HandleMessageAsync(ConsumeResult<byte[], byte[]> consumeResult)
+        {
+            var message = Deserialize(consumeResult);
+            try
+            {
+                await Subscribe?.Invoke(message);
+            }
+            catch (Exception ex)
+            {
+                Error?.Invoke(this, new ExtThreadExceptionEventArgs(message, ex));
+            }
+            finally
+            {
+                if (consumeResult.Offset % COMMIT_PERIOD == 0)
+                {
+                    Commit(consumeResult);
+                }
+            }
+        }
+
+        protected virtual IKafkaMessage Deserialize(ConsumeResult<byte[], byte[]> consumeResult)
+        {
+            var msg = consumeResult.Message;
+            var kafkaMessage = JsonConvert.DeserializeObject<KafkaMessage>(Encoding.UTF8.GetString(msg.Value));
+
+            kafkaMessage.Key = Encoding.UTF8.GetString(msg.Key);
+            kafkaMessage.Partition = consumeResult.Partition.Value;
+            kafkaMessage.Offset = consumeResult.Offset.Value;
+
+            return kafkaMessage;
+        }
+
+        protected virtual void Commit(ConsumeResult<byte[], byte[]> consumeResult)
+        {
+            _consumer.Commit(consumeResult);
+        }
+
+        private async Task MainLoop()
+        {
+            try
+            {
+                while (!_cts.IsCancellationRequested)
+                {
+                    try
+                    {
+                        var consumeResult = _consumer.Consume(_cts.Token);
+
+                        if (consumeResult.IsPartitionEOF)
+                        {
+                            _logger.LogInformation(
+                                "Reached end of topic {topic}, partition {partition}, offset {offset}",
+                                _topic,
+                                consumeResult.Partition,
+                                consumeResult.Offset);
+
+                            continue;
+                        }
+
+                        await HandleMessageAsync(consumeResult);
+                    }
+                    catch (ConsumeException cex)
+                    {
+                        _logger.LogError(cex, "Consume error: {consumerError}", cex.Error.Reason);
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogInformation("Closing consume topic {topic}.", _topic);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Fatal consumer error: {consumerError}", ex.Message);
+            }
         }
 
         private IConsumer<byte[], byte[]> BuildConsumer(IKafkaSettings kafkaSettings)
         {
             return new ConsumerBuilder<byte[], byte[]>(kafkaSettings.Config)
-                   .SetErrorHandler(HandleError)
-                   .SetLogHandler(HandleLog)
-                   .Build();
+                .SetKeyDeserializer(Deserializers.ByteArray)
+                .SetValueDeserializer(Deserializers.ByteArray)
+                .SetErrorHandler(HandleError)
+                .SetLogHandler(HandleLog)
+                .Build();
         }
 
         private void HandleError(IConsumer<byte[], byte[]> consumer, Error error)
