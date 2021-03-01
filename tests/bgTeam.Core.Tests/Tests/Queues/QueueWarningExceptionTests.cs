@@ -1,10 +1,7 @@
-﻿using bgTeam.Web.Exceptions;
-using Newtonsoft.Json;
-using System;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System;
 using System.Threading.Tasks;
+using bgTeam.Queues.Exceptions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Tests.Queues
