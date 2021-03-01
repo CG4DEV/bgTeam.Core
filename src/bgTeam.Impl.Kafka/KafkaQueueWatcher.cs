@@ -9,7 +9,6 @@
     using bgTeam.Queues;
     using bgTeam.Queues.Exceptions;
     using Confluent.Kafka;
-    using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
     public class KafkaQueueWatcher<TMessage> : IQueueWatcher<TMessage>, IDisposable
@@ -17,7 +16,6 @@
     {
         private const int COMMIT_PERIOD = 10;
 
-        private readonly ILogger<KafkaQueueWatcher<TMessage>> _logger;
         private readonly IKafkaSettings _kafkaSettings;
 
         private IConsumer<byte[], byte[]> _consumer;
@@ -26,11 +24,8 @@
         private CancellationTokenSource _cts;
         private bool _disposedValue;
 
-        public KafkaQueueWatcher(
-            ILogger<KafkaQueueWatcher<TMessage>> logger,
-            IKafkaSettings kafkaSettings)
+        public KafkaQueueWatcher(IKafkaSettings kafkaSettings)
         {
-            _logger = logger;
             _kafkaSettings = kafkaSettings;
         }
 
@@ -38,7 +33,7 @@
 
         public event EventHandler<ExtThreadExceptionEventArgs> Error;
 
-        protected ILogger<KafkaQueueWatcher<TMessage>> Logger => _logger;
+        public event EventHandler<string> KafkaLogs;
 
         protected IKafkaSettings KafkaSettings => _kafkaSettings;
 
@@ -139,9 +134,19 @@
             return Subscribe?.Invoke(kafkaMessage);
         }
 
+        protected void OnError(string message, Exception ex)
+        {
+            OnError((IKafkaMessage)null, new QueueException(message, ex));
+        }
+
         protected void OnError(IKafkaMessage kafkaMessage, Exception ex)
         {
             Error?.Invoke(this, new ExtThreadExceptionEventArgs(kafkaMessage, ex));
+        }
+
+        protected void OnLog(string message)
+        {
+            KafkaLogs?.Invoke(this, message);
         }
 
         private async Task MainLoop()
@@ -156,12 +161,7 @@
 
                         if (consumeResult.IsPartitionEOF)
                         {
-                            _logger.LogInformation(
-                                "Reached end of topic {topic}, partition {partition}, offset {offset}",
-                                _topic,
-                                consumeResult.Partition,
-                                consumeResult.Offset);
-
+                            OnLog($"Reached end of topic {_topic}, partition {consumeResult.Partition}, offset {consumeResult.Offset}");
                             continue;
                         }
 
@@ -169,17 +169,17 @@
                     }
                     catch (ConsumeException cex)
                     {
-                        _logger.LogError(cex, "Consume error: {consumerError}", cex.Error.Reason);
+                        OnError("Consume error: " + cex.Error.Reason, cex);
                     }
                 }
             }
             catch (OperationCanceledException)
             {
-                _logger.LogInformation("Closing consume topic {topic}.", _topic);
+                OnLog("Closing consume topic " + _topic);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Fatal consumer error: {consumerError}", ex.Message);
+                OnError("Fatal consumer error: " + ex.Message, ex);
             }
         }
 
@@ -195,12 +195,12 @@
 
         private void HandleError(IConsumer<byte[], byte[]> consumer, Error error)
         {
-            _logger.LogError("Kafka error. {message}. By topics: {topics}", error.Reason, _topic);
+            OnError("Kafka error. {error.Reason}. By topic: {_topic}", null);
         }
 
         private void HandleLog(IConsumer<byte[], byte[]> consumer, LogMessage logMessage)
         {
-            _logger.LogInformation("Kafka info. {message}. By topics: {topics}", logMessage.Message, _topic);
+            OnLog($"Kafka info. {logMessage.Message}. By topic: {_topic}");
         }
     }
 }

@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using System.Threading.Tasks.Dataflow;
     using Confluent.Kafka;
-    using Microsoft.Extensions.Logging;
 
     public class MutlithreadKafkaQueueWatcher<TMessage> : KafkaQueueWatcher<TMessage>
         where TMessage : IKafkaMessage
@@ -17,10 +16,8 @@
 
         private bool _disposed = false;
 
-        public MutlithreadKafkaQueueWatcher(
-            ILogger<KafkaQueueWatcher<TMessage>> logger,
-            IMultithreadKafkaSettings kafkaSettings)
-            : base(logger, kafkaSettings)
+        public MutlithreadKafkaQueueWatcher(IMultithreadKafkaSettings kafkaSettings)
+            : base(kafkaSettings)
         {
             var mainPipeConfig = new ExecutionDataflowBlockOptions
             {
