@@ -1,6 +1,7 @@
 ﻿namespace bgTeam.Impl.Kafka
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -96,11 +97,11 @@
             var message = Deserialize(consumeResult);
             try
             {
-                await Subscribe?.Invoke(message);
+                await OnSubscribe(message);
             }
             catch (Exception ex)
             {
-                Error?.Invoke(this, new ExtThreadExceptionEventArgs(message, ex));
+                OnError(message, ex);
             }
             finally
             {
@@ -125,7 +126,22 @@
 
         protected virtual void Commit(ConsumeResult<byte[], byte[]> consumeResult)
         {
-            _consumer.Commit(consumeResult);
+            Commit(new[] { new TopicPartitionOffset(consumeResult.TopicPartition, consumeResult.Offset + 1) });
+        }
+
+        protected void Commit(IEnumerable<TopicPartitionOffset> offsets)
+        {
+            _consumer.Commit(offsets);
+        }
+
+        protected Task OnSubscribe(IKafkaMessage kafkaMessage)
+        {
+            return Subscribe?.Invoke(kafkaMessage);
+        }
+
+        protected void OnError(IKafkaMessage kafkaMessage, Exception ex)
+        {
+            Error?.Invoke(this, new ExtThreadExceptionEventArgs(kafkaMessage, ex));
         }
 
         private async Task MainLoop()
