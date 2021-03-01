@@ -20,14 +20,14 @@
             _commandFactory.Create<TCommandContext>().Execute(commandContext);
         }
 
-        public async Task ExecuteAsync<TCommandContext>(TCommandContext commandContext)
-        {
-            await _commandFactory.Create<TCommandContext>().ExecuteAsync(commandContext);
-        }
-
         public IQueryReturn<TCommandContext> Build<TCommandContext>(TCommandContext commandContext)
         {
             return new QueryReturn<TCommandContext>(_commandFactory, commandContext);
+        }
+
+        public async Task ExecuteAsync<TCommandContext>(TCommandContext commandContext)
+        {
+            await _commandFactory.Create<TCommandContext>().ExecuteAsync(commandContext);
         }
 
         public async Task<TResult> ExecuteAsync<TCommandContext, TResult>(TCommandContext commandContext)
