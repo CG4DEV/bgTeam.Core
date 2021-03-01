@@ -15,8 +15,8 @@ namespace KafkaSingleThread
                 // See more configs: https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
                 Config = new Dictionary<string, string>
                 {
-                    { "group.id", "EdgeBetDetector-test" },
-                    { "bootstrap.servers", "192.168.30.173:9092,192.168.30.221:9092,192.168.30.222:9092" },
+                    { "group.id", "SingleThreadWatcher" },
+                    { "bootstrap.servers", "localhost:9092" },
                 },
             };
 
@@ -34,7 +34,7 @@ namespace KafkaSingleThread
             consumer.KafkaLogs += (sender, log) => Console.WriteLine($"Log: " + log);
             consumer.Error += (sender, err) => Console.WriteLine($"Error: {err.Exception?.Message}");
 
-            consumer.StartWatch("BetAggregator_Bets-Prod-B2B");
+            consumer.StartWatch("LogTopic");
 
             Console.ReadLine();
 
