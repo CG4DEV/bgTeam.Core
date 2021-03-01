@@ -1,6 +1,5 @@
 ﻿namespace bgTeam.DataAccess
 {
-    using System;
     using System.Data;
     using System.Threading.Tasks;
 
@@ -85,15 +84,6 @@
         int Execute(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null);
 
         /// <summary>
-        /// Асинхронно выполняет запрос, хранящийся в объекте obj
-        /// </summary>
-        /// <param name="obj">Объект с запросом</param>
-        /// <param name="connection">Подключение к базе данных</param>
-        /// <param name="transaction">Открытая транзакция</param>
-        /// <returns></returns>
-        Task<int> ExecuteAsync(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null);
-
-        /// <summary>
         /// Выполняет запрос msg
         /// </summary>
         /// <param name="obj">Объект с запросом</param>
@@ -101,6 +91,15 @@
         /// <param name="transaction">Открытая транзакция</param>
         /// <returns></returns>
         int Execute(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null);
+
+        /// <summary>
+        /// Асинхронно выполняет запрос, хранящийся в объекте obj
+        /// </summary>
+        /// <param name="obj">Объект с запросом</param>
+        /// <param name="connection">Подключение к базе данных</param>
+        /// <param name="transaction">Открытая транзакция</param>
+        /// <returns></returns>
+        Task<int> ExecuteAsync(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null);
 
         /// <summary>
         /// Асинхронно выполняет запрос msg
