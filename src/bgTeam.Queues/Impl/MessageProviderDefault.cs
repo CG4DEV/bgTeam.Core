@@ -5,6 +5,18 @@
 
     public class MessageProviderDefault : IMessageProvider
     {
+        public static string ObjectToStr(object source)
+        {
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                MaxDepth = 5,
+                TypeNameHandling = TypeNameHandling.All,
+                NullValueHandling = NullValueHandling.Ignore,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            };
+            return JsonConvert.SerializeObject(source, jsonSerializerSettings);
+        }
+
         public string PrepareMessageStr(object source)
         {
             return ObjectToStr(source);
@@ -27,18 +39,6 @@
             var str = Encoding.UTF8.GetString(source);
 
             return JsonConvert.DeserializeObject<QueueMessageDefault>(str);
-        }
-
-        public static string ObjectToStr(object source)
-        {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                MaxDepth = 5,
-                TypeNameHandling = TypeNameHandling.All,
-                NullValueHandling = NullValueHandling.Ignore,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            };
-            return JsonConvert.SerializeObject(source, jsonSerializerSettings);
         }
     }
 }

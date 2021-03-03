@@ -5,6 +5,7 @@
     using System.Linq;
     using bgTeam.Extensions;
     using bgTeam.Queues;
+    using bgTeam.Queues.Exceptions;
     using RabbitMQ.Client;
 
     /// <summary>
@@ -12,6 +13,9 @@
     /// </summary>
     public class QueueProviderRabbitMQ : IQueueProvider
     {
+        private static readonly object _locker = new object();
+        private static readonly object _lockChannel = new object();
+
         private bool _disposed = false;
         private readonly string EXCHANGE_DEFAULT = "bgTeam.direct";
 
@@ -19,9 +23,6 @@
         private List<string> _queues;
         private IConnectionFactory _factory;
         private IMessageProvider _msgProvider;
-
-        private static readonly object _locker = new object();
-        private static readonly object _lockChannel = new object();
 
         private IModel _channel;
 
@@ -71,7 +72,7 @@
             var queue = _queues.SingleOrDefault(x => x.Equals(queueName, StringComparison.InvariantCultureIgnoreCase));
             if (queue == null)
             {
-                throw new Exception($"Не найдена очередь с именем {queueName}");
+                throw new QueueException($"Не найдена очередь с именем {queueName}");
             }
 
             using (var channel = CreateChannel())

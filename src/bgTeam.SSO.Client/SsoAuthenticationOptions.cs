@@ -1,7 +1,7 @@
 ﻿namespace bgTeam.SSO.Client
 {
-    using Microsoft.AspNetCore.Authentication;
     using System;
+    using Microsoft.AspNetCore.Authentication;
 
     internal class SsoAuthenticationOptions : AuthenticationSchemeOptions
     {
@@ -15,6 +15,5 @@
         public Action OnSuccess { get; set; }
 
         public Action OnFail { get; set; }
-
     }
 }

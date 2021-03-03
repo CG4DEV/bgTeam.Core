@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using bgTeam.Queues.Exceptions;
 
-    public delegate Task QueueMessageReceive<TEntity>(object queue, TEntity message)
+    public delegate Task QueueMessageReceive<in TEntity>(object queue, TEntity message)
         where TEntity : IQueueMessage;
 
     public interface IQueueWatcher<TQueueMessage>

@@ -10,6 +10,13 @@
     /// </summary>
     public class FormUrlEncodedContentBuilder : IContentBuilder
     {
+        public static Dictionary<string, string> GetFormContentDictionary(object body)
+        {
+            var result = new Dictionary<string, string>();
+            AddObjToDict(result, body);
+            return result;
+        }
+
         /// <summary>
         /// Builds HttpContent object from any object
         /// </summary>
@@ -19,13 +26,6 @@
         {
             var dic = GetFormContentDictionary(param);
             return new FormUrlEncodedContent(dic);
-        }
-
-        public static Dictionary<string, string> GetFormContentDictionary(object body)
-        {
-            var result = new Dictionary<string, string>();
-            AddObjToDict(result, body);
-            return result;
         }
 
         private static void AddListToDict(Dictionary<string, string> dict, Proxy arrayItem, string key = null)

@@ -1,11 +1,11 @@
 ﻿namespace bgTeam.Impl.Rabbit
 {
+    using System;
+    using System.Text;
     using bgTeam.Queues;
     using bgTeam.Queues.Exceptions;
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
-    using System;
-    using System.Text;
 
     public class QueueConsumerRabbitMQ : BaseQueueConsumerRabbitMQ<EventingBasicConsumer>, IQueueWatcher<IQueueMessage>
     {
@@ -20,6 +20,19 @@
             ushort prefetchCount)
             : base(connectionFactory, provider, prefetchCount)
         {
+        }
+
+        protected override void InitConsumer()
+        {
+            if (_consumer != null)
+            {
+                _consumer.Received -= ReceiverHandler;
+                _consumer.Shutdown -= ShutdownHandler;
+            }
+
+            _consumer = new EventingBasicConsumer(_model);
+            _consumer.Received += ReceiverHandler;
+            _consumer.Shutdown += ShutdownHandler;
         }
 
         private void ReceiverHandler(object sender, BasicDeliverEventArgs e)
@@ -44,19 +57,6 @@
         {
             InitConsumer();
             StartWatch(_watchingQueueName);
-        }
-
-        protected override void InitConsumer()
-        {
-            if (_consumer != null)
-            {
-                _consumer.Received -= ReceiverHandler;
-                _consumer.Shutdown -= ShutdownHandler;
-            }
-
-            _consumer = new EventingBasicConsumer(_model);
-            _consumer.Received += ReceiverHandler;
-            _consumer.Shutdown += ShutdownHandler;
         }
     }
 }

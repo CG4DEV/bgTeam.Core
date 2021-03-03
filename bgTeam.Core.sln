@@ -88,9 +88,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{38
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kafka", "Kafka", "{40E7DCFC-8CDE-40B8-A5FB-6A0030C1E9FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaSingleThread", "examples\KafkaSingleThread\KafkaSingleThread.csproj", "{6E6F31CD-11AB-4437-80B8-5CEA0DAB5DBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KafkaSingleThread", "examples\KafkaSingleThread\KafkaSingleThread.csproj", "{6E6F31CD-11AB-4437-80B8-5CEA0DAB5DBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaMultiThread", "examples\KafkaMultiThread\KafkaMultiThread.csproj", "{2B1719C8-D66A-4A61-850D-A1F7E2655430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KafkaMultiThread", "examples\KafkaMultiThread\KafkaMultiThread.csproj", "{2B1719C8-D66A-4A61-850D-A1F7E2655430}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{771FAE33-7284-44B4-910B-F25A6BE99150}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

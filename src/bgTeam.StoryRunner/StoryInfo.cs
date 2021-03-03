@@ -5,7 +5,13 @@
 
     public class StoryInfo
     {
-        public string ContextName { get { return ContextType != null ? ContextType.Name : string.Empty; } }
+        public string ContextName
+        {
+            get
+            {
+                return ContextType != null ? ContextType.Name : string.Empty;
+            }
+        }
 
         public string StoryName { get; set; }
 

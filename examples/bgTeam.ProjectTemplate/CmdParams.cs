@@ -10,16 +10,6 @@
         private const string IsWebParameter = "is-web";
         private const string IsAppParameter = "is-app";
 
-        public string BgTeamVersion { get; set; }
-
-        public string CompanyName { get; set; }
-
-        public string ProjectName { get; set; }
-
-        public bool? IsWeb { get; set; }
-
-        public bool? IsApp { get; set; }
-
         public CmdParams(Dictionary<string, string> cmdParams)
         {
             if (cmdParams.TryGetValue(BgTeamVersionParameter, out string bgTeamVersion))
@@ -47,5 +37,15 @@
                 IsApp = bool.Parse(isApp);
             }
         }
+
+        public string BgTeamVersion { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string ProjectName { get; set; }
+
+        public bool? IsWeb { get; set; }
+
+        public bool? IsApp { get; set; }
     }
 }

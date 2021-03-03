@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -69,19 +68,6 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        Task<IEnumerable<T>> SearchAsync<T>(string field, string value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
-            where T : class;
-
-        /// <summary>
-        /// Search documents
-        /// </summary>
-        /// <typeparam name="T">Document type</typeparam>
-        /// <param name="field">Document field name</param>
-        /// <param name="value">Search value</param>
-        /// <param name="indexName">Elasticsearch index</param>
-        /// <param name="sortField">Document field name sorted by</param>
-        /// <param name="ascSort">Order by asc</param>
-        /// <param name="size">Count to return</param>
         IEnumerable<T> Search<T>(string field, DateTime? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class;
 
@@ -95,7 +81,7 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        Task<IEnumerable<T>> SearchAsync<T>(string field, DateTime? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
+        IEnumerable<T> Search<T>(string field, double? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class;
 
         /// <summary>
@@ -108,7 +94,20 @@
         /// <param name="sortField">Document field name sorted by</param>
         /// <param name="ascSort">Order by asc</param>
         /// <param name="size">Count to return</param>
-        IEnumerable<T> Search<T>(string field, double? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
+        Task<IEnumerable<T>> SearchAsync<T>(string field, string value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
+            where T : class;
+
+        /// <summary>
+        /// Search documents
+        /// </summary>
+        /// <typeparam name="T">Document type</typeparam>
+        /// <param name="field">Document field name</param>
+        /// <param name="value">Search value</param>
+        /// <param name="indexName">Elasticsearch index</param>
+        /// <param name="sortField">Document field name sorted by</param>
+        /// <param name="ascSort">Order by asc</param>
+        /// <param name="size">Count to return</param>
+        Task<IEnumerable<T>> SearchAsync<T>(string field, DateTime? value, string indexName, string sortField = null, bool ascSort = false, int? size = null)
             where T : class;
 
         /// <summary>

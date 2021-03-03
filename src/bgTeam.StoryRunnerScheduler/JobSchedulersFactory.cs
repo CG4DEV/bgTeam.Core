@@ -22,7 +22,7 @@
         {
         }
 
-        protected override IDictionary<string, object> CreateCommonMap(IJobTriggerInfo conf)
+        protected override IDictionary<string, object> CreateCommonMap(IJobTriggerInfo config)
         {
             var logger = _container.GetService<ILogger<MainJob>>();
             var repository = _container.GetService<IRepository>();
@@ -33,7 +33,7 @@
                 { "Logger", logger },
                 { "Repository", repository },
                 { "Sender", sender },
-                { "Config", conf },
+                { "Config", config },
             };
         }
     }

@@ -7,6 +7,22 @@
     {
         private string _path;
 
+        public ProjectInfoItem(string name, string path, ProjectTypeEnum type = ProjectTypeEnum.Compile)
+        {
+            Name = name;
+            Path = path;
+            Type = type;
+
+            if (type == ProjectTypeEnum.Compile || type == ProjectTypeEnum.Tests)
+            {
+                Build = true;
+            }
+
+            Code = Guid.NewGuid().ToString().ToUpperInvariant();
+
+            ListChild = new List<string>();
+        }
+
         public string Name { get; set; }
 
         public string Path
@@ -15,6 +31,7 @@
             {
                 return _path.Replace('/', '\\');
             }
+
             set
             {
                 _path = value;
@@ -32,22 +49,6 @@
         public ProjectTypeEnum Parent { get; private set; }
 
         public IList<string> ListChild { get; private set; }
-
-        public ProjectInfoItem(string name, string path, ProjectTypeEnum type = ProjectTypeEnum.Compile)
-        {
-            Name = name;
-            Path = path;
-            Type = type;
-
-            if (type == ProjectTypeEnum.Compile || type == ProjectTypeEnum.Tests)
-            {
-                Build = true;
-            }
-
-            Code = Guid.NewGuid().ToString().ToUpperInvariant();
-
-            ListChild = new List<string>();
-        }
 
         public void AddChild(ProjectInfoItem project)
         {

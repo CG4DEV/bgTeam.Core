@@ -1,18 +1,23 @@
 ﻿namespace bgTeam.Queues.Exceptions
 {
     using System;
+    using System.Runtime.Serialization;
 
     [Serializable]
     public class QueueWatcherException : Exception
     {
-        public IQueueMessage QueueMessage { get; private set; }
-
         public QueueWatcherException(string message, IQueueMessage queueMessage, Exception innerExeception)
             : base(message, innerExeception)
         {
             QueueMessage = queueMessage;
-
-            this.Source = queueMessage.Body;
+            Source = queueMessage.Body;
         }
+
+        protected QueueWatcherException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+
+        public IQueueMessage QueueMessage { get; private set; }
     }
 }

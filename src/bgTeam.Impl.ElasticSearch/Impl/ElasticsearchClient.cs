@@ -255,20 +255,6 @@
             return result.Documents.ToList();
         }
 
-        private async Task<ISearchResponse<T>> SearchInternalAsync<T>(SearchDescriptor<T> query)
-            where T : class
-        {
-            var client = await _connectionFactoryEs.CreateClientAsync();
-            return await client.SearchAsync<T>(query);
-        }
-
-        private ISearchResponse<T> SearchInternal<T>(SearchDescriptor<T> query)
-            where T : class
-        {
-            var client = _connectionFactoryEs.CreateClient();
-            return client.Search<T>(query);
-        }
-
         private static SearchDescriptor<T> CreateFullTextQuery<T>(string searchString, string indexName, string sortField, bool ascSort, int? size)
             where T : class
         {
@@ -287,7 +273,8 @@
             return CreateQuery(indexName, sortField, ascSort, size, queryFunc);
         }
 
-        private static SearchDescriptor<T> CreateQuery<T>(string indexName, string sortField, bool ascSort, int? size, Func<QueryContainerDescriptor<T>, QueryContainer> queryFunc) where T : class
+        private static SearchDescriptor<T> CreateQuery<T>(string indexName, string sortField, bool ascSort, int? size, Func<QueryContainerDescriptor<T>, QueryContainer> queryFunc)
+            where T : class
         {
             var query = new SearchDescriptor<T>(indexName)
                 .Size(size)
@@ -316,6 +303,20 @@
                     throw new ElasticsearchException($"Elasticsearch error.{Environment.NewLine}{result.DebugInformation}");
                 }
             }
+        }
+
+        private async Task<ISearchResponse<T>> SearchInternalAsync<T>(SearchDescriptor<T> query)
+            where T : class
+        {
+            var client = await _connectionFactoryEs.CreateClientAsync();
+            return await client.SearchAsync<T>(query);
+        }
+
+        private ISearchResponse<T> SearchInternal<T>(SearchDescriptor<T> query)
+            where T : class
+        {
+            var client = _connectionFactoryEs.CreateClient();
+            return client.Search<T>(query);
         }
     }
 }
