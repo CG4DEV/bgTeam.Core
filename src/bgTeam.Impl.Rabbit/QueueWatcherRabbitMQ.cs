@@ -74,6 +74,40 @@
             }
         }
 
+        protected async Task<bool> AskMessage(string queueName, IConnection connection)
+        {
+            using (var channel = connection.CreateModel())
+            {
+                var res = channel.BasicGet(queueName, false);
+                if (res != null)
+                {
+                    var message = _msgProvider.ExtractObject(Encoding.UTF8.GetString(res.Body.ToArray()));
+                    Exception exp = null;
+                    try
+                    {
+                        await Subscribe(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        exp = ex;
+                    }
+                    finally
+                    {
+                        channel.BasicAck(res.DeliveryTag, false);
+                    }
+
+                    if (exp != null)
+                    {
+                        throw new QueueWatcherException($"bgTeam: {exp.Message}", message, exp);
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void MainLoop(string queueName, IConnection connection)
         {
             while (true)
@@ -111,40 +145,6 @@
                     }
                 });
             }
-        }
-
-        protected async Task<bool> AskMessage(string queueName, IConnection connection)
-        {
-            using (var channel = connection.CreateModel())
-            {
-                var res = channel.BasicGet(queueName, false);
-                if (res != null)
-                {
-                    var message = _msgProvider.ExtractObject(Encoding.UTF8.GetString(res.Body.ToArray()));
-                    Exception exp = null;
-                    try
-                    {
-                        await Subscribe(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        exp = ex;
-                    }
-                    finally
-                    {
-                        channel.BasicAck(res.DeliveryTag, false);
-                    }
-
-                    if (exp != null)
-                    {
-                        throw new QueueWatcherException($"bgTeam: {exp.Message}", message, exp);
-                    }
-
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

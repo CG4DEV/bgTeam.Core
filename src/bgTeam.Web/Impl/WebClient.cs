@@ -106,6 +106,47 @@
             CheckResult(result);
         }
 
+        protected virtual void CheckResult(HttpResponseMessage resultPost)
+        {
+            switch (resultPost.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                case HttpStatusCode.NoContent:
+                case HttpStatusCode.PartialContent:
+                    {
+                        return;
+                    }
+
+                case HttpStatusCode.BadRequest:
+                case HttpStatusCode.Unauthorized:
+                case HttpStatusCode.Forbidden:
+                case HttpStatusCode.NotFound:
+                case HttpStatusCode.InternalServerError:
+                case HttpStatusCode.BadGateway:
+                case HttpStatusCode.ServiceUnavailable:
+                case HttpStatusCode.GatewayTimeout:
+                    {
+                        throw new WebClientException($"Status code: {resultPost.StatusCode}. Message: {resultPost.ReasonPhrase}", resultPost.StatusCode);
+                    }
+
+                default:
+                    {
+                        throw new WebClientException($"Unknown http error. Status code: {resultPost.StatusCode}. Message {resultPost.ReasonPhrase}", resultPost.StatusCode);
+                    }
+            }
+        }
+
+        private static void FillHeaders(IDictionary<string, object> headers, HttpRequestMessage msg)
+        {
+            if (headers != null)
+            {
+                foreach (var header in headers)
+                {
+                    msg.Headers.Add(header.Key, header.Value.ToString());
+                }
+            }
+        }
+
         private Task<HttpResponseMessage> GetResponseAsync(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers)
         {
             HttpRequestMessage msg = BuildHttpRequest(method, queryParams, headers, HttpMethod.Get);
@@ -166,36 +207,6 @@
             }
 
             return content;
-        }
-
-        protected virtual void CheckResult(HttpResponseMessage resultPost)
-        {
-            switch (resultPost.StatusCode)
-            {
-                case HttpStatusCode.OK:
-                case HttpStatusCode.NoContent:
-                case HttpStatusCode.PartialContent:
-                    {
-                        return;
-                    }
-
-                case HttpStatusCode.BadRequest:
-                case HttpStatusCode.Unauthorized:
-                case HttpStatusCode.Forbidden:
-                case HttpStatusCode.NotFound:
-                case HttpStatusCode.InternalServerError:
-                case HttpStatusCode.BadGateway:
-                case HttpStatusCode.ServiceUnavailable:
-                case HttpStatusCode.GatewayTimeout:
-                    {
-                        throw new WebClientException($"Status code: {resultPost.StatusCode}. Message: {resultPost.ReasonPhrase}", resultPost.StatusCode);
-                    }
-
-                default:
-                    {
-                        throw new WebClientException($"Unknown http error. Status code: {resultPost.StatusCode}. Message {resultPost.ReasonPhrase}", resultPost.StatusCode);
-                    }
-            }
         }
 
         private void FillContentHeaders(IDictionary<string, object> headers, HttpContent content)
@@ -294,17 +305,6 @@
             }
 
             return JsonConvert.DeserializeObject<T>(result);
-        }
-
-        private static void FillHeaders(IDictionary<string, object> headers, HttpRequestMessage msg)
-        {
-            if (headers != null)
-            {
-                foreach (var header in headers)
-                {
-                    msg.Headers.Add(header.Key, header.Value.ToString());
-                }
-            }
         }
     }
 }

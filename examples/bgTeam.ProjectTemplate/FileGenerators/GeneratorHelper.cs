@@ -3,7 +3,7 @@
     using System;
     using System.IO;
 
-    public class GeneratorHelper
+    public static class GeneratorHelper
     {
         public static readonly char Separator = Path.DirectorySeparatorChar;
         public static readonly string NewLine = Environment.NewLine;

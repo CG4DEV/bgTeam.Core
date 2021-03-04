@@ -19,7 +19,7 @@
 
         public override string GetIdentitySql(string tableName)
         {
-            return string.Format("SELECT CAST(SCOPE_IDENTITY()  AS BIGINT) AS [Id]");
+            return "SELECT CAST(SCOPE_IDENTITY()  AS BIGINT) AS [Id]";
         }
 
         public override string GetPagingSql(string sql, int page, int resultsPerPage, IDictionary<string, object> parameters)

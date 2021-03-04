@@ -10,7 +10,7 @@
     {
         private readonly IEnumerable<Guid> _ids;
 
-        public GuidDbType(IEnumerable<Guid> ids)
+        protected GuidDbType(IEnumerable<Guid> ids)
         {
             _ids = ids;
         }

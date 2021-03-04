@@ -11,10 +11,6 @@
 
         void PushMessage(IQueueMessage message, params string[] queues);
 
-        //QueueMessageWork AskMessage(string queueName);
-
-        //void DeleteMessage(QueueMessageWork message);
-
         uint GetQueueMessageCount(string queueName);
     }
 }

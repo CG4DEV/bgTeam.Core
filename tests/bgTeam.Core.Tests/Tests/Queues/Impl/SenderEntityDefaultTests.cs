@@ -1,5 +1,6 @@
 ﻿using System;
 using bgTeam.Queues;
+using bgTeam.Queues.Exceptions;
 using bgTeam.Queues.Impl;
 using Moq;
 using Xunit;
@@ -34,7 +35,7 @@ namespace bgTeam.Core.Tests.Tests.Queues.Impl
             queueProvider.Setup(x => x.PushMessage(It.IsAny<IQueueMessage>(), "queue1"))
                 .Throws(new Exception());
             var senderEntityDefault = new SenderEntityDefault(queueProvider.Object);
-            senderEntityDefault.Send(new QueueMessageDefault { Body = "Hi" }, "queue1");
+            Assert.ThrowsAny<SenderEntityException>(() => senderEntityDefault.Send(new QueueMessageDefault { Body = "Hi" }, "queue1"));
             queueProvider.Verify(x => x.PushMessage(It.IsAny<IQueueMessage>(), "queue1"), Times.Exactly(5));
         }
 

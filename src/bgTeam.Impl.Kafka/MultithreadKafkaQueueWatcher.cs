@@ -7,7 +7,7 @@
     using System.Threading.Tasks.Dataflow;
     using Confluent.Kafka;
 
-    public class MutlithreadKafkaQueueWatcher<TMessage> : KafkaQueueWatcher<TMessage>
+    public class MultithreadKafkaQueueWatcher<TMessage> : KafkaQueueWatcher<TMessage>
         where TMessage : IKafkaMessage
     {
         private readonly ActionBlock<ConsumeResult<byte[], byte[]>> _mainPipe;
@@ -16,7 +16,7 @@
 
         private bool _disposed = false;
 
-        public MutlithreadKafkaQueueWatcher(IMultithreadKafkaSettings kafkaSettings)
+        public MultithreadKafkaQueueWatcher(IMultithreadKafkaSettings kafkaSettings)
             : base(kafkaSettings)
         {
             var mainPipeConfig = new ExecutionDataflowBlockOptions
