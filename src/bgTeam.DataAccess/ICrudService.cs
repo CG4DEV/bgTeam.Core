@@ -16,7 +16,7 @@
         /// <param name="connection">Подключение к базе данных</param>
         /// <param name="transaction">Открытая транзакция</param>
         /// <returns>True - при удачной вставке</returns>
-        bool Insert<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
+        dynamic Insert<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class;
 
         /// <summary>

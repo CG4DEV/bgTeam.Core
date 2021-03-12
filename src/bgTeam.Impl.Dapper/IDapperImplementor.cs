@@ -43,6 +43,12 @@
         bool Delete<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
             where T : class;
 
+        Task<bool> DeleteAsync<T>(IDbConnection connection, T entity, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
+        Task<bool> DeleteAsync<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
+            where T : class;
+
         int Count<T>(IDbConnection connection, object predicate, IDbTransaction transaction, int? commandTimeout)
             where T : class;
 

@@ -1,14 +1,14 @@
 ﻿namespace DapperExtensions
 {
-    using DapperExtensions.Builder;
-    using DapperExtensions.Mapper;
-    using DapperExtensions.Mapper.Sql;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Threading.Tasks;
+    using DapperExtensions.Builder;
+    using DapperExtensions.Mapper;
+    using DapperExtensions.Mapper.Sql;
     using ISort = bgTeam.DataAccess.ISort;
 
     public static class DapperHelper
@@ -275,6 +275,24 @@
             where T : class
         {
             return Instance.Delete<T>(connection, predicate, transaction, commandTimeout);
+        }
+
+        /// <summary>
+        /// Executes a delete query for the specified entity.
+        /// </summary>
+        public static Task<bool> DeleteAsync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            return Instance.DeleteAsync<T>(connection, entity, transaction, commandTimeout);
+        }
+
+        /// <summary>
+        /// Executes a delete query using the specified predicate.
+        /// </summary>
+        public static Task<bool> DeleteAsync<T>(this IDbConnection connection, object predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            return Instance.DeleteAsync<T>(connection, predicate, transaction, commandTimeout);
         }
 
         /// <summary>
