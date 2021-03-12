@@ -311,7 +311,7 @@
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified page and resultsPerPage.
         /// </summary>
-        public static async Task<IEnumerable<T>> GetPageAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
+        public static async Task<IEnumerable<T>> GetPageAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 0, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
         {
             var prGroup = PredicateConverter<T>.FromExpression(predicate);

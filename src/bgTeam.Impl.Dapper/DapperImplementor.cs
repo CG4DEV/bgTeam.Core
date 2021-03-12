@@ -292,7 +292,7 @@
             return GetMultipleBySequence(connection, predicate, transaction, commandTimeout);
         }
 
-        public async Task<IEnumerable<T>> GetPageAsync<T>(IDbConnection connection, object predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
+        public async Task<IEnumerable<T>> GetPageAsync<T>(IDbConnection connection, object predicate = null, IList<ISort> sort = null, int page = 0, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
         {
             IClassMapper classMap = SqlGenerator.Configuration.GetMap<T>();
