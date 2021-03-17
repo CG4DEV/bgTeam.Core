@@ -1,7 +1,7 @@
-﻿using Moq;
-using System;
-using Xunit;
+﻿using System;
 using System.Threading.Tasks;
+using Moq;
+using Xunit;
 
 namespace bgTeam.Core.Tests.Tests.Core.Impl
 {
@@ -22,8 +22,8 @@ namespace bgTeam.Core.Tests.Tests.Core.Impl
         {
             var (storyAccess, storyFactory, tStoryContext, story) = GetMocks();
             var storyReturn = new StoryReturn<ISomeContext>(storyAccess.Object, storyFactory.Object, tStoryContext.Object);
-            Assert.NotNull(storyReturn.Return<IResult>());
-            storyAccess.Verify(x => x.CheckAccess(It.IsAny<IStory<ISomeContext, IResult>>()));
+            Assert.NotNull(storyReturn.ReturnAsync<IResult>().Result);
+            storyAccess.Verify(x => x.CheckAccessAsync(It.IsAny<IStory<ISomeContext, IResult>>()));
         }
 
         [Fact]
@@ -46,8 +46,8 @@ namespace bgTeam.Core.Tests.Tests.Core.Impl
             var storyFactory = new Mock<IStoryFactory>();
             var story = new Mock<IStory<ISomeContext, IResult>>();
 
-            story.Setup(x => x.Execute(It.IsAny<ISomeContext>()))
-                .Returns(new Mock<IResult>().Object);
+            story.Setup(x => x.ExecuteAsync(It.IsAny<ISomeContext>()))
+                .ReturnsAsync(new Mock<IResult>().Object);
             story.Setup(x => x.ExecuteAsync(It.IsAny<ISomeContext>()))
                 .ReturnsAsync(new Mock<IResult>().Object);
 

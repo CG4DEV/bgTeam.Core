@@ -19,8 +19,8 @@
         /// <summary>
         /// Формирует историю для исполнения
         /// </summary>
-        /// <typeparam name="TCommandContext"></typeparam>
-        /// <param name="commandContext"></param>
+        /// <typeparam name="TStoryContext">Тип контекста истории</typeparam>
+        /// <param name="context">Контекст исполнения истории</param>
         /// <returns></returns>
         public IStoryReturn<TStoryContext> Build<TStoryContext>(TStoryContext context)
         {

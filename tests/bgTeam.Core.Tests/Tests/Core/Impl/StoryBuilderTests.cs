@@ -1,8 +1,7 @@
-﻿using bgTeam;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using bgTeam.Impl;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Core.Impl
@@ -23,9 +22,9 @@ namespace bgTeam.Core.Tests.Core.Impl
 
             var builder = provider.GetRequiredService<IStoryBuilder>();
 
-            Assert.Equal(2, builder.Build(2).Return<int>());
-            Assert.Equal(4, builder.Build(2).Return<int>());
-            Assert.Equal(6, builder.Build(2).Return<int>());
+            Assert.Equal(2, builder.Build(2).ReturnAsync<int>().Result);
+            Assert.Equal(4, builder.Build(2).ReturnAsync<int>().Result);
+            Assert.Equal(6, builder.Build(2).ReturnAsync<int>().Result);
         }
 
         private class TestStory : IStory<int, int>
