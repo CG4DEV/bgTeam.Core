@@ -2,7 +2,6 @@
 {
     using System;
 
-    [Obsolete("This functional duplicates ColumNameAttribute logic")]
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class MapToAttribute : Attribute
     {

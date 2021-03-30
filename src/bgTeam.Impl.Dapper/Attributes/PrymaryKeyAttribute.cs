@@ -3,7 +3,7 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class PrimaryKeyAttribute : Attribute
+    public sealed class PrymaryKeyAttribute : Attribute
     {
     }
 }
