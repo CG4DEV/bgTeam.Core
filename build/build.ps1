@@ -48,9 +48,9 @@ if (!(Test-Path $DOTNET_PATH))
         dotnet tool install -g dotnet-reportgenerator-globaltool
     }
     #@DevOps, Insert here path to repository
-    $RepositoryDirectory = "./"
+    $RepositoryDirectory = "../"
     #@DevOps, Insert here path to artefacts (for report)
-    $ArtefactsDirectory = "./"
+    $ArtefactsDirectory = "../"
     &{
         #Generate coverlet reports
         dotnet test $RepositoryDirectory --collect:"XPlat Code Coverage"
