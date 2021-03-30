@@ -1,10 +1,10 @@
 ﻿namespace bgTeam.Impl.Rabbit
 {
+    using System;
+    using System.Threading.Tasks;
     using bgTeam.Queues;
     using bgTeam.Queues.Exceptions;
     using RabbitMQ.Client;
-    using System;
-    using System.Threading.Tasks;
 
     public abstract class BaseQueueConsumerRabbitMQ<T>
         where T : IBasicConsumer
@@ -20,12 +20,12 @@
         protected IModel _model;
         protected string _watchingQueueName;
 
-        public BaseQueueConsumerRabbitMQ(IConnectionFactory connectionFactory, IMessageProvider provider)
+        protected BaseQueueConsumerRabbitMQ(IConnectionFactory connectionFactory, IMessageProvider provider)
             : this(connectionFactory, provider, PREFETCHCOUNT)
         {
         }
 
-        public BaseQueueConsumerRabbitMQ(
+        protected BaseQueueConsumerRabbitMQ(
             IConnectionFactory connectionFactory,
             IMessageProvider provider,
             ushort prefetchCount)

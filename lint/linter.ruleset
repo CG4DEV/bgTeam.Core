@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="bq Team RuleSet Standart" Description="linter for C# projects" ToolsVersion="14.0">
-    <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+<RuleSet Name="bq Team RuleSet Standart" Description="linter for C# projects" ToolsVersion="16.0">
+  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
     <Rule Id="S100" Action="Info" />
-	  <Rule Id="S101" Action="Info" />
-	  <Rule Id="S125" Action="Info" />
-	  <Rule Id="S2360" Action="Hidden" />
-	  <Rule Id="S2344" Action="None" />
+    <Rule Id="S101" Action="Info" />
+    <Rule Id="S125" Action="Info" />
+    <Rule Id="S2344" Action="None" />
+    <Rule Id="S2360" Action="Hidden" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1005" Action="Info" />
     <Rule Id="SA1101" Action="None" />
-    <Rule Id="SA1200" Action="Error" />
+    <Rule Id="SA1118" Action="Info" />
+    <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1208" Action="Info" />
+    <Rule Id="SA1300" Action="None" />
     <Rule Id="SA1309" Action="None" />
+    <Rule Id="SA1515" Action="Info" />
     <Rule Id="SA1600" Action="Info" />
     <Rule Id="SA1601" Action="Info" />
     <Rule Id="SA1602" Action="Info" />
@@ -26,14 +30,9 @@
     <Rule Id="SA1620" Action="None" />
     <Rule Id="SA1621" Action="None" />
     <Rule Id="SA1622" Action="None" />
-	  <Rule Id="SA1629" Action="None" />
+    <Rule Id="SA1623" Action="None" />
+    <Rule Id="SA1629" Action="None" />
     <Rule Id="SA1633" Action="None" />
     <Rule Id="SA1652" Action="None" />
-	  <Rule Id="SA1118" Action="Info" />
-	  <Rule Id="SA1623" Action="None" />
-	  <Rule Id="SA1300" Action="None" />
-	
-	  <Rule Id="SA1005" Action="Info" />
-	  <Rule Id="SA1515" Action="Info" />
   </Rules>
 </RuleSet>

@@ -1,7 +1,7 @@
-﻿using bgTeam.Queues;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using bgTeam.Queues.Exceptions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Tests.Queues

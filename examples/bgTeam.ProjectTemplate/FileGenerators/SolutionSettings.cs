@@ -1,6 +1,5 @@
 ﻿namespace bgTeam.ProjectTemplate
 {
-
     public class SolutionSettings
     {
         public bool IsWeb { get; internal set; }

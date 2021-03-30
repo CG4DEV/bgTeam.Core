@@ -110,7 +110,8 @@
             var fp2 = new ProjectInfoItem(p2.Name, $"{path}{GeneratorHelper.Separator}{p2.Output}");
 
             var p3 = new ProjectGenerator($"{name}.Domain", fullPath);
-            p3.ProjectFile(new[] {
+            p3.ProjectFile(new[]
+            {
                 ("bgTeam.Impl.Dapper", settings.BgTeamVersion),
                 ("Microsoft.Extensions.Identity.Stores", settings.MicrosoftIdentityStoresVersion),
             });
@@ -340,7 +341,7 @@ MinimumVisualStudioVersion = 10.0.40219.1");
 		Uat|Any CPU = Uat|Any CPU
 	EndGlobalSection");
 
-            str.AppendLine("	GlobalSection(ProjectConfigurationPlatforms) = postSolution");
+            str.AppendLine("\tGlobalSection(ProjectConfigurationPlatforms) = postSolution");
             foreach (var prj in projects)
             {
                 if (!prj.Build)
@@ -348,33 +349,33 @@ MinimumVisualStudioVersion = 10.0.40219.1");
                     continue;
                 }
 
-                str.AppendLine($"    	{{{prj.Code}}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU");
-                str.AppendLine($"		{{{prj.Code}}}.Debug|Any CPU.Build.0 = Debug|Any CPU");
-                str.AppendLine($"		{{{prj.Code}}}.Live|Any CPU.ActiveCfg = Live|Any CPU");
-                str.AppendLine($"		{{{prj.Code}}}.Live|Any CPU.Build.0 = Live|Any CPU");
-                str.AppendLine($"		{{{prj.Code}}}.Release|Any CPU.ActiveCfg = Release|Any CPU");
-                str.AppendLine($"		{{{prj.Code}}}.Release|Any CPU.Build.0 = Release|Any CPU");
-                str.AppendLine($"		{{{prj.Code}}}.Uat|Any CPU.ActiveCfg = Uat|Any CPU");
-                str.AppendLine($"		{{{prj.Code}}}.Uat|Any CPU.Build.0 = Uat|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Debug|Any CPU.Build.0 = Debug|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Live|Any CPU.ActiveCfg = Live|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Live|Any CPU.Build.0 = Live|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Release|Any CPU.ActiveCfg = Release|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Release|Any CPU.Build.0 = Release|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Uat|Any CPU.ActiveCfg = Uat|Any CPU");
+                str.AppendLine($"\t{{{prj.Code}}}.Uat|Any CPU.Build.0 = Uat|Any CPU");
             }
 
-            str.AppendLine("	EndGlobalSection");
+            str.AppendLine("\tEndGlobalSection");
 
             str.AppendLine(
 @"	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection");
 
-            str.AppendLine("	GlobalSection(NestedProjects) = preSolution");
+            str.AppendLine("\tGlobalSection(NestedProjects) = preSolution");
             foreach (var prj in projects)
             {
                 foreach (var item in prj.ListChild)
                 {
-                    str.AppendLine($"		{{{item}}} = {{{prj.Code}}}");
+                    str.AppendLine($"\t\t{{{item}}} = {{{prj.Code}}}");
                 }
             }
 
-            str.AppendLine("	EndGlobalSection");
+            str.AppendLine("\tEndGlobalSection");
 
             str.AppendLine(
 @"    GlobalSection(ExtensibilityGlobals) = postSolution

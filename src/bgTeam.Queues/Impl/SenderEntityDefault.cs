@@ -104,7 +104,7 @@
                 }
                 else
                 {
-                    new SenderEntityException($"Failed send entity {mess.Body} after {tryAttempt} attempt. Lost entity. Exception - {exp.Message}", exp);
+                    throw new SenderEntityException($"Failed send entity {mess.Body} after {tryAttempt} attempt. Lost entity. Exception - {exp.Message}", exp);
                 }
             }
         }

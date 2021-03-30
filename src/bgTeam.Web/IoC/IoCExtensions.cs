@@ -21,8 +21,12 @@
         /// <param name="name">именует клиент и создаёт для него уникальные настройки</param>
         /// <param name="handlerLifeTime">Время в течении, которого может HttpMessageHandler переиспользоваться. По-умолчанию 2 мин</param>
         /// <returns></returns>
-        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(this IServiceCollection services, string baseUrl,
-            string name = null, TimeSpan? handlerLifeTime = null)
+        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(
+            this IServiceCollection services,
+            string baseUrl,
+            string name = null,
+            TimeSpan? handlerLifeTime = null)
+
             where TInterface : class
             where TIMplementation : WebClient, TInterface
         {
@@ -31,7 +35,8 @@
                 DEFAULT_CONNECTIONS_LIMIT,
                 DEFAULT_MAX_IDLE_TIME,
                 DEFAULT_CONNECTION_LEASE_TIMEOUT,
-                name, handlerLifeTime);
+                name,
+                handlerLifeTime);
         }
 
         /// <summary>
@@ -47,14 +52,25 @@
         /// <param name="name">именует клиент и создаёт для него уникальные настройки</param>
         /// <param name="handlerLifeTime">Время в течении, которого может HttpMessageHandler переиспользоваться. По-умолчанию 2 мин</param>
         /// <returns></returns>
-        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(this IServiceCollection services,
-            string baseUrl, int connectionsLimit, int maxIdleMs, int connectionLeaseTimeoutMs,
-            string name = null, TimeSpan? handlerLifeTime = null)
+        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(
+            this IServiceCollection services,
+            string baseUrl,
+            int connectionsLimit,
+            int maxIdleMs,
+            int connectionLeaseTimeoutMs,
+            string name = null,
+            TimeSpan? handlerLifeTime = null)
+
             where TInterface : class
             where TIMplementation : WebClient, TInterface
         {
-            return services.AddWebClient<TInterface, TIMplementation>(baseUrl, connectionsLimit,
-                TimeSpan.FromMilliseconds(maxIdleMs), TimeSpan.FromMilliseconds(connectionLeaseTimeoutMs), name, handlerLifeTime);
+            return services.AddWebClient<TInterface, TIMplementation>(
+                baseUrl,
+                connectionsLimit,
+                TimeSpan.FromMilliseconds(maxIdleMs),
+                TimeSpan.FromMilliseconds(connectionLeaseTimeoutMs),
+                name,
+                handlerLifeTime);
         }
 
         /// <summary>
@@ -70,9 +86,15 @@
         /// <param name="name">именует клиент и создаёт для него уникальные настройки</param>
         /// <param name="handlerLifeTime">Время в течении, которого может HttpMessageHandler переиспользоваться. По-умолчанию 2 мин</param>
         /// <returns></returns>
-        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(this IServiceCollection services,
-            string baseUrl, int connectionsLimit, TimeSpan maxIdle, TimeSpan connectionLeaseTimeout,
-            string name = null, TimeSpan? handlerLifeTime = null)
+        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(
+            this IServiceCollection services,
+            string baseUrl,
+            int connectionsLimit,
+            TimeSpan maxIdle,
+            TimeSpan connectionLeaseTimeout,
+            string name = null,
+            TimeSpan? handlerLifeTime = null)
+
             where TInterface : class
             where TIMplementation : WebClient, TInterface
         {
@@ -98,7 +120,13 @@
         /// <param name="name">именует клиент и создаёт для него уникальные настройки</param>
         /// <param name="handlerLifeTime">Время в течении, которого может HttpMessageHandler переиспользоваться. По-умолчанию 2 мин</param>
         /// <returns></returns>
-        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(this IServiceCollection services, string baseUrl, Func<IServiceProvider, SocketsHttpHandler> configureHandler, string name = null, TimeSpan? handlerLifeTime = null)
+        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(
+            this IServiceCollection services,
+            string baseUrl,
+            Func<IServiceProvider, SocketsHttpHandler> configureHandler,
+            string name = null,
+            TimeSpan? handlerLifeTime = null)
+
             where TInterface : class
             where TIMplementation : WebClient, TInterface
         {
@@ -116,7 +144,13 @@
         /// <param name="name">именует клиент и создаёт для него уникальные настройки</param>
         /// <param name="handlerLifeTime">Время в течении, которого может HttpMessageHandler переиспользоваться. По-умолчанию 2 мин</param>
         /// <returns></returns>
-        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Func<IServiceProvider, SocketsHttpHandler> configureHandler, string name = null, TimeSpan? handlerLifeTime = null)
+        public static IServiceCollection AddWebClient<TInterface, TIMplementation>(
+            this IServiceCollection services,
+            Action<IServiceProvider, HttpClient> configureClient,
+            Func<IServiceProvider, SocketsHttpHandler> configureHandler,
+            string name = null,
+            TimeSpan? handlerLifeTime = null)
+
             where TInterface : class
             where TIMplementation : WebClient, TInterface
         {

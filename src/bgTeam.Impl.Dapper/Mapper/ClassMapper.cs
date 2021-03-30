@@ -8,22 +8,6 @@
     using System.Numerics;
     using System.Reflection;
 
-    public interface IClassMapper
-    {
-        string SchemaName { get; }
-
-        string TableName { get; }
-
-        IList<IPropertyMap> Properties { get; }
-
-        Type EntityType { get; }
-    }
-
-    public interface IClassMapper<T> : IClassMapper
-        where T : class
-    {
-    }
-
     /// <summary>
     /// Maps an entity to a table through a collection of property maps.
     /// </summary>

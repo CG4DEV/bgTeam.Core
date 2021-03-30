@@ -1,14 +1,13 @@
-﻿namespace bgTeam
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace bgTeam
+{
     /// <summary>
-    /// Интевфейс истории
+    /// Интерфейс истории
     /// </summary>
     /// <typeparam name="TStoryContext">Тип контекста</typeparam>
     /// <typeparam name="TStoryResult">Тип возвращаемого значения</typeparam>
     public interface IStory<in TStoryContext, TStoryResult>
-        ////where TStoryContext : IStoryContext
     {
         /// <summary>
         /// Выполняет действия команды и возвращает результат

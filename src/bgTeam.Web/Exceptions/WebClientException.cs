@@ -6,8 +6,6 @@
 
     public class WebClientException : HttpRequestException
     {
-        public HttpStatusCode StatusCode { get; private set; }
-
         public WebClientException(HttpStatusCode statusCode)
             : this(null, statusCode)
         {
@@ -23,5 +21,7 @@
         {
             StatusCode = statusCode;
         }
+
+        public HttpStatusCode StatusCode { get; private set; }
     }
 }

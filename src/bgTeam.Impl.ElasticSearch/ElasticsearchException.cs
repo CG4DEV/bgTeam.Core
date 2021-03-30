@@ -1,10 +1,12 @@
 ﻿namespace bgTeam.ElasticSearch
 {
     using System;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Throws elasticsearch exceptions
     /// </summary>
+    [Serializable]
     public class ElasticsearchException : Exception
     {
         /// <summary>
@@ -31,6 +33,16 @@
         /// <param name="ex"></param>
         public ElasticsearchException(string message, Exception ex)
             : base(message, ex)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ElasticsearchException"/> class.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        protected ElasticsearchException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }

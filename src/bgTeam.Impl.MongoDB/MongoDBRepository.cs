@@ -1,12 +1,12 @@
 ﻿namespace bgTeam.Impl.MongoDB
 {
-    using bgTeam.Extensions;
-    using global::MongoDB.Driver;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using bgTeam.Extensions;
+    using global::MongoDB.Driver;
 
     public class MongoDBRepository : IMongoDBRepository
     {
@@ -225,6 +225,19 @@
             return result.IsAcknowledged;
         }
 
+        public virtual async Task<bool> UpdateAsync<T>(FilterDefinition<T> filter, UpdateDefinition<T> update)
+            where T : class
+        {
+            filter.CheckNull(nameof(filter));
+            update.CheckNull(nameof(update));
+
+            var collection = _db.GetCollection<T>(typeof(T).Name);
+
+            var result = await collection.UpdateOneAsync(filter, update);
+
+            return result.IsAcknowledged;
+        }
+
         public virtual long Count<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
@@ -274,19 +287,6 @@
             }
 
             return new SortDefinitionBuilder<T>().Combine(mongoSort.ToArray());
-        }
-
-        public virtual async Task<bool> UpdateAsync<T>(FilterDefinition<T> filter, UpdateDefinition<T> update)
-            where T : class
-        {
-            filter.CheckNull(nameof(filter));
-            update.CheckNull(nameof(update));
-
-            var collection = _db.GetCollection<T>(typeof(T).Name);
-
-            var result = await collection.UpdateOneAsync(filter, update);
-
-            return result.IsAcknowledged;
         }
     }
 }

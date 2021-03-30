@@ -12,9 +12,9 @@
     /// </summary>
     public class ConnectionFactoryRabbitMQ : IConnectionFactory, IDisposable
     {
+        private readonly object _lock = new object();
         private bool disposed = false;
         private ConnectionFactory _connectionFactory;
-        private readonly object _lock = new object();
         private IConnection _connection;
 
         // Maybe pass IConnection Factory in constructor? - Can't test this

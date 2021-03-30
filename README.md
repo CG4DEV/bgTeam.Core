@@ -49,3 +49,4 @@ bgTeam.Impl.Serilog | [![NuGet version](https://badge.fury.io/nu/bgTeam.Impl.Ser
 bgTeam.Impl.ElasticSearch | [![NuGet version](https://badge.fury.io/nu/bgTeam.Impl.ElasticSearch.svg)](https://badge.fury.io/nu/bgTeam.Impl.ElasticSearch)
 bgTeam.Impl.Quartz | [![NuGet version](https://badge.fury.io/nu/bgTeam.Impl.Quartz.svg)](https://badge.fury.io/nu/bgTeam.Impl.Quartz)
 bgTeam.Impl.Rabbit | [![NuGet version](https://badge.fury.io/nu/bgTeam.Impl.Rabbit.svg)](https://badge.fury.io/nu/bgTeam.Impl.Rabbit)
+bgTeam.Impl.Kafka | [![NuGet version](https://badge.fury.io/nu/bgTeam.Impl.Kafka.svg)](https://badge.fury.io/nu/bgTeam.Impl.Kafka)

@@ -46,9 +46,9 @@
         /// <summary>
         /// Create new client instance
         /// </summary>
-        public async Task<IElasticClient> CreateClientAsync()
+        public Task<IElasticClient> CreateClientAsync()
         {
-            return new ElasticClient(_connectionSettings);
+            return Task.FromResult<IElasticClient>(new ElasticClient(_connectionSettings));
         }
     }
 }

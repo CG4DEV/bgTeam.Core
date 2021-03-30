@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Infrastructure;
+    using bgTeam.SSO.Client.Infrastructure;
     using Newtonsoft.Json;
 
     public sealed class RemoteTokenValidationProvider : ITokenValidationProvider
@@ -21,7 +21,7 @@
 
             var defaultHeaders = new Dictionary<string, string>
             {
-                {"Authorization", $"Bearer {token}"}
+                { "Authorization", $"Bearer {token}" },
             };
 
             using (var client = new RestClient(defaultHeaders))
