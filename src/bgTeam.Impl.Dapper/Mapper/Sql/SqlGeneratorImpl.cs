@@ -167,8 +167,7 @@
 
             var columns = classMap.Properties.Where(p => !(p.Ignored || p.IsReadOnly || p.KeyType == KeyType.Identity || p.KeyType == KeyType.Assigned));
 
-            var pg = predicate as IPredicateGroup;
-            if (pg != null)
+            if (predicate is IPredicateGroup pg)
             {
                 columns = columns.Where(x => !pg.Predicates.Any(p => (p as IBasePredicate).PropertyName == x.ColumnName)).ToList();
             }

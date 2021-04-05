@@ -124,10 +124,10 @@
         IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> predicate, IList<ISort> sort, int page, int resultsPerPage)
             where T : class;
 
-        Task<IEnumerable<T>> GetPageAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10)
+        Task<IEnumerable<T>> GetPageAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 0, int resultsPerPage = 10)
             where T : class;
 
-        Task<PaginatedResult<T>> GetPaginatedResultAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbConnection connection = null, IDbTransaction transaction = null)
+        Task<PaginatedResult<T>> GetPaginatedResultAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 0, int resultsPerPage = 10, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class;
     }
 }

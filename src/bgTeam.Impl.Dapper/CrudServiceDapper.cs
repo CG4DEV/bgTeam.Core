@@ -5,33 +5,38 @@
     using DapperExtensions;
     using global::Dapper;
 
+    /// <inheritdoc/>
     public class CrudServiceDapper : ICrudService
     {
         private readonly IConnectionFactory _factory;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CrudServiceDapper"/> class.
+        /// </summary>
+        /// <param name="factory"></param>
         public CrudServiceDapper(IConnectionFactory factory)
         {
             _factory = factory;
         }
 
-        public bool Insert<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
+        /// <inheritdoc/>
+        public dynamic Insert<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = _factory.Create())
                 {
-                    connection.Insert(entity, transaction: transaction);
+                    return connection.Insert(entity, transaction: transaction);
                 }
             }
             else
             {
-                connection.Insert(entity, transaction: transaction);
+                return connection.Insert(entity, transaction: transaction);
             }
-
-            return true;
         }
 
+        /// <inheritdoc/>
         public async Task<dynamic> InsertAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
@@ -48,6 +53,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public bool Update<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
@@ -64,6 +70,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<bool> UpdateAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
@@ -80,6 +87,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public bool Delete<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
@@ -96,7 +104,7 @@
             }
         }
 
-        // TODO : необходимо реализовать async для connection.Delete
+        /// <inheritdoc/>
         public async Task<bool> DeleteAsync<T>(T entity, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
@@ -104,15 +112,16 @@
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return connection.Delete(entity, transaction: transaction);
+                    return await connection.DeleteAsync(entity, transaction: transaction);
                 }
             }
             else
             {
-                return connection.Delete(entity, transaction: transaction);
+                return await connection.DeleteAsync(entity, transaction: transaction);
             }
         }
 
+        /// <inheritdoc/>
         public int Execute(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)
@@ -128,6 +137,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public int Execute(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)
@@ -143,6 +153,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<int> ExecuteAsync(ISqlObject obj, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)
@@ -158,6 +169,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<int> ExecuteAsync(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             if (connection == null)

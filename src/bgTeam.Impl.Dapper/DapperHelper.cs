@@ -1,14 +1,14 @@
 ﻿namespace DapperExtensions
 {
-    using DapperExtensions.Builder;
-    using DapperExtensions.Mapper;
-    using DapperExtensions.Mapper.Sql;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Threading.Tasks;
+    using DapperExtensions.Builder;
+    using DapperExtensions.Mapper;
+    using DapperExtensions.Mapper.Sql;
     using ISort = bgTeam.DataAccess.ISort;
 
     public static class DapperHelper
@@ -278,6 +278,24 @@
         }
 
         /// <summary>
+        /// Executes a delete query for the specified entity.
+        /// </summary>
+        public static Task<bool> DeleteAsync<T>(this IDbConnection connection, T entity, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            return Instance.DeleteAsync<T>(connection, entity, transaction, commandTimeout);
+        }
+
+        /// <summary>
+        /// Executes a delete query using the specified predicate.
+        /// </summary>
+        public static Task<bool> DeleteAsync<T>(this IDbConnection connection, object predicate, IDbTransaction transaction = null, int? commandTimeout = null)
+            where T : class
+        {
+            return Instance.DeleteAsync<T>(connection, predicate, transaction, commandTimeout);
+        }
+
+        /// <summary>
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified page and resultsPerPage.
         /// </summary>
@@ -293,7 +311,7 @@
         /// Executes a select query using the specified predicate, returning an IEnumerable data typed as per T.
         /// Data returned is dependent upon the specified page and resultsPerPage.
         /// </summary>
-        public static async Task<IEnumerable<T>> GetPageAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 1, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
+        public static async Task<IEnumerable<T>> GetPageAsync<T>(this IDbConnection connection, Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, int page = 0, int resultsPerPage = 10, IDbTransaction transaction = null, int? commandTimeout = null)
             where T : class
         {
             var prGroup = PredicateConverter<T>.FromExpression(predicate);
