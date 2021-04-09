@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using bgTeam.Impl.Rabbit;
 using bgTeam.Queues;
+using bgTeam.Queues.Exceptions;
 using Moq;
 using RabbitMQ.Client;
 using Xunit;
@@ -131,7 +132,7 @@ namespace bgTeam.Core.Tests.Rabbit
             var model = new Mock<IModel>();
             var (messageProvider, _, connectionFactory) = RabbitMockFactory.Get(model);
             var queueProviderRabbitMQ = new QueueProviderRabbitMQ(messageProvider.Object, connectionFactory.Object, true, "queue1");
-            Assert.Throws<Exception>(() => queueProviderRabbitMQ.GetQueueMessageCount("queue2"));
+            Assert.Throws<QueueException>(() => queueProviderRabbitMQ.GetQueueMessageCount("queue2"));
         }
     }
 }

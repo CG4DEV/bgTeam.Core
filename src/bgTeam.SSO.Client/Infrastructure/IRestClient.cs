@@ -73,7 +73,7 @@
         Task<HttpResponseMessage> PutAsync(Uri uri, HttpContent content, TimeSpan timeout);
 
         /// <summary>
-        /// Sends a <c>PUT</c> request with the given <paramref name="content"/> to the specified <paramref name="uri"/> 
+        /// Sends a <c>PUT</c> request with the given <paramref name="content"/> to the specified <paramref name="uri"/>
         /// with the given <paramref name="cToken"/>.
         /// </summary>
         Task<HttpResponseMessage> PutAsync(Uri uri, HttpContent content, CancellationToken cToken);
@@ -105,15 +105,15 @@
         Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, TimeSpan timeout);
 
         /// <summary>
-        /// Sends a <c>POST</c> request with the given <paramref name="content"/> to the specified <paramref name="uri"/> 
+        /// Sends a <c>POST</c> request with the given <paramref name="content"/> to the specified <paramref name="uri"/>
         /// with the given <paramref name="cToken"/>.
         /// </summary>
         Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, CancellationToken cToken);
 
         /// <summary>
-        /// Sends a <c>POST</c> request with the given <paramref name="content"/> to the specified <paramref name="uri"/> 
+        /// Sends a <c>POST</c> request with the given <paramref name="content"/> to the specified <paramref name="uri"/>
         /// with the given <paramref name="cToken"/>.
-        /// </summary>     
+        /// </summary>
         Task<HttpResponseMessage> PostAsync(string uri, HttpContent content, CancellationToken cToken);
 
         /// <summary>

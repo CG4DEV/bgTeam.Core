@@ -4,9 +4,7 @@
     using bgTeam;
     using Microsoft.Extensions.DependencyInjection;
 
-    /// <summary>
-    /// Реализация фабрики, создающей истории для определенного контекста.
-    /// </summary>
+    /// <inheritdoc/>
     public class StoryFactory : IStoryFactory
     {
         private readonly IServiceProvider _provider;
@@ -16,12 +14,10 @@
             _provider = provider;
         }
 
-        /// <summary>
-        /// Создает историю по контексту
-        /// </summary>
+        /// <inheritdoc/>
         public IStory<TStoryContext, TResult> Create<TStoryContext, TResult>()
         {
-            return _provider.GetService<IStory<TStoryContext, TResult>>();
+            return _provider.GetRequiredService<IStory<TStoryContext, TResult>>();
         }
     }
 }

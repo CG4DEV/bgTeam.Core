@@ -1,13 +1,12 @@
 namespace DapperExtensions.Mapper
 {
-    using bgTeam.DataAccess.Impl.Dapper;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
+    using bgTeam.DataAccess.Impl.Dapper;
 
     /// <summary>
     /// Automatically maps an entity to a table using a combination of reflection and naming conventions for keys.
@@ -16,13 +15,6 @@ namespace DapperExtensions.Mapper
         where T : class
     {
         private readonly string _identityColumn;
-
-        //public AutoClassMapper()
-        //{
-        //    Type type = typeof(T);
-        //    Table(type.Name);
-        //    AutoMap();
-        //}
 
         public AutoClassMapper()
         {

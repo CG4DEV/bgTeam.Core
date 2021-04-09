@@ -1,10 +1,10 @@
-﻿namespace bgTeam.DataAccess
+﻿namespace bgTeam.Impl.MongoDB
 {
-    using MongoDB.Driver;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using global::MongoDB.Driver;
 
     /// <summary>
     /// MongoDB repository for work with collection
@@ -159,6 +159,15 @@
             where T : class;
 
         /// <summary>
+        /// Update certain fileds on first input by filter async
+        /// </summary>
+        /// <typeparam name="T">Collection type</typeparam>
+        /// <param name="filter">Filter defenition</param>
+        /// <param name="update">Update defenition</param>
+        Task<bool> UpdateAsync<T>(FilterDefinition<T> filter, UpdateDefinition<T> update)
+            where T : class;
+
+        /// <summary>
         /// Count documents by filter
         /// </summary>
         /// <typeparam name="T">Collection type</typeparam>
@@ -172,15 +181,6 @@
         /// <typeparam name="T">Collection type</typeparam>
         /// <param name="predicate">array of filter</param>
         Task<long> CountAsync<T>(params Expression<Func<T, bool>>[] predicates)
-            where T : class;
-
-        /// <summary>
-        /// Update certain fileds on first input by filter async
-        /// </summary>
-        /// <typeparam name="T">Collection type</typeparam>
-        /// <param name="filter">Filter defenition</param>
-        /// <param name="update">Update defenition</param>
-        Task<bool> UpdateAsync<T>(FilterDefinition<T> filter, UpdateDefinition<T> update)
             where T : class;
     }
 }

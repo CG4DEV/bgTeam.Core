@@ -1,7 +1,8 @@
-﻿using bgTeam.Queues;
-using Moq;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using bgTeam.Queues;
+using bgTeam.Queues.Exceptions;
+using Moq;
 using Xunit;
 
 namespace bgTeam.Core.Tests.Tests.Queues

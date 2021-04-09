@@ -1,10 +1,10 @@
 ﻿namespace bgTeam.Impl.Quartz
 {
+    using System;
+    using System.Collections.Generic;
     using bgTeam.Extensions;
     using bgTeam.Quartz;
     using global::Quartz;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Schedulers factory Quartz
@@ -31,13 +31,13 @@
             CreateScheduler(jobDetail, trigger);
         }
 
-        protected abstract IDictionary<string, object> CreateCommonMap(IJobTriggerInfo config);
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        protected abstract IDictionary<string, object> CreateCommonMap(IJobTriggerInfo config);
 
         protected virtual void Dispose(bool disposing)
         {
@@ -76,13 +76,11 @@
             return trigger;
         }
 
-        private IScheduler CreateScheduler(IJobDetail job, ITrigger trigger)
+        private void CreateScheduler(IJobDetail job, ITrigger trigger)
         {
             IScheduler scheduler = _schedulerFactory.GetScheduler().Result;
             scheduler.ScheduleJob(job, trigger);
             scheduler.Start();
-
-            return scheduler;
         }
     }
 }

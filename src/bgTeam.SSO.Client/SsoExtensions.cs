@@ -5,8 +5,11 @@
 
     public static class SsoExtensions
     {
-        public static void AddSsoAuthentication(this IServiceCollection services,
-            ITokenValidationProvider tokenValidationProvider, Action onSuccess = null, Action onFail = null)
+        public static void AddSsoAuthentication(
+            this IServiceCollection services,
+            ITokenValidationProvider tokenValidationProvider,
+            Action onSuccess = null,
+            Action onFail = null)
         {
             if (tokenValidationProvider == null)
             {
@@ -14,7 +17,8 @@
             }
 
             services.AddAuthentication(Constants.SCHEME_NAME)
-                .AddScheme<SsoAuthenticationOptions, SsoAuthenticationHandler>(Constants.SCHEME_NAME,
+                .AddScheme<SsoAuthenticationOptions, SsoAuthenticationHandler>(
+                    Constants.SCHEME_NAME,
                     opt =>
                     {
                         opt.TokenValidationProvider = tokenValidationProvider;

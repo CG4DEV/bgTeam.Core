@@ -9,7 +9,7 @@
     {
         private readonly IEnumerable<int> _ids;
 
-        public IntDbType(IEnumerable<int> ids)
+        protected IntDbType(IEnumerable<int> ids)
         {
             _ids = ids;
         }

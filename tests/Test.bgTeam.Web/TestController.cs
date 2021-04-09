@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters.Json;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace Test.bgTeam.Web
@@ -19,14 +13,32 @@ namespace Test.bgTeam.Web
             return "GetString";
         }
 
+        [HttpDelete]
+        public string DeleteString()
+        {
+            return "DeleteString";
+        }
+
         [HttpPost]
         public string PostString()
         {
             return "PostString";
         }
 
+        [HttpPut]
+        public string PutString()
+        {
+            return "PutString";
+        }
+
         [HttpPost]
         public string PostNullString()
+        {
+            return null;
+        }
+
+        [HttpPut]
+        public string PutNullString()
         {
             return null;
         }
@@ -37,8 +49,20 @@ namespace Test.bgTeam.Web
             return new JsonResult(new string[] { "string1", "string2" });
         }
 
+        [HttpPut]
+        public IActionResult PutArrayString()
+        {
+            return new JsonResult(new string[] { "string1", "string2" });
+        }
+
         [HttpPost]
         public IActionResult PostEmptyArrayString()
+        {
+            return new JsonResult(new string[0]);
+        }
+
+        [HttpPut]
+        public IActionResult PutEmptyArrayString()
         {
             return new JsonResult(new string[0]);
         }
@@ -99,6 +123,12 @@ namespace Test.bgTeam.Web
 
         [HttpPost]
         public string PostReturnHeaderValue()
+        {
+            return Request.Headers["test_header"];
+        }
+
+        [HttpPut]
+        public string PutReturnHeaderValue()
         {
             return Request.Headers["test_header"];
         }

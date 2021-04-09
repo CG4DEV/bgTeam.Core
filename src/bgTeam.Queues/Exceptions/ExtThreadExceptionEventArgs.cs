@@ -1,8 +1,8 @@
 ﻿namespace bgTeam.Queues.Exceptions
 {
-    using bgTeam.Queues;
     using System;
     using System.Threading;
+    using bgTeam.Queues;
 
     public class ExtThreadExceptionEventArgs : ThreadExceptionEventArgs
     {

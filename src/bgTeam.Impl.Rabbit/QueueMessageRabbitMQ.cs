@@ -35,8 +35,10 @@
 
                 return (1 << Errors.Count) * DelayStep;
             }
+
             set
             {
+                // do nothing
             }
         }
 

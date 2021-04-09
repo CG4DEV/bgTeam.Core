@@ -2,10 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Linq.Expressions;
-    using System.Text;
-    using System.Threading.Tasks;
 
     internal sealed class PredicateConverter<T>
         where T : class
@@ -37,6 +34,55 @@
             }
 
             return group;
+        }
+
+        private static bool TryGetField(Expression expression, out string name)
+        {
+            expression = SimplifyExpression(expression);
+            if (expression.NodeType == ExpressionType.MemberAccess)
+            {
+                var memberExpression = expression as MemberExpression;
+                if (memberExpression?.Expression?.NodeType == ExpressionType.Parameter)
+                {
+                    name = memberExpression.Member.Name;
+                    return true;
+                }
+            }
+
+            name = null;
+            return false;
+        }
+
+        private static Expression SimplifyExpression(Expression expression)
+        {
+            switch (expression.NodeType)
+            {
+                case ExpressionType.Convert:
+                    return ((UnaryExpression)expression).Operand;
+                default:
+                    return expression;
+            }
+        }
+
+        private static object InvokeExpression(Expression expression)
+        {
+            return Expression.Lambda<Func<object>>(Expression.Convert(expression, typeof(object))).Compile().Invoke();
+        }
+
+        private static IPredicate VisitPredicateTree(IPredicate predicate, Func<IPredicate, bool> callback)
+        {
+            if (!callback(predicate))
+            {
+                return predicate;
+            }
+
+            var group = (IPredicateGroup)predicate;
+            foreach (var p in group.Predicates)
+            {
+                VisitPredicateTree(p, callback);
+            }
+
+            return predicate;
         }
 
         private IPredicate ParseGroup(BinaryExpression expression)
@@ -187,6 +233,10 @@
                 case ExpressionType.MemberAccess:
                     return this.ParseBoolMember((MemberExpression)expression);
 
+                // currently ignored, sometime later should think about fixing...
+                case ExpressionType.Constant:
+                    return new PredicateGroup();
+
                 case ExpressionType.Add:
                 case ExpressionType.AddAssign:
                 case ExpressionType.AddAssignChecked:
@@ -262,10 +312,6 @@
                 case ExpressionType.Unbox:
                 default:
                     throw new NotImplementedException();
-
-                // currently ignored, sometime later should think about fixing...
-                case ExpressionType.Constant:
-                    return new PredicateGroup();
             }
         }
 
@@ -333,16 +379,17 @@
         private IPredicate ParseCallContains(MethodCallExpression expression)
         {
             var patternExpression = expression.Arguments[0];
-            var memberExpression = expression.Object as MemberExpression;
-
-            object value = patternExpression.NodeType == ExpressionType.Constant ?
-                ((ConstantExpression)patternExpression).Value :
-                InvokeExpression(patternExpression);
 
             if (patternExpression == null)
             {
                 throw new NotImplementedException();
             }
+
+            var memberExpression = expression.Object as MemberExpression;
+
+            object value = patternExpression.NodeType == ExpressionType.Constant ?
+                ((ConstantExpression)patternExpression).Value :
+                InvokeExpression(patternExpression);
 
             if (memberExpression == null || memberExpression.Expression.NodeType != ExpressionType.Parameter)
             {
@@ -415,55 +462,6 @@
             }
 
             throw new NotImplementedException();
-        }
-
-        private static bool TryGetField(Expression expression, out string name)
-        {
-            expression = SimplifyExpression(expression);
-            if (expression.NodeType == ExpressionType.MemberAccess)
-            {
-                var memberExpression = expression as MemberExpression;
-                if (memberExpression?.Expression?.NodeType == ExpressionType.Parameter)
-                {
-                    name = memberExpression.Member.Name;
-                    return true;
-                }
-            }
-
-            name = null;
-            return false;
-        }
-
-        private static Expression SimplifyExpression(Expression expression)
-        {
-            switch (expression.NodeType)
-            {
-                case ExpressionType.Convert:
-                    return ((UnaryExpression)expression).Operand;
-                default:
-                    return expression;
-            }
-        }
-
-        private static object InvokeExpression(Expression expression)
-        {
-            return Expression.Lambda<Func<object>>(Expression.Convert(expression, typeof(object))).Compile().Invoke();
-        }
-
-        private static IPredicate VisitPredicateTree(IPredicate predicate, Func<IPredicate, bool> callback)
-        {
-            if (!callback(predicate))
-            {
-                return predicate;
-            }
-
-            var group = (IPredicateGroup)predicate;
-            foreach (var p in group.Predicates)
-            {
-                VisitPredicateTree(p, callback);
-            }
-
-            return predicate;
         }
     }
 }

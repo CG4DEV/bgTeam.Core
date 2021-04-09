@@ -25,6 +25,16 @@
             _storyInfos = Init(assembly);
         }
 
+        public StoryInfo Get(string contextName)
+        {
+            if (_storyInfos.ContainsKey(contextName))
+            {
+                return _storyInfos[contextName];
+            }
+
+            throw new KeyNotFoundException($"Story not found with context {contextName}");
+        }
+
         private static IDictionary<string, StoryInfo> Init(Assembly assembly)
         {
             var types = assembly.GetTypes();
@@ -47,16 +57,6 @@
                 .ToDictionary(x => x.ContextName);
 
             return new ConcurrentDictionary<string, StoryInfo>(dictionary, StringComparer.InvariantCultureIgnoreCase);
-        }
-
-        public StoryInfo Get(string name)
-        {
-            if (_storyInfos.ContainsKey(name))
-            {
-                return _storyInfos[name];
-            }
-
-            throw new KeyNotFoundException($"Story not found with context {name}");
         }
     }
 }
