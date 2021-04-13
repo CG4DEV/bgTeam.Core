@@ -6,7 +6,6 @@ image: Visual Studio 2019
 configuration: Release
 environment:
   ShortVersion: 5.0
-  VersionSuffix: beta
 nuget:
   project_feed: true
   disable_publish_on_pr: true
@@ -20,5 +19,7 @@ artifacts:
 deploy:
 - provider: NuGet
   api_key:
-    secure: b1tVO1bjdaWbd7cIURqhoGuM1OfV9GQNFKoadVAgibMrnbx9A7XXkbqtanNHTirp
+    secure: JvChdNsqHwrRXlRWMWvgzh7PwoArhGYrcavvKvpNG9Qnu7iV2e2J4Oi4YFXmTjRN
   skip_symbols: true
+
+ 
