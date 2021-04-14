@@ -73,8 +73,7 @@ if (!(Test-Path $DOTNET_PATH))
         $coverageBadgePath = $RepositoryDirectory + "static-templates/coveradge-badge-template.svg"
         $coverageLinePattern = "<tr><th>Line coverage:</th><td>\d+.\d+"
         $templateMark = "@CoverageNumb"
-        $val = Get-Content $coverageReportPath | Select-String -Pattern $coverageLinePattern
-            | ForEach-Object { $_ -match "(\d+.\d+)" } | ForEach-Object { ([decimal]$Matches[0]) }
+        $val = Get-Content $coverageReportPath | Select-String -Pattern $coverageLinePattern | ForEach-Object { $_ -match "(\d+.\d+)" } | ForEach-Object { ([decimal]$Matches[0]) }
         $CoverageBadgeContent = Get-Content $coverageBadgePath
         $CoverageBadgeContent.replace($templateMark, $val) | Out-File $outBadgeFileName
     }
