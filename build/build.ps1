@@ -80,5 +80,5 @@ if (!(Test-Path $DOTNET_PATH))
 }
 
 Write-Host "Running build script..."
-& "$DOTNET_PATH" "$CakePath" $Script --nuget_useinprocessclient=true --target=$Target --configuration=$Configuration --verbosity=$Verbosity $UseDryRun $ScriptArgs
+& dotnet "$CakePath" $Script --nuget_useinprocessclient=true --target=$Target --configuration=$Configuration --verbosity=$Verbosity $UseDryRun $ScriptArgs 
 exit $LASTEXITCODE
