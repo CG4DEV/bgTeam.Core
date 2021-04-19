@@ -11,8 +11,22 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition="'$(TargetFramework)'=='net5.0' or '$(TargetFramework)'=='netstandard2.1'">
+      <ItemGroup>
+        <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.1" />
+      </ItemGroup>
+    </When>
+
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.110" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.17.0.26580">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.21.0.30542">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -23,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.101" />
+    
   </ItemGroup>
 
   <ItemGroup>
