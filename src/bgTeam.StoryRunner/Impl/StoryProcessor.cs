@@ -23,16 +23,6 @@
             _repository = repository;
         }
 
-        public void Process(StoryRunnerMessageWork info)
-        {
-            ProcessAsync(info).Wait();
-        }
-
-        public object ProcessWithResult(StoryRunnerMessageWork info)
-        {
-            return ProcessWithResultAsync(info).GetAwaiter().GetResult();
-        }
-
         public Task ProcessAsync(StoryRunnerMessageWork info)
         {
             var storyInfo = _repository.Get(info.Name);
