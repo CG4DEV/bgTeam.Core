@@ -23,19 +23,23 @@
             _repository = repository;
         }
 
-        public void Process(StoryRunnerMessageWork info)
-        {
-            ProcessAsync(info).Wait();
-        }
-
-        public async Task ProcessAsync(StoryRunnerMessageWork info)
+        public Task ProcessAsync(StoryRunnerMessageWork info)
         {
             var storyInfo = _repository.Get(info.Name);
 
             var context = JsonConvert.DeserializeObject(info.Context, storyInfo.ContextType, _settings);
             var story = _container.GetService(storyInfo.StoryType);
 
-            await (Task)storyInfo.ExecuteMethodInfo.Invoke(story, new[] { context });
+            return (Task)storyInfo.ExecuteMethodInfo.Invoke(story, new[] { context });
+        }
+
+        public async Task<object> ProcessWithResultAsync(StoryRunnerMessageWork info)
+        {
+            var task = ProcessAsync(info);
+            await task.ConfigureAwait(false);
+
+            var resultProperty = task.GetType().GetProperty("Result");
+            return resultProperty.GetValue(task);
         }
     }
 }
