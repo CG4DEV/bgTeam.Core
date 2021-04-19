@@ -60,7 +60,7 @@ namespace bgTeam.Core.Tests.Dapper.Mapper.Sql
             Assert.Equal("SELECT TOP(10) [_proj].[first_name] FROM (select distinct ROW_NUMBER() OVER(ORDER BY id) AS [_row_number], name as first_name from TestEntity where id > 2) [_proj] " +
                 "WHERE [_proj].[_row_number] >= @_pageStartRow ORDER BY [_proj].[_row_number]", query);
 
-            Assert.Equal(21, dictionary["@_pageStartRow"]);
+            Assert.Equal(20, dictionary["@_pageStartRow"]);
 
             dictionary = new Dictionary<string, object>();
             query = dialect.GetPagingSql("select id, name from TestEntity order by id", 2, 10, dictionary);
