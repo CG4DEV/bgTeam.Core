@@ -93,7 +93,7 @@ namespace bgTeam
 
             if (parametersString.Length > 0)
             {
-                return XmlFromName(methodInfo.DeclaringType, 'M', methodInfo.Name + "(" + parametersString.ToString() + ")");
+                return XmlFromName(methodInfo.DeclaringType, 'M', $"{methodInfo.Name}({parametersString})");
             }
             else
             {
@@ -160,19 +160,14 @@ namespace bgTeam
         /// <returns>The member that has a name that describes the specified reflection element</returns>
         private static XmlElement XmlFromName(this Type type, char prefix, string name)
         {
-            string fullName;
-
-            if (string.IsNullOrEmpty(name))
+            string fullName = $"{prefix}:{type.FullName}";
+            if (!string.IsNullOrEmpty(name))
             {
-                fullName = prefix + ":" + type.FullName;
-            }
-            else
-            {
-                fullName = prefix + ":" + type.FullName + "." + name;
+                fullName = $"{fullName}.{name}";
             }
 
             var xmlDocument = XmlFromAssembly(type.Assembly);
-            var matchedElement = xmlDocument["doc"]["members"].SelectSingleNode("member[@name='" + fullName + "']") as XmlElement;
+            var matchedElement = xmlDocument["doc"]["members"].SelectSingleNode($"member[@name='{fullName}']") as XmlElement;
             return matchedElement;
         }
 
