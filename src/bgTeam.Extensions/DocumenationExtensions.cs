@@ -30,13 +30,7 @@ namespace bgTeam
         public static string GetSummary(this Type type)
         {
             var element = type.GetDocumentation();
-            var summary = element?.SelectSingleNode("summary");
-            if (summary == null)
-            {
-                return string.Empty;
-            }
-
-            return summary.InnerText.Trim();
+            return element.GetSummary();
         }
 
         /// <summary>
@@ -47,13 +41,7 @@ namespace bgTeam
         public static string GetSummary(this MethodInfo methodInfo)
         {
             var element = methodInfo.GetDocumentation();
-            var summary = element?.SelectSingleNode("summary");
-            if (summary == null)
-            {
-                return string.Empty;
-            }
-
-            return summary.InnerText.Trim();
+            return element.GetSummary();
         }
 
         /// <summary>
@@ -64,6 +52,16 @@ namespace bgTeam
         public static string GetSummary(this MemberInfo memberInfo)
         {
             var element = memberInfo.GetDocumentation();
+            return element.GetSummary();
+        }
+
+        /// <summary>
+        /// Find summary node and return inner text from this XmlElement
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static string GetSummary(this XmlElement element)
+        {
             var summary = element?.SelectSingleNode("summary");
             if (summary == null)
             {
