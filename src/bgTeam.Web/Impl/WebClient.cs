@@ -292,6 +292,11 @@
                 response.Content.Headers.ContentType.CharSet = "utf-8";
             }
 
+            if (typeof(T) == typeof(byte[]))
+            {
+                return await response.Content.ReadAsByteArrayAsync() as T;
+            }
+
             var result = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrWhiteSpace(result))
