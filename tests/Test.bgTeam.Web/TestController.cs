@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Globalization;
+using System.Text;
 
 namespace Test.bgTeam.Web
 {
@@ -11,6 +12,12 @@ namespace Test.bgTeam.Web
         public string GetString()
         {
             return "GetString";
+        }
+
+        [HttpGet]
+        public byte[] GetBytes()
+        {
+            return Encoding.UTF8.GetBytes("GetString");
         }
 
         [HttpDelete]
