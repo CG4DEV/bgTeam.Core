@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using bgTeam.Web;
@@ -61,6 +62,19 @@ namespace Test.bgTeam.Web
             var result = await _webClient.GetAsync<string>("Test/GetString").ConfigureAwait(false);
 
             Assert.Equal("GetString", result);
+        }
+
+        [Fact]
+        public async Task Get_GetBytes()
+        {
+            var etalon = Encoding.UTF8.GetBytes("GetString");
+            var result = await _webClient.GetAsync<byte[]>("Test/GetBytes").ConfigureAwait(false);
+
+            Assert.Equal(etalon.Length, result.Length);
+            for (int i = 0; i < etalon.Length; i++)
+            {
+                Assert.Equal(etalon[i], result[i]);
+            }
         }
 
         [Fact]
