@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace bgTeam.Prometheus.Impl
+namespace bgTeam.Impl.Prometheus
 {
     internal abstract class BaseWatcher : IDisposable
     {
