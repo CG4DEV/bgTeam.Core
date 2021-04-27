@@ -92,7 +92,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KafkaSingleThread", "exampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KafkaMultiThread", "examples\KafkaMultiThread\KafkaMultiThread.csproj", "{2B1719C8-D66A-4A61-850D-A1F7E2655430}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bgTeam.Prometheus.Impl", "src\bgTeam.Prometheus.Impl\bgTeam.Prometheus.Impl.csproj", "{4C87A36D-4858-401F-8524-BD1791EED3A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Impl.Prometheus", "src\bgTeam.Impl.Prometheus\bgTeam.Impl.Prometheus.csproj", "{4C87A36D-4858-401F-8524-BD1791EED3A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

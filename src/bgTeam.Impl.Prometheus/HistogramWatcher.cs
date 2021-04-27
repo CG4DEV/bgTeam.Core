@@ -1,6 +1,6 @@
 ﻿using Prometheus;
 
-namespace bgTeam.Prometheus.Impl
+namespace bgTeam.Impl.Prometheus
 {
     internal class HistogramWatcher : BaseWatcher
     {

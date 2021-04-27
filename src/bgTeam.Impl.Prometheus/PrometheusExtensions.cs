@@ -1,7 +1,7 @@
 ﻿using System;
 using Prometheus;
 
-namespace bgTeam.Prometheus.Impl
+namespace bgTeam.Impl.Prometheus
 {
     public static class PrometheusExtensions
     {
