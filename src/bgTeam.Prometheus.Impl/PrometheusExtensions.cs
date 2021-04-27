@@ -8,9 +8,9 @@ namespace bgTeam.Prometheus.Impl
         public static IDisposable MeasureDuration<T>(this T @this, params string[] labels)
             where T : Collector
         {
-            switch (typeof(T))
+            switch (@this)
             {
-                case Type type when type == typeof(Histogram): return new HistogramWatcher(@this as Histogram, labels);
+                case Histogram histogram: return new HistogramWatcher(histogram, labels);
                 default: throw new NotSupportedException(typeof(T).Name);
             }
         }
