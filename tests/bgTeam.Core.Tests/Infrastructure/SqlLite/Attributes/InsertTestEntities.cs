@@ -21,6 +21,7 @@ namespace bgTeam.Core.Tests.Infrastructure
             for (int i = 0; i < _count; i++)
             {
                 _fixture.CrudService.InsertAsync(new TestEntity { Name = (i + 1).ToString() });
+                _fixture.CrudService.InsertAsync(new CompositeKeyEntity { Key1 = 1, Key2 = (i + 1), Name = (i + 1).ToString() });
             }
         }
     }

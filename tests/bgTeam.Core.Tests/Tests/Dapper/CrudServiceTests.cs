@@ -99,6 +99,47 @@ namespace bgTeam.Core.Tests.Dapper
 
         [Fact]
         [WithRecreatingTable]
+        public async Task InsertWithCompositeKey()
+        {
+            _fixture.CrudService.Insert(new CompositeKeyEntity { Key1 = 1, Key2 = 1, Name = "First test entity" });
+            _fixture.CrudService.Insert(new CompositeKeyEntity { Key1 = 1, Key2 = 2, Name = "Second test entity" });
+            using (var connection = _fixture.Factory.ConnectionFactory.Create())
+            {
+                _fixture.CrudService.Insert(new CompositeKeyEntity { Key1 = 1, Key2 = 3, Name = "Third test entity" }, connection);
+            }
+
+            int insertedRecordsCount = (await _fixture.Repository.GetAllAsync<CompositeKeyEntity>(x => x.Key1 == 1)).Count();
+            CompositeKeyEntity insertedEntity = await _fixture.Repository.GetAsync<CompositeKeyEntity>(x => x.Key1 == 1 && x.Key2 == 3);
+
+            Assert.NotNull(insertedEntity);
+            Assert.Equal(1, insertedEntity.Key1);
+            Assert.Equal(3, insertedEntity.Key2);
+            Assert.Equal("Third test entity", insertedEntity.Name);
+            Assert.Equal(3, insertedRecordsCount);
+        }
+
+        [Fact]
+        [WithRecreatingTable]
+        [InsertTestEntities]
+        public async Task UpdateByCompositeKey()
+        {
+            bool res4 = _fixture.CrudService.Update(new CompositeKeyEntity { Key1 = 1, Key2 = 2, Name = "3" });
+            CompositeKeyEntity updatedEntity = await _fixture.Repository.GetAsync<CompositeKeyEntity>(x => x.Key1 == 1 && x.Key2 == 2);
+            Assert.True(res4);
+            Assert.NotNull(updatedEntity);
+            Assert.Equal(1, updatedEntity.Key1);
+            Assert.Equal(2, updatedEntity.Key2);
+            Assert.Equal("3", updatedEntity.Name);
+
+            using (var connection = _fixture.Factory.ConnectionFactory.Create())
+            {
+                _fixture.CrudService.Update(new CompositeKeyEntity { Key1 = 1, Key2 = 2, Name = "2" }, connection);
+                (await _fixture.Repository.GetAsync<CompositeKeyEntity>(x => x.Key1 == 1 && x.Key2 == 2, connection)).Name = "2";
+            }
+        }
+
+        [Fact]
+        [WithRecreatingTable]
         [InsertTestEntities]
         public async Task DeleteAsync()
         {

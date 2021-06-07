@@ -73,14 +73,13 @@ namespace DapperExtensions.Mapper
                     propertyMap = Map(propertyInfo, false);
                 }
 
-                if (Properties.Any(e => e.KeyType != KeyType.NotAKey))
-                {
-                    continue;
-                }
-
-                if (Attribute.IsDefined(propertyInfo, typeof(PrymaryKeyAttribute)))
+                if (Attribute.IsDefined(propertyInfo, typeof(PrimaryKeyAttribute)))
                 {
                     propertyMap.Key(KeyType.PrimaryKey);
+                }
+                else if (Properties.Any(e => e.KeyType != KeyType.NotAKey))
+                {
+                    continue;
                 }
 
                 if (Attribute.IsDefined(propertyInfo, typeof(IdentityAttribute)))
