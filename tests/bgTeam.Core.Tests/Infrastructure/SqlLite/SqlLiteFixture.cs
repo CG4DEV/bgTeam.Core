@@ -19,12 +19,20 @@ namespace bgTeam.Core.Tests.Infrastructure
                 [Id] INTEGER  NOT NULL PRIMARY KEY,
                 [Name] TEXT  NULL
             )");
+            CrudService.ExecuteAsync(@"CREATE TABLE 'CompositeKeyEntity'
+            (
+                [Key1] INTEGER  NOT NULL,
+                [Key2] INTEGER  NOT NULL,
+                [Name] TEXT  NULL,
+                PRIMARY KEY(Key1, Key2)
+            )");
             Repository = new RepositoryDapper(Factory.ConnectionFactory);
         }
 
         public void Dispose()
         {
             CrudService.ExecuteAsync(@"DROP TABLE 'TestEntity'");
+            CrudService.ExecuteAsync(@"DROP TABLE 'CompositeKeyEntity'");
         }
     }
 }

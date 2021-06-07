@@ -61,9 +61,6 @@
     <None Update="Resourse\README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resourse\shared\configs\&#xD;&#xA;          ionStrings.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Resourse\shared\configs\connectionStrings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
