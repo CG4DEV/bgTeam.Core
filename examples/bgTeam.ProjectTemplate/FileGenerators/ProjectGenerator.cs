@@ -43,7 +43,7 @@
 
 #if NETCOREAPP3_1
             result.Replace("$framework$", "netcoreapp3.1");
-#elif NET5_0
+#else
             result.Replace("$framework$", "net5.0");
 #endif
 
