@@ -32,6 +32,8 @@
                 VirtualHost = settings.VirtualHost,
                 UserName = settings.Login,
                 Password = settings.Password,
+                DispatchConsumersAsync = settings.DispatchConsumersAsync,
+                ClientProvidedName = settings.ClientProvidedName,
             };
         }
 
