@@ -24,13 +24,15 @@ namespace bgTeam.Core.Tests.Rabbit
         [Fact]
         public void CreateConnectionShouldThrowsExceptionIfUsedNotSuitableHost()
         {
-            var queueProviderSettings = GetMocks();
             var connectionFactoryRabbitMQ = new ConnectionFactoryRabbitMQ(new QueueProviderSettings
             {
                 Host = "localhost",
                 Login = "guest",
                 Password = "guest",
                 VirtualHost = "virtualHost",
+                Port = 5002,
+                DispatchConsumersAsync = true,
+                ClientProvidedName = "test",
             });
 
             Assert.Throws<BrokerUnreachableException>(() => connectionFactoryRabbitMQ.CreateConnection());
