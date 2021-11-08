@@ -1,4 +1,6 @@
-﻿namespace bgTeam
+﻿using System.Threading;
+
+namespace bgTeam
 {
     using System.Threading.Tasks;
 
@@ -12,6 +14,6 @@
         /// Выполнить историю асинхронно и вернуть результат
         /// </summary>
         /// <typeparam name="TResult">Тип результата выполнения истории</typeparam>
-        Task<TResult> ReturnAsync<TResult>();
+        Task<TResult> ReturnAsync<TResult>(CancellationToken ct = default);
     }
 }

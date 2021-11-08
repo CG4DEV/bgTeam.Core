@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace bgTeam
 {
@@ -13,6 +14,7 @@ namespace bgTeam
         /// Асинхронно выполняет действия истории и возвращает результат
         /// </summary>
         /// <param name="context">Контекст истории</param>
-        Task<TStoryResult> ExecuteAsync(TStoryContext context);
+        /// <param name="ct"></param>
+        Task<TStoryResult> ExecuteAsync(TStoryContext context, CancellationToken ct = default);
     }
 }

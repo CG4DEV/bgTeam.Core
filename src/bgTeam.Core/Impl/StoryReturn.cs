@@ -1,4 +1,6 @@
-﻿namespace bgTeam
+﻿using System.Threading;
+
+namespace bgTeam
 {
     using System;
     using System.Threading.Tasks;
@@ -30,7 +32,7 @@
         }
 
         /// <inheritdoc/>
-        public async Task<TResult> ReturnAsync<TResult>()
+        public async Task<TResult> ReturnAsync<TResult>(CancellationToken ct = default)
         {
             var story = _factory.Create<TStoryContext, TResult>();
 
@@ -39,7 +41,7 @@
                 await _access.CheckAccessAsync(story);
             }
 
-            return await story.ExecuteAsync(_context);
+            return await story.ExecuteAsync(_context, ct);
         }
     }
 }
