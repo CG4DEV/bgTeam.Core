@@ -46,9 +46,9 @@ namespace bgTeam.Core.Tests.Tests.Core.Impl
             var storyFactory = new Mock<IStoryFactory>();
             var story = new Mock<IStory<ISomeContext, IResult>>();
 
-            story.Setup(x => x.ExecuteAsync(It.IsAny<ISomeContext>(), default))
+            story.Setup(x => x.ExecuteAsync(It.IsAny<ISomeContext>()))
                 .ReturnsAsync(new Mock<IResult>().Object);
-            story.Setup(x => x.ExecuteAsync(It.IsAny<ISomeContext>(), default))
+            story.Setup(x => x.ExecuteAsync(It.IsAny<ISomeContext>()))
                 .ReturnsAsync(new Mock<IResult>().Object);
 
             storyFactory.Setup(x => x.Create<ISomeContext, IResult>())

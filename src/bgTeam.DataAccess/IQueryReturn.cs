@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace bgTeam.DataAccess
+﻿namespace bgTeam.DataAccess
 {
     using System.Threading.Tasks;
 
@@ -14,7 +12,7 @@ namespace bgTeam.DataAccess
         /// <summary>
         /// Выполнить команду
         /// </summary>
-        Task ExecuteAsync(CancellationToken ct = default);
+        Task ExecuteAsync();
 
         /// <summary>
         /// Выполнить команду, и вернуть результат
@@ -24,6 +22,6 @@ namespace bgTeam.DataAccess
         /// <summary>
         /// Выполнить команду, и вернуть результат
         /// </summary>
-        Task<TResult> ReturnAsync<TResult>(CancellationToken ct = default);
+        Task<TResult> ReturnAsync<TResult>();
     }
 }
