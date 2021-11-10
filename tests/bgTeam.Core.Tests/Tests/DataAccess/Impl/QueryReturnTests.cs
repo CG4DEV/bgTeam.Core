@@ -28,7 +28,7 @@ namespace bgTeam.Core.Tests.Tests.DataAccess.Impl
             var queryBuilder = new QueryBuilder(queryFactory.Object);
             var queryReturn = queryBuilder.Build(16);
             await queryReturn.ExecuteAsync();
-            query.Verify(x => x.ExecuteAsync(16));
+            query.Verify(x => x.ExecuteAsync(16, default));
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace bgTeam.Core.Tests.Tests.DataAccess.Impl
             var queryBuilder = new QueryBuilder(queryFactory.Object);
             var queryReturn = queryBuilder.Build(16);
             await queryReturn.ReturnAsync<int>();
-            query.Verify(x => x.ExecuteAsync(16));
+            query.Verify(x => x.ExecuteAsync(16, default));
         }
 
         private (Mock<IQueryFactory>, Mock<IQuery<int>>) GetMocks()

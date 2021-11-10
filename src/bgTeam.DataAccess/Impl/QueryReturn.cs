@@ -1,4 +1,6 @@
-﻿namespace bgTeam.DataAccess.Impl
+﻿using System.Threading;
+
+namespace bgTeam.DataAccess.Impl
 {
     using System;
     using System.Threading.Tasks;
@@ -20,10 +22,10 @@
                 .Execute(_commandContext);
         }
 
-        public async Task ExecuteAsync()
+        public async Task ExecuteAsync(CancellationToken ct = default)
         {
             await _commandFactory.Create<TCommandContext>()
-                .ExecuteAsync(_commandContext);
+                .ExecuteAsync(_commandContext, ct);
         }
 
         public TResult Return<TResult>()
@@ -32,10 +34,10 @@
                 .Execute(_commandContext);
         }
 
-        public async Task<TResult> ReturnAsync<TResult>()
+        public async Task<TResult> ReturnAsync<TResult>(CancellationToken ct = default)
         {
             return await _commandFactory.Create<TCommandContext, TResult>()
-                .ExecuteAsync(_commandContext);
+                .ExecuteAsync(_commandContext, ct);
         }
     }
 }

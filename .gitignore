@@ -11,3 +11,4 @@ coverage
 *.user
 *.pubxml
 /src/bgTeam.ProjectTemplate/result/
+.idea

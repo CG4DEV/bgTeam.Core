@@ -39,7 +39,7 @@ namespace bgTeam.Core.Tests.Core.Impl
             public int Execute(int context)
                 => ExecuteAsync(context).GetAwaiter().GetResult();
 
-            public async Task<int> ExecuteAsync(int context)
+            public async Task<int> ExecuteAsync(int context, CancellationToken ct = default)
             {
                 await Task.Yield();
 
