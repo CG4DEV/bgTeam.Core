@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace bgTeam.DataAccess
+﻿namespace bgTeam.DataAccess
 {
     using System.Threading.Tasks;
 
@@ -16,7 +14,7 @@ namespace bgTeam.DataAccess
         /// <param name="commandContext">Контекст команды</param>
         void Execute(TCommandContext context);
 
-        Task ExecuteAsync(TCommandContext context, CancellationToken ct = default);
+        Task ExecuteAsync(TCommandContext context);
     }
 
     public interface IQuery<in TCommandContext, TCommandResult>
@@ -27,6 +25,6 @@ namespace bgTeam.DataAccess
         /// <param name="commandContext">Контекст команды</param>
         TCommandResult Execute(TCommandContext context);
 
-        Task<TCommandResult> ExecuteAsync(TCommandContext context, CancellationToken ct = default);
+        Task<TCommandResult> ExecuteAsync(TCommandContext context);
     }
 }

@@ -36,7 +36,7 @@ namespace bgTeam.Core.Tests.Tests.DataAccess.Impl
             var (queryFactory, query) = GetMocks();
             var queryBuilder = new QueryBuilder(queryFactory.Object);
             await queryBuilder.ExecuteAsync(16);
-            query.Verify(x => x.ExecuteAsync(16, default));
+            query.Verify(x => x.ExecuteAsync(16));
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace bgTeam.Core.Tests.Tests.DataAccess.Impl
                 .Returns(query.Object);
 
             await queryBuilder.ExecuteAsync<int, int>(16);
-            query.Verify(x => x.ExecuteAsync(16, default));
+            query.Verify(x => x.ExecuteAsync(16));
         }
 
         private (Mock<IQueryFactory>, Mock<IQuery<int>>) GetMocks()
