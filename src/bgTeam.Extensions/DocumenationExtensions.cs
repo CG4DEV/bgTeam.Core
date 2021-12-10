@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -86,7 +87,16 @@ namespace bgTeam
                     parametersString.Append(",");
                 }
 
-                parametersString.Append(parameterInfo.ParameterType.FullName);
+                var paramType = parameterInfo.ParameterType;
+                if (Nullable.GetUnderlyingType(paramType) != null)
+                {
+                    var nullableType = string.Join(",", paramType.GetGenericArguments().Select(x => x.FullName));
+                    parametersString.Append($"System.Nullable{{{nullableType}}}");
+                }
+                else
+                {
+                    parametersString.Append(paramType.FullName);
+                }
             }
 
             if (parametersString.Length > 0)
