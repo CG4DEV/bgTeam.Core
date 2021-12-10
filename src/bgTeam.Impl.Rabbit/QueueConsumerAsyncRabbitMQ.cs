@@ -49,7 +49,7 @@
             }
             finally
             {
-                var model = ((EventingBasicConsumer)sender).Model;
+                var model = ((AsyncEventingBasicConsumer)sender).Model;
                 model.BasicAck(e.DeliveryTag, false);
             }
         }

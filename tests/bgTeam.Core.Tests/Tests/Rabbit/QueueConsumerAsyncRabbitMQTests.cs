@@ -31,7 +31,7 @@ namespace bgTeam.Core.Tests.Rabbit
             // Raise event in AsyncEventingBasicConsumer
             var @event = (AsyncEventHandler<BasicDeliverEventArgs>)typeof(AsyncEventingBasicConsumer).GetField("Received", BindingFlags.NonPublic | BindingFlags.Instance)
                 .GetValue(_consumer);
-            await @event.Invoke(new EventingBasicConsumer(model.Object), new BasicDeliverEventArgs());
+            await @event.Invoke(new AsyncEventingBasicConsumer(model.Object), new BasicDeliverEventArgs());
 
             model.Verify(x => x.BasicAck(It.IsAny<ulong>(), It.IsAny<bool>()));
         }
@@ -58,7 +58,7 @@ namespace bgTeam.Core.Tests.Rabbit
                 .GetValue(queueConsumerRabbitMQ);
             var @event = (AsyncEventHandler<BasicDeliverEventArgs>)typeof(AsyncEventingBasicConsumer).GetField("Received", BindingFlags.NonPublic | BindingFlags.Instance)
                 .GetValue(_consumer);
-            await @event.Invoke(new EventingBasicConsumer(model.Object), new BasicDeliverEventArgs());
+            await @event.Invoke(new AsyncEventingBasicConsumer(model.Object), new BasicDeliverEventArgs());
 
             Assert.NotNull(exception);
             model.Verify(x => x.BasicAck(It.IsAny<ulong>(), It.IsAny<bool>()));
@@ -80,7 +80,7 @@ namespace bgTeam.Core.Tests.Rabbit
                 .GetValue(queueConsumerRabbitMQ);
             var @event = (AsyncEventHandler<ShutdownEventArgs>)typeof(AsyncEventingBasicConsumer).GetField("Shutdown", BindingFlags.NonPublic | BindingFlags.Instance)
                 .GetValue(_consumer);
-            await @event.Invoke(new EventingBasicConsumer(model.Object), new ShutdownEventArgs(ShutdownInitiator.Application, 0, ""));
+            await @event.Invoke(new AsyncEventingBasicConsumer(model.Object), new ShutdownEventArgs(ShutdownInitiator.Application, 0, ""));
         }
     }
 }
