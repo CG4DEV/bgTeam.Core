@@ -22,7 +22,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             return collection.Find(predicate).FirstOrDefault();
         }
@@ -32,7 +32,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
             var findResult = await collection.FindAsync(predicate);
 
             return await findResult.FirstOrDefaultAsync();
@@ -41,7 +41,7 @@
         public virtual IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null)
             where T : class
         {
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             return collection.Find(predicate ?? (_ => true)).ToList();
         }
@@ -49,7 +49,7 @@
         public virtual async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null)
             where T : class
         {
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
             var findResult = await collection.FindAsync(predicate ?? (_ => true));
 
             return await findResult.ToListAsync();
@@ -58,7 +58,7 @@
         public virtual async Task<IEnumerable<T>> GetPageAsync<T>(int skip, int limit, Expression<Func<T, bool>> predicate)
             where T : class
         {
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
             var findResult = await collection.FindAsync(predicate ?? (_ => true), new FindOptions<T>
             {
                 Skip = skip <= 0 ? null : (int?)skip,
@@ -83,7 +83,7 @@
                 filters = predicates.Select(x => builder.Where(x)).ToArray();
             }
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
             var filter = builder.And(filters);
 
             var findResult = await collection.FindAsync(filter, new FindOptions<T>
@@ -101,7 +101,7 @@
         {
             result.CheckNull(nameof(result));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
             var res = collection.Find(predicate ?? (_ => true));
 
             return await res.Project(result).ToListAsync();
@@ -112,7 +112,7 @@
         {
             document.CheckNull(nameof(document));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             collection.InsertOne(document);
         }
@@ -122,7 +122,7 @@
         {
             document.CheckNull(nameof(document));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             await collection.InsertOneAsync(document);
         }
@@ -134,7 +134,7 @@
 
             if (documents.Any())
             {
-                var collection = _db.GetCollection<T>(typeof(T).Name);
+                var collection = GetCollection<T>();
 
                 collection.InsertMany(documents);
             }
@@ -147,7 +147,7 @@
 
             if (documents.Any())
             {
-                var collection = _db.GetCollection<T>(typeof(T).Name);
+                var collection = GetCollection<T>();
 
                 await collection.InsertManyAsync(documents);
             }
@@ -158,7 +158,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             var result = collection.DeleteOne(predicate);
 
@@ -170,7 +170,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             var result = await collection.DeleteOneAsync(predicate);
 
@@ -182,7 +182,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             var result = collection.DeleteMany(predicate);
 
@@ -194,7 +194,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             var result = await collection.DeleteManyAsync(predicate);
 
@@ -206,7 +206,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             var result = collection.ReplaceOne<T>(predicate, entity, new UpdateOptions { IsUpsert = isUpsert });
 
@@ -218,7 +218,7 @@
         {
             predicate.CheckNull(nameof(predicate));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             var result = await collection.ReplaceOneAsync<T>(predicate, entity, new UpdateOptions { IsUpsert = isUpsert });
 
@@ -231,7 +231,7 @@
             filter.CheckNull(nameof(filter));
             update.CheckNull(nameof(update));
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             var result = await collection.UpdateOneAsync(filter, update);
 
@@ -241,7 +241,7 @@
         public virtual long Count<T>(Expression<Func<T, bool>> predicate)
             where T : class
         {
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
 
             return collection.CountDocuments<T>(predicate ?? (_ => true));
         }
@@ -261,10 +261,39 @@
                 filters = predicates.Select(x => builder.Where(x)).ToArray();
             }
 
-            var collection = _db.GetCollection<T>(typeof(T).Name);
+            var collection = GetCollection<T>();
             var filter = builder.And(filters);
 
             return await collection.CountDocumentsAsync(filter);
+        }
+
+        protected virtual IMongoCollection<T> GetCollection<T>()
+        {
+            return _db.GetCollection<T>(GetCollectionName<T>());
+        }
+
+        protected virtual string GetCollectionName<T>()
+        {
+            return GetCollectionName(typeof(T));
+        }
+
+        protected virtual string GetCollectionName(Type type)
+        {
+            const string separator = "_";
+            var collectionName = string.Empty;
+
+            if (type.IsGenericType)
+            {
+                var className = type.Name.Replace($"`{type.GenericTypeArguments.Count()}", string.Empty);
+                var names = type.GenericTypeArguments.Select(x => GetCollectionName(x));
+                collectionName = $"{className}{separator}{String.Join(separator, names)}";
+            }
+            else
+            {
+                collectionName = type.Name;
+            }
+
+            return collectionName;
         }
 
         private SortDefinition<T> SortGenerate<T>(IList<ISort> sort)
