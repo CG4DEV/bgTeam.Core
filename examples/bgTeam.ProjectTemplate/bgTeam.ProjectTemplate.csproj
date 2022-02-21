@@ -1,283 +1,289 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
-    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
-    <OutputType>Exe</OutputType>
-    <ApplicationIcon />
-    <StartupObject />
-  </PropertyGroup>
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
+		<OutputType>Exe</OutputType>
+		<ApplicationIcon />
+		<StartupObject />
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.17.0.26580">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.17.0.26580">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <Choose>
-    <When Condition="'$(TargetFramework)'=='net5.0'">
-      <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-      </ItemGroup>
-    </When>
+	<Choose>
+		<When Condition="'$(TargetFramework)'=='net5.0'">
+			<ItemGroup>
+				<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+			</ItemGroup>
+		</When>
 
-    <Otherwise>
-      <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.11" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
+		<When Condition="'$(TargetFramework)'=='net6.0'">
+			<ItemGroup>
+				<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+			</ItemGroup>
+		</When>
 
-  <ItemGroup>
-    <PackageReference Include="Scrutor" Version="3.3.0" />
-  </ItemGroup>
+		<Otherwise>
+			<ItemGroup>
+				<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.11" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\bgTeam.Core\bgTeam.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Scrutor" Version="3.3.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\.gitignore">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\coverage.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\LICENSE">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\lint\linter.ruleset">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\README.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\shared\configs\connectionStrings.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\shared\configs\connectionStrings.Production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\shared\configs\serilog.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\shared\configs\serilog.Production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\App\launchSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Common\BadRequestException.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Common\Exceptions\BadRequestException.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Common\Impl\TestService.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    
-    <None Update="Resourse\TemplatesClass\Common\ITestService.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    
-    <None Update="Resourse\TemplatesClass\DataAccess\IEntityFrameworkRepository.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    
-    <None Update="Resourse\TemplatesClass\DataAccess\Impl\EntityFrameworkRepository.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    
-    <None Update="Resourse\TemplatesClass\DataAccess\Impl\AppDbContext.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    
-    <None Update="Resourse\TemplatesClass\DataAccess\ITransaction.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    
-    <None Update="Resourse\TemplatesClass\DataAccess\IQueryLibrary.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\DataAccess\TestQuery.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\DataAccess\TestQueryContext.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\BaseEntity.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\Entities\Test.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserToken.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserRole.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserLogin.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\UserEntity\UserClaim.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\UserEntity\User.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\UserEntity\RoleClaim.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\UserEntity\Role.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\IEntity.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Domain\Dto\TestDto.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Migrations\Migration_0101202002.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Migrations\Migration_0101202001.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Migrations\DbContextFactory.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryRunner\AppIocConfigure.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryRunner\appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryRunner\AppSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryRunner\Program.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryRunner\Runner.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryScheduler\0_Examples.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryScheduler\AppIocConfigure.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryScheduler\appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryScheduler\AppSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryScheduler\Program.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\StoryScheduler\Runner.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Story\IStoryLibrary.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Story\TestStory.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Story\TestStoryContext.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Tests\appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Tests\FactoryTestService.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Tests\TestStoryTests.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\WebApp\AppIocConfigure.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\WebApp\AppMiddlewareException.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\WebApp\Controllers\UserController.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\WebApp\Controllers\HomeController.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Web\appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Web\launchSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Web\Startup.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\Web\Program.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\Templates\configs.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\Templates\project.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\bgTeam.Core\bgTeam.Core.csproj" />
+	</ItemGroup>
 
-    <None Update="Resourse\TemplatesClass\App\appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\App\AppIocConfigure.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\App\AppSettings.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\App\Program.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\TemplatesClass\App\Runner.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\AngleSharp.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\bgTeam.Core.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\bgTeam.Web.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\WikiGenerator.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\WikiGenerator.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resourse\wiki-generator\WikiGenerator.runtimeconfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\.gitignore">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\coverage.bat">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\LICENSE">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\lint\linter.ruleset">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\README.md">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\shared\configs\connectionStrings.Development.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\shared\configs\connectionStrings.Production.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\shared\configs\serilog.Development.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\shared\configs\serilog.Production.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\App\launchSettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Common\BadRequestException.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Common\Exceptions\BadRequestException.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Common\Impl\TestService.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Resourse\TemplatesClass\Common\ITestService.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Resourse\TemplatesClass\DataAccess\IEntityFrameworkRepository.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Resourse\TemplatesClass\DataAccess\Impl\EntityFrameworkRepository.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Resourse\TemplatesClass\DataAccess\Impl\AppDbContext.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Resourse\TemplatesClass\DataAccess\ITransaction.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Resourse\TemplatesClass\DataAccess\IQueryLibrary.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\DataAccess\TestQuery.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\DataAccess\TestQueryContext.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\BaseEntity.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\Entities\Test.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\UserEntity\UserToken.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\UserEntity\UserRole.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\UserEntity\UserLogin.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\UserEntity\UserClaim.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\UserEntity\User.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\UserEntity\RoleClaim.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\UserEntity\Role.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\IEntity.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Domain\Dto\TestDto.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Migrations\Migration_0101202002.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Migrations\Migration_0101202001.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Migrations\DbContextFactory.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryRunner\AppIocConfigure.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryRunner\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryRunner\AppSettings.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryRunner\Program.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryRunner\Runner.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryScheduler\0_Examples.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryScheduler\AppIocConfigure.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryScheduler\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryScheduler\AppSettings.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryScheduler\Program.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\StoryScheduler\Runner.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Story\IStoryLibrary.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Story\TestStory.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Story\TestStoryContext.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Tests\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Tests\FactoryTestService.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Tests\TestStoryTests.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\WebApp\AppIocConfigure.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\WebApp\AppMiddlewareException.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\WebApp\Controllers\UserController.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\WebApp\Controllers\HomeController.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Web\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Web\launchSettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Web\Startup.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\Web\Program.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\Templates\configs.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\Templates\project.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Resourse\TemplatesClass\App\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\App\AppIocConfigure.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\App\AppSettings.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\App\Program.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\TemplatesClass\App\Runner.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\AngleSharp.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\bgTeam.Core.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\bgTeam.Web.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\Newtonsoft.Json.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\settings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\WikiGenerator.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\WikiGenerator.exe">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Resourse\wiki-generator\WikiGenerator.runtimeconfig.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
