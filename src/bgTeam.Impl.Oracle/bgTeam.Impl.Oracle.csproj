@@ -1,48 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0</TargetFrameworks>
-    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
-    <RootNamespace>bgTeam.DataAccess.Impl.Oracle</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
+		<RootNamespace>bgTeam.DataAccess.Impl.Oracle</RootNamespace>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
 
-  <Choose>
-    <When Condition="'$(TargetFramework)'=='net5.0' or '$(TargetFramework)'=='netstandard2.1'">
-      <ItemGroup>
-        <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.1" />
-      </ItemGroup>
-    </When>
+	<Choose>
+		<When Condition="'$(TargetFramework)'=='net5.0' or '$(TargetFramework)'=='net6.0'">
+			<ItemGroup>
+				<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
+			</ItemGroup>
+		</When>
 
-    <Otherwise>
-      <ItemGroup>
-        <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.110" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
+		<Otherwise>
+			<ItemGroup>
+				<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.110" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 
-  <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.21.0.30542">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.21.0.30542">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    
-  </ItemGroup>
+	<ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
-    <ProjectReference Include="..\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
-  </ItemGroup>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
+		<ProjectReference Include="..\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
+	</ItemGroup>
 
 </Project>
