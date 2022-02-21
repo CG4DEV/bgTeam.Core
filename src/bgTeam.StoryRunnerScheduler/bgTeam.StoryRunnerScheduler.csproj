@@ -1,43 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
-    <CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+		<CodeAnalysisRuleSet>..\..\lint\linter.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.21.0.30542">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.21.0.30542">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
-    <ProjectReference Include="..\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
-    <ProjectReference Include="..\bgTeam.Impl.Dapper\bgTeam.Impl.Dapper.csproj" />
-    <ProjectReference Include="..\bgTeam.Impl.PostgreSQL\bgTeam.Impl.PostgreSQL.csproj" />
-    <ProjectReference Include="..\bgTeam.Impl.Quartz\bgTeam.Impl.Quartz.csproj" />
-    <ProjectReference Include="..\bgTeam.Impl.Rabbit\bgTeam.Impl.Rabbit.csproj" />
-    <ProjectReference Include="..\bgTeam.Impl.Serilog\bgTeam.Impl.Serilog.csproj" />
-    <ProjectReference Include="..\bgTeam.Queues\bgTeam.Queues.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\bgTeam.Core\bgTeam.Core.csproj" />
+		<ProjectReference Include="..\bgTeam.DataAccess\bgTeam.DataAccess.csproj" />
+		<ProjectReference Include="..\bgTeam.Impl.Dapper\bgTeam.Impl.Dapper.csproj" />
+		<ProjectReference Include="..\bgTeam.Impl.PostgreSQL\bgTeam.Impl.PostgreSQL.csproj" />
+		<ProjectReference Include="..\bgTeam.Impl.Quartz\bgTeam.Impl.Quartz.csproj" />
+		<ProjectReference Include="..\bgTeam.Impl.Rabbit\bgTeam.Impl.Rabbit.csproj" />
+		<ProjectReference Include="..\bgTeam.Impl.Serilog\bgTeam.Impl.Serilog.csproj" />
+		<ProjectReference Include="..\bgTeam.Queues\bgTeam.Queues.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NSwag.AspNetCore" Version="13.10.9" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NSwag.AspNetCore" Version="13.15.9" />
+	</ItemGroup>
 
 </Project>
