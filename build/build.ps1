@@ -39,7 +39,7 @@ $CakePath = Get-ChildItem -Filter Cake.dll -Recurse | Sort-Object -Descending | 
 if (!(Test-Path $DOTNET_PATH)) 
 {
 	Write-Host "Downloading runtime..."
-	powershell -NoProfile -ExecutionPolicy unrestricted -Command "&([scriptblock]::Create((Invoke-WebRequest -useb 'https://dot.net/v1/dotnet-install.ps1'))) -Runtime dotnet -InstallDir $CLI_DIR -NoPath"
+	powershell -NoProfile -ExecutionPolicy unrestricted -Command "&([scriptblock]::Create((Invoke-WebRequest -useb 'https://dot.net/v1/dotnet-install.ps1'))) -Channel 6.0 -Runtime dotnet -InstallDir $CLI_DIR -NoPath"
 }
 
 Write-Host "Running build script..."
