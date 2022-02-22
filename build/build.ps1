@@ -32,7 +32,7 @@ if($WhatIf.IsPresent)
 }
 
 & dotnet new classlib -o "$TEMP_DIR" --no-restore
-& dotnet add "$TEMP_PROJECT" package --package-directory "$TOOLS_DIR" Cake.CoreCLR --version 2.1.0
+& dotnet add "$TEMP_PROJECT" package --package-directory "$TOOLS_DIR" Cake.CoreCLR
 Remove-Item -Recurse -Force "$TEMP_DIR"
 $CakePath = Get-ChildItem -Filter Cake.dll -Recurse | Sort-Object -Descending | Select-Object -Expand FullName -first 1
 
