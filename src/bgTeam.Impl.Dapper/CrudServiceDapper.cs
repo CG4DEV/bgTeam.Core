@@ -1,22 +1,21 @@
 ﻿namespace bgTeam.DataAccess.Impl.Dapper
 {
+    using System.Collections.Generic;
     using System.Data;
     using System.Threading.Tasks;
     using DapperExtensions;
     using global::Dapper;
 
     /// <inheritdoc/>
-    public class CrudServiceDapper : ICrudService
+    public class CrudServiceDapper : RepositoryDapper, ICrudService
     {
-        private readonly IConnectionFactory _factory;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CrudServiceDapper"/> class.
         /// </summary>
         /// <param name="factory"></param>
         public CrudServiceDapper(IConnectionFactory factory)
+            : base(factory)
         {
-            _factory = factory;
         }
 
         /// <inheritdoc/>
@@ -182,6 +181,38 @@
             else
             {
                 return await connection.ExecuteAsync(sql, param, transaction: transaction);
+            }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<dynamic> Query(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            if (connection == null)
+            {
+                using (connection = _factory.Create())
+                {
+                    return connection.Query(sql, param, transaction: transaction);
+                }
+            }
+            else
+            {
+                return connection.Query(sql, param, transaction: transaction);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<dynamic>> QueryAsync(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            if (connection == null)
+            {
+                using (connection = await _factory.CreateAsync())
+                {
+                    return await connection.QueryAsync(sql, param, transaction: transaction);
+                }
+            }
+            else
+            {
+                return await connection.QueryAsync(sql, param, transaction: transaction);
             }
         }
     }

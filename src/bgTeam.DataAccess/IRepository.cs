@@ -89,7 +89,7 @@
         /// <param name="predicate">Предикат</param>
         /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class;
 
         /// <summary>
@@ -118,7 +118,7 @@
         /// <param name="predicate">Предикат</param>
         /// <param name="connection">Использовать существущее соединение</param>
         /// <returns></returns>
-        Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class;
 
         IEnumerable<T> GetPage<T>(Expression<Func<T, bool>> predicate, IList<ISort> sort, int page, int resultsPerPage)
