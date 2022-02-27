@@ -215,5 +215,21 @@
                 return await connection.QueryAsync(sql, param, transaction: transaction);
             }
         }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            if (connection == null)
+            {
+                using (connection = await _factory.CreateAsync())
+                {
+                    return await connection.QueryAsync<T>(sql, param, transaction: transaction);
+                }
+            }
+            else
+            {
+                return await connection.QueryAsync<T>(sql, param, transaction: transaction);
+            }
+        }
     }
 }

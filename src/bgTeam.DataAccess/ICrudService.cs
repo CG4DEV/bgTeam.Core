@@ -114,5 +114,7 @@
         IEnumerable<dynamic> Query(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null);
 
         Task<IEnumerable<dynamic>> QueryAsync(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null);
+
+        Task<IEnumerable<T>> QueryAsync<T>(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null);
     }
 }
