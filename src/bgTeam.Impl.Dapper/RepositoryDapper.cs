@@ -12,7 +12,7 @@
     public class RepositoryDapper : IRepository
     {
         private readonly int _commandTimeout = 300;
-        private readonly IConnectionFactory _factory;
+        protected readonly IConnectionFactory _factory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RepositoryDapper"/> class.
@@ -154,19 +154,19 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        public IEnumerable<T> GetAll<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = _factory.Create())
                 {
-                    return connection.GetAll<T>(predicate, commandTimeout: _commandTimeout);
+                    return connection.GetAll<T>(predicate, sort, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return connection.GetAll<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
+                return connection.GetAll<T>(predicate, sort, transaction: transaction, commandTimeout: _commandTimeout);
             }
         }
 
@@ -203,19 +203,19 @@
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IDbConnection connection = null, IDbTransaction transaction = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(Expression<Func<T, bool>> predicate = null, IList<ISort> sort = null, IDbConnection connection = null, IDbTransaction transaction = null)
             where T : class
         {
             if (connection == null)
             {
                 using (connection = await _factory.CreateAsync())
                 {
-                    return await connection.GetAllAsync<T>(predicate, commandTimeout: _commandTimeout);
+                    return await connection.GetAllAsync<T>(predicate, sort, commandTimeout: _commandTimeout);
                 }
             }
             else
             {
-                return await connection.GetAllAsync<T>(predicate, transaction: transaction, commandTimeout: _commandTimeout);
+                return await connection.GetAllAsync<T>(predicate, sort, transaction: transaction, commandTimeout: _commandTimeout);
             }
         }
 

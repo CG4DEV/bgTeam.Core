@@ -1,12 +1,13 @@
 ﻿namespace bgTeam.DataAccess
 {
+    using System.Collections.Generic;
     using System.Data;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Интерфейс для выполнения запросов на изменение записей в базе данных
     /// </summary>
-    public interface ICrudService
+    public interface ICrudService : IRepository
     {
         /// <summary>
         /// Вставляет объект типа T в базу данных
@@ -109,5 +110,9 @@
         /// <param name="transaction">Открытая транзакция</param>
         /// <returns></returns>
         Task<int> ExecuteAsync(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null);
+
+        IEnumerable<dynamic> Query(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null);
+
+        Task<IEnumerable<dynamic>> QueryAsync(string sql, object param = null, IDbConnection connection = null, IDbTransaction transaction = null);
     }
 }
