@@ -239,8 +239,8 @@ namespace bgTeam.Core.Tests.Dapper
         {
             using (var connection = await _fixture.Factory.ConnectionFactory.CreateAsync())
             {
-                var allEntities = await _fixture.Repository.GetAllAsync<TestEntity>(x => x.Id > 0, connection);
-                var emptyCollection = await _fixture.Repository.GetAllAsync<TestEntity>(x => x.Name == "qwerty", connection);
+                var allEntities = await _fixture.Repository.GetAllAsync<TestEntity>(x => x.Id > 0, connection: connection);
+                var emptyCollection = await _fixture.Repository.GetAllAsync<TestEntity>(x => x.Name == "qwerty", connection: connection);
                 Assert.NotNull(allEntities);
                 Assert.NotEmpty(allEntities);
                 Assert.Equal(3, allEntities.Count());
@@ -324,8 +324,8 @@ namespace bgTeam.Core.Tests.Dapper
         {
             using (var connection = await _fixture.Factory.ConnectionFactory.CreateAsync())
             {
-                var allEntities = _fixture.Repository.GetAll<TestEntity>(x => x.Id > 0, connection);
-                var emptyCollection = _fixture.Repository.GetAll<TestEntity>(x => x.Name == "qwerty", connection);
+                var allEntities = _fixture.Repository.GetAll<TestEntity>(x => x.Id > 0, connection: connection);
+                var emptyCollection = _fixture.Repository.GetAll<TestEntity>(x => x.Name == "qwerty", connection: connection);
                 Assert.NotNull(allEntities);
                 Assert.NotEmpty(allEntities);
                 Assert.Equal(3, allEntities.Count());
