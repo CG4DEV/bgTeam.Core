@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29411.108
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Core", "src\bgTeam.Core\bgTeam.Core.csproj", "{376939B6-B2F0-4CA7-9A3E-48E193AA906F}"
 EndProject
@@ -93,6 +93,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KafkaMultiThread", "examples\KafkaMultiThread\KafkaMultiThread.csproj", "{2B1719C8-D66A-4A61-850D-A1F7E2655430}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Impl.Prometheus", "src\bgTeam.Impl.Prometheus\bgTeam.Impl.Prometheus.csproj", "{4C87A36D-4858-401F-8524-BD1791EED3A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Dapper", "src\Test.Dapper\Test.Dapper.csproj", "{26BEB042-57AD-4C59-BBD9-20D9A53439B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -212,6 +214,10 @@ Global
 		{4C87A36D-4858-401F-8524-BD1791EED3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C87A36D-4858-401F-8524-BD1791EED3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C87A36D-4858-401F-8524-BD1791EED3A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26BEB042-57AD-4C59-BBD9-20D9A53439B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26BEB042-57AD-4C59-BBD9-20D9A53439B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26BEB042-57AD-4C59-BBD9-20D9A53439B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26BEB042-57AD-4C59-BBD9-20D9A53439B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -249,6 +255,7 @@ Global
 		{6E6F31CD-11AB-4437-80B8-5CEA0DAB5DBF} = {40E7DCFC-8CDE-40B8-A5FB-6A0030C1E9FE}
 		{2B1719C8-D66A-4A61-850D-A1F7E2655430} = {40E7DCFC-8CDE-40B8-A5FB-6A0030C1E9FE}
 		{4C87A36D-4858-401F-8524-BD1791EED3A5} = {8782A6D2-30DE-4725-8C7B-C085738A9014}
+		{26BEB042-57AD-4C59-BBD9-20D9A53439B8} = {219D0E58-CFCA-4657-B488-2BAA0571D991}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CB9FA6A-5909-4F90-B874-6E2317139337}

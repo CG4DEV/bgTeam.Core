@@ -5,7 +5,8 @@ branches:
 image: Visual Studio 2019
 configuration: Release
 environment:
-  ShortVersion: 5.0
+  ShortVersion: 6.0
+  VersionSuffix: beta
 nuget:
   project_feed: true
   disable_publish_on_pr: true
@@ -19,7 +20,7 @@ artifacts:
 deploy:
 - provider: NuGet
   api_key:
-    secure: JvChdNsqHwrRXlRWMWvgzh7PwoArhGYrcavvKvpNG9Qnu7iV2e2J4Oi4YFXmTjRN
+    secure: u4XRtbIKly7KoGJCjv2vVz3Kv5gnzrSxLFQr4pB4rTAxAuuffrfj3AerOLUWmqte
   skip_symbols: true
 
  
