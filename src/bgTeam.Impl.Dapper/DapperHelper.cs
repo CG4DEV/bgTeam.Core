@@ -13,7 +13,7 @@
 
     public static class DapperHelper
     {
-        private static object _lock = new object();
+        private static readonly object _lock = new object();
 
         private static Func<IDapperExtensionsConfiguration, IDapperImplementor> _instanceFactory;
         private static IDapperImplementor _instance;
