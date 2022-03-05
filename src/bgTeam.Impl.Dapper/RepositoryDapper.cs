@@ -117,7 +117,7 @@
             }
             else
             {
-                return connection.Get<T>(predicate, transaction, commandTimeout: _commandTimeout);
+                return await connection.GetAsync<T>(predicate, transaction, commandTimeout: _commandTimeout);
             }
         }
 
