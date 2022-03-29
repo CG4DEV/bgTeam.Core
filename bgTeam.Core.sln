@@ -37,6 +37,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Impl.Serilog", "src\bgTeam.Impl.Serilog\bgTeam.Impl.Serilog.csproj", "{5195FF2B-1732-4EF3-A843-9F28FC7A8D99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main.Impl", "Main.Impl", "{8782A6D2-30DE-4725-8C7B-C085738A9014}"
+	ProjectSection(SolutionItems) = preProject
+		src\bgTeam.Web\IWebClient.cs = src\bgTeam.Web\IWebClient.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Queues", "src\bgTeam.Queues\bgTeam.Queues.csproj", "{2548816B-AEAD-4FB2-9EBD-C5E7AB53DE65}"
 EndProject
@@ -94,7 +97,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KafkaMultiThread", "example
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bgTeam.Impl.Prometheus", "src\bgTeam.Impl.Prometheus\bgTeam.Impl.Prometheus.csproj", "{4C87A36D-4858-401F-8524-BD1791EED3A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Dapper", "src\Test.Dapper\Test.Dapper.csproj", "{26BEB042-57AD-4C59-BBD9-20D9A53439B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Dapper", "src\Test.Dapper\Test.Dapper.csproj", "{26BEB042-57AD-4C59-BBD9-20D9A53439B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

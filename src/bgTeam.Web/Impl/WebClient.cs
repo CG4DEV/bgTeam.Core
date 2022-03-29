@@ -106,13 +106,14 @@
             CheckResult(result);
         }
 
-        protected virtual void CheckResult(HttpResponseMessage resultPost)
+        protected virtual void CheckResult(HttpResponseMessage result)
         {
-            switch (resultPost.StatusCode)
+            switch (result.StatusCode)
             {
                 case HttpStatusCode.OK:
                 case HttpStatusCode.NoContent:
                 case HttpStatusCode.PartialContent:
+                case HttpStatusCode.Created:
                     {
                         return;
                     }
@@ -126,12 +127,12 @@
                 case HttpStatusCode.ServiceUnavailable:
                 case HttpStatusCode.GatewayTimeout:
                     {
-                        throw new WebClientException($"Status code: {resultPost.StatusCode}. Message: {resultPost.ReasonPhrase}", resultPost.StatusCode);
+                        throw new WebClientException($"Status code: {result.StatusCode}. Message: {result.ReasonPhrase}", result.StatusCode, result);
                     }
 
                 default:
                     {
-                        throw new WebClientException($"Unknown http error. Status code: {resultPost.StatusCode}. Message {resultPost.ReasonPhrase}", resultPost.StatusCode);
+                        throw new WebClientException($"Unknown http error. Status code: {result.StatusCode}. Message {result.ReasonPhrase}", result.StatusCode, result);
                     }
             }
         }
