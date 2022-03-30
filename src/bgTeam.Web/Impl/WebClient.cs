@@ -22,7 +22,7 @@
         [ActivatorUtilitiesConstructor]
         public WebClient(HttpClient client)
             : this(client, new FormUrlEncodedContentBuilder())
-        {
+        { 
         }
 
         public WebClient(HttpClient client, IContentBuilder builder)
