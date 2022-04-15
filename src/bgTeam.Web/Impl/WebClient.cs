@@ -22,7 +22,7 @@
         [ActivatorUtilitiesConstructor]
         public WebClient(HttpClient client)
             : this(client, new FormUrlEncodedContentBuilder())
-        { 
+        {
         }
 
         public WebClient(HttpClient client, IContentBuilder builder)
@@ -157,7 +157,7 @@
         private Task<HttpResponseMessage> GetDeleteResponseAsync(string method, IDictionary<string, object> queryParams, IDictionary<string, object> headers)
         {
             HttpRequestMessage msg = BuildHttpRequest(method, queryParams, headers, HttpMethod.Delete);
-            return _client.DeleteAsync(msg.RequestUri);
+            return _client.SendAsync(msg);
         }
 
         private Task<HttpResponseMessage> GetPostResponseAsync(string method, object postParams, IDictionary<string, object> headers)
